@@ -1,9 +1,11 @@
 package mx.rueschan.videojuego;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 
 /**
@@ -18,10 +20,14 @@ public class Opciones implements Screen{
     // Texturas de opciones
     private Texture texturaFondo;
 
-    public Opciones(OddFellows oddFellows) {
+    // Flag para determinar si viene del juego o del menú
+    boolean partidaEnCurso;
+
+    public Opciones(OddFellows oddFellows, boolean partidaEnCurso) {
         this.oddFellows = oddFellows;
         // Obtener pantalla
         pantalla = Pantalla.getInstanciaPantalla();
+        this.partidaEnCurso = partidaEnCurso;
     }
 
     @Override
@@ -43,21 +49,25 @@ public class Opciones implements Screen{
         imgFondo.setColor(1,0.3f,0.5f,1);
         pantalla.escena.addActor(imgFondo);
 
-        Gdx.input.setInputProcessor(pantalla.escena);
         Gdx.input.setCatchBackKey(true);
+
+        // Detectar botón físico "return"
+        if (pantalla.escena.keyUp(Input.Keys.BACK)){
+            // DEBUG
+            Gdx.app.log("Btn BACK", "Atras en opciones con escena");
+            /*if (partidaEnCurso){
+                // Regresa al menú de pausa
+            }
+            else {
+                oddFellows.setScreen(new Menu(oddFellows));
+            }*/
+        }
     }
 
     @Override
     public void render(float delta) {
         pantalla.borrarPantalla();
         pantalla.escena.draw();
-        // DEBUG
-        debugear();
-    }
-
-    private void debugear(){
-            Gdx.app.log("Actores:", pantalla.escena.getActors().toString());
-
     }
 
     @Override
@@ -72,7 +82,7 @@ public class Opciones implements Screen{
 
     @Override
     public void resume() {
-
+        cargarTexturas();
     }
 
     @Override
@@ -82,6 +92,6 @@ public class Opciones implements Screen{
 
     @Override
     public void dispose() {
-        //texturaFondo.dispose();
+        texturaFondo.dispose();
     }
 }

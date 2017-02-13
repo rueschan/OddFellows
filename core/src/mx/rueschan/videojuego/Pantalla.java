@@ -1,6 +1,7 @@
 package mx.rueschan.videojuego;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -53,7 +54,20 @@ public class Pantalla implements Screen {
 
     private void crearObjetos() {
         batch = new SpriteBatch();
-        escena = new Stage(vista, batch);
+        escena = new Stage(vista, batch) {
+
+            @Override
+            public boolean keyDown(int keycode) {
+                if (keycode == Input.Keys.BACK) {
+                    // DEBUG
+                    Gdx.app.log("Btn BACK", "Atras en opciones");
+                    return true;
+                }
+                return super.keyDown(keycode);
+            }
+        };
+
+        Gdx.input.setInputProcessor(escena);
     }
 
     // Metodos para obtener tamaño de pantalla
@@ -78,7 +92,6 @@ public class Pantalla implements Screen {
 
     @Override
     public void render(float delta) {
-
     }
 
     @Override
@@ -93,7 +106,7 @@ public class Pantalla implements Screen {
 
     @Override
     public void resume() {
-
+        crearObjetos();
     }
 
     @Override
@@ -103,8 +116,8 @@ public class Pantalla implements Screen {
 
     @Override
     public void dispose() {
-        // batch.dispose();
-        // escena.dispose();
-        // instancia.dispose();
+         batch.dispose();
+         escena.dispose();
+         instancia.dispose();
     }
 }

@@ -72,11 +72,10 @@ public class Menu implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 Gdx.app.log("clicked", "***Cambio a opciones***");
-                oddFellows.setScreen(new Opciones(oddFellows));
+                oddFellows.setScreen(new Opciones(oddFellows, false));
             }
         });
 
-        Gdx.input.setInputProcessor(pantalla.escena);
         Gdx.input.setCatchBackKey(false);
     }
 
@@ -84,13 +83,6 @@ public class Menu implements Screen {
     public void render(float delta) {
         pantalla.borrarPantalla();
         pantalla.escena.draw();
-        // DEBUG
-        debugear();
-    }
-
-    private void debugear(){
-        Gdx.app.log("Actores:", pantalla.escena.getActors().toString());
-
     }
 
     @Override
@@ -105,7 +97,7 @@ public class Menu implements Screen {
 
     @Override
     public void resume() {
-
+        cargarTexturas();
     }
 
     @Override
@@ -115,8 +107,8 @@ public class Menu implements Screen {
 
     @Override
     public void dispose() {
-//        texturaFondo.dispose();
-//        texturaBotones.dispose();
-//        texturaBotonJugar.dispose();
+        texturaFondo.dispose();
+        texturaBotones.dispose();
+        texturaBotonJugar.dispose();
     }
 }
