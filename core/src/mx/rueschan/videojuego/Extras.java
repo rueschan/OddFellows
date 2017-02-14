@@ -84,7 +84,7 @@ public class Extras implements Screen {
 
     @Override
     public void resume() {
-
+        cargarTexturas();
     }
 
     @Override
