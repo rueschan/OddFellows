@@ -55,16 +55,26 @@ public class Menu implements Screen {
         // Botón
         TextureRegionDrawable trdBtn = new
                 TextureRegionDrawable(new TextureRegion(texturaBotones));
-        // Colocar boton 1
+        // Colocar boton de juego
         ImageButton btnPlay = new ImageButton(trdBtn);
-        btnPlay.setPosition(2*pantalla.getANCHO()/5 - btnPlay.getWidth()/2, 2* pantalla.getALTO()/5
+        btnPlay.setPosition(3*pantalla.getANCHO()/6 - btnPlay.getWidth()/2, 1* pantalla.getALTO()/6
                 - btnPlay.getHeight()/2);
         pantalla.escena.addActor(btnPlay);
         // Colocar boton de opciones
         ImageButton btnOpciones = new ImageButton(trdBtn);
-        btnOpciones.setPosition(4*pantalla.getANCHO()/5 - btnOpciones.getWidth()/2, 2* pantalla.getALTO()/5
+        btnOpciones.setPosition(3*pantalla.getANCHO()/6 - btnOpciones.getWidth()/2, 2* pantalla.getALTO()/6
                 - btnOpciones.getHeight()/2);
         pantalla.escena.addActor(btnOpciones);
+        // Colocar boton de extras
+        ImageButton btnExtras = new ImageButton(trdBtn);
+        btnExtras.setPosition(1*pantalla.getANCHO()/6 - btnExtras.getWidth()/2, 2* pantalla.getALTO()/6
+                - btnExtras.getHeight()/2);
+        pantalla.escena.addActor(btnExtras);
+        // Colocar boton de opciones
+        ImageButton btnCreditos = new ImageButton(trdBtn);
+        btnCreditos.setPosition(5*pantalla.getANCHO()/6 - btnCreditos.getWidth()/2, 2* pantalla.getALTO()/6
+                - btnCreditos.getHeight()/2);
+        pantalla.escena.addActor(btnCreditos);
 
         // Acciones de botones
             // Boton opciones
@@ -73,6 +83,14 @@ public class Menu implements Screen {
             public void clicked(InputEvent event, float x, float y) {
                 Gdx.app.log("clicked", "***Cambio a opciones***");
                 oddFellows.setScreen(new Opciones(oddFellows, false));
+            }
+        });
+            // Boton extras
+        btnExtras.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                Gdx.app.log("clicked", "***Cambio a extras***");
+                oddFellows.setScreen(new Extras(oddFellows));
             }
         });
 

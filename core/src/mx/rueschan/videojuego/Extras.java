@@ -1,7 +1,6 @@
 package mx.rueschan.videojuego;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -12,26 +11,19 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
 /**
- * Created by Rubén Escalante on 09/02/2017.
+ * Created by Rubén Escalante on 13/02/2017.
  */
+public class Extras implements Screen {
 
-public class Opciones implements Screen{
+    private OddFellows oddFellows;
+    private Pantalla pantalla;
 
-    private final OddFellows oddFellows;
-    private final Pantalla pantalla;
-
-    // Texturas de opciones
     private Texture texturaFondo;
     private Texture texturaExit;
 
-    // Flag para determinar si viene del juego o del menú
-    boolean partidaEnCurso;
-
-    public Opciones(OddFellows oddFellows, boolean partidaEnCurso) {
+    public Extras(OddFellows oddFellows) {
         this.oddFellows = oddFellows;
-        // Obtener pantalla
         pantalla = Pantalla.getInstanciaPantalla();
-        this.partidaEnCurso = partidaEnCurso;
     }
 
     @Override
@@ -42,7 +34,7 @@ public class Opciones implements Screen{
     }
 
     private void cargarTexturas() {
-        texturaFondo = new Texture("pez.jpg");
+        texturaFondo = new Texture("fondo.jpg");
         texturaExit = new Texture("btnExit.png");
     }
 
@@ -51,7 +43,6 @@ public class Opciones implements Screen{
         pantalla.escena.clear();
         // Agrega la imagen de fondo
         Image imgFondo = new Image(texturaFondo);
-        imgFondo.setColor(1,0.3f,0.5f,1);
         pantalla.escena.addActor(imgFondo);
 
         // Botón de Exit
@@ -68,28 +59,11 @@ public class Opciones implements Screen{
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 Gdx.app.log("clicked", "***Salir***");
-                if (partidaEnCurso) {
-                    // Si se accede desde el juego
-                } else {
-                    // Si se accede desde el menu
-                    oddFellows.setScreen(new Menu(oddFellows));
-                }
+                oddFellows.setScreen(new Menu(oddFellows));
             }
         });
 
         Gdx.input.setCatchBackKey(true);
-
-        // Detectar botón físico "return"
-        if (pantalla.escena.keyUp(Input.Keys.BACK)){
-            // DEBUG
-            Gdx.app.log("Btn BACK", "Atras en opciones con escena");
-            /*if (partidaEnCurso){
-                // Regresa al menú de pausa
-            }
-            else {
-                oddFellows.setScreen(new Menu(oddFellows));
-            }*/
-        }
     }
 
     @Override
@@ -110,7 +84,7 @@ public class Opciones implements Screen{
 
     @Override
     public void resume() {
-        cargarTexturas();
+
     }
 
     @Override
@@ -122,5 +96,6 @@ public class Opciones implements Screen{
     public void dispose() {
         texturaFondo.dispose();
         texturaExit.dispose();
+
     }
 }
