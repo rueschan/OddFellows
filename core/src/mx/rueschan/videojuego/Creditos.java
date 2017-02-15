@@ -36,7 +36,7 @@ public class Creditos implements Screen {
     }
 
     private void cargarTexturas() {
-        texturaFondo = new Texture("fondo.jpg");
+        texturaFondo = new Texture("fondoCreditos.jpg");
         texturaExit = new Texture("btnExit.png");
     }
 

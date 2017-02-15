@@ -34,7 +34,7 @@ public class Extras implements Screen {
     }
 
     private void cargarTexturas() {
-        texturaFondo = new Texture("fondo.jpg");
+        texturaFondo = new Texture("fondoExtras.jpg");
         texturaExit = new Texture("btnExit.png");
     }
 

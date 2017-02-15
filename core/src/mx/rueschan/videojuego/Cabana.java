@@ -15,7 +15,7 @@ public class Cabana extends Nivel {
 
     @Override
     protected void cargarTexturas() {
-        texturaFondo = new Texture("fondo.jpg");
+        texturaFondo = new Texture("fondoCabana.jpg");
     }
 
     @Override
