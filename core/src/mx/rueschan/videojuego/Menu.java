@@ -48,8 +48,8 @@ public class Menu implements Screen {
         texturaBotones = new Texture("btn1.jpg");
         texturaBotonJugar = new Texture("LetreroPlay.png");
         texturaBotonExtras = new Texture("LibroViejo.png");
-        texturaBotonOpciones = new Texture("btnOpciones.jpg");
-        texturaBotonCreditos = new Texture("btnCreditos.jpg");
+        texturaBotonOpciones = new Texture("BotonOpcionesHerramientos.png");
+        texturaBotonCreditos = new Texture("HojaCreditos.png");
     }
 
     // Metodo para crear objetos en pantalla
