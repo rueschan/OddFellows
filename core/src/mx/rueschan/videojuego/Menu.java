@@ -2,7 +2,9 @@ package mx.rueschan.videojuego;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -57,8 +59,6 @@ public class Menu implements Screen {
         // Agrega la imagen de fondo
         Image imgFondo = new Image(texturaFondo);
         pantalla.escena.addActor(imgFondo);
-
-        // pantalla.texto.mostrarMensajes(pantalla.escena.getBatch(), "Wololo", pantalla.getANCHO()/2, pantalla.getALTO()/2);
 
         // Asignar texturas a los botones
         TextureRegionDrawable trdBtnJugar = new
@@ -135,6 +135,17 @@ public class Menu implements Screen {
     public void render(float delta) {
         pantalla.borrarPantalla();
         pantalla.escena.draw();
+
+        escribirEnPantalla();
+    }
+
+    private void escribirEnPantalla() {
+        pantalla.batch.begin();
+        pantalla.texto.mostrarMensajes(pantalla.batch, Color.BLACK, "Options", 3*pantalla.getANCHO()/6, 3*pantalla.getALTO()/6 - 3*pantalla.texto.getAltoTexto());
+        pantalla.texto.mostrarMensajes(pantalla.batch, Color.BLACK, "Extras", 1*pantalla.getANCHO()/6, 3*pantalla.getALTO()/6 - 3*pantalla.texto.getAltoTexto());
+        pantalla.texto.mostrarMensajes(pantalla.batch, Color.BLACK, "Credits", 5*pantalla.getANCHO()/6, 3*pantalla.getALTO()/6 - 3*pantalla.texto.getAltoTexto());
+        pantalla.texto.mostrarMensajes(pantalla.batch, new Color(1, 1, 1, 0.85f), "PLAY", 3*pantalla.getANCHO()/6, 1.3f*pantalla.getALTO()/6);
+        pantalla.batch.end();
     }
 
     @Override

@@ -53,7 +53,7 @@ public class Creditos implements Screen {
                 TextureRegionDrawable(new TextureRegion(texturaExit));
         // Colocar boton de Exit
         ImageButton btnExit = new ImageButton(trdExit);
-        btnExit.setPosition(0,0);
+        btnExit.setPosition(10,10);
         pantalla.escena.addActor(btnExit);
 
         // Acciones de botones
