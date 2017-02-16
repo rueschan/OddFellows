@@ -45,7 +45,7 @@ public class Menu implements Screen {
 
     // Metodo para iniciar texturas de pantalla
     private void cargarTexturas() {
-        texturaFondo = new Texture("fondoMenu.jpg");
+        texturaFondo = new Texture("fondoMenu.png");
         texturaBotonJugar = new Texture("Letrero.png");
         texturaBotonExtras = new Texture("LibroViejo.png");
         texturaBotonOpciones = new Texture("BotonOpcionesHerramientos.png");
@@ -83,13 +83,13 @@ public class Menu implements Screen {
 
         // Colocar boton de extras
         ImageButton btnExtras = new ImageButton(trdBtnExtras);
-        btnExtras.setPosition(1*pantalla.getANCHO()/6 - btnExtras.getWidth()/2, 3* pantalla.getALTO()/6
+        btnExtras.setPosition(1*pantalla.getANCHO()/6 - btnExtras.getWidth()/2, 3* pantalla.getALTO()/10
                 - btnExtras.getHeight()/2);
         pantalla.escena.addActor(btnExtras);
 
         // Colocar boton de creditos
         ImageButton btnCreditos = new ImageButton(trdBtnCreditos);
-        btnCreditos.setPosition(5*pantalla.getANCHO()/6 - btnCreditos.getWidth()/2, 3* pantalla.getALTO()/6
+        btnCreditos.setPosition(5*pantalla.getANCHO()/6 - btnCreditos.getWidth()/2, 3* pantalla.getALTO()/10
                 - btnCreditos.getHeight()/2);
         pantalla.escena.addActor(btnCreditos);
 
@@ -141,10 +141,10 @@ public class Menu implements Screen {
 
     private void escribirEnPantalla() {
         pantalla.batch.begin();
-        pantalla.texto.mostrarMensajes(pantalla.batch, Color.BLACK, "Options", 3*pantalla.getANCHO()/6, 3*pantalla.getALTO()/6 - 3*pantalla.texto.getAltoTexto());
-        pantalla.texto.mostrarMensajes(pantalla.batch, Color.BLACK, "Extras", 1*pantalla.getANCHO()/6, 3*pantalla.getALTO()/6 - 3*pantalla.texto.getAltoTexto());
-        pantalla.texto.mostrarMensajes(pantalla.batch, Color.BLACK, "Credits", 5*pantalla.getANCHO()/6, 3*pantalla.getALTO()/6 - 3*pantalla.texto.getAltoTexto());
-        pantalla.texto.mostrarMensajes(pantalla.batch, new Color(1, 1, 1, 0.85f), "PLAY", 3*pantalla.getANCHO()/6, 1.3f*pantalla.getALTO()/6);
+        pantalla.texto.mostrarMensajes(pantalla.batch, Color.WHITE, "Options", 3*pantalla.getANCHO()/6, 3*pantalla.getALTO()/6 - 3*pantalla.texto.getAltoTexto());
+        pantalla.texto.mostrarMensajes(pantalla.batch, Color.WHITE, "Extras", 1*pantalla.getANCHO()/6+pantalla.texto.getAnchoTexto()/15, 3*pantalla.getALTO()/10 - 3*pantalla.texto.getAltoTexto());
+        pantalla.texto.mostrarMensajes(pantalla.batch, Color.WHITE, "Credits", 5*pantalla.getANCHO()/6, 3*pantalla.getALTO()/10 - 3*pantalla.texto.getAltoTexto());
+        pantalla.texto.mostrarMensajes(pantalla.batch, new Color(1, 1, 1, 0.85f), "PLAY", (3*pantalla.getANCHO()/6)-pantalla.texto.getAnchoTexto()/11, 1.3f*pantalla.getALTO()/6);
         pantalla.batch.end();
     }
 
