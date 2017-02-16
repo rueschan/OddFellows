@@ -1,7 +1,13 @@
 package mx.rueschan.videojuego;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
 /**
  * Created by Rubén Escalante on 14/02/2017.
@@ -16,6 +22,7 @@ public class Cabana extends Nivel {
     @Override
     protected void cargarTexturas() {
         texturaFondo = new Texture("fondoCabana.jpg");
+        texturaBotonPausa = new Texture("botonPausa.png");
     }
 
     @Override
@@ -26,6 +33,24 @@ public class Cabana extends Nivel {
         Image imgFondo = new Image(texturaFondo);
         imgFondo.setColor(0.2f,1,1,1);
         pantalla.escena.addActor(imgFondo);
+
+        //// Asignar textura a lo boton de pausa
+        TextureRegionDrawable trdBtnPausa = new
+                TextureRegionDrawable(new TextureRegion(texturaBotonPausa));
+        // Colocar boton de pausa
+        ImageButton btnPausa = new ImageButton(trdBtnPausa);
+        btnPausa.setPosition(1186,706);
+        pantalla.escena.addActor(btnPausa);
+
+        // Acciones de botones
+        // Botón opciones
+        btnPausa.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                Gdx.app.log("clicked", "***Cambio a pausa***");
+                oddFellows.setScreen(new Menu(oddFellows));
+            }
+        });
     }
 
     @Override
@@ -58,6 +83,8 @@ public class Cabana extends Nivel {
 
     @Override
     public void dispose() {
+        texturaFondo.dispose();
+        texturaBotonPausa.dispose();
 
     }
 }

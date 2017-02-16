@@ -14,6 +14,8 @@ public abstract class Nivel implements Screen{
 
     protected Texture texturaFondo;
 
+    protected Texture texturaBotonPausa;
+
     // private Elemento[] items;
 
     @Override
