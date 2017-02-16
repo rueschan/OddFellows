@@ -58,6 +58,8 @@ public class Menu implements Screen {
         Image imgFondo = new Image(texturaFondo);
         pantalla.escena.addActor(imgFondo);
 
+        // pantalla.texto.mostrarMensajes(pantalla.escena.getBatch(), "Wololo", pantalla.getANCHO()/2, pantalla.getALTO()/2);
+
         // Asignar texturas a los botones
         TextureRegionDrawable trdBtnJugar = new
                 TextureRegionDrawable(new TextureRegion(texturaBotonJugar));

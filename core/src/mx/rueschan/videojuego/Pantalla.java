@@ -28,6 +28,9 @@ public class Pantalla implements Screen {
     public Stage escena;
     public SpriteBatch batch;
 
+    // Texto
+    public Texto texto;
+
     // Pantalla existente
     private static Pantalla instancia = null;
 
@@ -66,6 +69,7 @@ public class Pantalla implements Screen {
                 return super.keyDown(keycode);
             }
         };
+        texto = new Texto();
 
         Gdx.input.setInputProcessor(escena);
     }
