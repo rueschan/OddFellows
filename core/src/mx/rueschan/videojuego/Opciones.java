@@ -23,6 +23,8 @@ public class Opciones implements Screen{
     // Texturas de opciones
     private Texture texturaFondo;
     private Texture texturaExit;
+    private Texture texturaSonido;
+    private Texture texturaFX;
 
     // Flag para determinar si viene del juego o del menú
     boolean partidaEnCurso;
@@ -44,6 +46,8 @@ public class Opciones implements Screen{
     private void cargarTexturas() {
         texturaFondo = new Texture("HojaCreditos.png");
         texturaExit = new Texture("btnExit.png");
+        texturaSonido = new Texture("Audio.png");
+        texturaFX = new Texture("ecualizador.png");
     }
 
     private void crearObjetos() {
@@ -61,6 +65,20 @@ public class Opciones implements Screen{
         ImageButton btnExit = new ImageButton(trdExit);
         btnExit.setPosition(10,10);
         pantalla.escena.addActor(btnExit);
+        // Botón de sonido
+        TextureRegionDrawable trdSonido = new
+                TextureRegionDrawable(new TextureRegion(texturaSonido));
+        // Colocar botón de sonido
+        ImageButton btnSonido = new ImageButton(trdSonido);
+        btnSonido.setPosition(pantalla.getANCHO()/3 - btnSonido.getWidth()/2, 2*pantalla.getALTO()/3);
+        pantalla.escena.addActor(btnSonido);
+        // Boton de efectos
+        TextureRegionDrawable trdFX = new
+                TextureRegionDrawable(new TextureRegion(texturaFX));
+        // Colocar botón de efectos
+        ImageButton btnFX = new ImageButton(trdFX);
+        btnFX.setPosition(pantalla.getANCHO()/3 - btnFX.getWidth()/2, pantalla.getALTO()/3);
+        pantalla.escena.addActor(btnFX);
 
         // Acciones de botones
             // Boton opciones
