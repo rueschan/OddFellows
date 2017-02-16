@@ -47,8 +47,8 @@ public class Menu implements Screen {
     private void cargarTexturas() {
         texturaFondo = new Texture("fondoMenu.png");
         texturaBotonJugar = new Texture("Letrero.png");
-        texturaBotonExtras = new Texture("LibroViejo.png");
-        texturaBotonOpciones = new Texture("BotonOpcionesHerramientos.png");
+        texturaBotonExtras = new Texture("LibroCreditos.png");
+        texturaBotonOpciones = new Texture("BotonOpcionesHerramientas.png");
         texturaBotonCreditos = new Texture("HojaCreditos.png");
     }
 
