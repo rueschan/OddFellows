@@ -23,7 +23,6 @@ public class Menu implements Screen {
 
     // Texturas del menú
     private Texture texturaFondo;
-    private Texture texturaBotones;
     private Texture texturaBotonJugar;
     private Texture texturaBotonExtras;
     private Texture texturaBotonOpciones;
@@ -45,8 +44,7 @@ public class Menu implements Screen {
     // Metodo para iniciar texturas de pantalla
     private void cargarTexturas() {
         texturaFondo = new Texture("fondoMenu.jpg");
-        texturaBotones = new Texture("btn1.jpg");
-        texturaBotonJugar = new Texture("LetreroPlay.png");
+        texturaBotonJugar = new Texture("Letrero.png");
         texturaBotonExtras = new Texture("LibroViejo.png");
         texturaBotonOpciones = new Texture("BotonOpcionesHerramientos.png");
         texturaBotonCreditos = new Texture("HojaCreditos.png");
@@ -72,25 +70,24 @@ public class Menu implements Screen {
 
         // Colocar boton de juego
         ImageButton btnPlay = new ImageButton(trdBtnJugar);
-        btnPlay.setPosition(3*pantalla.getANCHO()/6 - btnPlay.getWidth()/2, 1* pantalla.getALTO()/6
-                - btnPlay.getHeight()/2);
+        btnPlay.setPosition(3*pantalla.getANCHO()/6 - btnPlay.getWidth()/2, 0);
         pantalla.escena.addActor(btnPlay);
 
         // Colocar boton de opciones
         ImageButton btnOpciones = new ImageButton(trdBtnOpciones);
-        btnOpciones.setPosition(3*pantalla.getANCHO()/6 - btnOpciones.getWidth()/2, 2* pantalla.getALTO()/6
+        btnOpciones.setPosition(3*pantalla.getANCHO()/6 - btnOpciones.getWidth()/2, 3* pantalla.getALTO()/6
                 - btnOpciones.getHeight()/2);
         pantalla.escena.addActor(btnOpciones);
 
         // Colocar boton de extras
         ImageButton btnExtras = new ImageButton(trdBtnExtras);
-        btnExtras.setPosition(1*pantalla.getANCHO()/6 - btnExtras.getWidth()/2, 2* pantalla.getALTO()/6
+        btnExtras.setPosition(1*pantalla.getANCHO()/6 - btnExtras.getWidth()/2, 3* pantalla.getALTO()/6
                 - btnExtras.getHeight()/2);
         pantalla.escena.addActor(btnExtras);
 
         // Colocar boton de creditos
         ImageButton btnCreditos = new ImageButton(trdBtnCreditos);
-        btnCreditos.setPosition(5*pantalla.getANCHO()/6 - btnCreditos.getWidth()/2, 2* pantalla.getALTO()/6
+        btnCreditos.setPosition(5*pantalla.getANCHO()/6 - btnCreditos.getWidth()/2, 3* pantalla.getALTO()/6
                 - btnCreditos.getHeight()/2);
         pantalla.escena.addActor(btnCreditos);
 
@@ -157,11 +154,12 @@ public class Menu implements Screen {
     public void hide() {
 
     }
-
     @Override
     public void dispose() {
         texturaFondo.dispose();
-        texturaBotones.dispose();
         texturaBotonJugar.dispose();
+        texturaBotonCreditos.dispose();
+        texturaBotonExtras.dispose();
+        texturaBotonOpciones.dispose();
     }
 }

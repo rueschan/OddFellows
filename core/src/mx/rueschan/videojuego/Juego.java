@@ -36,7 +36,6 @@ public class Juego {
     }
 
     public void iniciarJuego() {
-        Gdx.app.log("Juego", "Loop");
         oddFellows.setScreen(new Cabana(oddFellows));
     }
 

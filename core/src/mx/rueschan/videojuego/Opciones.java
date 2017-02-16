@@ -42,7 +42,7 @@ public class Opciones implements Screen{
     }
 
     private void cargarTexturas() {
-        texturaFondo = new Texture("pez.jpg");
+        texturaFondo = new Texture("HojaCreditos.png");
         texturaExit = new Texture("btnExit.png");
     }
 
@@ -51,7 +51,7 @@ public class Opciones implements Screen{
         pantalla.escena.clear();
         // Agrega la imagen de fondo
         Image imgFondo = new Image(texturaFondo);
-        imgFondo.setColor(1,0.3f,0.5f,1);
+        imgFondo.setSize(pantalla.getANCHO(), pantalla.getALTO());
         pantalla.escena.addActor(imgFondo);
 
         // Botón de Exit
