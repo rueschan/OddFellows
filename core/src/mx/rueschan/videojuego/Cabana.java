@@ -14,9 +14,12 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
  */
 public class Cabana extends Nivel {
 
+    private Nivel actual;
+
     public Cabana(OddFellows oddFellows) {
         super.oddFellows = oddFellows;
         super.pantalla = Pantalla.getInstanciaPantalla();
+        actual = this;
     }
 
     @Override
@@ -48,7 +51,7 @@ public class Cabana extends Nivel {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 Gdx.app.log("clicked", "***Cambio a pausa***");
-                oddFellows.setScreen(new Menu(oddFellows));
+                oddFellows.setScreen(new Pausa(oddFellows, actual));
             }
         });
 

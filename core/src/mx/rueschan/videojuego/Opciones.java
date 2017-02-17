@@ -20,6 +20,7 @@ public class Opciones implements Screen{
 
     private final OddFellows oddFellows;
     private final Pantalla pantalla;
+    private Pausa menuPausa = null;
 
     // Texturas de opciones
     private Texture texturaFondo;
@@ -39,6 +40,14 @@ public class Opciones implements Screen{
         // Obtener pantalla
         pantalla = Pantalla.getInstanciaPantalla();
         this.partidaEnCurso = partidaEnCurso;
+    }
+
+    public Opciones(OddFellows oddFellows, boolean partidaEnCurso, Pausa pausa) {
+        this.oddFellows = oddFellows;
+        // Obtener pantalla
+        pantalla = Pantalla.getInstanciaPantalla();
+        this.partidaEnCurso = partidaEnCurso;
+        this.menuPausa = pausa;
     }
 
     @Override
@@ -95,6 +104,7 @@ public class Opciones implements Screen{
                 Gdx.app.log("clicked", "***Salir***");
                 if (partidaEnCurso) {
                     // Si se accede desde el juego
+                    oddFellows.setScreen(menuPausa);
                 } else {
                     // Si se accede desde el menu
                     oddFellows.setScreen(new Menu(oddFellows));

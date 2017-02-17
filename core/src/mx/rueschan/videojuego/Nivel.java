@@ -13,7 +13,6 @@ public abstract class Nivel implements Screen{
     protected Juego juego;
 
     protected Texture texturaFondo;
-
     protected Texture texturaBotonPausa;
 
     // private Elemento[] items;
