@@ -1,6 +1,7 @@
 package mx.rueschan.videojuego;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -72,6 +73,12 @@ public class Creditos implements Screen {
     public void render(float delta) {
         pantalla.borrarPantalla();
         pantalla.escena.draw();
+
+        // Detectar botón físico "return"
+        if (Gdx.input.isKeyJustPressed(Input.Keys.BACK)){
+            //Regresar al Menu
+            oddFellows.setScreen(new Menu(oddFellows));
+        }
     }
 
     @Override

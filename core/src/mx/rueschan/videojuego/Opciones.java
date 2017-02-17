@@ -134,12 +134,14 @@ public class Opciones implements Screen{
         if (pantalla.escena.keyUp(Input.Keys.BACK)){
             // DEBUG
             Gdx.app.log("Btn BACK", "Atras en opciones con escena");
-            /*if (partidaEnCurso){
+            if (partidaEnCurso){
                 // Regresa al menú de pausa
+                 oddFellows.setScreen(menuPausa);
             }
             else {
+                //Regresar al Menu
                 oddFellows.setScreen(new Menu(oddFellows));
-            }*/
+            }
         }
     }
 
@@ -149,6 +151,18 @@ public class Opciones implements Screen{
         pantalla.escena.draw();
 
         escribirEnPantalla();
+
+        // Detectar botón físico "return"
+        if (Gdx.input.isKeyJustPressed(Input.Keys.BACK)){
+            if (partidaEnCurso){
+                // Regresa al menú de pausa
+                oddFellows.setScreen(menuPausa);
+            }
+            else {
+                //Regresar al Menu
+                oddFellows.setScreen(new Menu(oddFellows));
+            }
+        }
     }
 
     private void escribirEnPantalla() {

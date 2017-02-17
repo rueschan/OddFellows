@@ -1,6 +1,7 @@
 package mx.rueschan.videojuego;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -34,7 +35,6 @@ public class Cabana extends Nivel {
         pantalla.escena.clear();
         // Agrega la imagen de fondo
         Image imgFondo = new Image(texturaFondo);
-        imgFondo.setColor(0.2f,1,1,1);
         pantalla.escena.addActor(imgFondo);
 
         //// Asignar textura a lo boton de pausa
@@ -69,6 +69,12 @@ public class Cabana extends Nivel {
     public void render(float delta) {
         super.pantalla.borrarPantalla();
         super.pantalla.escena.draw();
+
+        // Detectar botón físico "return"
+        if (Gdx.input.isKeyJustPressed(Input.Keys.BACK)){
+            //Abrir Pausa
+            oddFellows.setScreen(new Pausa(oddFellows,actual));
+        }
     }
 
     @Override
