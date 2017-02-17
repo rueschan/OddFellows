@@ -8,8 +8,11 @@ import com.badlogic.gdx.graphics.Texture;
 
 public class ObjetoArma extends Objeto {
     public ObjetoArma(Texture textura, float x, float y) {
+
         super(textura, x, y);
     }
 
     float daño;
+
+
 }

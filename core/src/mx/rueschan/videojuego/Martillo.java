@@ -9,5 +9,6 @@ import com.badlogic.gdx.graphics.Texture;
 public class Martillo extends ObjetoArma {
     public Martillo(Texture textura, float x, float y) {
         super(textura, x, y);
+
     }
 }

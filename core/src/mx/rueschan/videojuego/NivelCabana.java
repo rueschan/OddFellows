@@ -3,6 +3,7 @@ package mx.rueschan.videojuego;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
@@ -17,6 +18,16 @@ public class NivelCabana extends Nivel {
 
     private Nivel actual;
 
+    //Textura imagenes
+    protected Texture texturaLlave;
+    protected Texture texturaMartillo;
+    protected Texture texturaCarta;
+
+
+    //Ayuda a dibujar
+   // private SpriteBatch batch;
+
+
     public NivelCabana(OddFellows oddFellows) {
         super.oddFellows = oddFellows;
         super.pantalla = Pantalla.getInstanciaPantalla();
@@ -27,19 +38,27 @@ public class NivelCabana extends Nivel {
     protected void cargarTexturas() {
         texturaFondo = new Texture("fondoCabana.jpg");
         texturaBotonPausa = new Texture("BotonPausa64.png");
+        /*texturaLlave = new Texture("LlaveIcono.png");
+        texturaMartillo = new Texture("Martillo.png");
+        texturaCarta = new Texture("HojaCreditos64.png");*/
     }
 
     @Override
     protected void crearObjetos() {
+
+        //batch = new SpriteBatch();
+
         // Limpia escena de pantalla anterior
         pantalla.escena.clear();
         // Agrega la imagen de fondo
         Image imgFondo = new Image(texturaFondo);
         pantalla.escena.addActor(imgFondo);
 
-        //// Asignar textura a lo boton de pausa
+        //// Asignar textura al boton de pausa
         TextureRegionDrawable trdBtnPausa = new
                 TextureRegionDrawable(new TextureRegion(texturaBotonPausa));
+
+
         // Colocar boton de pausa
         ImageButton btnPausa = new ImageButton(trdBtnPausa);
         btnPausa.setPosition(1186,706);
@@ -96,6 +115,8 @@ public class NivelCabana extends Nivel {
     public void dispose() {
         texturaFondo.dispose();
         texturaBotonPausa.dispose();
-
+        texturaLlave.dispose();
+        texturaMartillo.dispose();
+        texturaCarta.dispose();
     }
 }
