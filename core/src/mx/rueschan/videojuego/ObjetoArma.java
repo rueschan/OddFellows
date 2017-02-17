@@ -11,5 +11,5 @@ public class ObjetoArma extends Objeto {
         super(textura, x, y);
     }
 
-
+    float daño;
 }
