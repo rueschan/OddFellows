@@ -12,7 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
 /**
- * Created by Rubén Escalante on 14/02/2017.
+ * Created by Odd Fellows on 14/02/2017.
  */
 
 public class MenuCreditos implements Screen {
