@@ -41,7 +41,7 @@ public class Pausa implements Screen {
     }
 
     private void cargarTexturas() {
-        texturaFondo = new Texture("fondoExtras.jpg");
+        texturaFondo = new Texture("fondoPausa.jpg");
         texturaBotonJugar = new Texture("Letrero.png");
         texturaBotonSalir = new Texture("btnExit.png");
         texturaBotonOpciones = new Texture("BotonOpcionesHerramientas.png");
