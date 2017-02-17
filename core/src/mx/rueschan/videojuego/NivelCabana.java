@@ -38,7 +38,7 @@ public class NivelCabana extends Nivel {
         texturaLlave = new Texture("LlaveIcono.png");
         texturaMartillo = new Texture("Martillo32a96.png");
         texturaCarta = new Texture("Carta32a64.png");
-        texturaHenric = new Texture("HenricStandBy.png");
+        texturaHenric = new Texture("Henric.png");
     }
 
     @Override
@@ -91,9 +91,10 @@ public class NivelCabana extends Nivel {
         btnCarta.setPosition(500,550);
         pantalla.escena.addActor(btnCarta);
 
-        //Carta
+        //Henric
         ImageButton btnHenric = new ImageButton(trdbtnHenric);
-        btnHenric.setPosition(700,350);
+        btnHenric.setPosition(pantalla.getANCHO()/2 - btnHenric.getWidth()/2,
+                pantalla.getALTO()/2 - btnHenric.getHeight()/2);
         pantalla.escena.addActor(btnHenric);
 
 
@@ -151,5 +152,6 @@ public class NivelCabana extends Nivel {
         texturaLlave.dispose();
         texturaMartillo.dispose();
         texturaCarta.dispose();
+        texturaHenric.dispose();
     }
 }

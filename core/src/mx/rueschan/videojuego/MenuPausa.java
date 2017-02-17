@@ -3,6 +3,7 @@ package mx.rueschan.videojuego;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -43,9 +44,9 @@ public class MenuPausa implements Screen {
 
     private void cargarTexturas() {
         texturaFondo = new Texture("fondoPausa.jpg");
-        texturaBotonJugar = new Texture("Letrero.png");
+        texturaBotonJugar = new Texture("Tabla.png");
         texturaBotonSalir = new Texture("btnExit.png");
-        texturaBotonOpciones = new Texture("BotonOpcionesHerramientas.png");
+        texturaBotonOpciones = new Texture("Tabla.png");
     }
 
     private void crearObjetos() {
@@ -60,7 +61,7 @@ public class MenuPausa implements Screen {
                 TextureRegionDrawable(new TextureRegion(texturaBotonSalir));
         // Colocar botón salir
         ImageButton btnSalir = new ImageButton(trdBtnSalir);
-        btnSalir.setPosition(3*pantalla.getANCHO()/6 - btnSalir.getWidth()/2, pantalla.getALTO()/6);
+        btnSalir.setPosition(10, 10);
         pantalla.escena.addActor(btnSalir);
 
         // Crear botón opciones
@@ -68,9 +69,18 @@ public class MenuPausa implements Screen {
                 TextureRegionDrawable(new TextureRegion(texturaBotonOpciones));
         // Colocar botón opciones
         ImageButton btnOpciones = new ImageButton(trdBtnOpciones);
-        btnOpciones.setPosition(3*pantalla.getANCHO()/6 - btnOpciones.getWidth()/2, 4* pantalla.getALTO()/6
+        btnOpciones.setPosition(3*pantalla.getANCHO()/6 - btnOpciones.getWidth()/2, 1* pantalla.getALTO()/6
                 - btnOpciones.getHeight()/2);
         pantalla.escena.addActor(btnOpciones);
+
+        // Crear botón opciones
+        TextureRegionDrawable trdBtnPlay = new
+                TextureRegionDrawable(new TextureRegion(texturaBotonJugar));
+        // Colocar botón opciones
+        ImageButton btnPlay = new ImageButton(trdBtnPlay);
+        btnPlay.setPosition(3*pantalla.getANCHO()/6 - btnPlay.getWidth()/2, 3* pantalla.getALTO()/6
+                - btnPlay.getHeight()/2);
+        pantalla.escena.addActor(btnPlay);
 
         // Click botón salir
         btnSalir.addListener(new ClickListener(){
@@ -88,6 +98,14 @@ public class MenuPausa implements Screen {
                 oddFellows.setScreen(new MenuOpciones(oddFellows, true, actual));
             }
         });
+        // Click botón jugar
+        btnPlay.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                Gdx.app.log("clicked", "***Cambio a juego***");
+                oddFellows.setScreen(nvlActivo);
+            }
+        });
     }
 
     @Override
@@ -100,6 +118,17 @@ public class MenuPausa implements Screen {
             //Regresar al Nivel
             oddFellows.setScreen(nvlActivo);
         }
+
+        escribirEnPantalla();
+    }
+
+    private void escribirEnPantalla() {
+        pantalla.batch.begin();
+        pantalla.texto.mostrarMensajes(pantalla.batch, new Color(1, 1, 1, 0.85f), "Resume",
+                3*pantalla.getANCHO()/6, 3* pantalla.getALTO()/6);
+        pantalla.texto.mostrarMensajes(pantalla.batch, new Color(1, 1, 1, 0.85f), "Options",
+                3*pantalla.getANCHO()/6, 1* pantalla.getALTO()/6);
+        pantalla.batch.end();
     }
 
     @Override

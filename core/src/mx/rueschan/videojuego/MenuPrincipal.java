@@ -139,7 +139,7 @@ public class MenuPrincipal implements Screen {
     private void escribirEnPantalla() {
         pantalla.batch.begin();
         pantalla.texto.mostrarMensajes(pantalla.batch, Color.WHITE, "Options", 3*pantalla.getANCHO()/6, 3*pantalla.getALTO()/6 - 3*pantalla.texto.getAltoTexto());
-        pantalla.texto.mostrarMensajes(pantalla.batch, Color.WHITE, "MenuExtras", 1*pantalla.getANCHO()/6+pantalla.texto.getAnchoTexto()/15, 3*pantalla.getALTO()/10 - 3*pantalla.texto.getAltoTexto());
+        pantalla.texto.mostrarMensajes(pantalla.batch, Color.WHITE, "Extras", 1*pantalla.getANCHO()/6+pantalla.texto.getAnchoTexto()/15, 3*pantalla.getALTO()/10 - 3*pantalla.texto.getAltoTexto());
         pantalla.texto.mostrarMensajes(pantalla.batch, Color.WHITE, "Credits", 5*pantalla.getANCHO()/6, 3*pantalla.getALTO()/10 - 3*pantalla.texto.getAltoTexto());
         pantalla.texto.mostrarMensajes(pantalla.batch, new Color(1, 1, 1, 0.85f), "PLAY", (3*pantalla.getANCHO()/6)-pantalla.texto.getAnchoTexto()/11, 1.3f*pantalla.getALTO()/6);
         pantalla.batch.end();
