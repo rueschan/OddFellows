@@ -51,6 +51,8 @@ public class Cabana extends Nivel {
                 oddFellows.setScreen(new Menu(oddFellows));
             }
         });
+
+        Gdx.input.setCatchBackKey(true);
     }
 
     @Override

@@ -88,6 +88,7 @@ public class Creditos implements Screen {
     @Override
     public void resume() {
         cargarTexturas();
+        crearObjetos();
     }
 
     @Override

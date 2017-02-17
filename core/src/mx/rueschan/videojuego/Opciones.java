@@ -3,6 +3,7 @@ package mx.rueschan.videojuego;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -25,6 +26,10 @@ public class Opciones implements Screen{
     private Texture texturaExit;
     private Texture texturaSonido;
     private Texture texturaFX;
+
+    // Estado de opciones (SE DEBE CAMBIAR CUANDO SE TENGA MEMORIA)
+    private boolean isAudioOn = true;
+    private boolean isFxOn = true;
 
     // Flag para determinar si viene del juego o del menú
     boolean partidaEnCurso;
@@ -70,14 +75,16 @@ public class Opciones implements Screen{
                 TextureRegionDrawable(new TextureRegion(texturaSonido));
         // Colocar botón de sonido
         ImageButton btnSonido = new ImageButton(trdSonido);
-        btnSonido.setPosition(pantalla.getANCHO()/3 - btnSonido.getWidth()/2, 2*pantalla.getALTO()/3);
+        btnSonido.setPosition(pantalla.getANCHO()/3 + 100 - btnSonido.getWidth()/2,
+                2*pantalla.getALTO()/3 - btnSonido.getHeight()/2);
         pantalla.escena.addActor(btnSonido);
         // Boton de efectos
         TextureRegionDrawable trdFX = new
                 TextureRegionDrawable(new TextureRegion(texturaFX));
         // Colocar botón de efectos
         ImageButton btnFX = new ImageButton(trdFX);
-        btnFX.setPosition(pantalla.getANCHO()/3 - btnFX.getWidth()/2, pantalla.getALTO()/3);
+        btnFX.setPosition(pantalla.getANCHO()/3 + 100- btnFX.getWidth()/2,
+                pantalla.getALTO()/3 - btnFX.getHeight()/2);
         pantalla.escena.addActor(btnFX);
 
         // Acciones de botones
@@ -92,6 +99,22 @@ public class Opciones implements Screen{
                     // Si se accede desde el menu
                     oddFellows.setScreen(new Menu(oddFellows));
                 }
+            }
+        });
+
+        btnSonido.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                Gdx.app.log("clicked", "***audio***");
+                isAudioOn = !isAudioOn;
+            }
+        });
+
+        btnFX.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                Gdx.app.log("clicked", "***FX***");
+                isFxOn = !isFxOn;
             }
         });
 
@@ -114,6 +137,43 @@ public class Opciones implements Screen{
     public void render(float delta) {
         pantalla.borrarPantalla();
         pantalla.escena.draw();
+
+        escribirEnPantalla();
+    }
+
+    private void escribirEnPantalla() {
+
+        String mensajeAudio;
+        String mensajeFX;
+
+        pantalla.batch.begin();
+
+        // Texto de sonido
+        pantalla.texto.mostrarMensajes(pantalla.batch, Color.WHITE, "Music",
+                pantalla.getANCHO()/3 + 100, 2*pantalla.getALTO()/3 - 80);
+        if (isAudioOn) {
+            mensajeAudio = "ON";
+        } else {
+            mensajeAudio = "OFF";
+        }
+        pantalla.texto.mostrarMensajes(pantalla.batch, Color.WHITE, mensajeAudio,
+                pantalla.getANCHO()/3 + 300, 2*pantalla.getALTO()/3);
+
+        // Texto de efectos
+        pantalla.texto.mostrarMensajes(pantalla.batch, Color.WHITE, "Effects",
+                pantalla.getANCHO()/3 + 100, pantalla.getALTO()/3 - 80);
+        if (isFxOn) {
+            mensajeFX = "ON";
+        } else {
+            mensajeFX = "OFF";
+        }
+        pantalla.texto.mostrarMensajes(pantalla.batch, Color.WHITE, mensajeFX,
+                pantalla.getANCHO()/3 + 300, pantalla.getALTO()/3);
+
+        pantalla.batch.end();
+
+        mensajeAudio = null;
+        mensajeFX = null;
     }
 
     @Override
@@ -129,6 +189,7 @@ public class Opciones implements Screen{
     @Override
     public void resume() {
         cargarTexturas();
+        crearObjetos();
     }
 
     @Override

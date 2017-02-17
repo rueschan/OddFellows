@@ -42,6 +42,7 @@ public abstract class Nivel implements Screen{
     @Override
     public void resume() {
         cargarTexturas();
+        crearObjetos();
     }
 
     protected void cambiarNivel(Nivel nvl) {
