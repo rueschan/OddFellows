@@ -58,7 +58,7 @@ public class Opciones implements Screen{
     }
 
     private void cargarTexturas() {
-        texturaFondo = new Texture("HojaCreditos.png");
+        texturaFondo = new Texture("FondoOpciones.jpg");
         texturaExit = new Texture("btnExit.png");
         texturaSonido = new Texture("Audio.png");
         texturaFX = new Texture("ecualizador.png");
@@ -84,16 +84,16 @@ public class Opciones implements Screen{
                 TextureRegionDrawable(new TextureRegion(texturaSonido));
         // Colocar botón de sonido
         ImageButton btnSonido = new ImageButton(trdSonido);
-        btnSonido.setPosition(pantalla.getANCHO()/3 + 100 - btnSonido.getWidth()/2,
-                2*pantalla.getALTO()/3 - btnSonido.getHeight()/2);
+        btnSonido.setPosition(pantalla.getANCHO()/3 + 200 - btnSonido.getWidth()/2,
+                5*pantalla.getALTO()/6 - btnSonido.getHeight()/2);
         pantalla.escena.addActor(btnSonido);
         // Boton de efectos
         TextureRegionDrawable trdFX = new
                 TextureRegionDrawable(new TextureRegion(texturaFX));
         // Colocar botón de efectos
         ImageButton btnFX = new ImageButton(trdFX);
-        btnFX.setPosition(pantalla.getANCHO()/3 + 100- btnFX.getWidth()/2,
-                pantalla.getALTO()/3 - btnFX.getHeight()/2);
+        btnFX.setPosition(pantalla.getANCHO()/3 + 200- btnFX.getWidth()/2,
+                3*pantalla.getALTO()/6 - btnFX.getHeight()/2);
         pantalla.escena.addActor(btnFX);
 
         // Acciones de botones
@@ -159,26 +159,26 @@ public class Opciones implements Screen{
         pantalla.batch.begin();
 
         // Texto de sonido
-        pantalla.texto.mostrarMensajes(pantalla.batch, Color.WHITE, "Music",
-                pantalla.getANCHO()/3 + 100, 2*pantalla.getALTO()/3 - 80);
+        pantalla.texto.mostrarMensajes(pantalla.batch, Color.BLACK, "Music",
+                pantalla.getANCHO()/3 + 200, 5*pantalla.getALTO()/6 - 80);
         if (isAudioOn) {
             mensajeAudio = "ON";
         } else {
             mensajeAudio = "OFF";
         }
         pantalla.texto.mostrarMensajes(pantalla.batch, Color.WHITE, mensajeAudio,
-                pantalla.getANCHO()/3 + 300, 2*pantalla.getALTO()/3);
+                pantalla.getANCHO()/3 + 400, 5*pantalla.getALTO()/6);
 
         // Texto de efectos
-        pantalla.texto.mostrarMensajes(pantalla.batch, Color.WHITE, "Effects",
-                pantalla.getANCHO()/3 + 100, pantalla.getALTO()/3 - 80);
+        pantalla.texto.mostrarMensajes(pantalla.batch, Color.BLACK, "Effects",
+                pantalla.getANCHO()/3 + 200, 3*pantalla.getALTO()/6 - 80);
         if (isFxOn) {
             mensajeFX = "ON";
         } else {
             mensajeFX = "OFF";
         }
         pantalla.texto.mostrarMensajes(pantalla.batch, Color.WHITE, mensajeFX,
-                pantalla.getANCHO()/3 + 300, pantalla.getALTO()/3);
+                pantalla.getANCHO()/3 + 400, 3*pantalla.getALTO()/6);
 
         pantalla.batch.end();
 
