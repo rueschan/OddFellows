@@ -83,7 +83,7 @@ public class NivelCabana extends Nivel {
 
         //Martillo
         ImageButton btnMartillo = new ImageButton(trdbtnMartillo);
-        btnMartillo.setPosition(1000,50);
+        btnMartillo.setPosition(1000,20);
         pantalla.escena.addActor(btnMartillo);
 
         //Carta
