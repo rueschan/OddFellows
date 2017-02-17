@@ -45,7 +45,6 @@ public class Creditos implements Screen {
         pantalla.escena.clear();
         // Agrega la imagen de fondo
         Image imgFondo = new Image(texturaFondo);
-        imgFondo.setColor(1,0.3f,1,1);
         pantalla.escena.addActor(imgFondo);
 
         // Botón de Exit
