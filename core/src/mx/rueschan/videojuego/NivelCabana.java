@@ -22,10 +22,7 @@ public class NivelCabana extends Nivel {
     protected Texture texturaLlave;
     protected Texture texturaMartillo;
     protected Texture texturaCarta;
-
-
-    //Ayuda a dibujar
-   // private SpriteBatch batch;
+    protected Texture texturaHenric;
 
 
     public NivelCabana(OddFellows oddFellows) {
@@ -38,21 +35,22 @@ public class NivelCabana extends Nivel {
     protected void cargarTexturas() {
         texturaFondo = new Texture("fondoCabana.jpg");
         texturaBotonPausa = new Texture("BotonPausa64.png");
-        /*texturaLlave = new Texture("LlaveIcono.png");
-        texturaMartillo = new Texture("Martillo.png");
-        texturaCarta = new Texture("HojaCreditos64.png");*/
+        texturaLlave = new Texture("LlaveIcono.png");
+        texturaMartillo = new Texture("Martillo32a96.png");
+        texturaCarta = new Texture("Carta32a64.png");
+        texturaHenric = new Texture("HenricStandBy.png");
     }
 
     @Override
     protected void crearObjetos() {
 
-        //batch = new SpriteBatch();
 
         // Limpia escena de pantalla anterior
         pantalla.escena.clear();
         // Agrega la imagen de fondo
         Image imgFondo = new Image(texturaFondo);
         pantalla.escena.addActor(imgFondo);
+
 
         //// Asignar textura al boton de pausa
         TextureRegionDrawable trdBtnPausa = new
@@ -63,6 +61,41 @@ public class NivelCabana extends Nivel {
         ImageButton btnPausa = new ImageButton(trdBtnPausa);
         btnPausa.setPosition(1186,706);
         pantalla.escena.addActor(btnPausa);
+
+
+
+        //SPRITES
+        //Agregar temporalmente imagenes como botones
+        TextureRegionDrawable trdbtnLlave = new
+                TextureRegionDrawable(new TextureRegion(texturaLlave));
+        TextureRegionDrawable trdbtnMartillo = new
+                TextureRegionDrawable(new TextureRegion(texturaMartillo));
+        TextureRegionDrawable trdbtnCarta = new
+                TextureRegionDrawable(new TextureRegion(texturaCarta));
+        TextureRegionDrawable trdbtnHenric = new
+                TextureRegionDrawable(new TextureRegion(texturaHenric));
+
+        //Colocar temporalmente boton sprite
+        // Llave
+        ImageButton btnLlave = new ImageButton(trdbtnLlave);
+        btnLlave.setPosition(350,550);
+        pantalla.escena.addActor(btnLlave);
+
+        //Martillo
+        ImageButton btnMartillo = new ImageButton(trdbtnMartillo);
+        btnMartillo.setPosition(1000,50);
+        pantalla.escena.addActor(btnMartillo);
+
+        //Carta
+        ImageButton btnCarta = new ImageButton(trdbtnCarta);
+        btnCarta.setPosition(500,550);
+        pantalla.escena.addActor(btnCarta);
+
+        //Carta
+        ImageButton btnHenric = new ImageButton(trdbtnHenric);
+        btnHenric.setPosition(700,350);
+        pantalla.escena.addActor(btnHenric);
+
 
         // Acciones de botones
         // Botón opciones
