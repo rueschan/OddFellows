@@ -34,7 +34,6 @@ public class Cabana extends Nivel {
         pantalla.escena.clear();
         // Agrega la imagen de fondo
         Image imgFondo = new Image(texturaFondo);
-        imgFondo.setColor(0.2f,1,1,1);
         pantalla.escena.addActor(imgFondo);
 
         //// Asignar textura a lo boton de pausa
