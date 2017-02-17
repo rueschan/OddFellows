@@ -10,6 +10,6 @@ public class OddFellows extends Game {
 	
 	@Override
 	public void create () {
-        setScreen(new Menu(this));
+        setScreen(new MenuPrincipal(this));
 	}
 }

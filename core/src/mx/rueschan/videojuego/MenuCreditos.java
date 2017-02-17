@@ -12,9 +12,10 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
 /**
- * Created by Rubén Escalante on 13/02/2017.
+ * Created by Rubén Escalante on 14/02/2017.
  */
-public class Extras implements Screen {
+
+public class MenuCreditos implements Screen {
 
     private OddFellows oddFellows;
     private Pantalla pantalla;
@@ -22,8 +23,9 @@ public class Extras implements Screen {
     private Texture texturaFondo;
     private Texture texturaExit;
 
-    public Extras(OddFellows oddFellows) {
+    public MenuCreditos(OddFellows oddFellows) {
         this.oddFellows = oddFellows;
+        // Obtener pantalla
         pantalla = Pantalla.getInstanciaPantalla();
     }
 
@@ -35,7 +37,7 @@ public class Extras implements Screen {
     }
 
     private void cargarTexturas() {
-        texturaFondo = new Texture("fondoExtras.jpg");
+        texturaFondo = new Texture("fondoCreditos.jpg");
         texturaExit = new Texture("btnExit.png");
     }
 
@@ -60,7 +62,7 @@ public class Extras implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 Gdx.app.log("clicked", "***Salir***");
-                oddFellows.setScreen(new Menu(oddFellows));
+                oddFellows.setScreen(new MenuPrincipal(oddFellows));
             }
         });
 
@@ -74,8 +76,8 @@ public class Extras implements Screen {
 
         // Detectar botón físico "return"
         if (Gdx.input.isKeyJustPressed(Input.Keys.BACK)){
-            //Regresar al Menu
-            oddFellows.setScreen(new Menu(oddFellows));
+            //Regresar al MenuPrincipal
+            oddFellows.setScreen(new MenuPrincipal(oddFellows));
         }
     }
 
@@ -88,6 +90,7 @@ public class Extras implements Screen {
     public void pause() {
 
     }
+
     @Override
     public void resume() {
         cargarTexturas();
@@ -101,8 +104,7 @@ public class Extras implements Screen {
 
     @Override
     public void dispose() {
-        texturaFondo.dispose();
         texturaExit.dispose();
-
+        texturaFondo.dispose();
     }
 }

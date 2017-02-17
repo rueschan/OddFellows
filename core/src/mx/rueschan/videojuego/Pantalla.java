@@ -11,7 +11,7 @@ import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 /**
- * Created by Rubén Escalante on 08/02/2017.
+ * Created by OddFellows on 08/02/2017.
  */
 
 public class Pantalla implements Screen {

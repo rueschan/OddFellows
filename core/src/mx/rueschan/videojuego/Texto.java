@@ -7,7 +7,7 @@ import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 /**
- * Created by Rubén Escalante on 15/02/2017.
+ * Created by OddFellows on 15/02/2017.
  */
 public class Texto {
 

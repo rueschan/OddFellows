@@ -12,15 +12,15 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
 /**
- * Created by Alejandro on 16/02/2017.
+ * Created by OddFellows on 16/02/2017.
  */
 
-public class Pausa implements Screen {
+public class MenuPausa implements Screen {
 
     private final OddFellows oddFellows;
     private final Pantalla pantalla;
     private final Nivel nvlActivo;
-    private final Pausa actual;
+    private final MenuPausa actual;
 
     // Texturas del menú
     private Texture texturaFondo;
@@ -28,7 +28,7 @@ public class Pausa implements Screen {
     private Texture texturaBotonSalir;
     private Texture texturaBotonOpciones;
 
-    public Pausa(OddFellows oddFellows, Nivel nvl) {
+    public MenuPausa(OddFellows oddFellows, Nivel nvl) {
         this.oddFellows = oddFellows;
         pantalla = Pantalla.getInstanciaPantalla();
         nvlActivo = nvl;
@@ -77,7 +77,7 @@ public class Pausa implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 Gdx.app.log("clicked", "***Salir***");
-                oddFellows.setScreen(new Menu(oddFellows));
+                oddFellows.setScreen(new MenuPrincipal(oddFellows));
             }
         });
         // Click botón opciones
@@ -85,7 +85,7 @@ public class Pausa implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 Gdx.app.log("clicked", "***Cambio a opciones***");
-                oddFellows.setScreen(new Opciones(oddFellows, true, actual));
+                oddFellows.setScreen(new MenuOpciones(oddFellows, true, actual));
             }
         });
     }

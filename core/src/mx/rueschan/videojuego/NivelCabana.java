@@ -11,13 +11,13 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
 /**
- * Created by Rubén Escalante on 14/02/2017.
+ * Created by OddFellows on 14/02/2017.
  */
-public class Cabana extends Nivel {
+public class NivelCabana extends Nivel {
 
     private Nivel actual;
 
-    public Cabana(OddFellows oddFellows) {
+    public NivelCabana(OddFellows oddFellows) {
         super.oddFellows = oddFellows;
         super.pantalla = Pantalla.getInstanciaPantalla();
         actual = this;
@@ -51,7 +51,7 @@ public class Cabana extends Nivel {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 Gdx.app.log("clicked", "***Cambio a pausa***");
-                oddFellows.setScreen(new Pausa(oddFellows, actual));
+                oddFellows.setScreen(new MenuPausa(oddFellows, actual));
             }
         });
 
@@ -72,8 +72,8 @@ public class Cabana extends Nivel {
 
         // Detectar botón físico "return"
         if (Gdx.input.isKeyJustPressed(Input.Keys.BACK)){
-            //Abrir Pausa
-            oddFellows.setScreen(new Pausa(oddFellows,actual));
+            //Abrir MenuPausa
+            oddFellows.setScreen(new MenuPausa(oddFellows,actual));
         }
     }
 

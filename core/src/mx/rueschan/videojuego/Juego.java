@@ -1,11 +1,9 @@
 package mx.rueschan.videojuego;
 
-import com.badlogic.gdx.Gdx;
-
 import java.io.File;
 
 /**
- * Created by Rubén Escalante on 14/02/2017.
+ * Created by OddFellows on 14/02/2017.
  */
 
 public class Juego {
@@ -36,7 +34,7 @@ public class Juego {
     }
 
     public void iniciarJuego() {
-        oddFellows.setScreen(new Cabana(oddFellows));
+        oddFellows.setScreen(new NivelCabana(oddFellows));
     }
 
     private void iniciarNivel() {

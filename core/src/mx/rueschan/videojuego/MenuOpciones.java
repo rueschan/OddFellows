@@ -16,11 +16,11 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
  * Created by Rubén Escalante on 09/02/2017.
  */
 
-public class Opciones implements Screen{
+public class MenuOpciones implements Screen{
 
     private final OddFellows oddFellows;
     private final Pantalla pantalla;
-    private Pausa menuPausa = null;
+    private MenuPausa menuPausa = null;
 
     // Texturas de opciones
     private Texture texturaFondo;
@@ -35,14 +35,14 @@ public class Opciones implements Screen{
     // Flag para determinar si viene del juego o del menú
     boolean partidaEnCurso;
 
-    public Opciones(OddFellows oddFellows, boolean partidaEnCurso) {
+    public MenuOpciones(OddFellows oddFellows, boolean partidaEnCurso) {
         this.oddFellows = oddFellows;
         // Obtener pantalla
         pantalla = Pantalla.getInstanciaPantalla();
         this.partidaEnCurso = partidaEnCurso;
     }
 
-    public Opciones(OddFellows oddFellows, boolean partidaEnCurso, Pausa pausa) {
+    public MenuOpciones(OddFellows oddFellows, boolean partidaEnCurso, MenuPausa pausa) {
         this.oddFellows = oddFellows;
         // Obtener pantalla
         pantalla = Pantalla.getInstanciaPantalla();
@@ -107,7 +107,7 @@ public class Opciones implements Screen{
                     oddFellows.setScreen(menuPausa);
                 } else {
                     // Si se accede desde el menu
-                    oddFellows.setScreen(new Menu(oddFellows));
+                    oddFellows.setScreen(new MenuPrincipal(oddFellows));
                 }
             }
         });
@@ -139,8 +139,8 @@ public class Opciones implements Screen{
                  oddFellows.setScreen(menuPausa);
             }
             else {
-                //Regresar al Menu
-                oddFellows.setScreen(new Menu(oddFellows));
+                //Regresar al MenuPrincipal
+                oddFellows.setScreen(new MenuPrincipal(oddFellows));
             }
         }
     }
@@ -159,8 +159,8 @@ public class Opciones implements Screen{
                 oddFellows.setScreen(menuPausa);
             }
             else {
-                //Regresar al Menu
-                oddFellows.setScreen(new Menu(oddFellows));
+                //Regresar al MenuPrincipal
+                oddFellows.setScreen(new MenuPrincipal(oddFellows));
             }
         }
     }

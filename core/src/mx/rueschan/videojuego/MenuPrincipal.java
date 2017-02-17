@@ -4,21 +4,18 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
-import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
 /**
- * Created by Rubén Escalante on 08/02/2017.
+ * Created by OddFellows on 08/02/2017.
  */
 
-public class Menu implements Screen {
+public class MenuPrincipal implements Screen {
 
     private final OddFellows oddFellows;
     private final Pantalla pantalla;
@@ -30,7 +27,7 @@ public class Menu implements Screen {
     private Texture texturaBotonOpciones;
     private Texture texturaBotonCreditos;
 
-    public Menu(OddFellows oddFellows) {
+    public MenuPrincipal(OddFellows oddFellows) {
         this.oddFellows = oddFellows;
         // Obtener pantalla
         pantalla = Pantalla.getInstanciaPantalla();
@@ -99,7 +96,7 @@ public class Menu implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 Gdx.app.log("clicked", "***Cambio a opciones***");
-                oddFellows.setScreen(new Opciones(oddFellows, false));
+                oddFellows.setScreen(new MenuOpciones(oddFellows, false));
             }
         });
             // Botón extras
@@ -107,7 +104,7 @@ public class Menu implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 Gdx.app.log("clicked", "***Cambio a extras***");
-                oddFellows.setScreen(new Extras(oddFellows));
+                oddFellows.setScreen(new MenuExtras(oddFellows));
             }
         });
             // Botón creditos
@@ -115,7 +112,7 @@ public class Menu implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 Gdx.app.log("clicked", "***Cambio a creditos***");
-                oddFellows.setScreen(new Creditos(oddFellows));
+                oddFellows.setScreen(new MenuCreditos(oddFellows));
             }
         });
             // Botón jugar
@@ -142,7 +139,7 @@ public class Menu implements Screen {
     private void escribirEnPantalla() {
         pantalla.batch.begin();
         pantalla.texto.mostrarMensajes(pantalla.batch, Color.WHITE, "Options", 3*pantalla.getANCHO()/6, 3*pantalla.getALTO()/6 - 3*pantalla.texto.getAltoTexto());
-        pantalla.texto.mostrarMensajes(pantalla.batch, Color.WHITE, "Extras", 1*pantalla.getANCHO()/6+pantalla.texto.getAnchoTexto()/15, 3*pantalla.getALTO()/10 - 3*pantalla.texto.getAltoTexto());
+        pantalla.texto.mostrarMensajes(pantalla.batch, Color.WHITE, "MenuExtras", 1*pantalla.getANCHO()/6+pantalla.texto.getAnchoTexto()/15, 3*pantalla.getALTO()/10 - 3*pantalla.texto.getAltoTexto());
         pantalla.texto.mostrarMensajes(pantalla.batch, Color.WHITE, "Credits", 5*pantalla.getANCHO()/6, 3*pantalla.getALTO()/10 - 3*pantalla.texto.getAltoTexto());
         pantalla.texto.mostrarMensajes(pantalla.batch, new Color(1, 1, 1, 0.85f), "PLAY", (3*pantalla.getANCHO()/6)-pantalla.texto.getAnchoTexto()/11, 1.3f*pantalla.getALTO()/6);
         pantalla.batch.end();

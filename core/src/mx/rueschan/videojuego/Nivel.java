@@ -4,7 +4,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Texture;
 
 /**
- * Created by Rubén Escalante on 14/02/2017.
+ * Created by OddFellows on 14/02/2017.
  */
 public abstract class Nivel implements Screen{
 
