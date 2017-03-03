@@ -5,6 +5,8 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
@@ -18,12 +20,14 @@ public class NivelCabana extends Nivel {
 
     private Nivel actual;
 
-    //Textura imagenes
-    protected Texture texturaLlave;
-    protected Texture texturaMartillo;
-    protected Texture texturaCarta;
-    protected Texture texturaHenric;
+    // Textura imagenes
+    private Texture texturaLlave;
+    private Texture texturaMartillo;
+    private Texture texturaCarta;
+    private Texture texturaHenric;
 
+    // Recursos
+    private String pathMapa;
 
     public NivelCabana(OddFellows oddFellows) {
         super.oddFellows = oddFellows;
@@ -39,6 +43,9 @@ public class NivelCabana extends Nivel {
         texturaMartillo = new Texture("Martillo32a96.png");
         texturaCarta = new Texture("Carta32a64.png");
         texturaHenric = new Texture("Henric.png");
+
+        // Recursos
+        pathMapa = "Mapa/ProyectoJuegos.tmx";
     }
 
     @Override
@@ -47,9 +54,9 @@ public class NivelCabana extends Nivel {
 
         // Limpia escena de pantalla anterior
         pantalla.escena.clear();
-        // Agrega la imagen de fondo
-        Image imgFondo = new Image(texturaFondo);
-        pantalla.escena.addActor(imgFondo);
+//        // Agrega la imagen de fondo
+//        Image imgFondo = new Image(texturaFondo);
+//        pantalla.escena.addActor(imgFondo);
 
 
         //// Asignar textura al boton de pausa
@@ -60,7 +67,7 @@ public class NivelCabana extends Nivel {
         // Colocar boton de pausa
         ImageButton btnPausa = new ImageButton(trdBtnPausa);
         btnPausa.setPosition(1186,706);
-        pantalla.escena.addActor(btnPausa);
+        super.escenaHUD.addActor(btnPausa);
 
 
 
@@ -117,11 +124,16 @@ public class NivelCabana extends Nivel {
     @Override
     public void show() {
         cargarTexturas();
-        crearObjetos();
-        cargarJuego();
+
+        // Crear mapa
+        super.crearRecursos(pantalla, pathMapa);
 
         //Creación de HUD
         super.crearHUD(pantalla);
+
+        // Objetos
+        crearObjetos();
+        cargarJuego();
 
         Gdx.input.setInputProcessor(super.escenaHUD);
     }
@@ -129,6 +141,13 @@ public class NivelCabana extends Nivel {
     @Override
     public void render(float delta) {
         super.pantalla.borrarPantalla();
+
+        // Mapa
+        pantalla.batch.setProjectionMatrix(pantalla.camara.combined);;
+        super.renderer.setView(pantalla.camara);
+        super.renderer.render();
+
+        // Elementos juego
         super.pantalla.escena.draw();
 
         // HUD
