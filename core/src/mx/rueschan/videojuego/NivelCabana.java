@@ -33,12 +33,12 @@ public class NivelCabana extends Nivel {
 
     @Override
     protected void cargarTexturas() {
-        texturaFondo = new Texture("fondoCabana.jpg");
-        texturaBotonPausa = new Texture("BotonPausa64.png");
-        texturaLlave = new Texture("LlaveIcono.png");
-        texturaMartillo = new Texture("Martillo32a96.png");
-        texturaCarta = new Texture("Carta32a64.png");
-        texturaHenric = new Texture("Henric.png");
+        texturaFondo = new Texture("NivelCabana/fondoCabana.jpg");
+        texturaBotonPausa = new Texture("Pantalla/BotonPausa64.png");
+        texturaLlave = new Texture("NivelCabana/LlaveIcono.png");
+        texturaMartillo = new Texture("NivelCabana/Martillo32a96.png");
+        texturaCarta = new Texture("NivelCabana/Carta32a64.png");
+        texturaHenric = new Texture("Personaje/Henric.png");
     }
 
     @Override

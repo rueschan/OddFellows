@@ -43,10 +43,10 @@ public class MenuPausa implements Screen {
     }
 
     private void cargarTexturas() {
-        texturaFondo = new Texture("fondoPausa.jpg");
-        texturaBotonJugar = new Texture("Tabla.png");
-        texturaBotonSalir = new Texture("btnExit.png");
-        texturaBotonOpciones = new Texture("Tabla.png");
+        texturaFondo = new Texture("Pantalla/Fondo/fondoPausa.jpg");
+        texturaBotonJugar = new Texture("Pantalla/Tabla.png");
+        texturaBotonSalir = new Texture("Pantalla/btnExit.png");
+        texturaBotonOpciones = new Texture("Pantalla/Tabla.png");
     }
 
     private void crearObjetos() {
