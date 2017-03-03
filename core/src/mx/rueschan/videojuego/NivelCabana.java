@@ -108,6 +108,9 @@ public class NivelCabana extends Nivel {
             }
         });
 
+        //Pad
+
+
         Gdx.input.setCatchBackKey(true);
     }
 
@@ -116,6 +119,11 @@ public class NivelCabana extends Nivel {
         cargarTexturas();
         crearObjetos();
         cargarJuego();
+
+        //Creación de HUD
+        super.crearHUD(pantalla);
+
+        Gdx.input.setInputProcessor(super.escenaHUD);
     }
 
     @Override
@@ -123,16 +131,20 @@ public class NivelCabana extends Nivel {
         super.pantalla.borrarPantalla();
         super.pantalla.escena.draw();
 
+        // HUD
+        pantalla.batch.setProjectionMatrix(camaraHUD.combined);
+        escenaHUD.draw();
+
         // Detectar botón físico "return"
-        if (Gdx.input.isKeyJustPressed(Input.Keys.BACK)){
+        if (Gdx.input.isKeyJustPressed(Input.Keys.BACK)) {
             //Abrir MenuPausa
-            oddFellows.setScreen(new MenuPausa(oddFellows,actual));
+            oddFellows.setScreen(new MenuPausa(oddFellows, actual));
         }
     }
 
     @Override
     public void resize(int width, int height) {
-
+        pantalla.resize(width, height);
     }
 
     @Override

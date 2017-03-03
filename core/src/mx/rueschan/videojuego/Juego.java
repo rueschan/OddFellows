@@ -34,6 +34,7 @@ public class Juego {
     }
 
     public void iniciarJuego() {
+        // Crea e inicia el juego
         oddFellows.setScreen(new NivelCabana(oddFellows));
     }
 
