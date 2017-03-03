@@ -42,11 +42,11 @@ public class MenuPrincipal implements Screen {
 
     // Metodo para iniciar texturas de pantalla
     private void cargarTexturas() {
-        texturaFondo = new Texture("fondoMenu.png");
-        texturaBotonJugar = new Texture("Letrero.png");
-        texturaBotonExtras = new Texture("LibroCreditos.png");
-        texturaBotonOpciones = new Texture("BotonOpcionesHerramientas.png");
-        texturaBotonCreditos = new Texture("HojaCreditos.png");
+        texturaFondo = new Texture("Pantalla/Fondo/fondoMenu.png");
+        texturaBotonJugar = new Texture("Pantalla/Letrero.png");
+        texturaBotonExtras = new Texture("Pantalla/LibroCreditos.png");
+        texturaBotonOpciones = new Texture("Pantalla/BotonOpcionesHerramientas.png");
+        texturaBotonCreditos = new Texture("Pantalla/HojaCreditos.png");
     }
 
     // Metodo para crear objetos en pantalla

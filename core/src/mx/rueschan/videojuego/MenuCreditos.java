@@ -37,8 +37,8 @@ public class MenuCreditos implements Screen {
     }
 
     private void cargarTexturas() {
-        texturaFondo = new Texture("fondoCreditos.jpg");
-        texturaExit = new Texture("btnExit.png");
+        texturaFondo = new Texture("Pantalla/Fondo/fondoCreditos.jpg");
+        texturaExit = new Texture("Pantalla/btnExit.png");
     }
 
     private void crearObjetos() {

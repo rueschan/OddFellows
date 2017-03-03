@@ -58,10 +58,10 @@ public class MenuOpciones implements Screen{
     }
 
     private void cargarTexturas() {
-        texturaFondo = new Texture("FondoOpciones.jpg");
-        texturaExit = new Texture("btnExit.png");
-        texturaSonido = new Texture("Audio.png");
-        texturaFX = new Texture("ecualizador.png");
+        texturaFondo = new Texture("Pantalla/Fondo/FondoOpciones.jpg");
+        texturaExit = new Texture("Pantalla/btnExit.png");
+        texturaSonido = new Texture("Pantalla/Audio.png");
+        texturaFX = new Texture("Pantalla/ecualizador.png");
     }
 
     private void crearObjetos() {
