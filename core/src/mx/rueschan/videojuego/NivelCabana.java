@@ -43,6 +43,9 @@ public class NivelCabana extends Nivel {
         texturaMartillo = new Texture("NivelCabana/Martillo32a96.png");
         texturaCarta = new Texture("NivelCabana/Carta32a64.png");
         texturaHenric = new Texture("Personaje/Henric.png");
+
+        // Recursos
+        pathMapa = "Mapa/Cabana.tmx";
     }
 
     @Override
