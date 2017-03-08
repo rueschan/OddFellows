@@ -18,7 +18,7 @@ public class NivelCabana extends Nivel {
 
     private Nivel actual;
 
-    //Textura imagenes
+    //Textura sprites
     protected Texture texturaLlave;
     protected Texture texturaMartillo;
     protected Texture texturaCarta;
