@@ -111,6 +111,7 @@ public class NivelCabana extends Nivel {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 Gdx.app.log("clicked", "***Cambio a pausa***");
+                Gdx.input.setInputProcessor(pantalla.escena);
                 oddFellows.setScreen(new MenuPausa(oddFellows, actual));
             }
         });
