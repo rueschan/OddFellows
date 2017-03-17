@@ -32,6 +32,12 @@ public abstract class Nivel implements Screen{
     protected Pantalla pantalla;
     protected Juego juego;
 
+    // Personaje
+    protected Personaje henric;
+    protected Texture texturaHenric;
+    private float henricX;
+    private float henricY;
+
     // Mapa
     public static final float ANCHO_MAPA = 2560;
     protected OrthogonalTiledMapRenderer renderer; // Dibuja el mapa
@@ -64,6 +70,10 @@ public abstract class Nivel implements Screen{
     protected abstract void cargarTexturas();
 
     protected void crearRecursos(Pantalla pantalla, String nombreMapa) {
+        texturaHenric = new Texture("Personaje/Henric.png");
+        henric = new Personaje(texturaHenric, pantalla.getANCHO()/2, pantalla.getALTO()/2);
+        henricX = henric.sprite.getX();
+        henricY = henric.sprite.getY();
 
         AssetManager manager = new AssetManager();
         manager.setLoader(TiledMap.class,
@@ -106,16 +116,31 @@ public abstract class Nivel implements Screen{
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 Touchpad pad = (Touchpad) actor;
-                if (pad.getKnobPercentX()>0.20) {
+                if (pad.getKnobPercentX() > 0.20) {
                     Gdx.app.log("PadMov", "Der");
-
-//                    mario.setEstadoMovimiento(Personaje.EstadoMovimiento.MOV_DERECHA);
-                } else if (pad.getKnobPercentX()<-0.20){
+                    henric.setEstadoMovimiento(Personaje.EstadoMovimiento.MOV_DERECHA);
+                    henric.sprite.setPosition(henricX + 2*pad.getKnobPercentX(), henricY);
+                    henricX = henric.sprite.getX();
+                } else if (pad.getKnobPercentX()< -0.20){
                     Gdx.app.log("PadMov", "Izq");
-//                    mario.setEstadoMovimiento(Personaje.EstadoMovimiento.MOV_IZQUIERDA);
-                } else {
+                    henric.setEstadoMovimiento(Personaje.EstadoMovimiento.MOV_IZQUIERDA);
+                    henric.sprite.setPosition(henricX + 2*pad.getKnobPercentX(), henricY);
+                    henricX = henric.sprite.getX();
+                }
+
+                if (pad.getKnobPercentY() > 0.20) {
+                    Gdx.app.log("PadMov", "Arriba");
+                    henric.sprite.setPosition(henricX, henricY + 2*pad.getKnobPercentY());
+                    henricY = henric.sprite.getY();
+                } else if (pad.getKnobPercentY() < -0.20) {
+                    Gdx.app.log("PadMov", "Abajo");
+                    henric.sprite.setPosition(henricX, henricY + 2*pad.getKnobPercentY());
+                    henricY = henric.sprite.getY();
+                }
+
+                if (pad.getKnobPercentY() == 0 && pad.getKnobPercentX() == 0) {
                     Gdx.app.log("PadMov", "Null");
-//                    mario.setEstadoMovimiento(Personaje.EstadoMovimiento.QUIETO);
+                    henric.setEstadoMovimiento(Personaje.EstadoMovimiento.QUIETO);
                 }
             }
         });
@@ -140,6 +165,7 @@ public abstract class Nivel implements Screen{
                 pad.setSize(pantalla.getANCHO()*2,pantalla.getALTO()*2);
                 pad.setPosition(pantalla.getANCHO()/2 - pad.getWidth()/2,
                         pantalla.getALTO()/2 - pad.getHeight()/2);
+                henric.setEstadoMovimiento(Personaje.EstadoMovimiento.QUIETO);
             }
         });
     }

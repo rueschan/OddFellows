@@ -8,15 +8,20 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
  * Created by OddFellows on 15/02/2017.
  */
 
-public class Objeto {
-    protected Sprite sprite;
+public class Objeto
+{
+    protected Sprite sprite;    // Imagen
 
-    public Objeto(Texture textura, float x, float y){
+    public Objeto(Texture textura, float x, float y) {
         sprite = new Sprite(textura);
-        sprite.setPosition(x,y);
+        sprite.setPosition(x, y);
     }
 
-    public void dibujar(SpriteBatch batch){
+    public Objeto() {
+
+    }
+
+    public void dibujar(SpriteBatch batch) {
         sprite.draw(batch);
     }
 }
