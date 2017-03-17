@@ -42,7 +42,7 @@ public class NivelCabana extends Nivel {
         texturaLlave = new Texture("NivelCabana/LlaveIcono.png");
         texturaMartillo = new Texture("NivelCabana/Martillo32a96.png");
         texturaCarta = new Texture("NivelCabana/Carta32a64.png");
-        texturaHenric = new Texture("Personaje/Henric.png");
+//        texturaHenric = new Texture("Personaje/Henric.png");
 
         // Recursos
         pathMapa = "Mapa/Cabana.tmx";
@@ -79,8 +79,8 @@ public class NivelCabana extends Nivel {
                 TextureRegionDrawable(new TextureRegion(texturaMartillo));
         TextureRegionDrawable trdbtnCarta = new
                 TextureRegionDrawable(new TextureRegion(texturaCarta));
-        TextureRegionDrawable trdbtnHenric = new
-                TextureRegionDrawable(new TextureRegion(texturaHenric));
+//        TextureRegionDrawable trdbtnHenric = new
+//                TextureRegionDrawable(new TextureRegion(texturaHenric));
 
         //Colocar temporalmente boton sprite
         // Llave
@@ -99,10 +99,10 @@ public class NivelCabana extends Nivel {
         pantalla.escena.addActor(btnCarta);
 
         //Henric
-        ImageButton btnHenric = new ImageButton(trdbtnHenric);
-        btnHenric.setPosition(pantalla.getANCHO()/2 - btnHenric.getWidth()/2,
-                pantalla.getALTO()/2 - btnHenric.getHeight()/2);
-        pantalla.escena.addActor(btnHenric);
+//        ImageButton btnHenric = new ImageButton(trdbtnHenric);
+//        btnHenric.setPosition(pantalla.getANCHO()/2 - btnHenric.getWidth()/2,
+//                pantalla.getALTO()/2 - btnHenric.getHeight()/2);
+//        pantalla.escena.addActor(btnHenric);
 
 
         // Acciones de botones
@@ -141,6 +141,7 @@ public class NivelCabana extends Nivel {
 
     @Override
     public void render(float delta) {
+
         super.pantalla.borrarPantalla();
 
         // Mapa
@@ -150,6 +151,9 @@ public class NivelCabana extends Nivel {
 
         // Elementos juego
         super.pantalla.escena.draw();
+        pantalla.batch.begin();
+        super.henric.dibujar(pantalla.batch);
+        pantalla.batch.end();
 
         // HUD
         pantalla.batch.setProjectionMatrix(camaraHUD.combined);
