@@ -159,6 +159,9 @@ public class NivelCabana extends Nivel {
         pantalla.batch.setProjectionMatrix(camaraHUD.combined);
         escenaHUD.draw();
 
+        // Jugador
+        henric.actualizar(mapa);
+
         // Detectar botón físico "return"
         if (Gdx.input.isKeyJustPressed(Input.Keys.BACK)) {
             //Abrir MenuPausa

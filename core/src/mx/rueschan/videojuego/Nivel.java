@@ -119,21 +119,19 @@ public abstract class Nivel implements Screen{
                 if (pad.getKnobPercentX() > 0.20) {
                     Gdx.app.log("PadMov", "Der");
                     henric.setEstadoMovimiento(Personaje.EstadoMovimiento.MOV_DERECHA);
-                    henric.sprite.setPosition(henricX + 2*pad.getKnobPercentX(), henricY);
-                    henricX = henric.sprite.getX();
                 } else if (pad.getKnobPercentX()< -0.20){
                     Gdx.app.log("PadMov", "Izq");
                     henric.setEstadoMovimiento(Personaje.EstadoMovimiento.MOV_IZQUIERDA);
-                    henric.sprite.setPosition(henricX + 2*pad.getKnobPercentX(), henricY);
-                    henricX = henric.sprite.getX();
                 }
 
                 if (pad.getKnobPercentY() > 0.20) {
                     Gdx.app.log("PadMov", "Arriba");
+                    henric.setEstadoMovimientoVertical(Personaje.EstadoMovimientoVertical.MOV_ARRIBA);
                     henric.sprite.setPosition(henricX, henricY + 2*pad.getKnobPercentY());
                     henricY = henric.sprite.getY();
                 } else if (pad.getKnobPercentY() < -0.20) {
                     Gdx.app.log("PadMov", "Abajo");
+                    henric.setEstadoMovimientoVertical(Personaje.EstadoMovimientoVertical.MOV_ABAJO);
                     henric.sprite.setPosition(henricX, henricY + 2*pad.getKnobPercentY());
                     henricY = henric.sprite.getY();
                 }
@@ -141,6 +139,7 @@ public abstract class Nivel implements Screen{
                 if (pad.getKnobPercentY() == 0 && pad.getKnobPercentX() == 0) {
                     Gdx.app.log("PadMov", "Null");
                     henric.setEstadoMovimiento(Personaje.EstadoMovimiento.QUIETO);
+                    henric.setEstadoMovimientoVertical(Personaje.EstadoMovimientoVertical.QUIETO_Y);
                 }
             }
         });
