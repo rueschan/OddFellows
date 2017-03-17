@@ -66,7 +66,8 @@ public class NivelCabana extends Nivel {
 
         // Colocar boton de pausa
         ImageButton btnPausa = new ImageButton(trdBtnPausa);
-        btnPausa.setPosition(1186,706);
+        btnPausa.setPosition(pantalla.getANCHO()-btnPausa.getWidth()-pantalla.getANCHO()*.02f,
+                pantalla.getALTO()-btnPausa.getHeight()-pantalla.getALTO()*.02f);
         super.escenaHUD.addActor(btnPausa);
 
 
