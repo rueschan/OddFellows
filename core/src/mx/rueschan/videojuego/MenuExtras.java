@@ -81,7 +81,8 @@ public class MenuExtras implements Screen {
 
     @Override
     public void resize(int width, int height) {
-        pantalla.resize(width, height);
+       pantalla.resize(width,height);
+
     }
 
     @Override

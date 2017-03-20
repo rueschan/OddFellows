@@ -2,6 +2,7 @@ package mx.rueschan.videojuego;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
@@ -29,11 +30,14 @@ public class MenuPausa implements Screen {
     private Texture texturaBotonSalir;
     private Texture texturaBotonOpciones;
 
+    private Procesador procesador;
+
     public MenuPausa(OddFellows oddFellows, Nivel nvl) {
         this.oddFellows = oddFellows;
         pantalla = Pantalla.getInstanciaPantalla();
         nvlActivo = nvl;
         actual = this;
+        //procesador = new Procesador();
     }
 
     @Override
@@ -133,7 +137,8 @@ public class MenuPausa implements Screen {
 
     @Override
     public void resize(int width, int height) {
-        pantalla.resize(width, height);
+        pantalla.resize(width,height);
+
     }
 
     @Override
@@ -155,6 +160,49 @@ public class MenuPausa implements Screen {
     @Override
     public void dispose() {
 
+    }
+
+    class Procesador implements InputProcessor{
+
+        @Override
+        public boolean keyDown(int keycode) {
+            return false;
+        }
+
+        @Override
+        public boolean keyUp(int keycode) {
+            return false;
+        }
+
+        @Override
+        public boolean keyTyped(char character) {
+            return false;
+        }
+
+        @Override
+        public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+            return false;
+        }
+
+        @Override
+        public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+            return false;
+        }
+
+        @Override
+        public boolean touchDragged(int screenX, int screenY, int pointer) {
+            return false;
+        }
+
+        @Override
+        public boolean mouseMoved(int screenX, int screenY) {
+            return false;
+        }
+
+        @Override
+        public boolean scrolled(int amount) {
+            return false;
+        }
     }
 }
 

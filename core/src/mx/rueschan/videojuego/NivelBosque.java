@@ -19,6 +19,7 @@ public class NivelBosque extends Nivel {
 
     //Mapa tipo tmx del Bosque
     private String pathMapa;
+    private String pathMusica;
 
     public NivelBosque(OddFellows oddFellows) {
         super.oddFellows = oddFellows;
@@ -67,7 +68,7 @@ public class NivelBosque extends Nivel {
         cargarTexturas();
 
         // Crear mapa
-        super.crearRecursos(pantalla, pathMapa);
+        super.crearRecursos(pantalla, pathMapa,pathMusica);
 
         //Creación de HUD
         super.crearHUD(pantalla);

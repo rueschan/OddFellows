@@ -52,6 +52,11 @@ public abstract class Nivel implements Screen{
     protected Stage escenaHUD;
     protected Touchpad pad;
 
+    //Manejador de assets
+    protected AssetManager manager;
+
+    protected Music musicaFondo;
+
     // private Elemento[] items;
 
     @Override
@@ -69,16 +74,17 @@ public abstract class Nivel implements Screen{
 
     protected abstract void cargarTexturas();
 
-    protected void crearRecursos(Pantalla pantalla, String nombreMapa) {
+    protected void crearRecursos(Pantalla pantalla, String nombreMapa, String nombreMusicaFondo) {
         texturaHenric = new Texture("Personaje/Henric.png");
         henric = new Personaje(texturaHenric, pantalla.getANCHO()/2, pantalla.getALTO()/2);
         henricX = henric.sprite.getX();
         henricY = henric.sprite.getY();
 
-        AssetManager manager = new AssetManager();
+        manager = new AssetManager();
         manager.setLoader(TiledMap.class,
                 new TmxMapLoader(new InternalFileHandleResolver()));
         manager.load(nombreMapa, TiledMap.class);
+        manager.load(nombreMusicaFondo,Music.class);
 
         manager.finishLoading();    // Carga los recursos
         mapa = manager.get(nombreMapa);
@@ -86,6 +92,9 @@ public abstract class Nivel implements Screen{
         pantalla.batch = new SpriteBatch();
         renderer = new OrthogonalTiledMapRenderer(mapa, pantalla.batch);
         renderer.setView(pantalla.camara);
+        musicaFondo = manager.get(nombreMusicaFondo);
+        musicaFondo.setLooping(true);
+        musicaFondo.play();
     }
 
     protected void crearHUD(final Pantalla pantalla) {
