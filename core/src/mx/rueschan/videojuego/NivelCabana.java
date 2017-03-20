@@ -21,10 +21,10 @@ public class NivelCabana extends Nivel {
     private Nivel actual;
 
     // Textura imagenes
-    private Texture texturaLlave;
-    private Texture texturaMartillo;
-    private Texture texturaCarta;
-    private Texture texturaHenric;
+//    private Texture texturaLlave;
+//    private Texture texturaMartillo;
+//    private Texture texturaCarta;
+//    private Texture texturaHenric;
 
     // Recursos
     private String pathMapa;
@@ -37,11 +37,11 @@ public class NivelCabana extends Nivel {
 
     @Override
     protected void cargarTexturas() {
-        texturaFondo = new Texture("NivelCabana/fondoCabana.jpg");
+//        texturaFondo = new Texture("NivelCabana/fondoCabana.jpg");
         texturaBotonPausa = new Texture("Pantalla/BotonPausa64.png");
-        texturaLlave = new Texture("NivelCabana/LlaveIcono.png");
-        texturaMartillo = new Texture("NivelCabana/Martillo32a96.png");
-        texturaCarta = new Texture("NivelCabana/Carta32a64.png");
+//        texturaLlave = new Texture("NivelCabana/LlaveIcono.png");
+//        texturaMartillo = new Texture("NivelCabana/Martillo32a96.png");
+//        texturaCarta = new Texture("NivelCabana/Carta32a64.png");
 //        texturaHenric = new Texture("Personaje/Henric.png");
 
         // Recursos
@@ -74,30 +74,30 @@ public class NivelCabana extends Nivel {
 
         //SPRITES
         //Agregar temporalmente imagenes como botones
-        TextureRegionDrawable trdbtnLlave = new
-                TextureRegionDrawable(new TextureRegion(texturaLlave));
-        TextureRegionDrawable trdbtnMartillo = new
-                TextureRegionDrawable(new TextureRegion(texturaMartillo));
-        TextureRegionDrawable trdbtnCarta = new
-                TextureRegionDrawable(new TextureRegion(texturaCarta));
+//        TextureRegionDrawable trdbtnLlave = new
+//                TextureRegionDrawable(new TextureRegion(texturaLlave));
+//        TextureRegionDrawable trdbtnMartillo = new
+//                TextureRegionDrawable(new TextureRegion(texturaMartillo));
+//        TextureRegionDrawable trdbtnCarta = new
+//                TextureRegionDrawable(new TextureRegion(texturaCarta));
 //        TextureRegionDrawable trdbtnHenric = new
 //                TextureRegionDrawable(new TextureRegion(texturaHenric));
 
-        //Colocar temporalmente boton sprite
-        // Llave
-        ImageButton btnLlave = new ImageButton(trdbtnLlave);
-        btnLlave.setPosition(350,550);
-        pantalla.escena.addActor(btnLlave);
-
-        //Martillo
-        ImageButton btnMartillo = new ImageButton(trdbtnMartillo);
-        btnMartillo.setPosition(1000,20);
-        pantalla.escena.addActor(btnMartillo);
-
-        //Carta
-        ImageButton btnCarta = new ImageButton(trdbtnCarta);
-        btnCarta.setPosition(500,550);
-        pantalla.escena.addActor(btnCarta);
+//        //Colocar temporalmente boton sprite
+//        // Llave
+//        ImageButton btnLlave = new ImageButton(trdbtnLlave);
+//        btnLlave.setPosition(350,550);
+//        pantalla.escena.addActor(btnLlave);
+//
+//        //Martillo
+//        ImageButton btnMartillo = new ImageButton(trdbtnMartillo);
+//        btnMartillo.setPosition(1000,20);
+//        pantalla.escena.addActor(btnMartillo);
+//
+//        //Carta
+//        ImageButton btnCarta = new ImageButton(trdbtnCarta);
+//        btnCarta.setPosition(500,550);
+//        pantalla.escena.addActor(btnCarta);
 
         //Henric
 //        ImageButton btnHenric = new ImageButton(trdbtnHenric);
@@ -187,11 +187,11 @@ public class NivelCabana extends Nivel {
 
     @Override
     public void dispose() {
-        texturaFondo.dispose();
+//        texturaFondo.dispose();
         texturaBotonPausa.dispose();
-        texturaLlave.dispose();
-        texturaMartillo.dispose();
-        texturaCarta.dispose();
-        texturaHenric.dispose();
+//        texturaLlave.dispose();
+//        texturaMartillo.dispose();
+//        texturaCarta.dispose();
+//        texturaHenric.dispose();
     }
 }
