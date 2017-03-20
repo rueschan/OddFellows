@@ -3,33 +3,24 @@ package mx.rueschan.videojuego;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
 /**
- * Created by OddFellows on 14/02/2017.
+ * Created by Jonathan on 19/03/2017.
  */
-public class NivelCabana extends Nivel {
+
+public class NivelBosque extends Nivel {
 
     private Nivel actual;
 
-    // Textura imagenes
-//    private Texture texturaLlave;
-//    private Texture texturaMartillo;
-//    private Texture texturaCarta;
-//    private Texture texturaHenric;
-
-    // Recursos
+    //Mapa tipo tmx del Bosque
     private String pathMapa;
 
-    public NivelCabana(OddFellows oddFellows) {
+    public NivelBosque(OddFellows oddFellows) {
         super.oddFellows = oddFellows;
         super.pantalla = Pantalla.getInstanciaPantalla();
         actual = this;
@@ -37,74 +28,24 @@ public class NivelCabana extends Nivel {
 
     @Override
     protected void cargarTexturas() {
-//        texturaFondo = new Texture("NivelCabana/fondoCabana.jpg");
+        //Textura de los diferentes elementos que componen el nivel
         texturaBotonPausa = new Texture("Pantalla/BotonPausa64.png");
-//        texturaLlave = new Texture("NivelCabana/LlaveIcono.png");
-//        texturaMartillo = new Texture("NivelCabana/Martillo32a96.png");
-//        texturaCarta = new Texture("NivelCabana/Carta32a64.png");
-//        texturaHenric = new Texture("Personaje/Henric.png");
-
-        // Recursos
-        pathMapa = "Mapa/Cabana.tmx";
     }
 
     @Override
     protected void crearObjetos() {
-
-
         // Limpia escena de pantalla anterior
         pantalla.escena.clear();
-//        // Agrega la imagen de fondo
-//        Image imgFondo = new Image(texturaFondo);
-//        pantalla.escena.addActor(imgFondo);
 
-
-        //// Asignar textura al boton de pausa
+        // Asignar textura al boton de pausa
         TextureRegionDrawable trdBtnPausa = new
                 TextureRegionDrawable(new TextureRegion(texturaBotonPausa));
-
 
         // Colocar boton de pausa
         ImageButton btnPausa = new ImageButton(trdBtnPausa);
         btnPausa.setPosition(pantalla.getANCHO()-btnPausa.getWidth()-pantalla.getANCHO()*.02f,
                 pantalla.getALTO()-btnPausa.getHeight()-pantalla.getALTO()*.02f);
         super.escenaHUD.addActor(btnPausa);
-
-
-
-        //SPRITES
-        //Agregar temporalmente imagenes como botones
-//        TextureRegionDrawable trdbtnLlave = new
-//                TextureRegionDrawable(new TextureRegion(texturaLlave));
-//        TextureRegionDrawable trdbtnMartillo = new
-//                TextureRegionDrawable(new TextureRegion(texturaMartillo));
-//        TextureRegionDrawable trdbtnCarta = new
-//                TextureRegionDrawable(new TextureRegion(texturaCarta));
-//        TextureRegionDrawable trdbtnHenric = new
-//                TextureRegionDrawable(new TextureRegion(texturaHenric));
-
-//        //Colocar temporalmente boton sprite
-//        // Llave
-//        ImageButton btnLlave = new ImageButton(trdbtnLlave);
-//        btnLlave.setPosition(350,550);
-//        pantalla.escena.addActor(btnLlave);
-//
-//        //Martillo
-//        ImageButton btnMartillo = new ImageButton(trdbtnMartillo);
-//        btnMartillo.setPosition(1000,20);
-//        pantalla.escena.addActor(btnMartillo);
-//
-//        //Carta
-//        ImageButton btnCarta = new ImageButton(trdbtnCarta);
-//        btnCarta.setPosition(500,550);
-//        pantalla.escena.addActor(btnCarta);
-
-        //Henric
-//        ImageButton btnHenric = new ImageButton(trdbtnHenric);
-//        btnHenric.setPosition(pantalla.getANCHO()/2 - btnHenric.getWidth()/2,
-//                pantalla.getALTO()/2 - btnHenric.getHeight()/2);
-//        pantalla.escena.addActor(btnHenric);
-
 
         // Acciones de botones
         // Botón opciones
@@ -118,8 +59,6 @@ public class NivelCabana extends Nivel {
         });
 
         //Pad
-
-
         Gdx.input.setCatchBackKey(true);
     }
 
@@ -187,11 +126,6 @@ public class NivelCabana extends Nivel {
 
     @Override
     public void dispose() {
-//        texturaFondo.dispose();
         texturaBotonPausa.dispose();
-//        texturaLlave.dispose();
-//        texturaMartillo.dispose();
-//        texturaCarta.dispose();
-//        texturaHenric.dispose();
     }
 }

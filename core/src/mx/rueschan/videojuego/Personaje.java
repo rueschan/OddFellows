@@ -15,12 +15,13 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 
 public class Personaje extends Objeto
 {
-    private final float VELOCIDAD = 2;      // Velocidad horizontal
+    private final float VELOCIDAD = 6;      // Velocidad
 
     private Animation<TextureRegion> spriteAnimado;         // Animación caminando
     private float timerAnimacion;                           // Tiempo para cambiar frames de la animación
 
     private EstadoMovimiento estadoMovimiento = EstadoMovimiento.QUIETO;
+    private EstadoMovimientoVertical estadoMovimientoVertical = EstadoMovimientoVertical.QUIETO_Y;
 
     // Recibe una imagen con varios frames (ver marioSprite.png)
     public Personaje(Texture textura, float x, float y) {
@@ -36,7 +37,7 @@ public class Personaje extends Objeto
         // Inicia el timer que contará tiempo para saber qué frame se dibuja
         timerAnimacion = 0;
         // Crea el sprite con el personaje quieto (idle)
-        sprite = new Sprite(textura);    // QUIETO
+        sprite = new Sprite(texturaPersonaje[0][0]);    // QUIETO
         sprite.setPosition(x,y);    // Posición inicial
     }
 
@@ -49,7 +50,7 @@ public class Personaje extends Objeto
                 timerAnimacion += Gdx.graphics.getDeltaTime();
                 // Frame que se dibujará
                 TextureRegion region = spriteAnimado.getKeyFrame(timerAnimacion);
-                if (estadoMovimiento==EstadoMovimiento.MOV_IZQUIERDA) {
+                if (estadoMovimiento==EstadoMovimiento.MOV_DERECHA) {
                     if (!region.isFlipX()) {
                         region.flip(true,false);
                     }
@@ -93,7 +94,7 @@ public class Personaje extends Objeto
             TiledMapTileLayer.Cell celdaDerecha = capa.getCell(x, y);
             if (celdaDerecha != null) {
                 Object tipo = (String) celdaDerecha.getTile().getProperties().get("tipo");
-                if (!"ladrillo".equals(tipo)) {
+                if (!"obstaculo".equals(tipo)) {
                     celdaDerecha = null;  // Puede pasar
                 }
             }
@@ -102,6 +103,7 @@ public class Personaje extends Objeto
                 nuevaX += VELOCIDAD;
                 // Prueba que no salga del mundo por la derecha
                 if (nuevaX <= Pantalla.getInstanciaPantalla().getANCHO() - sprite.getWidth()) {
+                    Gdx.app.log("Movimiento", "Derecha");
                     sprite.setX(nuevaX);
                 }
             }
@@ -114,7 +116,7 @@ public class Personaje extends Objeto
             TiledMapTileLayer.Cell celdaIzquierda = capa.getCell(xIzq, y);
             if (celdaIzquierda != null) {
                 Object tipo = (String) celdaIzquierda.getTile().getProperties().get("tipo");
-                if (!"ladrillo".equals(tipo)) {
+                if (!"obstaculo".equals(tipo)) {
                     celdaIzquierda = null;  // Puede pasar
                 }
             }
@@ -138,12 +140,26 @@ public class Personaje extends Objeto
         this.estadoMovimiento = estadoMovimiento;
     }
 
+    // Accesor de estadoMovimiento vertical
+    public EstadoMovimientoVertical getEstadoMovimientoVertical() {
+        return estadoMovimientoVertical;
+    }
+
+    // Modificador de movimiento vertical
+    public void setEstadoMovimientoVertical(EstadoMovimientoVertical estadoMovimientoVertical) {
+        this.estadoMovimientoVertical = estadoMovimientoVertical;
+    }
+
     public enum EstadoMovimiento {
         INICIANDO,
         QUIETO,
         MOV_IZQUIERDA,
-        MOV_DERECHA,
+        MOV_DERECHA
+    }
+
+    public enum EstadoMovimientoVertical {
         MOV_ARRIBA,
-        MOV_ABAJO
+        MOV_ABAJO,
+        QUIETO_Y
     }
 }
