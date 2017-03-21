@@ -136,13 +136,13 @@ public abstract class Nivel implements Screen{
                 if (pad.getKnobPercentY() > 0.20) {
                     Gdx.app.log("PadMov", "Arriba");
                     henric.setEstadoMovimientoVertical(Personaje.EstadoMovimientoVertical.MOV_ARRIBA);
-                    henric.sprite.setPosition(henricX, henricY + 2*pad.getKnobPercentY());
-                    henricY = henric.sprite.getY();
+//                    henric.sprite.setPosition(henricX, henricY + 2*pad.getKnobPercentY());
+//                    henricY = henric.sprite.getY();
                 } else if (pad.getKnobPercentY() < -0.20) {
                     Gdx.app.log("PadMov", "Abajo");
                     henric.setEstadoMovimientoVertical(Personaje.EstadoMovimientoVertical.MOV_ABAJO);
-                    henric.sprite.setPosition(henricX, henricY + 2*pad.getKnobPercentY());
-                    henricY = henric.sprite.getY();
+//                    henric.sprite.setPosition(henricX, henricY + 2*pad.getKnobPercentY());
+//                    henricY = henric.sprite.getY();
                 }
 
                 if (pad.getKnobPercentY() == 0 && pad.getKnobPercentX() == 0) {

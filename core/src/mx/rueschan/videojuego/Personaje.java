@@ -83,7 +83,7 @@ public class Personaje extends Objeto
     // Mueve el personaje a la derecha/izquierda, prueba choques con paredes
     private void moverHorizontal(TiledMap mapa) {
         // Obtiene la primer capa del mapa (en este caso es la única)
-        TiledMapTileLayer capa = (TiledMapTileLayer) mapa.getLayers().get(0);
+        TiledMapTileLayer capa = (TiledMapTileLayer) mapa.getLayers().get("Limites");
         // Ejecutar movimiento horizontal
         float nuevaX = sprite.getX();
         // ¿Quiere ir a la Derecha?
