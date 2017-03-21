@@ -13,6 +13,8 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 
+import java.util.ArrayList;
+
 public class Personaje extends Objeto
 {
     private float velocidadX = 0;      // Velocidad en x
@@ -88,7 +90,6 @@ public class Personaje extends Objeto
     }
 
     // Actualiza el sprite, de acuerdo al estadoMovimiento y estadoSalto
-    // Actualiza el sprite, de acuerdo al estadoMovimiento y estadoSalto
     public void actualizar(TiledMap mapa) {
         switch (estadoMovimiento) {
             case MOV_DERECHA:
@@ -102,6 +103,7 @@ public class Personaje extends Objeto
                 moverVertical(mapa);
                 break;
         }
+        Gdx.app.log("Items", Boolean.toString(hayItems(mapa)));
     }
 
 
@@ -203,6 +205,31 @@ public class Personaje extends Objeto
                 }
             }
         }
+    }
+
+    private boolean hayItems(TiledMap mapa) {
+
+        TiledMapTileLayer capa = (TiledMapTileLayer) mapa.getLayers().get("Recolectables");
+        int xPersonaje = (int) sprite.getX();
+        int yPersonaje = (int) sprite.getY();
+
+        // Celdas que rodean al personaje
+        ArrayList<TiledMapTileLayer.Cell> celdas = new ArrayList<TiledMapTileLayer.Cell>(8);
+        celdas.add(capa.getCell((xPersonaje) / 64, (yPersonaje + 64) / 64));        // Arriba
+        celdas.add(capa.getCell((xPersonaje - 64) / 64, (yPersonaje + 64) / 64));   // Arriba Izq
+        celdas.add(capa.getCell((xPersonaje - 64) / 64, (yPersonaje) / 64));        // Izq
+        celdas.add(capa.getCell((xPersonaje - 64) / 64, (yPersonaje - 64) / 64));   // Abajo Izq
+        celdas.add(capa.getCell((xPersonaje) / 64, (yPersonaje - 64) / 64));        // Abajo
+        celdas.add(capa.getCell((xPersonaje + 64) / 64, (yPersonaje - 64) / 64));   // Abajo Der
+        celdas.add(capa.getCell((xPersonaje + 64) / 64, (yPersonaje) / 64));        // Der
+        celdas.add(capa.getCell((xPersonaje + 64) / 64, (yPersonaje + 64) / 64));   // Arriba Der
+
+        for (TiledMapTileLayer.Cell c : celdas) {
+            if (c != null) {
+                return true;
+            }
+        }
+        return false;
     }
 
     // Accesor de estadoMovimiento

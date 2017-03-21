@@ -126,20 +126,16 @@ public abstract class Nivel implements Screen{
             public void changed(ChangeEvent event, Actor actor) {
                 Touchpad pad = (Touchpad) actor;
                 if (pad.getKnobPercentX() > 0.20) {
-                    Gdx.app.log("PadMov", "Der");
                     henric.setEstadoMovimiento(Personaje.EstadoMovimiento.MOV_DERECHA);
                 } else if (pad.getKnobPercentX()< -0.20){
-                    Gdx.app.log("PadMov", "Izq");
                     henric.setEstadoMovimiento(Personaje.EstadoMovimiento.MOV_IZQUIERDA);
                 }
 
                 if (pad.getKnobPercentY() > 0.20) {
-                    Gdx.app.log("PadMov", "Arriba");
                     henric.setEstadoMovimientoVertical(Personaje.EstadoMovimientoVertical.MOV_ARRIBA);
 //                    henric.sprite.setPosition(henricX, henricY + 2*pad.getKnobPercentY());
 //                    henricY = henric.sprite.getY();
                 } else if (pad.getKnobPercentY() < -0.20) {
-                    Gdx.app.log("PadMov", "Abajo");
                     henric.setEstadoMovimientoVertical(Personaje.EstadoMovimientoVertical.MOV_ABAJO);
 //                    henric.sprite.setPosition(henricX, henricY + 2*pad.getKnobPercentY());
 //                    henricY = henric.sprite.getY();
@@ -147,11 +143,9 @@ public abstract class Nivel implements Screen{
 
                 // Asignar velocidades
                 henric.setVelocidadX(pad.getKnobPercentX() * 4);
-                Gdx.app.log("Pad", String.valueOf(pad.getKnobPercentX()));
                 henric.setVelocidadY(pad.getKnobPercentY() * 4);
 
                 if (pad.getKnobPercentY() == 0 && pad.getKnobPercentX() == 0) {
-                    Gdx.app.log("PadMov", "Null");
                     henric.setEstadoMovimiento(Personaje.EstadoMovimiento.QUIETO);
                     henric.setEstadoMovimientoVertical(Personaje.EstadoMovimientoVertical.QUIETO_Y);
                 }
@@ -192,7 +186,6 @@ public abstract class Nivel implements Screen{
         pantalla.borrarPantalla();
         pantalla.escena.draw();
 
-        Gdx.app.log("Nivel","Activo");
     }
 
     @Override
