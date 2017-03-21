@@ -15,7 +15,8 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 
 public class Personaje extends Objeto
 {
-    private final float VELOCIDAD = 4;      // Velocidad
+    private float velocidadX = 0;      // Velocidad en x
+    private float velocidadY = 0;      // Velocidad en y
 
     private Animation<TextureRegion> spriteAnimado;         // Animación caminando
     private float timerAnimacion;                           // Tiempo para cambiar frames de la animación
@@ -41,30 +42,48 @@ public class Personaje extends Objeto
         sprite.setPosition(x,y);    // Posición inicial
     }
 
+    private void animar(SpriteBatch batch) {
+        timerAnimacion += Gdx.graphics.getDeltaTime();
+        // Frame que se dibujará
+        TextureRegion region = spriteAnimado.getKeyFrame(timerAnimacion);
+        if (estadoMovimiento==EstadoMovimiento.MOV_DERECHA) {
+            if (!region.isFlipX()) {
+                region.flip(true,false);
+            }
+        } else {
+            if (region.isFlipX()) {
+                region.flip(true,false);
+            }
+        }
+        batch.draw(region,sprite.getX(),sprite.getY());
+    }
+
     // Dibuja el personaje
     public void dibujar(SpriteBatch batch) {
+
+        boolean enMovimiento = false;
+
         // Dibuja el personaje dependiendo del estadoMovimiento
         switch (estadoMovimiento) {
             case MOV_DERECHA:
             case MOV_IZQUIERDA:
-                timerAnimacion += Gdx.graphics.getDeltaTime();
-                // Frame que se dibujará
-                TextureRegion region = spriteAnimado.getKeyFrame(timerAnimacion);
-                if (estadoMovimiento==EstadoMovimiento.MOV_DERECHA) {
-                    if (!region.isFlipX()) {
-                        region.flip(true,false);
-                    }
-                } else {
-                    if (region.isFlipX()) {
-                        region.flip(true,false);
-                    }
-                }
-                batch.draw(region,sprite.getX(),sprite.getY());
+                enMovimiento = true;
                 break;
-            case QUIETO:
             case INICIANDO:
                 sprite.draw(batch); // Dibuja el sprite estático
                 break;
+        }
+
+        switch (estadoMovimientoVertical) {
+            case MOV_ABAJO:
+            case MOV_ARRIBA:
+                enMovimiento = true;
+        }
+
+        if (!enMovimiento) {
+            sprite.draw(batch); // Dibuja el sprite estático
+        } else {
+            animar(batch);
         }
     }
 
@@ -96,7 +115,7 @@ public class Personaje extends Objeto
         if ( estadoMovimiento==EstadoMovimiento.MOV_DERECHA) {
             // Obtiene el bloque del lado derecho. Asigna null si puede pasar.
             int x = (int) ((sprite.getX() + 96) / 64);   // Convierte coordenadas del mundo en coordenadas del mapa
-            int y = (int) (sprite.getY() / 64);
+            int y = (int) ((sprite.getY() + 10) / 64);
             TiledMapTileLayer.Cell celdaDerecha = capa.getCell(x, y);
             if (celdaDerecha != null) {
                 Object tipo = (String) celdaDerecha.getTile().getProperties().get("tipo");
@@ -106,7 +125,7 @@ public class Personaje extends Objeto
             }
             if ( celdaDerecha==null) {
                 // Ejecutar movimiento horizontal
-                nuevaX += VELOCIDAD;
+                nuevaX += velocidadX;
                 // Prueba que no salga del mundo por la derecha
                 if (nuevaX <= Pantalla.getInstanciaPantalla().getANCHO() - sprite.getWidth()) {
                     Gdx.app.log("Movimiento", "Derecha");
@@ -117,7 +136,7 @@ public class Personaje extends Objeto
         // ¿Quiere ir a la izquierda?
         if ( estadoMovimiento==EstadoMovimiento.MOV_IZQUIERDA) {
             int xIzq = (int) ((sprite.getX()) / 64);
-            int y = (int) (sprite.getY() / 64);
+            int y = (int) ((sprite.getY() + 10) / 64);
             // Obtiene el bloque del lado izquierdo. Asigna null si puede pasar.
             TiledMapTileLayer.Cell celdaIzquierda = capa.getCell(xIzq, y);
             if (celdaIzquierda != null) {
@@ -128,7 +147,7 @@ public class Personaje extends Objeto
             }
             if ( celdaIzquierda==null) {
                 // Prueba que no salga del mundo por la izquierda
-                nuevaX -= VELOCIDAD;
+                nuevaX += velocidadX;
                 if (nuevaX >= 0) {
                     sprite.setX(nuevaX);
                 }
@@ -145,7 +164,7 @@ public class Personaje extends Objeto
         // ¿Quiere ir a la Derecha?
         if ( estadoMovimientoVertical==EstadoMovimientoVertical.MOV_ARRIBA ) {
             // Obtiene el bloque de arriba. Asigna null si puede pasar.
-            int x = (int) (sprite.getX() / 64);   // Convierte coordenadas del mundo en coordenadas del mapa
+            int x = (int) ((sprite.getX() + 10) / 64);   // Convierte coordenadas del mundo en coordenadas del mapa
             int y = (int) ((sprite.getY() + 96) / 64);
             TiledMapTileLayer.Cell celdaArriba = capa.getCell(x, y);
             if (celdaArriba != null) {
@@ -156,7 +175,7 @@ public class Personaje extends Objeto
             }
             if ( celdaArriba==null) {
                 // Ejecutar movimiento horizontal
-                nuevaY += VELOCIDAD;
+                nuevaY += velocidadY;
                 // Prueba que no salga del mundo por la arriba
                 if (nuevaY <= Pantalla.getInstanciaPantalla().getALTO() - sprite.getHeight()) {
                     Gdx.app.log("Movimiento", "Arriba");
@@ -166,7 +185,7 @@ public class Personaje extends Objeto
         }
         // ¿Quiere ir a la izquierda?
         if ( estadoMovimientoVertical==EstadoMovimientoVertical.MOV_ABAJO ) {
-            int x = (int) ((sprite.getX()) / 64);
+            int x = (int) ((sprite.getX() + 10) / 64);
             int yAbajo = (int) (sprite.getY() / 64);
             // Obtiene el bloque del lado izquierdo. Asigna null si puede pasar.
             TiledMapTileLayer.Cell celdaAbajo = capa.getCell(x, yAbajo);
@@ -178,7 +197,7 @@ public class Personaje extends Objeto
             }
             if ( celdaAbajo==null) {
                 // Prueba que no salga del mundo por la izquierda
-                nuevaY -= VELOCIDAD;
+                nuevaY += velocidadY;
                 if (nuevaY >= 0) {
                     sprite.setY(nuevaY);
                 }
@@ -204,6 +223,14 @@ public class Personaje extends Objeto
     // Modificador de movimiento vertical
     public void setEstadoMovimientoVertical(EstadoMovimientoVertical estadoMovimientoVertical) {
         this.estadoMovimientoVertical = estadoMovimientoVertical;
+    }
+
+    public void setVelocidadX(float vx) {
+        this.velocidadX = vx;
+    }
+
+    public void setVelocidadY(float vy) {
+        this.velocidadY = vy;
     }
 
     public enum EstadoMovimiento {

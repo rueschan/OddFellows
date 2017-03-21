@@ -125,25 +125,30 @@ public abstract class Nivel implements Screen{
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 Touchpad pad = (Touchpad) actor;
-                if (pad.getKnobPercentX() > 0.80) {
+                if (pad.getKnobPercentX() > 0.20) {
                     Gdx.app.log("PadMov", "Der");
                     henric.setEstadoMovimiento(Personaje.EstadoMovimiento.MOV_DERECHA);
-                } else if (pad.getKnobPercentX()< -0.80){
+                } else if (pad.getKnobPercentX()< -0.20){
                     Gdx.app.log("PadMov", "Izq");
                     henric.setEstadoMovimiento(Personaje.EstadoMovimiento.MOV_IZQUIERDA);
                 }
 
-                if (pad.getKnobPercentY() > 0.80) {
+                if (pad.getKnobPercentY() > 0.20) {
                     Gdx.app.log("PadMov", "Arriba");
                     henric.setEstadoMovimientoVertical(Personaje.EstadoMovimientoVertical.MOV_ARRIBA);
 //                    henric.sprite.setPosition(henricX, henricY + 2*pad.getKnobPercentY());
 //                    henricY = henric.sprite.getY();
-                } else if (pad.getKnobPercentY() < -0.80) {
+                } else if (pad.getKnobPercentY() < -0.20) {
                     Gdx.app.log("PadMov", "Abajo");
                     henric.setEstadoMovimientoVertical(Personaje.EstadoMovimientoVertical.MOV_ABAJO);
 //                    henric.sprite.setPosition(henricX, henricY + 2*pad.getKnobPercentY());
 //                    henricY = henric.sprite.getY();
                 }
+
+                // Asignar velocidades
+                henric.setVelocidadX(pad.getKnobPercentX() * 4);
+                Gdx.app.log("Pad", String.valueOf(pad.getKnobPercentX()));
+                henric.setVelocidadY(pad.getKnobPercentY() * 4);
 
                 if (pad.getKnobPercentY() == 0 && pad.getKnobPercentX() == 0) {
                     Gdx.app.log("PadMov", "Null");
@@ -163,6 +168,8 @@ public abstract class Nivel implements Screen{
                 pad.setSize(200, 200);
                 pad.setPosition(x-pad.getWidth()/2,y-pad.getHeight()/2);
                 pad.setColor(1,1,1,0.4f);
+                henric.setEstadoMovimiento(Personaje.EstadoMovimiento.QUIETO);
+                henric.setEstadoMovimientoVertical(Personaje.EstadoMovimientoVertical.QUIETO_Y);
 
                 return true;
             }
@@ -174,6 +181,7 @@ public abstract class Nivel implements Screen{
                 pad.setPosition(pantalla.getANCHO()/2 - pad.getWidth()/2,
                         pantalla.getALTO()/2 - pad.getHeight()/2);
                 henric.setEstadoMovimiento(Personaje.EstadoMovimiento.QUIETO);
+                henric.setEstadoMovimientoVertical(Personaje.EstadoMovimientoVertical.QUIETO_Y);
             }
         });
     }
@@ -198,5 +206,11 @@ public abstract class Nivel implements Screen{
         // juego.cargarNivel(nvl);
         this.dispose();
 
+    }
+
+    @Override
+    public void resize(int width, int height) {
+        vistaHUD.update(width, height);
+        pantalla.resize(width, height);
     }
 }
