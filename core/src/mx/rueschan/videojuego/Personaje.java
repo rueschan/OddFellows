@@ -15,7 +15,7 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 
 public class Personaje extends Objeto
 {
-    private final float VELOCIDAD = 6;      // Velocidad
+    private final float VELOCIDAD = 4;      // Velocidad
 
     private Animation<TextureRegion> spriteAnimado;         // Animación caminando
     private float timerAnimacion;                           // Tiempo para cambiar frames de la animación
@@ -77,6 +77,12 @@ public class Personaje extends Objeto
                 moverHorizontal(mapa);
                 break;
         }
+        switch (estadoMovimientoVertical) {
+            case MOV_ARRIBA:
+            case MOV_ABAJO:
+                moverVertical(mapa);
+                break;
+        }
     }
 
 
@@ -125,6 +131,56 @@ public class Personaje extends Objeto
                 nuevaX -= VELOCIDAD;
                 if (nuevaX >= 0) {
                     sprite.setX(nuevaX);
+                }
+            }
+        }
+    }
+
+    // Mueve el personaje a la derecha/izquierda, prueba choques con paredes
+    private void moverVertical(TiledMap mapa) {
+        // Obtiene la primer capa del mapa (en este caso es la única)
+        TiledMapTileLayer capa = (TiledMapTileLayer) mapa.getLayers().get("Limites");
+        // Ejecutar movimiento horizontal
+        float nuevaY = sprite.getY();
+        // ¿Quiere ir a la Derecha?
+        if ( estadoMovimientoVertical==EstadoMovimientoVertical.MOV_ARRIBA ) {
+            // Obtiene el bloque de arriba. Asigna null si puede pasar.
+            int x = (int) (sprite.getX() / 64);   // Convierte coordenadas del mundo en coordenadas del mapa
+            int y = (int) ((sprite.getY() + 96) / 64);
+            TiledMapTileLayer.Cell celdaArriba = capa.getCell(x, y);
+            if (celdaArriba != null) {
+                Object tipo = (String) celdaArriba.getTile().getProperties().get("tipo");
+                if (!"obstaculo".equals(tipo)) {
+                    celdaArriba = null;  // Puede pasar
+                }
+            }
+            if ( celdaArriba==null) {
+                // Ejecutar movimiento horizontal
+                nuevaY += VELOCIDAD;
+                // Prueba que no salga del mundo por la arriba
+                if (nuevaY <= Pantalla.getInstanciaPantalla().getALTO() - sprite.getHeight()) {
+                    Gdx.app.log("Movimiento", "Arriba");
+                    sprite.setY(nuevaY);
+                }
+            }
+        }
+        // ¿Quiere ir a la izquierda?
+        if ( estadoMovimientoVertical==EstadoMovimientoVertical.MOV_ABAJO ) {
+            int x = (int) ((sprite.getX()) / 64);
+            int yAbajo = (int) (sprite.getY() / 64);
+            // Obtiene el bloque del lado izquierdo. Asigna null si puede pasar.
+            TiledMapTileLayer.Cell celdaAbajo = capa.getCell(x, yAbajo);
+            if (celdaAbajo != null) {
+                Object tipo = (String) celdaAbajo.getTile().getProperties().get("tipo");
+                if (!"obstaculo".equals(tipo)) {
+                    celdaAbajo = null;  // Puede pasar
+                }
+            }
+            if ( celdaAbajo==null) {
+                // Prueba que no salga del mundo por la izquierda
+                nuevaY -= VELOCIDAD;
+                if (nuevaY >= 0) {
+                    sprite.setY(nuevaY);
                 }
             }
         }

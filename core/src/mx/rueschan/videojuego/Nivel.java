@@ -125,20 +125,20 @@ public abstract class Nivel implements Screen{
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 Touchpad pad = (Touchpad) actor;
-                if (pad.getKnobPercentX() > 0.20) {
+                if (pad.getKnobPercentX() > 0.80) {
                     Gdx.app.log("PadMov", "Der");
                     henric.setEstadoMovimiento(Personaje.EstadoMovimiento.MOV_DERECHA);
-                } else if (pad.getKnobPercentX()< -0.20){
+                } else if (pad.getKnobPercentX()< -0.80){
                     Gdx.app.log("PadMov", "Izq");
                     henric.setEstadoMovimiento(Personaje.EstadoMovimiento.MOV_IZQUIERDA);
                 }
 
-                if (pad.getKnobPercentY() > 0.20) {
+                if (pad.getKnobPercentY() > 0.80) {
                     Gdx.app.log("PadMov", "Arriba");
                     henric.setEstadoMovimientoVertical(Personaje.EstadoMovimientoVertical.MOV_ARRIBA);
 //                    henric.sprite.setPosition(henricX, henricY + 2*pad.getKnobPercentY());
 //                    henricY = henric.sprite.getY();
-                } else if (pad.getKnobPercentY() < -0.20) {
+                } else if (pad.getKnobPercentY() < -0.80) {
                     Gdx.app.log("PadMov", "Abajo");
                     henric.setEstadoMovimientoVertical(Personaje.EstadoMovimientoVertical.MOV_ABAJO);
 //                    henric.sprite.setPosition(henricX, henricY + 2*pad.getKnobPercentY());
