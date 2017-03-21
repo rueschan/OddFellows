@@ -89,8 +89,8 @@ public class Personaje extends Objeto
         // ¿Quiere ir a la Derecha?
         if ( estadoMovimiento==EstadoMovimiento.MOV_DERECHA) {
             // Obtiene el bloque del lado derecho. Asigna null si puede pasar.
-            int x = (int) ((sprite.getX() + 32) / 32);   // Convierte coordenadas del mundo en coordenadas del mapa
-            int y = (int) (sprite.getY() / 32);
+            int x = (int) ((sprite.getX() + 96) / 64);   // Convierte coordenadas del mundo en coordenadas del mapa
+            int y = (int) (sprite.getY() / 64);
             TiledMapTileLayer.Cell celdaDerecha = capa.getCell(x, y);
             if (celdaDerecha != null) {
                 Object tipo = (String) celdaDerecha.getTile().getProperties().get("tipo");
@@ -110,8 +110,8 @@ public class Personaje extends Objeto
         }
         // ¿Quiere ir a la izquierda?
         if ( estadoMovimiento==EstadoMovimiento.MOV_IZQUIERDA) {
-            int xIzq = (int) ((sprite.getX()) / 32);
-            int y = (int) (sprite.getY() / 32);
+            int xIzq = (int) ((sprite.getX()) / 64);
+            int y = (int) (sprite.getY() / 64);
             // Obtiene el bloque del lado izquierdo. Asigna null si puede pasar.
             TiledMapTileLayer.Cell celdaIzquierda = capa.getCell(xIzq, y);
             if (celdaIzquierda != null) {
