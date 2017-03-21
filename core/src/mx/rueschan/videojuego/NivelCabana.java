@@ -177,11 +177,6 @@ public class NivelCabana extends Nivel {
     }
 
     @Override
-    public void resize(int width, int height) {
-        pantalla.resize(width, height);
-    }
-
-    @Override
     public void pause() {
 
     }
