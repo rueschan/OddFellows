@@ -3,6 +3,7 @@ package mx.rueschan.videojuego;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -23,10 +24,16 @@ public class MenuCreditos implements Screen {
     private Texture texturaFondo;
     private Texture texturaExit;
 
+    private Music musicaFondo;
+
+
+
     public MenuCreditos(OddFellows oddFellows) {
         this.oddFellows = oddFellows;
         // Obtener pantalla
         pantalla = Pantalla.getInstanciaPantalla();
+
+        this.musicaFondo = this.oddFellows.getMusicaFondo();
     }
 
     @Override
@@ -34,6 +41,7 @@ public class MenuCreditos implements Screen {
         // Cuando cargan la pantalla
         cargarTexturas();
         crearObjetos();
+        musicaFondo.play();
     }
 
     private void cargarTexturas() {
@@ -95,6 +103,7 @@ public class MenuCreditos implements Screen {
     public void resume() {
         cargarTexturas();
         crearObjetos();
+        musicaFondo.play();
     }
 
     @Override
@@ -106,5 +115,6 @@ public class MenuCreditos implements Screen {
     public void dispose() {
         texturaExit.dispose();
         texturaFondo.dispose();
+        musicaFondo.dispose();
     }
 }

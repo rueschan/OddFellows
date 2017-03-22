@@ -3,6 +3,7 @@ package mx.rueschan.videojuego;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -28,6 +29,8 @@ public class MenuOpciones implements Screen{
     private Texture texturaSonido;
     private Texture texturaFX;
 
+    private Music musicaFondo;
+
     // Estado de opciones (SE DEBE CAMBIAR CUANDO SE TENGA MEMORIA)
     private boolean isAudioOn = true;
     private boolean isFxOn = true;
@@ -40,6 +43,7 @@ public class MenuOpciones implements Screen{
         // Obtener pantalla
         pantalla = Pantalla.getInstanciaPantalla();
         this.partidaEnCurso = partidaEnCurso;
+        this.musicaFondo = this.oddFellows.getMusicaFondo();
     }
 
     public MenuOpciones(OddFellows oddFellows, boolean partidaEnCurso, MenuPausa pausa) {
@@ -48,6 +52,14 @@ public class MenuOpciones implements Screen{
         pantalla = Pantalla.getInstanciaPantalla();
         this.partidaEnCurso = partidaEnCurso;
         this.menuPausa = pausa;
+        this.musicaFondo = this.oddFellows.getMusicaFondo();
+    }
+    public boolean isAudioOn(){
+        return isAudioOn;
+    }
+
+    public boolean isFxOn(){
+        return isFxOn;
     }
 
     @Override
@@ -55,6 +67,7 @@ public class MenuOpciones implements Screen{
         // Cuando cargan la pantalla
         cargarTexturas();
         crearObjetos();
+        musicaFondo.play();
     }
 
     private void cargarTexturas() {
@@ -107,6 +120,7 @@ public class MenuOpciones implements Screen{
                     oddFellows.setScreen(menuPausa);
                 } else {
                     // Si se accede desde el menu
+                    //musicaFondo.pause();
                     oddFellows.setScreen(new MenuPrincipal(oddFellows));
                 }
             }
@@ -116,6 +130,7 @@ public class MenuOpciones implements Screen{
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 Gdx.app.log("clicked", "***audio***");
+
                 isAudioOn = !isAudioOn;
             }
         });
@@ -215,6 +230,7 @@ public class MenuOpciones implements Screen{
     public void resume() {
         cargarTexturas();
         crearObjetos();
+        musicaFondo.play();
     }
 
     @Override

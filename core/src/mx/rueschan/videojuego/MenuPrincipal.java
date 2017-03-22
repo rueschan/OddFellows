@@ -2,6 +2,7 @@ package mx.rueschan.videojuego;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -19,6 +20,7 @@ public class MenuPrincipal implements Screen {
 
     private final OddFellows oddFellows;
     private final Pantalla pantalla;
+    private Music musicaFondo;
 
     // Texturas del menú
     private Texture texturaFondo;
@@ -29,6 +31,7 @@ public class MenuPrincipal implements Screen {
 
     public MenuPrincipal(OddFellows oddFellows) {
         this.oddFellows = oddFellows;
+        this.musicaFondo = this.oddFellows.getMusicaFondo();
         // Obtener pantalla
         pantalla = Pantalla.getInstanciaPantalla();
     }
@@ -37,7 +40,9 @@ public class MenuPrincipal implements Screen {
     public void show() {
         // Cuando cargan la pantalla
         cargarTexturas();
-        crearObjetos();
+        crearObjetos();;
+
+        musicaFondo.play();
     }
 
     // Metodo para iniciar texturas de pantalla
@@ -120,6 +125,7 @@ public class MenuPrincipal implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 Gdx.app.log("clicked", "***Cambio a juego***");
+                musicaFondo.stop();
                 Juego juego = Juego.getJuego(oddFellows);
                 juego.iniciarJuego();
             }
@@ -161,6 +167,7 @@ public class MenuPrincipal implements Screen {
     public void resume() {
         cargarTexturas();
         crearObjetos();
+        musicaFondo.play();
     }
 
     @Override

@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -31,12 +32,17 @@ public class MenuPausa implements Screen {
     private Texture texturaBotonOpciones;
 
     private Procesador procesador;
+    private Music musicaMenus = Gdx.audio.newMusic(Gdx.files.internal("Musica/SW.mp3"));
+    private Music musicaActual;
 
     public MenuPausa(OddFellows oddFellows, Nivel nvl) {
         this.oddFellows = oddFellows;
         pantalla = Pantalla.getInstanciaPantalla();
         nvlActivo = nvl;
         actual = this;
+        this.musicaActual = musicaActual;
+        this.musicaActual.setPosition(musicaActual.getPosition());
+        this.musicaActual.setLooping(true);
         //procesador = new Procesador();
     }
 
