@@ -130,7 +130,6 @@ public class Personaje extends Objeto
                 nuevaX += velocidadX;
                 // Prueba que no salga del mundo por la derecha
                 if (nuevaX <= Pantalla.getInstanciaPantalla().getANCHO() - sprite.getWidth()) {
-                    Gdx.app.log("Movimiento", "Derecha");
                     sprite.setX(nuevaX);
                 }
             }
@@ -180,7 +179,6 @@ public class Personaje extends Objeto
                 nuevaY += velocidadY;
                 // Prueba que no salga del mundo por la arriba
                 if (nuevaY <= Pantalla.getInstanciaPantalla().getALTO() - sprite.getHeight()) {
-                    Gdx.app.log("Movimiento", "Arriba");
                     sprite.setY(nuevaY);
                 }
             }
@@ -207,6 +205,9 @@ public class Personaje extends Objeto
         }
     }
 
+    private final int DIFERENCIA = 64;
+    private final int DIVISION = 64;
+
     private boolean hayItems(TiledMap mapa) {
 
         TiledMapTileLayer capa = (TiledMapTileLayer) mapa.getLayers().get("Recolectables");
@@ -214,18 +215,27 @@ public class Personaje extends Objeto
         int yPersonaje = (int) sprite.getY();
 
         // Celdas que rodean al personaje
-        ArrayList<TiledMapTileLayer.Cell> celdas = new ArrayList<TiledMapTileLayer.Cell>(8);
-        celdas.add(capa.getCell((xPersonaje) / 64, (yPersonaje + 64) / 64));        // Arriba
-        celdas.add(capa.getCell((xPersonaje - 64) / 64, (yPersonaje + 64) / 64));   // Arriba Izq
-        celdas.add(capa.getCell((xPersonaje - 64) / 64, (yPersonaje) / 64));        // Izq
-        celdas.add(capa.getCell((xPersonaje - 64) / 64, (yPersonaje - 64) / 64));   // Abajo Izq
-        celdas.add(capa.getCell((xPersonaje) / 64, (yPersonaje - 64) / 64));        // Abajo
-        celdas.add(capa.getCell((xPersonaje + 64) / 64, (yPersonaje - 64) / 64));   // Abajo Der
-        celdas.add(capa.getCell((xPersonaje + 64) / 64, (yPersonaje) / 64));        // Der
-        celdas.add(capa.getCell((xPersonaje + 64) / 64, (yPersonaje + 64) / 64));   // Arriba Der
+        ArrayList<TiledMapTileLayer.Cell> celdas = new ArrayList<TiledMapTileLayer.Cell>(12);
+
+        celdas.add(capa.getCell((xPersonaje - DIFERENCIA) / DIVISION, (yPersonaje + DIFERENCIA*2 - 1) / DIVISION));         // Arriba Izq
+        celdas.add(capa.getCell((xPersonaje) / DIVISION, (yPersonaje + DIFERENCIA*2 - 1) / DIVISION));                      // Arriba CentroI
+        celdas.add(capa.getCell((xPersonaje + DIFERENCIA) / DIVISION, (yPersonaje + DIFERENCIA*2 - 1) / DIVISION));         // Arriba CentroD
+        celdas.add(capa.getCell((xPersonaje + DIFERENCIA*2 - 1) / DIVISION, (yPersonaje + DIFERENCIA*2 - 1) / DIVISION));   // Arriba Der
+
+        celdas.add(capa.getCell((xPersonaje - DIFERENCIA) / DIVISION, (yPersonaje - DIFERENCIA) / DIVISION));               // Abajo Izq
+        celdas.add(capa.getCell((xPersonaje) / DIVISION, (yPersonaje - DIFERENCIA) / DIVISION));                            // Abajo CentroI
+        celdas.add(capa.getCell((xPersonaje + DIFERENCIA) / DIVISION, (yPersonaje - DIFERENCIA) / DIVISION));               // Abajo CentroD
+        celdas.add(capa.getCell((xPersonaje + DIFERENCIA*2 - 1) / DIVISION, (yPersonaje - DIFERENCIA) / DIVISION));         // Abajo Der
+
+        celdas.add(capa.getCell((xPersonaje - DIFERENCIA) / DIVISION, (yPersonaje) / DIVISION));                // Izq
+        celdas.add(capa.getCell((xPersonaje) / DIVISION, (yPersonaje) / DIVISION));                             // CentroI
+        celdas.add(capa.getCell((xPersonaje + DIFERENCIA) / DIVISION, (yPersonaje) / DIVISION));                // CentroD
+        celdas.add(capa.getCell((xPersonaje + DIFERENCIA*2 - 1) / DIVISION, (yPersonaje) / DIVISION));          // Der
+
 
         for (TiledMapTileLayer.Cell c : celdas) {
             if (c != null) {
+                Gdx.app.log("ID", String.valueOf(c.getTile().getId()));
                 return true;
             }
         }
