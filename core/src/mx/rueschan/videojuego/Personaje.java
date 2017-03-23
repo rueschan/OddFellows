@@ -36,7 +36,7 @@ public class Personaje extends Objeto
     // ASSETS
     private AssetManager manager;
     public Sound fxPasos;
-    protected String pathFxPasos = "Sonido/pasoMadera.ogg";
+    protected String pathFxPasos = "Sonidos/pasoMadera.mp3";
 
 
     // Recibe una imagen con varios frames (ver marioSprite.png)
