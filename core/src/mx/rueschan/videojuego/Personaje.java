@@ -20,6 +20,8 @@ public class Personaje extends Objeto
     private float velocidadX = 0;      // Velocidad en x
     private float velocidadY = 0;      // Velocidad en y
 
+    private ArrayList<Objeto> inventario;
+
     private Animation<TextureRegion> spriteAnimado;         // Animación caminando
     private float timerAnimacion;                           // Tiempo para cambiar frames de la animación
 
@@ -28,6 +30,8 @@ public class Personaje extends Objeto
 
     // Recibe una imagen con varios frames (ver marioSprite.png)
     public Personaje(Texture textura, float x, float y) {
+        // Crea inventario
+        inventario = new ArrayList<Objeto>(10);
         // Lee la textura como región
         TextureRegion texturaCompleta = new TextureRegion(textura);
         // La divide en 4 frames de 32x64 (ver marioSprite.png)
@@ -42,6 +46,10 @@ public class Personaje extends Objeto
         // Crea el sprite con el personaje quieto (idle)
         sprite = new Sprite(texturaPersonaje[0][0]);    // QUIETO
         sprite.setPosition(x,y);    // Posición inicial
+    }
+
+    public void addInventario(Objeto item) {
+        inventario.add(item);
     }
 
     private void animar(SpriteBatch batch) {
@@ -103,7 +111,18 @@ public class Personaje extends Objeto
                 moverVertical(mapa);
                 break;
         }
-        Gdx.app.log("Items", Boolean.toString(hayItems(mapa)));
+    }
+
+    public void interactuar(Nivel nivel) {
+        if (buscaItems(nivel.mapa) != null) {
+            nivel.btnInteraccion.setColor(1,1,1,1);
+            nivel.btnInteraccion.setDisabled(false);
+            nivel.tileObjetivo = buscaItems(nivel.mapa);
+        } else {
+            nivel.btnInteraccion.setColor(1,1,1,0.4f);
+            nivel.btnInteraccion.setDisabled(true);
+            nivel.tileObjetivo = null;
+        }
     }
 
 
@@ -208,7 +227,7 @@ public class Personaje extends Objeto
     private final int DIFERENCIA = 64;
     private final int DIVISION = 64;
 
-    private boolean hayItems(TiledMap mapa) {
+    public TiledMapTileLayer.Cell buscaItems(TiledMap mapa) {
 
         TiledMapTileLayer capa = (TiledMapTileLayer) mapa.getLayers().get("Recolectables");
         int xPersonaje = (int) sprite.getX();
@@ -234,12 +253,11 @@ public class Personaje extends Objeto
 
 
         for (TiledMapTileLayer.Cell c : celdas) {
-            if (c != null) {
-                Gdx.app.log("ID", String.valueOf(c.getTile().getId()));
-                return true;
+            if (c != null && c.getTile() != null) {
+                return c;
             }
         }
-        return false;
+        return null;
     }
 
     // Accesor de estadoMovimiento

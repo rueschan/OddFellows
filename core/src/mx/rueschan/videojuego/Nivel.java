@@ -9,17 +9,21 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Touchpad;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
@@ -35,15 +39,13 @@ public abstract class Nivel implements Screen{
     // Personaje
     protected Personaje henric;
     protected Texture texturaHenric;
-    private float henricX;
-    private float henricY;
 
     // Mapa
     public static final float ANCHO_MAPA = 2560;
     protected OrthogonalTiledMapRenderer renderer; // Dibuja el mapa
     protected TiledMap mapa;
+    protected TiledMapTileLayer.Cell tileObjetivo;
 
-    protected Texture texturaFondo;
     protected Texture texturaBotonPausa;
 
     //HUD
@@ -51,6 +53,10 @@ public abstract class Nivel implements Screen{
     protected Viewport vistaHUD;
     protected Stage escenaHUD;
     protected Touchpad pad;
+
+    //INTERACCION
+    protected Texture texturaInteraccin;
+    public ImageButton btnInteraccion;
 
     //Manejador de assets
     protected AssetManager manager;
@@ -77,8 +83,6 @@ public abstract class Nivel implements Screen{
     protected void crearRecursos(Pantalla pantalla, String nombreMapa, String nombreMusicaFondo) {
         texturaHenric = new Texture("Personaje/Henric.png");
         henric = new Personaje(texturaHenric, pantalla.getANCHO()/2, pantalla.getALTO()/2);
-        henricX = henric.sprite.getX();
-        henricY = henric.sprite.getY();
 
         manager = new AssetManager();
         manager.setLoader(TiledMap.class,
@@ -105,6 +109,7 @@ public abstract class Nivel implements Screen{
         vistaHUD = new StretchViewport(pantalla.getANCHO(), pantalla.getALTO(), camaraHUD);
 
         // HUD
+            // PAD
         Skin skin = new Skin();
         skin.add("padBack", new Texture("Pad/padBack.png"));
         skin.add("padKnob", new Texture("Pad/padKnob.png"));
@@ -152,19 +157,46 @@ public abstract class Nivel implements Screen{
             }
         });
 
+            // INTERACCIÓN
+        //// Asignar textura al boton de interación
+        texturaInteraccin = new Texture("Pantalla/BotonInteraccion.png");
+        TextureRegionDrawable trdBtnInteraccion = new
+                TextureRegionDrawable(new TextureRegion(texturaInteraccin));
+
+
+        // Colocar boton de interación
+        btnInteraccion = new ImageButton(trdBtnInteraccion);
+        btnInteraccion.setPosition(pantalla.getANCHO()-btnInteraccion.getWidth()-pantalla.getANCHO()*.02f,
+                pantalla.getALTO()*.02f);
+        btnInteraccion.setColor(1,1,1,0.4f);
+
+        btnInteraccion.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                if (!btnInteraccion.isDisabled()) {
+                    Gdx.app.log("Btn", "Elimina!");
+                    tileObjetivo.setTile(null);
+                }
+            }
+        });
+
         escenaHUD = new Stage(vistaHUD);
         escenaHUD.addActor(pad);
+        escenaHUD.addActor(btnInteraccion);
 
         escenaHUD.addListener(new ClickListener() {
 
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                pad.setSize(200, 200);
-                pad.setPosition(x-pad.getWidth()/2,y-pad.getHeight()/2);
-                pad.setColor(1,1,1,0.4f);
-                henric.setEstadoMovimiento(Personaje.EstadoMovimiento.QUIETO);
-                henric.setEstadoMovimientoVertical(Personaje.EstadoMovimientoVertical.QUIETO_Y);
+                if (y < pantalla.getALTO()/6 && x > pantalla.getANCHO()* 6/7) {
 
+                } else {
+                    pad.setSize(200, 200);
+                    pad.setPosition(x - pad.getWidth() / 2, y - pad.getHeight() / 2);
+                    pad.setColor(1, 1, 1, 0.4f);
+                    henric.setEstadoMovimiento(Personaje.EstadoMovimiento.QUIETO);
+                    henric.setEstadoMovimientoVertical(Personaje.EstadoMovimientoVertical.QUIETO_Y);
+                }
                 return true;
             }
 
@@ -179,7 +211,6 @@ public abstract class Nivel implements Screen{
             }
         });
     }
-
 
     @Override
     public void render(float delta) {

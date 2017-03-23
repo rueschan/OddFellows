@@ -167,6 +167,7 @@ public class NivelCabana extends Nivel {
 
         // Jugador
         henric.actualizar(mapa);
+        henric.interactuar(this);
 
         // Detectar botón físico "return"
         if (Gdx.input.isKeyJustPressed(Input.Keys.BACK)) {
