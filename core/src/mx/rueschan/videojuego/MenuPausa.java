@@ -32,17 +32,13 @@ public class MenuPausa implements Screen {
     private Texture texturaBotonOpciones;
 
     private Procesador procesador;
-    private Music musicaMenus = Gdx.audio.newMusic(Gdx.files.internal("Musica/SW.mp3"));
-    private Music musicaActual;
+    private Music musicaPausa = Gdx.audio.newMusic(Gdx.files.internal("Musica/giantwyrm.mp3"));
 
     public MenuPausa(OddFellows oddFellows, Nivel nvl) {
         this.oddFellows = oddFellows;
         pantalla = Pantalla.getInstanciaPantalla();
         nvlActivo = nvl;
         actual = this;
-        this.musicaActual = musicaActual;
-        this.musicaActual.setPosition(musicaActual.getPosition());
-        this.musicaActual.setLooping(true);
         //procesador = new Procesador();
     }
 
@@ -50,6 +46,7 @@ public class MenuPausa implements Screen {
     public void show() {
         cargarTexturas();
         crearObjetos();
+        musicaPausa.play();
     }
 
     private void cargarTexturas() {
@@ -97,6 +94,7 @@ public class MenuPausa implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 Gdx.app.log("clicked", "***Salir***");
+                musicaPausa.stop();
                 oddFellows.setScreen(new MenuPrincipal(oddFellows));
             }
         });
@@ -113,6 +111,7 @@ public class MenuPausa implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 Gdx.app.log("clicked", "***Cambio a juego***");
+                musicaPausa.stop();
                 oddFellows.setScreen(nvlActivo);
             }
         });
@@ -165,6 +164,7 @@ public class MenuPausa implements Screen {
 
     @Override
     public void dispose() {
+        musicaPausa.dispose();
 
     }
 

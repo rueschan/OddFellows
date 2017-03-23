@@ -118,6 +118,7 @@ public class NivelCabana extends Nivel {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 Gdx.input.setInputProcessor(pantalla.escena);
+                NivelCabana.super.musicaFondo.pause();
                 oddFellows.setScreen(new MenuPausa(oddFellows, actual));
             }
         });
@@ -172,6 +173,7 @@ public class NivelCabana extends Nivel {
         // Detectar botón físico "return"
         if (Gdx.input.isKeyJustPressed(Input.Keys.BACK)) {
             //Abrir MenuPausa
+            super.musicaFondo.pause();
             oddFellows.setScreen(new MenuPausa(oddFellows, actual));
         }
     }
