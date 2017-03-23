@@ -14,7 +14,6 @@ public class Objeto
 
     public Objeto(Texture textura, float x, float y) {
         sprite = new Sprite(textura);
-        sprite.setPosition(x, y);
     }
 
     public Objeto() {
