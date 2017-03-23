@@ -59,7 +59,7 @@ public abstract class Nivel implements Screen{
     public ImageButton btnInteraccion;
 
     //Manejador de assets
-    protected AssetManager manager;
+    protected static AssetManager manager;
 
     protected Music musicaFondo;
 
@@ -70,6 +70,13 @@ public abstract class Nivel implements Screen{
         cargarTexturas();
         crearObjetos();
         cargarJuego();
+    }
+
+    public static AssetManager getManager() {
+        if (manager != null) {
+            return manager;
+        }
+        return new AssetManager();
     }
 
     protected void cargarJuego(){

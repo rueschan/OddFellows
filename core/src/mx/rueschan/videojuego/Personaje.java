@@ -5,6 +5,10 @@ package mx.rueschan.videojuego;
  */
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -12,6 +16,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 
 import java.util.ArrayList;
 
@@ -27,6 +32,12 @@ public class Personaje extends Objeto
 
     private EstadoMovimiento estadoMovimiento = EstadoMovimiento.QUIETO;
     private EstadoMovimientoVertical estadoMovimientoVertical = EstadoMovimientoVertical.QUIETO_Y;
+
+    // ASSETS
+    private AssetManager manager;
+    public Sound fxPasos;
+    protected String pathFxPasos = "Sonido/pasoMadera.ogg";
+
 
     // Recibe una imagen con varios frames (ver marioSprite.png)
     public Personaje(Texture textura, float x, float y) {
@@ -46,6 +57,14 @@ public class Personaje extends Objeto
         // Crea el sprite con el personaje quieto (idle)
         sprite = new Sprite(texturaPersonaje[0][0]);    // QUIETO
         sprite.setPosition(x,y);    // Posición inicial
+
+        // ASSET MANAGER
+        manager = Nivel.getManager();
+        manager.load(pathFxPasos,Sound.class);
+        manager.finishLoading();    // Carga los recursos
+
+        fxPasos = manager.get(pathFxPasos);
+        fxPasos.loop(1,1.5f,0);
     }
 
     public void addInventario(Objeto item) {
@@ -68,6 +87,15 @@ public class Personaje extends Objeto
         batch.draw(region,sprite.getX(),sprite.getY());
     }
 
+    // Sonido al caminar
+    public void darPaso() {
+        if (estadoMovimiento == EstadoMovimiento.QUIETO && estadoMovimientoVertical == EstadoMovimientoVertical.QUIETO_Y) {
+            fxPasos.pause();
+        } else {
+            fxPasos.resume();
+        }
+    }
+
     // Dibuja el personaje
     public void dibujar(SpriteBatch batch) {
 
@@ -79,7 +107,7 @@ public class Personaje extends Objeto
             case MOV_IZQUIERDA:
                 enMovimiento = true;
                 break;
-            case INICIANDO:
+            case QUIETO:
                 sprite.draw(batch); // Dibuja el sprite estático
                 break;
         }
@@ -103,12 +131,20 @@ public class Personaje extends Objeto
             case MOV_DERECHA:
             case MOV_IZQUIERDA:
                 moverHorizontal(mapa);
+                darPaso();
+                break;
+            case QUIETO:
+                darPaso();
                 break;
         }
         switch (estadoMovimientoVertical) {
             case MOV_ARRIBA:
             case MOV_ABAJO:
                 moverVertical(mapa);
+                darPaso();
+                break;
+            case QUIETO_Y:
+                darPaso();
                 break;
         }
     }
@@ -289,7 +325,6 @@ public class Personaje extends Objeto
     }
 
     public enum EstadoMovimiento {
-        INICIANDO,
         QUIETO,
         MOV_IZQUIERDA,
         MOV_DERECHA
