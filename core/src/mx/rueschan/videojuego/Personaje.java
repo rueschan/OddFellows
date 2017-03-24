@@ -176,13 +176,21 @@ public class Personaje extends Objeto
             int x = (int) ((sprite.getX() + 96) / 64);   // Convierte coordenadas del mundo en coordenadas del mapa
             int y = (int) ((sprite.getY() + 10) / 64);
             TiledMapTileLayer.Cell celdaDerecha = capa.getCell(x, y);
+            y = (int) ((sprite.getY() + 86) / 64);
+            TiledMapTileLayer.Cell celdaDerecha2 = capa.getCell(x, y);
             if (celdaDerecha != null) {
                 Object tipo = (String) celdaDerecha.getTile().getProperties().get("tipo");
                 if (!"obstaculo".equals(tipo)) {
                     celdaDerecha = null;  // Puede pasar
                 }
             }
-            if ( celdaDerecha==null) {
+            if (celdaDerecha2 != null) {
+                Object tipo = (String) celdaDerecha2.getTile().getProperties().get("tipo");
+                if (!"obstaculo".equals(tipo)) {
+                    celdaDerecha2 = null;  // Puede pasar
+                }
+            }
+            if ( celdaDerecha == null && celdaDerecha2 == null) {
                 // Ejecutar movimiento horizontal
                 nuevaX += velocidadX;
                 // Prueba que no salga del mundo por la derecha
@@ -197,13 +205,21 @@ public class Personaje extends Objeto
             int y = (int) ((sprite.getY() + 10) / 64);
             // Obtiene el bloque del lado izquierdo. Asigna null si puede pasar.
             TiledMapTileLayer.Cell celdaIzquierda = capa.getCell(xIzq, y);
+            y = (int) ((sprite.getY() + 86) / 64);
+            TiledMapTileLayer.Cell celdaIzquierda2 = capa.getCell(xIzq, y);
             if (celdaIzquierda != null) {
                 Object tipo = (String) celdaIzquierda.getTile().getProperties().get("tipo");
                 if (!"obstaculo".equals(tipo)) {
                     celdaIzquierda = null;  // Puede pasar
                 }
             }
-            if ( celdaIzquierda==null) {
+            if (celdaIzquierda2 != null) {
+                Object tipo = (String) celdaIzquierda2.getTile().getProperties().get("tipo");
+                if (!"obstaculo".equals(tipo)) {
+                    celdaIzquierda2 = null;  // Puede pasar
+                }
+            }
+            if ( celdaIzquierda == null && celdaIzquierda2 == null) {
                 // Prueba que no salga del mundo por la izquierda
                 nuevaX += velocidadX;
                 if (nuevaX >= 0) {
@@ -225,13 +241,21 @@ public class Personaje extends Objeto
             int x = (int) ((sprite.getX() + 10) / 64);   // Convierte coordenadas del mundo en coordenadas del mapa
             int y = (int) ((sprite.getY() + 96) / 64);
             TiledMapTileLayer.Cell celdaArriba = capa.getCell(x, y);
+            x = (int) ((sprite.getX() + 86) / 64);
+            TiledMapTileLayer.Cell celdaArriba2 = capa.getCell(x, y);
             if (celdaArriba != null) {
                 Object tipo = (String) celdaArriba.getTile().getProperties().get("tipo");
                 if (!"obstaculo".equals(tipo)) {
                     celdaArriba = null;  // Puede pasar
                 }
             }
-            if ( celdaArriba==null) {
+            if (celdaArriba2 != null) {
+                Object tipo = (String) celdaArriba2.getTile().getProperties().get("tipo");
+                if (!"obstaculo".equals(tipo)) {
+                    celdaArriba2 = null;  // Puede pasar
+                }
+            }
+            if ( celdaArriba == null && celdaArriba2 == null) {
                 // Ejecutar movimiento horizontal
                 nuevaY += velocidadY;
                 // Prueba que no salga del mundo por la arriba
@@ -246,13 +270,21 @@ public class Personaje extends Objeto
             int yAbajo = (int) (sprite.getY() / 64);
             // Obtiene el bloque del lado izquierdo. Asigna null si puede pasar.
             TiledMapTileLayer.Cell celdaAbajo = capa.getCell(x, yAbajo);
+            x = (int) ((sprite.getX() +86) / 64);
+            TiledMapTileLayer.Cell celdaAbajo2 = capa.getCell(x, yAbajo);
             if (celdaAbajo != null) {
                 Object tipo = (String) celdaAbajo.getTile().getProperties().get("tipo");
                 if (!"obstaculo".equals(tipo)) {
                     celdaAbajo = null;  // Puede pasar
                 }
             }
-            if ( celdaAbajo==null) {
+            if (celdaAbajo2 != null) {
+                Object tipo = (String) celdaAbajo2.getTile().getProperties().get("tipo");
+                if (!"obstaculo".equals(tipo)) {
+                    celdaAbajo2 = null;  // Puede pasar
+                }
+            }
+            if ( celdaAbajo == null && celdaAbajo2 == null) {
                 // Prueba que no salga del mundo por la izquierda
                 nuevaY += velocidadY;
                 if (nuevaY >= 0) {
