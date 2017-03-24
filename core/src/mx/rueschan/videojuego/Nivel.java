@@ -68,7 +68,7 @@ public abstract class Nivel implements Screen{
 
     protected Music musicaFondo;
     protected Sound fxLlave;
-    protected String pathFxLlave = "Sonido/levantarLlave.wav";
+    protected String pathFxLlave = "Sonidos/levantarLlave.mp3";
 
     // private Elemento[] items;
 
