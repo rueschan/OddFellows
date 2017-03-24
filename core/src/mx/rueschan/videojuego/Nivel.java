@@ -7,6 +7,7 @@ import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -17,6 +18,7 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Touchpad;
@@ -59,6 +61,16 @@ public abstract class Nivel implements Screen{
     protected Objeto hp;
     protected Objeto barraHP;
 
+    //Pausa
+    protected Texture regionPausa;
+    protected Boolean pausado;
+
+        //Textura en Menu Pausa
+    protected Texture texturaBotonReanudar;
+    protected Texture texturaBotonSalir;
+    protected Texture texturaSonido;
+    protected Texture texturaFX;
+
     //INTERACCION
     protected Texture texturaInteraccin;
     public ImageButton btnInteraccion;
@@ -71,6 +83,8 @@ public abstract class Nivel implements Screen{
     protected String pathFxLlave = "Sonidos/levantarLlave.mp3";
 
     // private Elemento[] items;
+
+
 
     @Override
     public void show() {
@@ -209,11 +223,14 @@ public abstract class Nivel implements Screen{
         escenaHUD = new Stage(vistaHUD);
         escenaHUD.addActor(pad);
         escenaHUD.addActor(btnInteraccion);
-
         escenaHUD.addListener(new ClickListener() {
 
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+
+
+
+
                 if (y < pantalla.getALTO()/6 && x > pantalla.getANCHO()* 6/7) {
 
                 } else {
@@ -258,6 +275,90 @@ public abstract class Nivel implements Screen{
         pantalla.escena.draw();
 
     }
+
+
+
+
+
+
+    protected void crearPausa(Stage escenaHUD){
+
+        pausado=false;
+
+        //Textura de pausa
+        // Crear triángulo transparente
+        Pixmap pixmap = new Pixmap((int)(pantalla.getANCHO()*0.5f), (int)(pantalla.getALTO()*0.8f), Pixmap.Format.RGBA8888 );
+        pixmap.setColor( 0.2f, 0.3f, 0.5f, 0.65f );
+        pixmap.fillRectangle(0,0,(int)pantalla.getALTO(),(int)pantalla.getALTO());
+        regionPausa = new Texture( pixmap );
+        pixmap.dispose();
+        Image cuadroPausa = new Image(regionPausa);
+        cuadroPausa.setPosition(0.25f*pantalla.getANCHO(), 0.1f*pantalla.getALTO());
+
+        //Crear texturas
+        texturaBotonReanudar = new Texture("Pantalla/Tabla.png");
+        texturaBotonSalir = new Texture("Pantalla/Tabla.png");
+        texturaSonido = new Texture("Pantalla/Audio.png");
+        texturaFX = new Texture("Pantalla/ecualizador.png");
+
+        //Crear boton Reanudar
+        TextureRegionDrawable trdBtnReanudar = new
+                TextureRegionDrawable(new TextureRegion(texturaBotonReanudar));
+        // Colocar botón Reanudar
+        ImageButton btnReanudar = new ImageButton(trdBtnReanudar);
+        btnReanudar.setPosition(pantalla.getANCHO()/2 - btnReanudar.getWidth()/2,3*pantalla.getALTO()/4
+                - btnReanudar.getHeight()/2);
+
+        //Crear boton Salir
+        TextureRegionDrawable trdBtnSalir = new
+                TextureRegionDrawable(new TextureRegion(texturaBotonSalir));
+        // Colocar botón Salir
+        ImageButton btnSalir = new ImageButton(trdBtnSalir);
+        btnSalir.setPosition(pantalla.getANCHO()/2 - btnSalir.getWidth()/2,pantalla.getALTO()/4
+                - btnSalir.getHeight()/2);
+
+
+        //Crear boton Sonido
+        TextureRegionDrawable trdBtnSonido = new
+                TextureRegionDrawable(new TextureRegion(texturaSonido));
+        // Colocar botón Sonido
+        ImageButton btnSonido = new ImageButton(trdBtnSonido);
+        btnSonido.setPosition(3*pantalla.getANCHO()/5 - btnSonido.getWidth()/2,pantalla.getALTO()/2
+                - btnSonido.getHeight()/2);
+
+        //Crear boton Musica
+        TextureRegionDrawable trdBtnMusica = new
+                TextureRegionDrawable(new TextureRegion(texturaFX));
+        // Colocar botón Musica
+        ImageButton btnMusica = new ImageButton(trdBtnMusica);
+        btnMusica.setPosition(2*pantalla.getANCHO()/5 - btnMusica.getWidth()/2,pantalla.getALTO()/2
+                - btnMusica.getHeight()/2);
+
+
+
+
+
+        //Cuadro de pausa actor 3
+        escenaHUD.addActor(cuadroPausa);
+        cuadroPausa.setVisible(false);
+
+        //Cuadro de reanudar actor 4
+        escenaHUD.addActor(btnReanudar);
+        btnReanudar.setVisible(false);
+
+        //Cuadro de salir actor 5
+        escenaHUD.addActor(btnSalir);
+        btnSalir.setVisible(false);
+
+        //Cuadro de salir actor 6
+        escenaHUD.addActor(btnSonido);
+        btnSonido.setVisible(false);
+
+        //Cuadro de salir actor 7
+        escenaHUD.addActor(btnMusica);
+        btnMusica.setVisible(false);
+    }
+
 
     @Override
     public void resume() {

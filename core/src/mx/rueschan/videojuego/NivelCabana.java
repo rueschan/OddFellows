@@ -3,16 +3,20 @@ package mx.rueschan.videojuego;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.utils.viewport.Viewport;
+import com.sun.org.apache.xpath.internal.operations.Bool;
 
 /**
  * Created by OddFellows on 14/02/2017.
@@ -20,6 +24,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 public class NivelCabana extends Nivel {
 
     private Nivel actual;
+
 
     // Textura imagenes
 //    private Texture texturaLlave;
@@ -33,6 +38,7 @@ public class NivelCabana extends Nivel {
 
     //Musica
     private Music musicaFondo;
+
 
     public NivelCabana(OddFellows oddFellows) {
         super.oddFellows = oddFellows;
@@ -117,9 +123,52 @@ public class NivelCabana extends Nivel {
         btnPausa.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                Gdx.input.setInputProcessor(pantalla.escena);
-                NivelCabana.super.musicaFondo.pause();
-                oddFellows.setScreen(new MenuPausa(oddFellows, actual));
+                //Para quitar la pausa
+                if (pausado == true){
+                    pausado = false;
+                    //Visibilidad del elemento 3 'Cuadro de pausa'
+                    NivelCabana.super.escenaHUD.getActors().get(2).setVisible(false);
+                    //Visibilidad del elemento 4 'Boton de reanudar'
+                    NivelCabana.super.escenaHUD.getActors().get(3).setVisible(false);
+                    //Visibilidad del elemento 5 'Boton de salir'
+                    NivelCabana.super.escenaHUD.getActors().get(4).setVisible(false);
+                    //Visibilidad del elemento 6 'Boton de sonido'
+                    NivelCabana.super.escenaHUD.getActors().get(5).setVisible(false);
+                    //Visibilidad del elemento 7 'Boton de musica'
+                    NivelCabana.super.escenaHUD.getActors().get(6).setVisible(false);
+
+                    //Visibilidad del elemento 2 'Interacción'
+                    NivelCabana.super.escenaHUD.getActors().get(1).setVisible(true);
+                    //Visibilidad del elemento 1 'Pad'
+                    NivelCabana.super.escenaHUD.getActors().get(0).setVisible(true);
+
+
+                    NivelCabana.super.musicaFondo.play();
+                }
+                //En caso de que el booleano pausa sea falso
+                else{
+                    pausado = true;
+                    //Visibilidad del elemento 3 'Cuadro de pausa'
+                    NivelCabana.super.escenaHUD.getActors().get(2).setVisible(true);
+                    //Visibilidad del elemento 4 'Boton de reanudar'
+                    NivelCabana.super.escenaHUD.getActors().get(3).setVisible(true);
+                    //Visibilidad del elemento 5 'Boton de salir'
+                    NivelCabana.super.escenaHUD.getActors().get(4).setVisible(true);
+                    //Visibilidad del elemento 6 'Boton de sonido'
+                    NivelCabana.super.escenaHUD.getActors().get(5).setVisible(true);
+                    //Visibilidad del elemento 7 'Boton de musica'
+                    NivelCabana.super.escenaHUD.getActors().get(6).setVisible(true);
+
+                    //Visibilidad del elemento 2 'Interacción'
+                    NivelCabana.super.escenaHUD.getActors().get(1).setVisible(false);
+                    //Visibilidad del elemento 1 'Pad'
+                    NivelCabana.super.escenaHUD.getActors().get(0).setVisible(false);
+
+                    NivelCabana.super.musicaFondo.pause();
+                }
+                //Gdx.input.setInputProcessor(pantalla.escena);
+                //NivelCabana.super.musicaFondo.pause();
+                //oddFellows.setScreen(new MenuPausa(oddFellows, actual));
             }
         });
 
@@ -138,12 +187,16 @@ public class NivelCabana extends Nivel {
 
         //Creación de HUD
         super.crearHUD(pantalla);
+        super.crearPausa(escenaHUD);
 
         // Objetos
         crearObjetos();
         cargarJuego();
 
         Gdx.input.setInputProcessor(super.escenaHUD);
+
+
+
     }
 
     @Override
@@ -172,11 +225,53 @@ public class NivelCabana extends Nivel {
         henric.actualizar(mapa);
         henric.interactuar(this);
 
+
+
         // Detectar botón físico "return"
         if (Gdx.input.isKeyJustPressed(Input.Keys.BACK)) {
             //Abrir MenuPausa
-            super.musicaFondo.pause();
-            oddFellows.setScreen(new MenuPausa(oddFellows, actual));
+            if (pausado == true){
+                pausado = false;
+                //Visibilidad del elemento 3 'Cuadro de pausa'
+                NivelCabana.super.escenaHUD.getActors().get(2).setVisible(false);
+                //Visibilidad del elemento 4 'Boton de reanudar'
+                NivelCabana.super.escenaHUD.getActors().get(3).setVisible(false);
+                //Visibilidad del elemento 5 'Boton de salir'
+                NivelCabana.super.escenaHUD.getActors().get(4).setVisible(false);
+                //Visibilidad del elemento 6 'Boton de sonido'
+                NivelCabana.super.escenaHUD.getActors().get(5).setVisible(false);
+                //Visibilidad del elemento 7 'Boton de musica'
+                NivelCabana.super.escenaHUD.getActors().get(6).setVisible(false);
+
+                //Visibilidad del elemento 2 'Interacción'
+                NivelCabana.super.escenaHUD.getActors().get(1).setVisible(true);
+                //Visibilidad del elemento 1 'Pad'
+                NivelCabana.super.escenaHUD.getActors().get(0).setVisible(true);
+
+                NivelCabana.super.musicaFondo.play();
+            }
+            //En caso de que el booleano pausa sea falso
+            else{
+                pausado = true;
+                //Visibilidad del elemento 3 'Cuadro de pausa'
+                NivelCabana.super.escenaHUD.getActors().get(2).setVisible(true);
+                //Visibilidad del elemento 4 'Boton de reanudar'
+                NivelCabana.super.escenaHUD.getActors().get(3).setVisible(true);
+                //Visibilidad del elemento 5 'Boton de salir'
+                NivelCabana.super.escenaHUD.getActors().get(4).setVisible(true);
+                //Visibilidad del elemento 6 'Boton de sonido'
+                NivelCabana.super.escenaHUD.getActors().get(5).setVisible(true);
+                //Visibilidad del elemento 7 'Boton de musica'
+                NivelCabana.super.escenaHUD.getActors().get(6).setVisible(true);
+
+                //Visibilidad del elemento 2 'Interacción'
+                NivelCabana.super.escenaHUD.getActors().get(1).setVisible(false);
+                //Visibilidad del elemento 1 'Pad'
+                NivelCabana.super.escenaHUD.getActors().get(0).setVisible(false);
+
+                NivelCabana.super.musicaFondo.pause();
+            }
+            //oddFellows.setScreen(new MenuPausa(oddFellows, actual));
         }
     }
 
@@ -199,4 +294,5 @@ public class NivelCabana extends Nivel {
 //        texturaCarta.dispose();
 //        texturaHenric.dispose();
     }
+
 }
