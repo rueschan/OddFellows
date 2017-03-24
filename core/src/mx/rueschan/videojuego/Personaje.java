@@ -6,8 +6,6 @@ package mx.rueschan.videojuego;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
-import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
@@ -16,7 +14,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
-import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 
 import java.util.ArrayList;
 
@@ -298,6 +295,52 @@ public class Personaje extends Objeto
     private final int DIVISION = 64;
 
     public TiledMapTileLayer.Cell buscaItems(TiledMap mapa) {
+
+        TiledMapTileLayer capa = (TiledMapTileLayer) mapa.getLayers().get("Recolectables");
+        TiledMapTileLayer.Cell celda;
+
+        int xPersonaje = (int) sprite.getX();
+        int yPersonaje = (int) sprite.getY();
+
+        for (int x = xPersonaje - 64; x <= xPersonaje + (64*2); x += 32) {
+            for (int y = yPersonaje - 64; y <= yPersonaje + (64*2); y += 32) {
+                celda = capa.getCell((x / 64), (y / 64));
+                if (celda != null && celda.getTile() != null) {
+                    Gdx.app.log("Celda", celda.toString());
+                    return celda;
+                }
+            }
+        }
+        return null;
+
+//        // Celdas que rodean al personaje
+//        ArrayList<TiledMapTileLayer.Cell> celdas = new ArrayList<TiledMapTileLayer.Cell>(12);
+//
+//        celdas.add(capa.getCell((xPersonaje - DIFERENCIA) / DIVISION, (yPersonaje + DIFERENCIA*2 - 1) / DIVISION));         // Arriba Izq
+//        celdas.add(capa.getCell((xPersonaje) / DIVISION, (yPersonaje + DIFERENCIA*2 - 1) / DIVISION));                      // Arriba CentroI
+//        celdas.add(capa.getCell((xPersonaje + DIFERENCIA) / DIVISION, (yPersonaje + DIFERENCIA*2 - 1) / DIVISION));         // Arriba CentroD
+//        celdas.add(capa.getCell((xPersonaje + DIFERENCIA*2 - 1) / DIVISION, (yPersonaje + DIFERENCIA*2 - 1) / DIVISION));   // Arriba Der
+//
+//        celdas.add(capa.getCell((xPersonaje - DIFERENCIA) / DIVISION, (yPersonaje - DIFERENCIA) / DIVISION));               // Abajo Izq
+//        celdas.add(capa.getCell((xPersonaje) / DIVISION, (yPersonaje - DIFERENCIA) / DIVISION));                            // Abajo CentroI
+//        celdas.add(capa.getCell((xPersonaje + DIFERENCIA) / DIVISION, (yPersonaje - DIFERENCIA) / DIVISION));               // Abajo CentroD
+//        celdas.add(capa.getCell((xPersonaje + DIFERENCIA*2 - 1) / DIVISION, (yPersonaje - DIFERENCIA) / DIVISION));         // Abajo Der
+//
+//        celdas.add(capa.getCell((xPersonaje - DIFERENCIA) / DIVISION, (yPersonaje) / DIVISION));                // Izq
+//        celdas.add(capa.getCell((xPersonaje) / DIVISION, (yPersonaje) / DIVISION));                             // CentroI
+//        celdas.add(capa.getCell((xPersonaje + DIFERENCIA) / DIVISION, (yPersonaje) / DIVISION));                // CentroD
+//        celdas.add(capa.getCell((xPersonaje + DIFERENCIA*2 - 1) / DIVISION, (yPersonaje) / DIVISION));          // Der
+//
+//
+//        for (TiledMapTileLayer.Cell c : celdas) {
+//            if (c != null && c.getTile() != null) {
+//                return c;
+//            }
+//        }
+//        return null;
+    }
+
+    public TiledMapTileLayer.Cell buscaInteractivos(TiledMap mapa) {
 
         TiledMapTileLayer capa = (TiledMapTileLayer) mapa.getLayers().get("Recolectables");
         int xPersonaje = (int) sprite.getX();

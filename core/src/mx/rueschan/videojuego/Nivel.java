@@ -185,8 +185,8 @@ public abstract class Nivel implements Screen{
                 }
 
                 // Asignar velocidades
-                henric.setVelocidadX(pad.getKnobPercentX() * 4);
-                henric.setVelocidadY(pad.getKnobPercentY() * 4);
+                henric.setVelocidadX(pad.getKnobPercentX() * 5);
+                henric.setVelocidadY(pad.getKnobPercentY() * 5);
 
                 if (pad.getKnobPercentY() == 0 && pad.getKnobPercentX() == 0) {
                     henric.setEstadoMovimiento(Personaje.EstadoMovimiento.QUIETO);
