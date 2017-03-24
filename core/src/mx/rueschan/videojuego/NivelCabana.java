@@ -152,7 +152,7 @@ public class NivelCabana extends Nivel {
         super.pantalla.borrarPantalla();
 
         // Mapa
-        pantalla.batch.setProjectionMatrix(pantalla.camara.combined);;
+        pantalla.batch.setProjectionMatrix(pantalla.camara.combined);
         super.renderer.setView(pantalla.camara);
         super.renderer.render();
 
@@ -160,6 +160,8 @@ public class NivelCabana extends Nivel {
         super.pantalla.escena.draw();
         pantalla.batch.begin();
         super.henric.dibujar(pantalla.batch);
+        hp.dibujar(pantalla.batch);
+        barraHP.dibujar(pantalla.batch);
         pantalla.batch.end();
 
         // HUD

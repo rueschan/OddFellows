@@ -46,13 +46,18 @@ public abstract class Nivel implements Screen{
     protected TiledMap mapa;
     protected TiledMapTileLayer.Cell tileObjetivo;
 
+    // Texturas HUD
     protected Texture texturaBotonPausa;
+    protected Texture texturaHP;
+    protected Texture texturaBarraHP;
 
     //HUD
     protected OrthographicCamera camaraHUD;
     protected Viewport vistaHUD;
     protected Stage escenaHUD;
     protected Touchpad pad;
+    protected Objeto hp;
+    protected Objeto barraHP;
 
     //INTERACCION
     protected Texture texturaInteraccin;
@@ -62,6 +67,8 @@ public abstract class Nivel implements Screen{
     protected static AssetManager manager;
 
     protected Music musicaFondo;
+    protected Sound fxLlave;
+    protected String pathFxLlave = "Sonido/levantarLlave.wav";
 
     // private Elemento[] items;
 
@@ -91,11 +98,18 @@ public abstract class Nivel implements Screen{
         texturaHenric = new Texture("Personaje/Henric.png");
         henric = new Personaje(texturaHenric, pantalla.getANCHO()/2, pantalla.getALTO()/2);
 
+        // Vida
+        texturaHP = new Texture("Pantalla/HP.png");
+        texturaBarraHP = new Texture("Pantalla/BarraHP.png");
+        hp = new Objeto(texturaHP, 10, pantalla.getALTO() - 10 - texturaHP.getHeight());
+        barraHP = new Objeto(texturaBarraHP, 10, pantalla.getALTO() - 10 - texturaHP.getHeight());
+
         manager = new AssetManager();
         manager.setLoader(TiledMap.class,
                 new TmxMapLoader(new InternalFileHandleResolver()));
         manager.load(nombreMapa, TiledMap.class);
         manager.load(nombreMusicaFondo,Music.class);
+        manager.load(pathFxLlave, Sound.class);
 
         manager.finishLoading();    // Carga los recursos
         mapa = manager.get(nombreMapa);
@@ -106,6 +120,9 @@ public abstract class Nivel implements Screen{
         musicaFondo = manager.get(nombreMusicaFondo);
         musicaFondo.setLooping(true);
         musicaFondo.play();
+
+        // Sonidos generales
+        fxLlave = manager.get(pathFxLlave);
     }
 
     protected void crearHUD(final Pantalla pantalla) {
@@ -182,6 +199,8 @@ public abstract class Nivel implements Screen{
             public void clicked(InputEvent event, float x, float y) {
                 if (!btnInteraccion.isDisabled()) {
                     Gdx.app.log("Btn", "Elimina!");
+                    identificarItem(tileObjetivo);
+                    //henric.addInventario(tileObjetivo);
                     tileObjetivo.setTile(null);
                 }
             }
@@ -217,6 +236,20 @@ public abstract class Nivel implements Screen{
                 henric.setEstadoMovimientoVertical(Personaje.EstadoMovimientoVertical.QUIETO_Y);
             }
         });
+    }
+
+    private Objeto identificarItem(TiledMapTileLayer.Cell celda) {
+        // ID:
+        // Llaves: 49
+        // Martillo: 81
+        Gdx.app.log("ItemID", String.valueOf(celda.getTile().getId()));
+        switch (celda.getTile().getId()){
+            case 49: //Llave
+                fxLlave.play();
+                break;
+
+        }
+        return null;
     }
 
     @Override

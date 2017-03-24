@@ -25,6 +25,8 @@ public class Personaje extends Objeto
     private float velocidadX = 0;      // Velocidad en x
     private float velocidadY = 0;      // Velocidad en y
 
+    private float vida = 100;
+
     private ArrayList<Objeto> inventario;
 
     private Animation<TextureRegion> spriteAnimado;         // Animación caminando
