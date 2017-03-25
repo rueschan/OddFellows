@@ -2,6 +2,7 @@ package mx.rueschan.videojuego;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -10,11 +11,12 @@ public class OddFellows extends Game {
 	SpriteBatch batch;
 	Texture img;
 	private Music musicaFondo;
-    private boolean isMusicOn = true;
-    private boolean isFxOn = true;
+    private boolean isMusicOn;
+    private boolean isFxOn;
 
 	@Override
 	public void create () {
+        cargarEstatusSonido();
         crearMusica();
         setScreen(new MenuPrincipal(this));
 	}
@@ -22,11 +24,30 @@ public class OddFellows extends Game {
         musicaFondo = Gdx.audio.newMusic(Gdx.files.internal("Musica/chopinNocturne.mp3"));
         musicaFondo.setLooping(true);
     }
+    private void cargarEstatusSonido(){
+        Preferences preferences = Gdx.app.getPreferences("musica");
+        isMusicOn = preferences.getBoolean("musica");
+        preferences = Gdx.app.getPreferences("efectos");
+        isFxOn = preferences.getBoolean("efectos");
+    }
+
     public void cambiaMusica(){
         isMusicOn = !isMusicOn;
+        guardarEstatusMusica();
     }
     public void cambiaFx() {
         isFxOn = !isFxOn;
+        guardarEstatusEfectos();
+    }
+    private void guardarEstatusMusica(){
+        Preferences preferences = Gdx.app.getPreferences("musica");
+        preferences.putBoolean("musica",isMusicOn);
+        preferences.flush();
+    }
+    private void guardarEstatusEfectos(){
+        Preferences preferences = Gdx.app.getPreferences("efectos");
+        preferences.putBoolean("efectos",isFxOn);
+        preferences.flush();
     }
     public void tocarMusica() {
         if (isMusicOn)
@@ -47,9 +68,5 @@ public class OddFellows extends Game {
     public Music getMusicaFondo(){
         return musicaFondo;
     }
-
-
-
-
 
 }
