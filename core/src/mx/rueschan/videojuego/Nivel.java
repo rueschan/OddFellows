@@ -231,10 +231,33 @@ public abstract class Nivel implements Screen{
             }
         });
 
+        //// Asignar textura al boton de acción
+        texturaAccion = new Texture("Pantalla/baseItems.png");
+        TextureRegionDrawable trdBtnAccion = new
+                TextureRegionDrawable(new TextureRegion(texturaAccion));
+
+        // Colocar boton de acción
+        btnAccion = new ImageButton(trdBtnAccion);
+        btnAccion.setPosition(pantalla.getANCHO()-btnAccion.getWidth()-pantalla.getANCHO()*.14f,
+                pantalla.getALTO()*.02f);
+        btnAccion.setColor(1,1,1,0.4f);
+
+        btnAccion.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                if (!btnAccion.isDisabled()) {
+                    Gdx.app.log("Btn", "Elimina!");
+                    Objeto obj = identificarItem(tileObjetivo);
+                    henric.addInventario(obj);
+                    tileObjetivo.setTile(null);
+                }
+            }
+        });
+
         escenaHUD = new Stage(vistaHUD);
         escenaHUD.addActor(pad);
         escenaHUD.addActor(btnInteraccion);
-        //escenaHUD.addActor(btnAccion);
+        escenaHUD.addActor(btnAccion);
         escenaHUD.addListener(new ClickListener() {
 
             @Override
