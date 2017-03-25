@@ -133,7 +133,6 @@ public class Personaje extends Objeto
 
     // Actualiza el sprite, de acuerdo al estadoMovimiento y estadoSalto
     public void actualizar(TiledMap mapa) {
-        Gdx.app.log("Inventario", inventario.toString());
         switch (estadoMovimiento) {
             case MOV_DERECHA:
             case MOV_IZQUIERDA:
@@ -172,18 +171,18 @@ public class Personaje extends Objeto
 
         celda = buscaInteractivos(nivel.mapa);
         if (celda != null) {
-            nivel.btnAccion.setPosition(sprite.getX(), sprite.getY() + 100);
-            nivel.btnAccion.setColor(1,1,1,1);
-            nivel.btnAccion.setDisabled(false);
+            nivel.alertaAccion.sprite.setPosition(sprite.getX(), sprite.getY() + 100);
+            nivel.alertaAccion.sprite.setColor(1,1,1,1);
+            //nivel.btnAccion.setDisabled(false);
             nivel.tileInteractivo = celda;
             if (!estatusAccion) {
                 fxAccion.play(0.5f);
                 estatusAccion = true;
             }
         } else {
-            nivel.btnAccion.setPosition(0, 0);
-            nivel.btnAccion.setColor(1,1,1,0);
-            nivel.btnAccion.setDisabled(true);
+            nivel.alertaAccion.sprite.setPosition(0, 0);
+            nivel.alertaAccion.sprite.setColor(1,1,1,0);
+            //nivel.btnAccion.setDisabled(true);
             nivel.tileInteractivo = null;
             estatusAccion = false;
         }

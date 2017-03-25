@@ -212,9 +212,10 @@ public class NivelCabana extends Nivel {
         // Elementos juego
         super.pantalla.escena.draw();
         pantalla.batch.begin();
-        super.henric.dibujar(pantalla.batch);
-        hp.dibujar(pantalla.batch);
-        barraHP.dibujar(pantalla.batch);
+        super.dibujar(pantalla.batch);
+//        super.henric.dibujar(pantalla.batch);
+//        hp.dibujar(pantalla.batch);
+//        barraHP.dibujar(pantalla.batch);
         pantalla.batch.end();
 
         // HUD

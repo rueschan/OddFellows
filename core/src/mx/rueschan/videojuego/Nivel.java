@@ -24,7 +24,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Touchpad;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -77,6 +76,7 @@ public abstract class Nivel implements Screen{
     public ImageButton btnInteraccion;
     protected Texture texturaAccion;
     public ImageButton btnAccion;
+    public Objeto alertaAccion;
 
     //Manejador de assets
     protected static AssetManager manager;
@@ -205,13 +205,8 @@ public abstract class Nivel implements Screen{
             // INTERACCIÓN
         //// Asignar textura a botón de acción
         texturaAccion = new Texture("Pantalla/Accion.png");
-        TextureRegionDrawable trdBtnAccion = new
-                TextureRegionDrawable(new TextureRegion(texturaAccion));
-
-        // Colocar boton de interación
-        btnAccion = new ImageButton(trdBtnAccion);
-        btnAccion.setPosition(0,0);
-        btnAccion.setColor(1,1,1,0);
+        alertaAccion = new Objeto(texturaAccion, 0, 0);
+        alertaAccion.sprite.setColor(1, 1, 1, 0);
 
         //// Asignar textura al boton de interación
         texturaInteraccin = new Texture("Pantalla/BotonInteraccion.png");
@@ -239,7 +234,7 @@ public abstract class Nivel implements Screen{
         escenaHUD = new Stage(vistaHUD);
         escenaHUD.addActor(pad);
         escenaHUD.addActor(btnInteraccion);
-        escenaHUD.addActor(btnAccion);
+        //escenaHUD.addActor(btnAccion);
         escenaHUD.addListener(new ClickListener() {
 
             @Override
@@ -281,7 +276,8 @@ public abstract class Nivel implements Screen{
         switch (celda.getTile().getId()){
             case 49: //Llave
                 fxLlave.play();
-                break;
+                Llave llave;
+                return llave = new Llave(0, 0, (int) (Math.random()*10) + 1); // Valores del 1 al 10
             case 63:
                 fxCarta.play();
                 break;
@@ -292,6 +288,13 @@ public abstract class Nivel implements Screen{
 
         }
         return null;
+    }
+
+    protected void dibujar(SpriteBatch batch) {
+        alertaAccion.dibujar(batch);
+        henric.dibujar(batch);
+        hp.dibujar(batch);
+        barraHP.dibujar(batch);
     }
 
     @Override
