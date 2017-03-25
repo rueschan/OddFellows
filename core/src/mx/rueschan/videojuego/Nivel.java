@@ -229,8 +229,8 @@ public abstract class Nivel implements Screen{
             public void clicked(InputEvent event, float x, float y) {
                 if (!btnInteraccion.isDisabled()) {
                     Gdx.app.log("Btn", "Elimina!");
-                    identificarItem(tileObjetivo);
-                    //henric.addInventario(tileObjetivo);
+                    Objeto obj = identificarItem(tileObjetivo);
+                    henric.addInventario(obj);
                     tileObjetivo.setTile(null);
                 }
             }
@@ -285,6 +285,10 @@ public abstract class Nivel implements Screen{
             case 63:
                 fxCarta.play();
                 break;
+            case 81:
+                Texture texturaMartillo = new Texture("Items/Martillo.png");
+                Arma martillo;
+                return martillo = new Arma(texturaMartillo, 0, 0, 30, "romper");
 
         }
         return null;

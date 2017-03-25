@@ -133,6 +133,7 @@ public class Personaje extends Objeto
 
     // Actualiza el sprite, de acuerdo al estadoMovimiento y estadoSalto
     public void actualizar(TiledMap mapa) {
+        Gdx.app.log("Inventario", inventario.toString());
         switch (estadoMovimiento) {
             case MOV_DERECHA:
             case MOV_IZQUIERDA:
@@ -175,7 +176,6 @@ public class Personaje extends Objeto
             nivel.btnAccion.setColor(1,1,1,1);
             nivel.btnAccion.setDisabled(false);
             nivel.tileInteractivo = celda;
-            Gdx.app.log("Accion", "entro " + String.valueOf(celda.getTile().getOffsetX()));
             if (!estatusAccion) {
                 fxAccion.play(0.5f);
                 estatusAccion = true;
@@ -320,9 +320,6 @@ public class Personaje extends Objeto
         }
     }
 
-    private final int DIFERENCIA = 64;
-    private final int DIVISION = 64;
-
     public TiledMapTileLayer.Cell buscaItems(TiledMap mapa) {
 
         TiledMapTileLayer capa = (TiledMapTileLayer) mapa.getLayers().get("Recolectables");
@@ -340,32 +337,6 @@ public class Personaje extends Objeto
             }
         }
         return null;
-
-//        // Celdas que rodean al personaje
-//        ArrayList<TiledMapTileLayer.Cell> celdas = new ArrayList<TiledMapTileLayer.Cell>(12);
-//
-//        celdas.add(capa.getCell((xPersonaje - DIFERENCIA) / DIVISION, (yPersonaje + DIFERENCIA*2 - 1) / DIVISION));         // Arriba Izq
-//        celdas.add(capa.getCell((xPersonaje) / DIVISION, (yPersonaje + DIFERENCIA*2 - 1) / DIVISION));                      // Arriba CentroI
-//        celdas.add(capa.getCell((xPersonaje + DIFERENCIA) / DIVISION, (yPersonaje + DIFERENCIA*2 - 1) / DIVISION));         // Arriba CentroD
-//        celdas.add(capa.getCell((xPersonaje + DIFERENCIA*2 - 1) / DIVISION, (yPersonaje + DIFERENCIA*2 - 1) / DIVISION));   // Arriba Der
-//
-//        celdas.add(capa.getCell((xPersonaje - DIFERENCIA) / DIVISION, (yPersonaje - DIFERENCIA) / DIVISION));               // Abajo Izq
-//        celdas.add(capa.getCell((xPersonaje) / DIVISION, (yPersonaje - DIFERENCIA) / DIVISION));                            // Abajo CentroI
-//        celdas.add(capa.getCell((xPersonaje + DIFERENCIA) / DIVISION, (yPersonaje - DIFERENCIA) / DIVISION));               // Abajo CentroD
-//        celdas.add(capa.getCell((xPersonaje + DIFERENCIA*2 - 1) / DIVISION, (yPersonaje - DIFERENCIA) / DIVISION));         // Abajo Der
-//
-//        celdas.add(capa.getCell((xPersonaje - DIFERENCIA) / DIVISION, (yPersonaje) / DIVISION));                // Izq
-//        celdas.add(capa.getCell((xPersonaje) / DIVISION, (yPersonaje) / DIVISION));                             // CentroI
-//        celdas.add(capa.getCell((xPersonaje + DIFERENCIA) / DIVISION, (yPersonaje) / DIVISION));                // CentroD
-//        celdas.add(capa.getCell((xPersonaje + DIFERENCIA*2 - 1) / DIVISION, (yPersonaje) / DIVISION));          // Der
-//
-//
-//        for (TiledMapTileLayer.Cell c : celdas) {
-//            if (c != null && c.getTile() != null) {
-//                return c;
-//            }
-//        }
-//        return null;
     }
 
     public TiledMapTileLayer.Cell buscaInteractivos(TiledMap mapa) {
