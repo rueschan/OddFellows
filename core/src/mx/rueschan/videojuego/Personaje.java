@@ -34,9 +34,13 @@ public class Personaje extends Objeto
 
     // ASSETS
     private AssetManager manager;
-    public Sound fxPasos;
-    protected String pathFxPasos = "Sonidos/pasoMadera.mp3";
+    private Sound fxPasos;
+    private String pathFxPasos = "Sonidos/pasoMadera.mp3";
+    private Sound fxAccion;
+    private String pathFxAccion = "Sonidos/alerta.mp3";
 
+    // Estado de acción
+    private boolean estatusAccion = false;
 
     // Recibe una imagen con varios frames (ver marioSprite.png)
     public Personaje(Texture textura, float x, float y) {
@@ -60,10 +64,13 @@ public class Personaje extends Objeto
         // ASSET MANAGER
         manager = Nivel.getManager();
         manager.load(pathFxPasos,Sound.class);
+        manager.load(pathFxAccion, Sound.class);
         manager.finishLoading();    // Carga los recursos
 
         fxPasos = manager.get(pathFxPasos);
         fxPasos.loop(1,1.5f,0);
+        fxPasos.pause();
+        fxAccion = manager.get(pathFxAccion);
     }
 
     public void addInventario(Objeto item) {
@@ -149,14 +156,36 @@ public class Personaje extends Objeto
     }
 
     public void interactuar(Nivel nivel) {
-        if (buscaItems(nivel.mapa) != null) {
+        TiledMapTileLayer.Cell celda;
+
+        celda = buscaItems(nivel.mapa);
+        if (celda != null) {
             nivel.btnInteraccion.setColor(1,1,1,1);
             nivel.btnInteraccion.setDisabled(false);
-            nivel.tileObjetivo = buscaItems(nivel.mapa);
+            nivel.tileObjetivo = celda;
         } else {
             nivel.btnInteraccion.setColor(1,1,1,0.4f);
             nivel.btnInteraccion.setDisabled(true);
             nivel.tileObjetivo = null;
+        }
+
+        celda = buscaInteractivos(nivel.mapa);
+        if (celda != null) {
+            nivel.btnAccion.setPosition(sprite.getX(), sprite.getY() + 100);
+            nivel.btnAccion.setColor(1,1,1,1);
+            nivel.btnAccion.setDisabled(false);
+            nivel.tileInteractivo = celda;
+            Gdx.app.log("Accion", "entro " + String.valueOf(celda.getTile().getOffsetX()));
+            if (!estatusAccion) {
+                fxAccion.play(0.5f);
+                estatusAccion = true;
+            }
+        } else {
+            nivel.btnAccion.setPosition(0, 0);
+            nivel.btnAccion.setColor(1,1,1,0);
+            nivel.btnAccion.setDisabled(true);
+            nivel.tileInteractivo = null;
+            estatusAccion = false;
         }
     }
 
@@ -306,7 +335,6 @@ public class Personaje extends Objeto
             for (int y = yPersonaje - 64; y <= yPersonaje + (64*2); y += 32) {
                 celda = capa.getCell((x / 64), (y / 64));
                 if (celda != null && celda.getTile() != null) {
-                    Gdx.app.log("Celda", celda.toString());
                     return celda;
                 }
             }
@@ -342,32 +370,18 @@ public class Personaje extends Objeto
 
     public TiledMapTileLayer.Cell buscaInteractivos(TiledMap mapa) {
 
-        TiledMapTileLayer capa = (TiledMapTileLayer) mapa.getLayers().get("Recolectables");
+        TiledMapTileLayer capa = (TiledMapTileLayer) mapa.getLayers().get("Interactivos");
+        TiledMapTileLayer.Cell celda;
+
         int xPersonaje = (int) sprite.getX();
         int yPersonaje = (int) sprite.getY();
 
-        // Celdas que rodean al personaje
-        ArrayList<TiledMapTileLayer.Cell> celdas = new ArrayList<TiledMapTileLayer.Cell>(12);
-
-        celdas.add(capa.getCell((xPersonaje - DIFERENCIA) / DIVISION, (yPersonaje + DIFERENCIA*2 - 1) / DIVISION));         // Arriba Izq
-        celdas.add(capa.getCell((xPersonaje) / DIVISION, (yPersonaje + DIFERENCIA*2 - 1) / DIVISION));                      // Arriba CentroI
-        celdas.add(capa.getCell((xPersonaje + DIFERENCIA) / DIVISION, (yPersonaje + DIFERENCIA*2 - 1) / DIVISION));         // Arriba CentroD
-        celdas.add(capa.getCell((xPersonaje + DIFERENCIA*2 - 1) / DIVISION, (yPersonaje + DIFERENCIA*2 - 1) / DIVISION));   // Arriba Der
-
-        celdas.add(capa.getCell((xPersonaje - DIFERENCIA) / DIVISION, (yPersonaje - DIFERENCIA) / DIVISION));               // Abajo Izq
-        celdas.add(capa.getCell((xPersonaje) / DIVISION, (yPersonaje - DIFERENCIA) / DIVISION));                            // Abajo CentroI
-        celdas.add(capa.getCell((xPersonaje + DIFERENCIA) / DIVISION, (yPersonaje - DIFERENCIA) / DIVISION));               // Abajo CentroD
-        celdas.add(capa.getCell((xPersonaje + DIFERENCIA*2 - 1) / DIVISION, (yPersonaje - DIFERENCIA) / DIVISION));         // Abajo Der
-
-        celdas.add(capa.getCell((xPersonaje - DIFERENCIA) / DIVISION, (yPersonaje) / DIVISION));                // Izq
-        celdas.add(capa.getCell((xPersonaje) / DIVISION, (yPersonaje) / DIVISION));                             // CentroI
-        celdas.add(capa.getCell((xPersonaje + DIFERENCIA) / DIVISION, (yPersonaje) / DIVISION));                // CentroD
-        celdas.add(capa.getCell((xPersonaje + DIFERENCIA*2 - 1) / DIVISION, (yPersonaje) / DIVISION));          // Der
-
-
-        for (TiledMapTileLayer.Cell c : celdas) {
-            if (c != null && c.getTile() != null) {
-                return c;
+        for (int x = xPersonaje - 64; x <= xPersonaje + (64*2); x += 32) {
+            for (int y = yPersonaje - 64; y <= yPersonaje + (64*2); y += 32) {
+                celda = capa.getCell((x / 64), (y / 64));
+                if (celda != null && celda.getTile() != null) {
+                    return celda;
+                }
             }
         }
         return null;

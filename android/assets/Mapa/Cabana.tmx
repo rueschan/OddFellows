@@ -200,6 +200,7 @@
   <image source="../NivelCabana/LlaveIcono.png" width="32" height="32"/>
   <tile id="0">
    <properties>
+    <property name="item" value="llave"/>
     <property name="tipo" value="recogible"/>
    </properties>
   </tile>
@@ -237,9 +238,34 @@
     <property name="tipo" value="recogible"/>
    </properties>
   </tile>
+  <tile id="1">
+   <properties>
+    <property name="tipo" value="item"/>
+   </properties>
+  </tile>
  </tileset>
  <tileset firstgid="64" name="Puertas" tilewidth="64" tileheight="64" tilecount="8" columns="8">
   <image source="../NivelCabana/Puertas.png" width="512" height="64"/>
+  <tile id="0">
+   <properties>
+    <property name="tipo" value="puerta"/>
+   </properties>
+  </tile>
+  <tile id="1">
+   <properties>
+    <property name="tipo" value="puerta"/>
+   </properties>
+  </tile>
+  <tile id="2">
+   <properties>
+    <property name="tipo" value="puerta"/>
+   </properties>
+  </tile>
+  <tile id="3">
+   <properties>
+    <property name="tipo" value="puerta"/>
+   </properties>
+  </tile>
  </tileset>
  <tileset firstgid="72" name="Alfombra" tilewidth="64" tileheight="64" tilecount="9" columns="9">
   <image source="../NivelCabana/Alfombra.png" width="576" height="64"/>
@@ -248,7 +274,8 @@
   <image source="../NivelCabana/Martillo32.png" width="64" height="64"/>
   <tile id="0">
    <properties>
-    <property name="tipo" value="recogible"/>
+    <property name="item" value="martillo"/>
+    <property name="tipo" value="arma"/>
    </properties>
   </tile>
  </tileset>

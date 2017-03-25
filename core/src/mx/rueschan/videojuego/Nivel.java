@@ -47,6 +47,7 @@ public abstract class Nivel implements Screen{
     protected OrthogonalTiledMapRenderer renderer; // Dibuja el mapa
     protected TiledMap mapa;
     protected TiledMapTileLayer.Cell tileObjetivo;
+    protected TiledMapTileLayer.Cell tileInteractivo;
 
     // Texturas HUD
     protected Texture texturaBotonPausa;
@@ -74,6 +75,8 @@ public abstract class Nivel implements Screen{
     //INTERACCION
     protected Texture texturaInteraccin;
     public ImageButton btnInteraccion;
+    protected Texture texturaAccion;
+    public ImageButton btnAccion;
 
     //Manejador de assets
     protected static AssetManager manager;
@@ -81,6 +84,8 @@ public abstract class Nivel implements Screen{
     protected Music musicaFondo;
     protected Sound fxLlave;
     protected String pathFxLlave = "Sonidos/levantarLlave.mp3";
+    protected Sound fxCarta;
+    protected String pathFxCarta = "Sonidos/levantarPapel.mp3";
 
     // private Elemento[] items;
 
@@ -124,6 +129,7 @@ public abstract class Nivel implements Screen{
         manager.load(nombreMapa, TiledMap.class);
         manager.load(nombreMusicaFondo,Music.class);
         manager.load(pathFxLlave, Sound.class);
+        manager.load(pathFxCarta, Sound.class);
 
         manager.finishLoading();    // Carga los recursos
         mapa = manager.get(nombreMapa);
@@ -137,6 +143,7 @@ public abstract class Nivel implements Screen{
 
         // Sonidos generales
         fxLlave = manager.get(pathFxLlave);
+        fxCarta = manager.get(pathFxCarta);
     }
 
     protected void crearHUD(final Pantalla pantalla) {
@@ -196,11 +203,20 @@ public abstract class Nivel implements Screen{
         });
 
             // INTERACCIÓN
+        //// Asignar textura a botón de acción
+        texturaAccion = new Texture("Pantalla/Accion.png");
+        TextureRegionDrawable trdBtnAccion = new
+                TextureRegionDrawable(new TextureRegion(texturaAccion));
+
+        // Colocar boton de interación
+        btnAccion = new ImageButton(trdBtnAccion);
+        btnAccion.setPosition(0,0);
+        btnAccion.setColor(1,1,1,0);
+
         //// Asignar textura al boton de interación
         texturaInteraccin = new Texture("Pantalla/BotonInteraccion.png");
         TextureRegionDrawable trdBtnInteraccion = new
                 TextureRegionDrawable(new TextureRegion(texturaInteraccin));
-
 
         // Colocar boton de interación
         btnInteraccion = new ImageButton(trdBtnInteraccion);
@@ -223,6 +239,7 @@ public abstract class Nivel implements Screen{
         escenaHUD = new Stage(vistaHUD);
         escenaHUD.addActor(pad);
         escenaHUD.addActor(btnInteraccion);
+        escenaHUD.addActor(btnAccion);
         escenaHUD.addListener(new ClickListener() {
 
             @Override
@@ -259,10 +276,14 @@ public abstract class Nivel implements Screen{
         // ID:
         // Llaves: 49
         // Martillo: 81
+        // Carta: 63
         Gdx.app.log("ItemID", String.valueOf(celda.getTile().getId()));
         switch (celda.getTile().getId()){
             case 49: //Llave
                 fxLlave.play();
+                break;
+            case 63:
+                fxCarta.play();
                 break;
 
         }
@@ -275,11 +296,6 @@ public abstract class Nivel implements Screen{
         pantalla.escena.draw();
 
     }
-
-
-
-
-
 
     protected void crearPausa(Stage escenaHUD){
 
