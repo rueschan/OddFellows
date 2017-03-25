@@ -20,7 +20,6 @@ public class MenuPrincipal implements Screen {
 
     private final OddFellows oddFellows;
     private final Pantalla pantalla;
-    private Music musicaFondo;
 
     // Texturas del menú
     private Texture texturaFondo;
@@ -31,7 +30,6 @@ public class MenuPrincipal implements Screen {
 
     public MenuPrincipal(OddFellows oddFellows) {
         this.oddFellows = oddFellows;
-        this.musicaFondo = this.oddFellows.getMusicaFondo();
         // Obtener pantalla
         pantalla = Pantalla.getInstanciaPantalla();
     }
@@ -40,9 +38,8 @@ public class MenuPrincipal implements Screen {
     public void show() {
         // Cuando cargan la pantalla
         cargarTexturas();
-        crearObjetos();;
-
-        musicaFondo.play();
+        crearObjetos();
+        oddFellows.tocarMusica();
     }
 
     // Metodo para iniciar texturas de pantalla
@@ -125,7 +122,8 @@ public class MenuPrincipal implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 Gdx.app.log("clicked", "***Cambio a juego***");
-                musicaFondo.stop();
+                oddFellows.pararMusica();
+                oddFellows.eliminarMusica();
                 Juego juego = Juego.getJuego(oddFellows);
                 juego.iniciarJuego();
             }
@@ -167,7 +165,7 @@ public class MenuPrincipal implements Screen {
     public void resume() {
         cargarTexturas();
         crearObjetos();
-        musicaFondo.play();
+        oddFellows.tocarMusica();
     }
 
     @Override

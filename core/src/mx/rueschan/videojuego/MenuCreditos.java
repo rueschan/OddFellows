@@ -24,16 +24,12 @@ public class MenuCreditos implements Screen {
     private Texture texturaFondo;
     private Texture texturaExit;
 
-    private Music musicaFondo;
-
-
 
     public MenuCreditos(OddFellows oddFellows) {
         this.oddFellows = oddFellows;
         // Obtener pantalla
         pantalla = Pantalla.getInstanciaPantalla();
 
-        this.musicaFondo = this.oddFellows.getMusicaFondo();
     }
 
     @Override
@@ -41,7 +37,7 @@ public class MenuCreditos implements Screen {
         // Cuando cargan la pantalla
         cargarTexturas();
         crearObjetos();
-        musicaFondo.play();
+        oddFellows.tocarMusica();
     }
 
     private void cargarTexturas() {
@@ -103,7 +99,7 @@ public class MenuCreditos implements Screen {
     public void resume() {
         cargarTexturas();
         crearObjetos();
-        musicaFondo.play();
+        oddFellows.tocarMusica();
     }
 
     @Override
@@ -115,6 +111,5 @@ public class MenuCreditos implements Screen {
     public void dispose() {
         texturaExit.dispose();
         texturaFondo.dispose();
-        musicaFondo.dispose();
     }
 }

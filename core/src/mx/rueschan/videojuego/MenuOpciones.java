@@ -29,11 +29,6 @@ public class MenuOpciones implements Screen{
     private Texture texturaSonido;
     private Texture texturaFX;
 
-    private Music musicaFondo;
-
-    // Estado de opciones (SE DEBE CAMBIAR CUANDO SE TENGA MEMORIA)
-    private boolean isAudioOn = true;
-    private boolean isFxOn = true;
 
     // Flag para determinar si viene del juego o del menú
     boolean partidaEnCurso;
@@ -43,7 +38,6 @@ public class MenuOpciones implements Screen{
         // Obtener pantalla
         pantalla = Pantalla.getInstanciaPantalla();
         this.partidaEnCurso = partidaEnCurso;
-        this.musicaFondo = this.oddFellows.getMusicaFondo();
     }
 
     public MenuOpciones(OddFellows oddFellows, boolean partidaEnCurso, MenuPausa pausa) {
@@ -52,14 +46,6 @@ public class MenuOpciones implements Screen{
         pantalla = Pantalla.getInstanciaPantalla();
         this.partidaEnCurso = partidaEnCurso;
         this.menuPausa = pausa;
-        this.musicaFondo = this.oddFellows.getMusicaFondo();
-    }
-    public boolean isAudioOn(){
-        return isAudioOn;
-    }
-
-    public boolean isFxOn(){
-        return isFxOn;
     }
 
     @Override
@@ -67,7 +53,7 @@ public class MenuOpciones implements Screen{
         // Cuando cargan la pantalla
         cargarTexturas();
         crearObjetos();
-        musicaFondo.play();
+        oddFellows.tocarMusica();
     }
 
     private void cargarTexturas() {
@@ -96,10 +82,10 @@ public class MenuOpciones implements Screen{
         TextureRegionDrawable trdSonido = new
                 TextureRegionDrawable(new TextureRegion(texturaSonido));
         // Colocar botón de sonido
-        ImageButton btnSonido = new ImageButton(trdSonido);
-        btnSonido.setPosition(pantalla.getANCHO()/3 + 200 - btnSonido.getWidth()/2,
-                5*pantalla.getALTO()/6 - btnSonido.getHeight()/2);
-        pantalla.escena.addActor(btnSonido);
+        ImageButton btnMusica = new ImageButton(trdSonido);
+        btnMusica.setPosition(pantalla.getANCHO()/3 + 200 - btnMusica.getWidth()/2,
+                5*pantalla.getALTO()/6 - btnMusica.getHeight()/2);
+        pantalla.escena.addActor(btnMusica);
         // Boton de efectos
         TextureRegionDrawable trdFX = new
                 TextureRegionDrawable(new TextureRegion(texturaFX));
@@ -126,20 +112,20 @@ public class MenuOpciones implements Screen{
             }
         });
 
-        btnSonido.addListener(new ClickListener(){
+        btnMusica.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                Gdx.app.log("clicked", "***audio***");
-
-                isAudioOn = !isAudioOn;
+                oddFellows.cambiaMusica();
+                oddFellows.tocarMusica();
+                Gdx.app.log("clicked", "***audio "+oddFellows.isMusicOn()+"***");
             }
         });
 
         btnFX.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                Gdx.app.log("clicked", "***FX***");
-                isFxOn = !isFxOn;
+                oddFellows.cambiaFx();
+                Gdx.app.log("clicked", "***FX "+oddFellows.isFxOn()+"***");
             }
         });
 
@@ -182,26 +168,26 @@ public class MenuOpciones implements Screen{
 
     private void escribirEnPantalla() {
 
-        String mensajeAudio;
+        String mensajeMusica;
         String mensajeFX;
 
         pantalla.batch.begin();
 
-        // Texto de sonido
+        // Texto de musica
         pantalla.texto.mostrarMensajes(pantalla.batch, Color.BLACK, "Music",
                 pantalla.getANCHO()/3 + 200, 5*pantalla.getALTO()/6 - 80);
-        if (isAudioOn) {
-            mensajeAudio = "ON";
+        if (oddFellows.isMusicOn()) {
+            mensajeMusica = "ON";
         } else {
-            mensajeAudio = "OFF";
+            mensajeMusica = "OFF";
         }
-        pantalla.texto.mostrarMensajes(pantalla.batch, Color.WHITE, mensajeAudio,
+        pantalla.texto.mostrarMensajes(pantalla.batch, Color.WHITE, mensajeMusica,
                 pantalla.getANCHO()/3 + 400, 5*pantalla.getALTO()/6);
 
         // Texto de efectos
         pantalla.texto.mostrarMensajes(pantalla.batch, Color.BLACK, "Effects",
                 pantalla.getANCHO()/3 + 200, 3*pantalla.getALTO()/6 - 80);
-        if (isFxOn) {
+        if (oddFellows.isFxOn()) {
             mensajeFX = "ON";
         } else {
             mensajeFX = "OFF";
@@ -211,7 +197,7 @@ public class MenuOpciones implements Screen{
 
         pantalla.batch.end();
 
-        mensajeAudio = null;
+        mensajeMusica = null;
         mensajeFX = null;
     }
 
@@ -230,7 +216,7 @@ public class MenuOpciones implements Screen{
     public void resume() {
         cargarTexturas();
         crearObjetos();
-        musicaFondo.play();
+        oddFellows.tocarMusica();
     }
 
     @Override
