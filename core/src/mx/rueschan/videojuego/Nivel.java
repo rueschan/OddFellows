@@ -6,6 +6,7 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
@@ -255,9 +256,9 @@ public abstract class Nivel implements Screen{
         });
 
         escenaHUD = new Stage(vistaHUD);
-        escenaHUD.addActor(pad);
-        escenaHUD.addActor(btnInteraccion);
-        escenaHUD.addActor(btnAccion);
+        escenaHUD.addActor(pad);//Actor en posicion 0
+        escenaHUD.addActor(btnInteraccion);//Actor en posicion 1
+        escenaHUD.addActor(btnAccion);//Actor en posicion 2
         escenaHUD.addListener(new ClickListener() {
 
             @Override
@@ -380,29 +381,27 @@ public abstract class Nivel implements Screen{
         btnMusica.setPosition(2*pantalla.getANCHO()/5 - btnMusica.getWidth()/2,pantalla.getALTO()/2
                 - btnMusica.getHeight()/2);
 
-
-
-
-
-        //Cuadro de pausa actor 3
+        //Cuadro de pausa actor posicion 3
         escenaHUD.addActor(cuadroPausa);
         cuadroPausa.setVisible(false);
 
-        //Cuadro de reanudar actor 4
+        //Cuadro de reanudar actor posicion 4
         escenaHUD.addActor(btnReanudar);
         btnReanudar.setVisible(false);
 
-        //Cuadro de salir actor 5
+        //Cuadro de salir actor posicion 5
         escenaHUD.addActor(btnSalir);
         btnSalir.setVisible(false);
 
-        //Cuadro de salir actor 6
+        //Cuadro de salir actor posicion 6
         escenaHUD.addActor(btnSonido);
         btnSonido.setVisible(false);
 
-        //Cuadro de salir actor 7
+        //Cuadro de salir actor posicion 7
         escenaHUD.addActor(btnMusica);
         btnMusica.setVisible(false);
+
+//        escribirEnPantalla();
     }
 
 
@@ -424,4 +423,13 @@ public abstract class Nivel implements Screen{
         vistaHUD.update(width, height);
         pantalla.resize(width, height);
     }
+
+    /*protected void escribirEnPantalla() {
+        pantalla.batch.begin();
+        pantalla.texto.mostrarMensajes(pantalla.batch, new Color(1, 1, 1, 0.85f), "Resume",
+                3*pantalla.getANCHO()/6, 3* pantalla.getALTO()/6);
+        pantalla.texto.mostrarMensajes(pantalla.batch, new Color(1, 1, 1, 0.85f), "Options",
+                3*pantalla.getANCHO()/6, 1* pantalla.getALTO()/6);
+        pantalla.batch.end();
+    }*/
 }

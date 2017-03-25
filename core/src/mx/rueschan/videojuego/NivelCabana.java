@@ -127,21 +127,22 @@ public class NivelCabana extends Nivel {
                 if (pausado == true){
                     pausado = false;
                     //Visibilidad del elemento 3 'Cuadro de pausa'
-                    NivelCabana.super.escenaHUD.getActors().get(2).setVisible(false);
-                    //Visibilidad del elemento 4 'Boton de reanudar'
                     NivelCabana.super.escenaHUD.getActors().get(3).setVisible(false);
-                    //Visibilidad del elemento 5 'Boton de salir'
+                    //Visibilidad del elemento 4 'Boton de reanudar'
                     NivelCabana.super.escenaHUD.getActors().get(4).setVisible(false);
-                    //Visibilidad del elemento 6 'Boton de sonido'
+                    //Visibilidad del elemento 5 'Boton de salir'
                     NivelCabana.super.escenaHUD.getActors().get(5).setVisible(false);
-                    //Visibilidad del elemento 7 'Boton de musica'
+                    //Visibilidad del elemento 6 'Boton de sonido'
                     NivelCabana.super.escenaHUD.getActors().get(6).setVisible(false);
+                    //Visibilidad del elemento 7 'Boton de musica'
+                    NivelCabana.super.escenaHUD.getActors().get(7).setVisible(false);
 
+                    //Visibilidad del elemento 3 'Interaccion2'
+                    NivelCabana.super.escenaHUD.getActors().get(2).setVisible(true);
                     //Visibilidad del elemento 2 'Interacción'
                     NivelCabana.super.escenaHUD.getActors().get(1).setVisible(true);
                     //Visibilidad del elemento 1 'Pad'
                     NivelCabana.super.escenaHUD.getActors().get(0).setVisible(true);
-
 
                     NivelCabana.super.musicaFondo.play();
                 }
@@ -149,20 +150,23 @@ public class NivelCabana extends Nivel {
                 else{
                     pausado = true;
                     //Visibilidad del elemento 3 'Cuadro de pausa'
-                    NivelCabana.super.escenaHUD.getActors().get(2).setVisible(true);
-                    //Visibilidad del elemento 4 'Boton de reanudar'
                     NivelCabana.super.escenaHUD.getActors().get(3).setVisible(true);
-                    //Visibilidad del elemento 5 'Boton de salir'
+                    //Visibilidad del elemento 4 'Boton de reanudar'
                     NivelCabana.super.escenaHUD.getActors().get(4).setVisible(true);
-                    //Visibilidad del elemento 6 'Boton de sonido'
+                    //Visibilidad del elemento 5 'Boton de salir'
                     NivelCabana.super.escenaHUD.getActors().get(5).setVisible(true);
-                    //Visibilidad del elemento 7 'Boton de musica'
+                    //Visibilidad del elemento 6 'Boton de sonido'
                     NivelCabana.super.escenaHUD.getActors().get(6).setVisible(true);
+                    //Visibilidad del elemento 7 'Boton de musica'
+                    NivelCabana.super.escenaHUD.getActors().get(7).setVisible(true);
 
+                    //Visibilidad del elemento 3 'Interaccion2'
+                    NivelCabana.super.escenaHUD.getActors().get(2).setVisible(false);
                     //Visibilidad del elemento 2 'Interacción'
                     NivelCabana.super.escenaHUD.getActors().get(1).setVisible(false);
                     //Visibilidad del elemento 1 'Pad'
                     NivelCabana.super.escenaHUD.getActors().get(0).setVisible(false);
+
 
                     NivelCabana.super.musicaFondo.pause();
                 }
@@ -171,7 +175,6 @@ public class NivelCabana extends Nivel {
                 //oddFellows.setScreen(new MenuPausa(oddFellows, actual));
             }
         });
-
         //Pad
 
 
@@ -231,19 +234,22 @@ public class NivelCabana extends Nivel {
         // Detectar botón físico "return"
         if (Gdx.input.isKeyJustPressed(Input.Keys.BACK)) {
             //Abrir MenuPausa
+            //Para quitar la pausa
             if (pausado == true){
                 pausado = false;
                 //Visibilidad del elemento 3 'Cuadro de pausa'
-                NivelCabana.super.escenaHUD.getActors().get(2).setVisible(false);
-                //Visibilidad del elemento 4 'Boton de reanudar'
                 NivelCabana.super.escenaHUD.getActors().get(3).setVisible(false);
-                //Visibilidad del elemento 5 'Boton de salir'
+                //Visibilidad del elemento 4 'Boton de reanudar'
                 NivelCabana.super.escenaHUD.getActors().get(4).setVisible(false);
-                //Visibilidad del elemento 6 'Boton de sonido'
+                //Visibilidad del elemento 5 'Boton de salir'
                 NivelCabana.super.escenaHUD.getActors().get(5).setVisible(false);
-                //Visibilidad del elemento 7 'Boton de musica'
+                //Visibilidad del elemento 6 'Boton de sonido'
                 NivelCabana.super.escenaHUD.getActors().get(6).setVisible(false);
+                //Visibilidad del elemento 7 'Boton de musica'
+                NivelCabana.super.escenaHUD.getActors().get(7).setVisible(false);
 
+                //Visibilidad del elemento 3 'Interaccion2'
+                NivelCabana.super.escenaHUD.getActors().get(2).setVisible(true);
                 //Visibilidad del elemento 2 'Interacción'
                 NivelCabana.super.escenaHUD.getActors().get(1).setVisible(true);
                 //Visibilidad del elemento 1 'Pad'
@@ -255,20 +261,23 @@ public class NivelCabana extends Nivel {
             else{
                 pausado = true;
                 //Visibilidad del elemento 3 'Cuadro de pausa'
-                NivelCabana.super.escenaHUD.getActors().get(2).setVisible(true);
-                //Visibilidad del elemento 4 'Boton de reanudar'
                 NivelCabana.super.escenaHUD.getActors().get(3).setVisible(true);
-                //Visibilidad del elemento 5 'Boton de salir'
+                //Visibilidad del elemento 4 'Boton de reanudar'
                 NivelCabana.super.escenaHUD.getActors().get(4).setVisible(true);
-                //Visibilidad del elemento 6 'Boton de sonido'
+                //Visibilidad del elemento 5 'Boton de salir'
                 NivelCabana.super.escenaHUD.getActors().get(5).setVisible(true);
-                //Visibilidad del elemento 7 'Boton de musica'
+                //Visibilidad del elemento 6 'Boton de sonido'
                 NivelCabana.super.escenaHUD.getActors().get(6).setVisible(true);
+                //Visibilidad del elemento 7 'Boton de musica'
+                NivelCabana.super.escenaHUD.getActors().get(7).setVisible(true);
 
+                //Visibilidad del elemento 3 'Interaccion2'
+                NivelCabana.super.escenaHUD.getActors().get(2).setVisible(false);
                 //Visibilidad del elemento 2 'Interacción'
                 NivelCabana.super.escenaHUD.getActors().get(1).setVisible(false);
                 //Visibilidad del elemento 1 'Pad'
                 NivelCabana.super.escenaHUD.getActors().get(0).setVisible(false);
+
 
                 NivelCabana.super.musicaFondo.pause();
             }
