@@ -91,10 +91,8 @@ public abstract class Nivel implements Screen{
     protected String pathFxLlave = "Sonidos/levantarLlave.mp3";
     protected Sound fxCarta;
     protected String pathFxCarta = "Sonidos/levantarPapel.mp3";
-
-    // private Elemento[] items;
-
-
+    private Sound fxInventario;
+    private String pathFxInventario = "Sonidos/zipper.mp3";
 
     @Override
     public void show() {
@@ -135,6 +133,7 @@ public abstract class Nivel implements Screen{
         manager.load(nombreMusicaFondo,Music.class);
         manager.load(pathFxLlave, Sound.class);
         manager.load(pathFxCarta, Sound.class);
+        manager.load(pathFxInventario, Sound.class);
 
         manager.finishLoading();    // Carga los recursos
         mapa = manager.get(nombreMapa);
@@ -149,6 +148,7 @@ public abstract class Nivel implements Screen{
         // Sonidos generales
         fxLlave = manager.get(pathFxLlave);
         fxCarta = manager.get(pathFxCarta);
+        fxInventario = manager.get(pathFxInventario);
     }
 
     protected void crearHUD(final Pantalla pantalla) {
@@ -273,7 +273,7 @@ public abstract class Nivel implements Screen{
         btnInventario.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-
+                fxInventario.play(1,2,0);
             }
         });
 
