@@ -64,6 +64,8 @@ public abstract class Nivel implements Screen{
 
     //Pausa
     protected Texture regionPausa;
+    protected Texture regionOscura;
+    protected Texture fondoMenu;
     protected Boolean pausado;
 
         //Textura en Menu Pausa
@@ -254,7 +256,6 @@ public abstract class Nivel implements Screen{
                 }
             }
         });
-
         escenaHUD = new Stage(vistaHUD);
         escenaHUD.addActor(pad);//Actor en posicion 0
         escenaHUD.addActor(btnInteraccion);//Actor en posicion 1
@@ -263,10 +264,6 @@ public abstract class Nivel implements Screen{
 
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-
-
-
-
                 if (y < pantalla.getALTO()/6 && x > pantalla.getANCHO()* 6/7) {
 
                 } else {
@@ -309,7 +306,6 @@ public abstract class Nivel implements Screen{
                 Texture texturaMartillo = new Texture("Items/Martillo.png");
                 Arma martillo;
                 return martillo = new Arma(texturaMartillo, 0, 0, 30, "romper");
-
         }
         return null;
     }
@@ -325,22 +321,38 @@ public abstract class Nivel implements Screen{
     public void render(float delta) {
         pantalla.borrarPantalla();
         pantalla.escena.draw();
-
     }
 
-    protected void crearPausa(Stage escenaHUD){
+    protected void crearPausa(final Stage escenaHUD){
 
         pausado=false;
 
         //Textura de pausa
-        // Crear triángulo transparente
-        Pixmap pixmap = new Pixmap((int)(pantalla.getANCHO()*0.5f), (int)(pantalla.getALTO()*0.8f), Pixmap.Format.RGBA8888 );
-        pixmap.setColor( 0.2f, 0.3f, 0.5f, 0.65f );
-        pixmap.fillRectangle(0,0,(int)pantalla.getALTO(),(int)pantalla.getALTO());
+        // Crear menú semi transparente
+        Pixmap pixmap = new Pixmap((int)(pantalla.getANCHO()*0.45f), (int)(pantalla.getALTO()*0.8f), Pixmap.Format.RGBA8888 );
+        //pixmap.setColor( 0.2f, 0.3f, 0.5f, 0.65f );
+        pixmap.setColor( 0f, 0f, 0f, 0.65f );
+        pixmap.fillRectangle(0,0,(int)pantalla.getANCHO(),(int)pantalla.getALTO());
         regionPausa = new Texture( pixmap );
         pixmap.dispose();
         Image cuadroPausa = new Image(regionPausa);
-        cuadroPausa.setPosition(0.25f*pantalla.getANCHO(), 0.1f*pantalla.getALTO());
+        cuadroPausa.setPosition(0.275f*pantalla.getANCHO(), 0.1f*pantalla.getALTO());
+
+        //Crear Fondo de pantalla de pausa
+        fondoMenu = new Texture("Pantalla/Fondo/fondoPausa.jpg");
+        Image fondoMenuImagen = new Image(fondoMenu);
+        fondoMenuImagen.setPosition(0,0);
+
+        /*
+        //Crear ligero cambio oscuro a la pantalla
+        Pixmap pixmapOscuro = new Pixmap((int)(pantalla.getANCHO()), (int)(pantalla.getALTO()), Pixmap.Format.RGBA8888 );
+        pixmapOscuro.setColor( 0f, 0f, 0f, 0.65f );
+        pixmapOscuro.fillRectangle(0,0,(int)pantalla.getANCHO(),(int)pantalla.getALTO());
+        regionOscura = new Texture( pixmapOscuro );
+        pixmapOscuro.dispose();
+        Image oscuroPausa = new Image(regionOscura);
+        oscuroPausa.setPosition(0,0);
+        */
 
         //Crear texturas
         texturaBotonReanudar = new Texture("Pantalla/Tabla.png");
@@ -364,7 +376,6 @@ public abstract class Nivel implements Screen{
         btnSalir.setPosition(pantalla.getANCHO()/2 - btnSalir.getWidth()/2,pantalla.getALTO()/4
                 - btnSalir.getHeight()/2);
 
-
         //Crear boton Sonido
         TextureRegionDrawable trdBtnSonido = new
                 TextureRegionDrawable(new TextureRegion(texturaSonido));
@@ -380,6 +391,28 @@ public abstract class Nivel implements Screen{
         ImageButton btnMusica = new ImageButton(trdBtnMusica);
         btnMusica.setPosition(2*pantalla.getANCHO()/5 - btnMusica.getWidth()/2,pantalla.getALTO()/2
                 - btnMusica.getHeight()/2);
+
+        //Interaccion boton reanudar
+        btnReanudar.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                pausado = pausar(pausado,escenaHUD,musicaFondo);
+            }
+        });
+
+        //Interaccion boton salir
+        btnSalir.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                Gdx.input.setInputProcessor(pantalla.escena);
+                musicaFondo.pause();
+                oddFellows.setScreen(new MenuPrincipal(oddFellows));
+            }
+        });
+
+        //Cuadro de pausa actor posicion 3
+        escenaHUD.addActor(fondoMenuImagen);
+        fondoMenuImagen.setVisible(false);
 
         //Cuadro de pausa actor posicion 3
         escenaHUD.addActor(cuadroPausa);
@@ -424,12 +457,91 @@ public abstract class Nivel implements Screen{
         pantalla.resize(width, height);
     }
 
-    /*protected void escribirEnPantalla() {
+    protected boolean pausar(boolean pausado, Stage escenaHUD, Music musicaFondo){
+        //Se le resta uno por ser el tamano y no la posición, se le resta otro para no contar con el botón de pausa
+        int actorHUD = escenaHUD.getActors().size-2;
+        //Los actores relacionados a pausa es 5 más el del botón pausa de la esquina
+        int cantidadActoresPausa = 5;
+        int actoresNoPausa = actorHUD-cantidadActoresPausa;
+        //En caso de que el booleano pausa sea verdadero
+        if (pausado){
+            pausado = false;
+            escenaHUD.getActors().get(escenaHUD.getActors().size-1).setVisible(!pausado);
+
+            for (;actorHUD >= 0; actorHUD--){
+                if(actorHUD>=actoresNoPausa){
+                    escenaHUD.getActors().get(actorHUD).setVisible(pausado);
+                }
+                else{
+                    escenaHUD.getActors().get(actorHUD).setVisible(!pausado);
+                }
+            }
+            musicaFondo.play();
+        }
+        //En caso de que el booleano pausa sea falso
+        else{
+            pausado = true;
+            escenaHUD.getActors().get(escenaHUD.getActors().size-1).setVisible(!pausado);
+            for (;actorHUD >= 0; actorHUD--){
+                if(actorHUD>=actoresNoPausa){
+                    escenaHUD.getActors().get(actorHUD).setVisible(pausado);
+                }
+                else{
+                    escenaHUD.getActors().get(actorHUD).setVisible(!pausado);
+                }
+            }
+            musicaFondo.pause();
+        }
+        return pausado;
+    }
+
+    //Se pone en el render del nivel particular
+    protected void escribirMenuPausa(boolean pausado, Music musica){
+        String tituloReanudar;
+        String tituloSalir;
+        String tituloMusica;
+        String tituloSonido;
+
         pantalla.batch.begin();
-        pantalla.texto.mostrarMensajes(pantalla.batch, new Color(1, 1, 1, 0.85f), "Resume",
-                3*pantalla.getANCHO()/6, 3* pantalla.getALTO()/6);
-        pantalla.texto.mostrarMensajes(pantalla.batch, new Color(1, 1, 1, 0.85f), "Options",
-                3*pantalla.getANCHO()/6, 1* pantalla.getALTO()/6);
+
+        //Para que el mensaje no aparzca cuando no está en pausa
+        if (pausado) {
+            tituloReanudar = "Resume";
+            tituloSalir = "Exit";
+
+            //CAMARON, En estos debe de modificarse, no se como estás haciendo lo de la música
+            if (musica.isLooping()) {
+                tituloMusica = "Music: ON";
+            }else {
+                tituloMusica = "Music: OFF";
+            }
+            //CAMARON, Igual aqui con los efectos
+            if(musica.isLooping()){
+               tituloSonido = "SFX:   ON";
+                }else {
+                    tituloSonido = "SFX:   OFF";
+            }
+        }
+        //Cuando no está en pausa no aparecen los mensajes
+        else {
+            tituloReanudar = "";
+            tituloSalir = "";
+            tituloMusica = "";
+            tituloSonido = "";
+        }
+
+        pantalla.texto.mostrarMensajes(pantalla.batch, new Color(1, 1, 1, 0.85f), tituloReanudar,
+                pantalla.getANCHO() / 2, 3f*pantalla.getALTO()/4 + 10);
+
+        pantalla.texto.mostrarMensajes(pantalla.batch, Color.WHITE, tituloMusica,
+                2f * pantalla.getANCHO() / 5, pantalla.getALTO()/2 - 55);
+
+        pantalla.texto.mostrarMensajes(pantalla.batch, Color.WHITE, tituloSonido,
+                3f * pantalla.getANCHO() / 5, pantalla.getALTO()/2 - 55);
+
+        pantalla.texto.mostrarMensajes(pantalla.batch, new Color(1, 1, 1, 0.85f), tituloSalir,
+               pantalla.getANCHO() / 2, pantalla.getALTO()/4 + 10);
+
         pantalla.batch.end();
-    }*/
+    }
 }

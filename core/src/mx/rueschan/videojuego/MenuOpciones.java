@@ -150,9 +150,7 @@ public class MenuOpciones implements Screen{
     public void render(float delta) {
         pantalla.borrarPantalla();
         pantalla.escena.draw();
-
         escribirEnPantalla();
-
         // Detectar botón físico "return"
         if (Gdx.input.isKeyJustPressed(Input.Keys.BACK)){
             if (partidaEnCurso){
