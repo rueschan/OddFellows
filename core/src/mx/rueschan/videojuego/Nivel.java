@@ -30,6 +30,7 @@ import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by OddFellows on 14/02/2017.
@@ -39,6 +40,11 @@ public abstract class Nivel implements Screen{
     protected OddFellows oddFellows;
     protected Pantalla pantalla;
     protected Juego juego;
+
+    //Indices
+    protected int indiceActoresAntesPausa;
+    protected int indiceActoresPausa;
+    protected List<Integer> actoresAparte = new ArrayList<Integer>();
 
     // Personaje
     protected Personaje henric;
@@ -74,6 +80,13 @@ public abstract class Nivel implements Screen{
     protected Texture texturaBotonSalir;
     protected Texture texturaMusica;
     protected Texture texturaFX;
+
+    //Inventario
+    protected Boolean enInventario;
+
+        //Textura en Inventario
+    protected Texture regionInventario;
+    protected Texture regionRegresarInventario;
 
     //INTERACCION
     private Texture texturaInteraccion;
@@ -283,12 +296,14 @@ public abstract class Nivel implements Screen{
                 pantalla.getALTO()*.02f);
         btnInventario.setColor(1,1,1,1);
 
+        //Asignar accion al boton inventario
         btnInventario.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 fxInventario.play(1,2,0);
                 ArrayList<Objeto> inventario;
                 inventario = henric.verInventario();
+                enInventario = irInventario(enInventario,escenaHUD);
             }
         });
 
@@ -318,14 +333,21 @@ public abstract class Nivel implements Screen{
         escenaHUD = new Stage(vistaHUD);
         escenaHUD.addActor(pad);//Actor en posicion 0
         escenaHUD.getActors().get(0).setName("Pad");
+        indiceActoresAntesPausa=0;
         escenaHUD.addActor(btnInteraccion);//Actor en posicion 1
         escenaHUD.getActors().get(1).setName("Interaccion");
+        indiceActoresAntesPausa++;
         escenaHUD.addActor(btnAccion);//Actor en posicion 2
         escenaHUD.getActors().get(2).setName("Accion");
+        indiceActoresAntesPausa++;
         escenaHUD.addActor(btnInventario);//Actor en posicion 3
         escenaHUD.getActors().get(3).setName("Inventario");
-        escenaHUD.addActor(btnCerrar);
+        indiceActoresAntesPausa++;
+        escenaHUD.addActor(btnCerrar);//Actor en posicion 4
         escenaHUD.getActors().get(4).setName("Cerrar");
+        indiceActoresAntesPausa++;
+        //Anadir en lista de casos aparte
+        actoresAparte.add(4);
 
         escenaHUD.addListener(new ClickListener() {
 
@@ -450,7 +472,7 @@ public abstract class Nivel implements Screen{
         musicaPausa = manager.get(pathMusicaPausa);
         musicaPausa.setLooping(true);
 
-        //Textura de pausa
+        //Textura de cuadro de pausa
         // Crear menú semi transparente
         Pixmap pixmap = new Pixmap((int)(pantalla.getANCHO()*0.45f), (int)(pantalla.getALTO()*0.8f), Pixmap.Format.RGBA8888 );
         //pixmap.setColor( 0.2f, 0.3f, 0.5f, 0.65f );
@@ -573,32 +595,94 @@ public abstract class Nivel implements Screen{
         });
 
 
-        //Botón pausa en actor posicion 4
+        //Botón pausa en actor posicion 5
         escenaHUD.addActor(btnPausa);
-
-        //Cuadro de pausa actor posicion 5
-        escenaHUD.addActor(fondoMenuImagen);
-        fondoMenuImagen.setVisible(false);
+        indiceActoresAntesPausa++;
+        indiceActoresPausa+=indiceActoresAntesPausa;
 
         //Cuadro de pausa actor posicion 6
+        escenaHUD.addActor(fondoMenuImagen);
+        fondoMenuImagen.setVisible(false);
+        indiceActoresPausa++;
+
+        //Cuadro de pausa actor posicion 7
         escenaHUD.addActor(cuadroPausa);
         cuadroPausa.setVisible(false);
-
-        //Cuadro de reanudar actor posicion 7
+        indiceActoresPausa++;
+        //Cuadro de reanudar actor posicion 8
         escenaHUD.addActor(btnReanudar);
         btnReanudar.setVisible(false);
-
-        //Cuadro de salir actor posicion 8
+        indiceActoresPausa++;
+        //Cuadro de salir actor posicion 9
         escenaHUD.addActor(btnSalir);
         btnSalir.setVisible(false);
-
-        //Cuadro de salir actor posicion 9
+        indiceActoresPausa++;
+        //Cuadro de salir actor posicion 10
         escenaHUD.addActor(btnFX);
         btnFX.setVisible(false);
-
-        //Cuadro de salir actor posicion 10
+        indiceActoresPausa++;
+        //Cuadro de salir actor posicion 11
         escenaHUD.addActor(btnMusica);
         btnMusica.setVisible(false);
+        indiceActoresPausa++;
+    }
+
+
+    protected void crearInventario(final Stage escenaHUD){
+
+        //Booleano que determina si aparece el menu inventario
+        enInventario=false;
+
+        //Textura de cuadro de pausa
+        // Crear menú semi transparente
+        Pixmap pixmapInv = new Pixmap((int)(pantalla.getANCHO()*0.55f), (int)(pantalla.getALTO()*0.7f), Pixmap.Format.RGBA8888 );
+        //pixmap.setColor( 0.2f, 0.3f, 0.5f, 0.65f );
+        pixmapInv.setColor( 0.2f, 0.3f, 0.5f, 85f );
+        pixmapInv.fillRectangle(0,0,(int)pantalla.getANCHO(),(int)pantalla.getALTO());
+        regionInventario = new Texture( pixmapInv );
+        pixmapInv.dispose();
+        Image cuadroInventario = new Image(regionInventario);
+        cuadroInventario.setPosition(0.225f*pantalla.getANCHO(), 0.15f*pantalla.getALTO());
+
+        //Crear ligero cambio oscuro a la pantalla
+        Pixmap pixmapOscuro = new Pixmap((int)(pantalla.getANCHO()), (int)(pantalla.getALTO()), Pixmap.Format.RGBA8888 );
+        pixmapOscuro.setColor( 0f, 0f, 0f, 0.65f );
+        pixmapOscuro.fillRectangle(0,0,(int)pantalla.getANCHO(),(int)pantalla.getALTO());
+        regionOscura = new Texture( pixmapOscuro );
+        pixmapOscuro.dispose();
+        Image oscuroPausa = new Image(regionOscura);
+        oscuroPausa.setPosition(0,0);
+
+        //Crear rectángulo de regreso
+        Pixmap pixmapRegresar = new Pixmap((int)(pantalla.getANCHO()*0.4f), (int)(pantalla.getALTO()*0.1f), Pixmap.Format.RGBA8888 );
+        pixmapRegresar.setColor( 0.6f, 0.2f, 0.8f, 0.85f );
+        pixmapRegresar.fillRectangle(0,0,(int)pantalla.getANCHO(),(int)pantalla.getALTO());
+        regionRegresarInventario = new Texture( pixmapRegresar );
+        pixmapRegresar.dispose();
+        Image regresarInventario = new Image(regionRegresarInventario);
+        regresarInventario.setPosition(.3f*pantalla.getANCHO(),.05f*pantalla.getALTO());
+
+
+        //Cuadro oscuro actor posicion 12
+        escenaHUD.addActor(oscuroPausa);
+        oscuroPausa.setVisible(false);
+
+        //Cuadro de inventario actor posicion 13
+        escenaHUD.addActor(cuadroInventario);
+        cuadroInventario.setVisible(false);
+
+        //Cuadro de regresar actor posicion 14
+        escenaHUD.addActor(regresarInventario);
+        regresarInventario.setVisible(false);
+
+        // Interaccion boton pausa
+        regresarInventario.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                //Para quitar la pausa
+                enInventario = irInventario(enInventario,escenaHUD);
+            }
+        });
     }
 
 
@@ -622,45 +706,62 @@ public abstract class Nivel implements Screen{
     }
 
     protected boolean pausar(boolean pausado, Stage escenaHUD){
-        //Se le resta uno por ser el tamano y no la posición, se le resta otro para no contar con el botón de pausa
-        int actorHUD = escenaHUD.getActors().size-1;
-        //Los actores relacionados a pausa es 5 más el del botón pausa de la esquina
-        int cantidadActoresPausa = 5;
-        int actoresNoPausa = actorHUD-cantidadActoresPausa;
-        //En caso de que el booleano pausa sea verdadero
-        if (pausado){
-            pausado = false;
 
-            for (;actorHUD >= 0; actorHUD--){
-                if(actorHUD>=actoresNoPausa){
-                    escenaHUD.getActors().get(actorHUD).setVisible(pausado);
-                }
-                else{
-                    escenaHUD.getActors().get(actorHUD).setVisible(!pausado);
-                }
-            }
+        //Posicion actual de los actores que se crean antes de pausa
+        int actoresNoPausa = 5;
+        //Posicion actual de los actores que se crean para pausa
+        int actoresPausa = 11;
+
+        if (pausado){
             musicaPausa.pause();
             if (Configuraciones.isMusicOn)
                 musicaFondo.play();
-        }
-        //En caso de que el booleano pausa sea falso
-        else{
-            pausado = true;
-
-            for (;actorHUD >= 0; actorHUD--){
-                if(actorHUD>=actoresNoPausa){
-                    escenaHUD.getActors().get(actorHUD).setVisible(pausado);
-                }
-                else{
-                    escenaHUD.getActors().get(actorHUD).setVisible(!pausado);
-                }
-            }
+        }else{
             musicaFondo.pause();
             if (Configuraciones.isMusicOn)
                 musicaPausa.play();
         }
+        //En caso de que el booleano pausa sea verdadero
+            //Pausado cambia de verdadero a falso o viceversa
+            pausado = !pausado;
+
+            for (int actoresHUD = 0;actoresHUD <= indiceActoresPausa; actoresHUD++){
+                if (!actoresAparte.contains(actoresHUD)) {
+                    if (actoresHUD <= indiceActoresAntesPausa) {
+                        escenaHUD.getActors().get(actoresHUD).setVisible(!pausado);
+                    } else {
+                        escenaHUD.getActors().get(actoresHUD).setVisible(pausado);
+                    }
+                }
+            }
         return pausado;
     }
+
+    protected boolean irInventario(boolean enInventario, Stage escenaHUD){
+        //Posición del ultimo actor
+        int maxActores = escenaHUD.getActors().size -1;
+        //Posicion actual de los actores que se crean antes de pausa
+        int actoresNoPausa = 5;
+        //Posicion actual de los actores que se crean para pausa
+        int actoresPausa = 11;
+
+        //Cambia de valor el booleano enInventario
+        enInventario= !enInventario;
+
+        for (int actor=0; actor<=indiceActoresAntesPausa; actor++){
+            if (!actoresAparte.contains(actor)) {
+                escenaHUD.getActors().get(actor).setVisible(!enInventario);
+            }
+        }
+
+        //ciclo en el que se le agrega uno a los actores para no empezar con un elemento de pausa
+        for (int actor=indiceActoresPausa+1; actor<=maxActores; actor++){
+            escenaHUD.getActors().get(actor).setVisible(enInventario);
+        }
+
+        return enInventario;
+    }
+
 
     //Se pone en el render del nivel particular
     protected void escribirMenuPausa(boolean pausado, Music musica){
