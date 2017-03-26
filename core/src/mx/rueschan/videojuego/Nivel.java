@@ -43,7 +43,6 @@ public abstract class Nivel implements Screen{
     protected Texture texturaHenric;
 
     // Mapa
-    public static final float ANCHO_MAPA = 2560;
     protected OrthogonalTiledMapRenderer renderer; // Dibuja el mapa
     protected TiledMap mapa;
     protected TiledMapTileLayer.Cell tileObjetivo;
@@ -251,7 +250,6 @@ public abstract class Nivel implements Screen{
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 if (!btnAccion.isDisabled()) {
-                    Gdx.app.log("Btn", "Elimina!");
                     Objeto obj = identificarItem(tileObjetivo);
                     henric.addInventario(obj);
                     tileObjetivo.setTile(null);
