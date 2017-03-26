@@ -30,6 +30,7 @@ import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by OddFellows on 14/02/2017.
@@ -39,6 +40,11 @@ public abstract class Nivel implements Screen{
     protected OddFellows oddFellows;
     protected Pantalla pantalla;
     protected Juego juego;
+
+    //Indices
+    protected int indiceActoresAntesPausa;
+    protected int indiceActoresPausa;
+    protected List<Integer> actoresAparte = new ArrayList<Integer>();
 
     // Personaje
     protected Personaje henric;
@@ -322,14 +328,21 @@ public abstract class Nivel implements Screen{
         escenaHUD = new Stage(vistaHUD);
         escenaHUD.addActor(pad);//Actor en posicion 0
         escenaHUD.getActors().get(0).setName("Pad");
+        indiceActoresAntesPausa=0;
         escenaHUD.addActor(btnInteraccion);//Actor en posicion 1
         escenaHUD.getActors().get(1).setName("Interaccion");
+        indiceActoresAntesPausa++;
         escenaHUD.addActor(btnAccion);//Actor en posicion 2
         escenaHUD.getActors().get(2).setName("Accion");
+        indiceActoresAntesPausa++;
         escenaHUD.addActor(btnInventario);//Actor en posicion 3
         escenaHUD.getActors().get(3).setName("Inventario");
+        indiceActoresAntesPausa++;
         escenaHUD.addActor(btnCerrar);//Actor en posicion 4
         escenaHUD.getActors().get(4).setName("Cerrar");
+        indiceActoresAntesPausa++;
+        //Anadir en lista de casos aparte
+        actoresAparte.add(4);
 
         escenaHUD.addListener(new ClickListener() {
 
@@ -575,30 +588,34 @@ public abstract class Nivel implements Screen{
 
         //Botón pausa en actor posicion 5
         escenaHUD.addActor(btnPausa);
+        indiceActoresAntesPausa++;
+        indiceActoresPausa+=indiceActoresAntesPausa;
 
         //Cuadro de pausa actor posicion 6
         escenaHUD.addActor(fondoMenuImagen);
         fondoMenuImagen.setVisible(false);
+        indiceActoresPausa++;
 
         //Cuadro de pausa actor posicion 7
         escenaHUD.addActor(cuadroPausa);
         cuadroPausa.setVisible(false);
-
+        indiceActoresPausa++;
         //Cuadro de reanudar actor posicion 8
         escenaHUD.addActor(btnReanudar);
         btnReanudar.setVisible(false);
-
+        indiceActoresPausa++;
         //Cuadro de salir actor posicion 9
         escenaHUD.addActor(btnSalir);
         btnSalir.setVisible(false);
-
+        indiceActoresPausa++;
         //Cuadro de salir actor posicion 10
         escenaHUD.addActor(btnFX);
         btnFX.setVisible(false);
-
+        indiceActoresPausa++;
         //Cuadro de salir actor posicion 11
         escenaHUD.addActor(btnMusica);
         btnMusica.setVisible(false);
+        indiceActoresPausa++;
     }
 
 
@@ -699,9 +716,9 @@ public abstract class Nivel implements Screen{
             //Pausado cambia de verdadero a falso o viceversa
             pausado = !pausado;
 
-            for (int actoresHUD = 0;actoresHUD <= actoresPausa; actoresHUD++){
-                if (actoresHUD!=4) {
-                    if (actoresHUD <= actoresNoPausa) {
+            for (int actoresHUD = 0;actoresHUD <= indiceActoresPausa; actoresHUD++){
+                if (!actoresAparte.contains(actoresHUD)) {
+                    if (actoresHUD <= indiceActoresAntesPausa) {
                         escenaHUD.getActors().get(actoresHUD).setVisible(!pausado);
                     } else {
                         escenaHUD.getActors().get(actoresHUD).setVisible(pausado);
@@ -722,14 +739,14 @@ public abstract class Nivel implements Screen{
         //Cambia de valor el booleano enInventario
         enInventario= !enInventario;
 
-        for (int actor=0; actor<=actoresNoPausa; actor++){
-            if (actor!=4) {
+        for (int actor=0; actor<=indiceActoresAntesPausa; actor++){
+            if (!actoresAparte.contains(actor)) {
                 escenaHUD.getActors().get(actor).setVisible(!enInventario);
             }
         }
 
         //ciclo en el que se le agrega uno a los actores para no empezar con un elemento de pausa
-        for (int actor=actoresPausa+1; actor<=maxActores; actor++){
+        for (int actor=indiceActoresPausa+1; actor<=maxActores; actor++){
             escenaHUD.getActors().get(actor).setVisible(enInventario);
         }
 
