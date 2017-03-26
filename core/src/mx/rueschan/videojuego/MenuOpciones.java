@@ -115,17 +115,17 @@ public class MenuOpciones implements Screen{
         btnMusica.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                oddFellows.cambiaMusica();
+                Configuraciones.cambiaMusica();
                 oddFellows.tocarMusica();
-                Gdx.app.log("clicked", "***audio "+oddFellows.isMusicOn()+"***");
+                Gdx.app.log("clicked", "***audio "+Configuraciones.isMusicOn+"***");
             }
         });
 
         btnFX.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                oddFellows.cambiaFx();
-                Gdx.app.log("clicked", "***FX "+oddFellows.isFxOn()+"***");
+                Configuraciones.cambiaFx();
+                Gdx.app.log("clicked", "***FX "+Configuraciones.isFxOn+"***");
             }
         });
 
@@ -174,7 +174,7 @@ public class MenuOpciones implements Screen{
         // Texto de musica
         pantalla.texto.mostrarMensajes(pantalla.batch, Color.BLACK, "Music",
                 pantalla.getANCHO()/3 + 200, 5*pantalla.getALTO()/6 - 80);
-        if (oddFellows.isMusicOn()) {
+        if (Configuraciones.isMusicOn) {
             mensajeMusica = "ON";
         } else {
             mensajeMusica = "OFF";
@@ -185,7 +185,7 @@ public class MenuOpciones implements Screen{
         // Texto de efectos
         pantalla.texto.mostrarMensajes(pantalla.batch, Color.BLACK, "Effects",
                 pantalla.getANCHO()/3 + 200, 3*pantalla.getALTO()/6 - 80);
-        if (oddFellows.isFxOn()) {
+        if (Configuraciones.isFxOn) {
             mensajeFX = "ON";
         } else {
             mensajeFX = "OFF";

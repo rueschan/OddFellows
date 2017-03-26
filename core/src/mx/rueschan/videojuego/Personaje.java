@@ -1,7 +1,7 @@
 package mx.rueschan.videojuego;
 
 /**
- * Created by Rubén Escalante on 08/03/2017.
+ * Created by Odd Fellows on 08/03/2017.
  */
 
 import com.badlogic.gdx.Gdx;
@@ -98,7 +98,8 @@ public class Personaje extends Objeto
         if (estadoMovimiento == EstadoMovimiento.QUIETO && estadoMovimientoVertical == EstadoMovimientoVertical.QUIETO_Y) {
             fxPasos.pause();
         } else {
-            fxPasos.resume();
+            if (Configuraciones.isFxOn)
+                fxPasos.resume();
         }
     }
 
@@ -176,7 +177,8 @@ public class Personaje extends Objeto
             nivel.btnAccion.setDisabled(false);
             nivel.tileInteractivo = celda;
             if (!estatusAccion) {
-                fxAccion.play(0.5f);
+                if (Configuraciones.isFxOn)
+                    fxAccion.play(0.5f);
                 estatusAccion = true;
             }
         } else {

@@ -70,11 +70,11 @@ public abstract class Nivel implements Screen{
         //Textura en Menu Pausa
     protected Texture texturaBotonReanudar;
     protected Texture texturaBotonSalir;
-    protected Texture texturaSonido;
+    protected Texture texturaMusica;
     protected Texture texturaFX;
 
     //INTERACCION
-    private Texture texturaInteraccin;
+    private Texture texturaInteraccion;
     public ImageButton btnInteraccion;
     private Texture texturaAccion;
     public ImageButton btnAccion;
@@ -86,6 +86,8 @@ public abstract class Nivel implements Screen{
     protected static AssetManager manager;
 
     protected Music musicaFondo;
+    protected Music musicaPausa;
+    protected String pathMusicaPausa = "Musica/giantwyrm.mp3";
     protected Sound fxLlave;
     protected String pathFxLlave = "Sonidos/levantarLlave.mp3";
     protected Sound fxCarta;
@@ -130,6 +132,7 @@ public abstract class Nivel implements Screen{
                 new TmxMapLoader(new InternalFileHandleResolver()));
         manager.load(nombreMapa, TiledMap.class);
         manager.load(nombreMusicaFondo,Music.class);
+        manager.load(pathMusicaPausa,Music.class);
         manager.load(pathFxLlave, Sound.class);
         manager.load(pathFxCarta, Sound.class);
         manager.load(pathFxInventario, Sound.class);
@@ -142,7 +145,8 @@ public abstract class Nivel implements Screen{
         renderer.setView(pantalla.camara);
         musicaFondo = manager.get(nombreMusicaFondo);
         musicaFondo.setLooping(true);
-        musicaFondo.play();
+        if (Configuraciones.isMusicOn)
+            musicaFondo.play();
 
         // Sonidos generales
         fxLlave = manager.get(pathFxLlave);
@@ -213,9 +217,9 @@ public abstract class Nivel implements Screen{
         alertaAccion.sprite.setColor(1, 1, 1, 0);
 
         //// Asignar textura al boton de interación
-        texturaInteraccin = new Texture("Pantalla/BotonInteraccion.png");
+        texturaInteraccion = new Texture("Pantalla/BotonInteraccion.png");
         TextureRegionDrawable trdBtnInteraccion = new
-                TextureRegionDrawable(new TextureRegion(texturaInteraccin));
+                TextureRegionDrawable(new TextureRegion(texturaInteraccion));
 
         // Colocar boton de interación
         btnInteraccion = new ImageButton(trdBtnInteraccion);
@@ -318,11 +322,13 @@ public abstract class Nivel implements Screen{
         int prueba = Integer.parseInt(celda.getTile().getProperties().get("IDItem").toString());
         switch (prueba){
             case 1: //Llave
-                fxLlave.play();
+                if (Configuraciones.isFxOn)
+                    fxLlave.play();
                 Llave llave;
                 return llave = new Llave(0, 0, (int) (Math.random()*10) + 1); // Valores del 1 al 10
             case 2:
-                fxCarta.play();
+                if (Configuraciones.isFxOn)
+                    fxCarta.play();
                 break;
             case 10:
                 Texture texturaMartillo = new Texture("Items/martillo.png");
@@ -348,6 +354,8 @@ public abstract class Nivel implements Screen{
     protected void crearPausa(final Stage escenaHUD){
 
         pausado=false;
+        musicaPausa = manager.get(pathMusicaPausa);
+        musicaPausa.setLooping(true);
 
         //Textura de pausa
         // Crear menú semi transparente
@@ -379,7 +387,7 @@ public abstract class Nivel implements Screen{
         //Crear texturas
         texturaBotonReanudar = new Texture("Pantalla/Tabla.png");
         texturaBotonSalir = new Texture("Pantalla/Tabla.png");
-        texturaSonido = new Texture("Pantalla/Audio.png");
+        texturaMusica = new Texture("Pantalla/Audio.png");
         texturaFX = new Texture("Pantalla/ecualizador.png");
 
         //Crear boton Reanudar
@@ -398,27 +406,46 @@ public abstract class Nivel implements Screen{
         btnSalir.setPosition(pantalla.getANCHO()/2 - btnSalir.getWidth()/2,pantalla.getALTO()/4
                 - btnSalir.getHeight()/2);
 
-        //Crear boton Sonido
-        TextureRegionDrawable trdBtnSonido = new
-                TextureRegionDrawable(new TextureRegion(texturaSonido));
-        // Colocar botón Sonido
-        ImageButton btnSonido = new ImageButton(trdBtnSonido);
-        btnSonido.setPosition(3*pantalla.getANCHO()/5 - btnSonido.getWidth()/2,pantalla.getALTO()/2
-                - btnSonido.getHeight()/2);
+        //Crear boton Efectos
+        TextureRegionDrawable trdBtnFX = new
+                TextureRegionDrawable(new TextureRegion(texturaFX));
+        // Colocar botón Efectos
+        ImageButton btnFX = new ImageButton(trdBtnFX);
+        btnFX.setPosition(3*pantalla.getANCHO()/5 - btnFX.getWidth()/2,pantalla.getALTO()/2
+                - btnFX.getHeight()/2);
 
         //Crear boton Musica
         TextureRegionDrawable trdBtnMusica = new
-                TextureRegionDrawable(new TextureRegion(texturaFX));
+                TextureRegionDrawable(new TextureRegion(texturaMusica));
         // Colocar botón Musica
         ImageButton btnMusica = new ImageButton(trdBtnMusica);
         btnMusica.setPosition(2*pantalla.getANCHO()/5 - btnMusica.getWidth()/2,pantalla.getALTO()/2
                 - btnMusica.getHeight()/2);
 
+        // Interaccion boton Musica
+        btnMusica.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                Configuraciones.cambiaMusica();
+                tocarMusica();
+                Gdx.app.log("clicked", "***audio "+Configuraciones.isMusicOn+"***");
+            }
+        });
+
+        //Interaccion botón Efectos
+        btnFX.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                Configuraciones.cambiaFx();
+                Gdx.app.log("clicked", "***FX "+Configuraciones.isFxOn+"***");
+            }
+        });
+
         //Interaccion boton reanudar
         btnReanudar.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                pausado = pausar(pausado,escenaHUD,musicaFondo);
+                pausado = pausar(pausado,escenaHUD);
             }
         });
 
@@ -427,7 +454,7 @@ public abstract class Nivel implements Screen{
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 Gdx.input.setInputProcessor(pantalla.escena);
-                musicaFondo.pause();
+                musicaPausa.stop();
                 oddFellows.setScreen(new MenuPrincipal(oddFellows));
             }
         });
@@ -449,8 +476,8 @@ public abstract class Nivel implements Screen{
         btnSalir.setVisible(false);
 
         //Cuadro de salir actor posicion 6
-        escenaHUD.addActor(btnSonido);
-        btnSonido.setVisible(false);
+        escenaHUD.addActor(btnFX);
+        btnFX.setVisible(false);
 
         //Cuadro de salir actor posicion 7
         escenaHUD.addActor(btnMusica);
@@ -479,7 +506,7 @@ public abstract class Nivel implements Screen{
         pantalla.resize(width, height);
     }
 
-    protected boolean pausar(boolean pausado, Stage escenaHUD, Music musicaFondo){
+    protected boolean pausar(boolean pausado, Stage escenaHUD){
         //Se le resta uno por ser el tamano y no la posición, se le resta otro para no contar con el botón de pausa
         int actorHUD = escenaHUD.getActors().size-2;
         //Los actores relacionados a pausa es 5 más el del botón pausa de la esquina
@@ -498,7 +525,9 @@ public abstract class Nivel implements Screen{
                     escenaHUD.getActors().get(actorHUD).setVisible(!pausado);
                 }
             }
-            musicaFondo.play();
+            musicaPausa.pause();
+            if (Configuraciones.isMusicOn)
+                musicaFondo.play();
         }
         //En caso de que el booleano pausa sea falso
         else{
@@ -513,6 +542,8 @@ public abstract class Nivel implements Screen{
                 }
             }
             musicaFondo.pause();
+            if (Configuraciones.isMusicOn)
+                musicaPausa.play();
         }
         return pausado;
     }
@@ -531,17 +562,16 @@ public abstract class Nivel implements Screen{
             tituloReanudar = "Resume";
             tituloSalir = "Exit";
 
-            //CAMARON, En estos debe de modificarse, no se como estás haciendo lo de la música
-            if (musica.isLooping()) {
+            if (Configuraciones.isMusicOn) {
                 tituloMusica = "Music: ON";
             }else {
                 tituloMusica = "Music: OFF";
             }
-            //CAMARON, Igual aqui con los efectos
-            if(musica.isLooping()){
-               tituloSonido = "SFX:   ON";
-                }else {
-                    tituloSonido = "SFX:   OFF";
+
+            if(Configuraciones.isFxOn){
+                tituloSonido = "SFX:   ON";
+            }else {
+                tituloSonido = "SFX:   OFF";
             }
         }
         //Cuando no está en pausa no aparecen los mensajes
@@ -565,5 +595,13 @@ public abstract class Nivel implements Screen{
                pantalla.getANCHO() / 2, pantalla.getALTO()/4 + 10);
 
         pantalla.batch.end();
+    }
+
+    private void tocarMusica(){
+        Gdx.app.log("tocarMusica Nivel","estado "+Configuraciones.isMusicOn);
+        if (Configuraciones.isMusicOn)
+            musicaPausa.play();
+        else
+            musicaPausa.pause();
     }
 }

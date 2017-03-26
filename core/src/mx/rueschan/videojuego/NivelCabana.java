@@ -123,7 +123,7 @@ public class NivelCabana extends Nivel {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 //Para quitar la pausa
-                pausado = pausar(pausado, NivelCabana.super.escenaHUD, NivelCabana.super.musicaFondo);
+                pausado = pausar(pausado, NivelCabana.super.escenaHUD);
 
                 //Gdx.input.setInputProcessor(pantalla.escena);
                 //NivelCabana.super.musicaFondo.pause();
@@ -152,8 +152,6 @@ public class NivelCabana extends Nivel {
         cargarJuego();
 
         Gdx.input.setInputProcessor(super.escenaHUD);
-
-
 
     }
 
@@ -189,7 +187,7 @@ public class NivelCabana extends Nivel {
         // Detectar botón físico "return"
         if (Gdx.input.isKeyJustPressed(Input.Keys.BACK)) {
             //Abrir MenuPausa
-            pausado = pausar(pausado, NivelCabana.super.escenaHUD, NivelCabana.super.musicaFondo);
+            pausado = pausar(pausado, NivelCabana.super.escenaHUD);
 
             //oddFellows.setScreen(new MenuPausa(oddFellows, actual));
         }

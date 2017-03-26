@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 
 /**
- * Created by Rubén Escalante on 25/03/2017.
+ * Created by Odd Fellows on 25/03/2017.
  */
 
 public class Llave extends Objeto {
