@@ -25,13 +25,6 @@ public class NivelCabana extends Nivel {
 
     private Nivel actual;
 
-
-    // Textura imagenes
-//    private Texture texturaLlave;
-//    private Texture texturaMartillo;
-//    private Texture texturaCarta;
-//    private Texture texturaHenric;
-
     // Recursos
     private String pathMapa;
     private String pathMusica;
@@ -48,12 +41,6 @@ public class NivelCabana extends Nivel {
 
     @Override
     protected void cargarTexturas() {
-//        texturaFondo = new Texture("NivelCabana/fondoCabana.jpg");
-        texturaBotonPausa = new Texture("Pantalla/BotonPausa64.png");
-//        texturaLlave = new Texture("NivelCabana/LlaveIcono.png");
-//        texturaMartillo = new Texture("NivelCabana/Martillo32a96.png");
-//        texturaCarta = new Texture("NivelCabana/Carta32a64.png");
-//        texturaHenric = new Texture("Personaje/Henric.png");
 
         // Recursos
         pathMapa = "Mapa/Cabana.tmx";
@@ -65,74 +52,7 @@ public class NivelCabana extends Nivel {
 
         // Limpia escena de pantalla anterior
         pantalla.escena.clear();
-//        // Agrega la imagen de fondo
-//        Image imgFondo = new Image(texturaFondo);
-//        pantalla.escena.addActor(imgFondo);
-
-
-        //// Asignar textura al boton de pausa
-        TextureRegionDrawable trdBtnPausa = new
-                TextureRegionDrawable(new TextureRegion(texturaBotonPausa));
-
-
-        // Colocar boton de pausa
-        ImageButton btnPausa = new ImageButton(trdBtnPausa);
-        btnPausa.setPosition(pantalla.getANCHO()-btnPausa.getWidth()-pantalla.getANCHO()*.02f,
-                pantalla.getALTO()-btnPausa.getHeight()-pantalla.getALTO()*.02f);
-        super.escenaHUD.addActor(btnPausa);
-
-
-
-        //SPRITES
-        //Agregar temporalmente imagenes como botones
-//        TextureRegionDrawable trdbtnLlave = new
-//                TextureRegionDrawable(new TextureRegion(texturaLlave));
-//        TextureRegionDrawable trdbtnMartillo = new
-//                TextureRegionDrawable(new TextureRegion(texturaMartillo));
-//        TextureRegionDrawable trdbtnCarta = new
-//                TextureRegionDrawable(new TextureRegion(texturaCarta));
-//        TextureRegionDrawable trdbtnHenric = new
-//                TextureRegionDrawable(new TextureRegion(texturaHenric));
-
-//        //Colocar temporalmente boton sprite
-//        // Llave
-//        ImageButton btnLlave = new ImageButton(trdbtnLlave);
-//        btnLlave.setPosition(350,550);
-//        pantalla.escena.addActor(btnLlave);
-//
-//        //Martillo
-//        ImageButton btnMartillo = new ImageButton(trdbtnMartillo);
-//        btnMartillo.setPosition(1000,20);
-//        pantalla.escena.addActor(btnMartillo);
-//
-//        //Carta
-//        ImageButton btnCarta = new ImageButton(trdbtnCarta);
-//        btnCarta.setPosition(500,550);
-//        pantalla.escena.addActor(btnCarta);
-
-        //Henric
-//        ImageButton btnHenric = new ImageButton(trdbtnHenric);
-//        btnHenric.setPosition(pantalla.getANCHO()/2 - btnHenric.getWidth()/2,
-//                pantalla.getALTO()/2 - btnHenric.getHeight()/2);
-//        pantalla.escena.addActor(btnHenric);
-
-
-        // Acciones de botones
-        // Botón opciones
-        btnPausa.addListener(new ClickListener(){
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                //Para quitar la pausa
-                pausado = pausar(pausado, NivelCabana.super.escenaHUD);
-
-                //Gdx.input.setInputProcessor(pantalla.escena);
-                //NivelCabana.super.musicaFondo.pause();
-                //oddFellows.setScreen(new MenuPausa(oddFellows, actual));
-            }
-        });
         //Pad
-
-
         Gdx.input.setCatchBackKey(true);
     }
 
@@ -188,8 +108,6 @@ public class NivelCabana extends Nivel {
         if (Gdx.input.isKeyJustPressed(Input.Keys.BACK)) {
             //Abrir MenuPausa
             pausado = pausar(pausado, NivelCabana.super.escenaHUD);
-
-            //oddFellows.setScreen(new MenuPausa(oddFellows, actual));
         }
         escribirMenuPausa(pausado, NivelCabana.super.musicaFondo);
     }
@@ -206,12 +124,6 @@ public class NivelCabana extends Nivel {
 
     @Override
     public void dispose() {
-//        texturaFondo.dispose();
-        texturaBotonPausa.dispose();
-//        texturaLlave.dispose();
-//        texturaMartillo.dispose();
-//        texturaCarta.dispose();
-//        texturaHenric.dispose();
     }
 
 }

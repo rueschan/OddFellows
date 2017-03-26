@@ -283,7 +283,7 @@ public abstract class Nivel implements Screen{
         escenaHUD.addActor(pad);//Actor en posicion 0
         escenaHUD.addActor(btnInteraccion);//Actor en posicion 1
         escenaHUD.addActor(btnAccion);//Actor en posicion 2
-        escenaHUD.addActor(btnInventario);
+        escenaHUD.addActor(btnInventario);//Actor en posicion 3
 
         escenaHUD.addListener(new ClickListener() {
 
@@ -385,10 +385,31 @@ public abstract class Nivel implements Screen{
         */
 
         //Crear texturas
+        texturaBotonPausa = new Texture("Pantalla/BotonPausa64.png");
         texturaBotonReanudar = new Texture("Pantalla/Tabla.png");
         texturaBotonSalir = new Texture("Pantalla/Tabla.png");
         texturaMusica = new Texture("Pantalla/Audio.png");
         texturaFX = new Texture("Pantalla/ecualizador.png");
+
+
+
+
+
+
+
+
+
+
+
+        //Crear boton Pausa
+        TextureRegionDrawable trdBtnPausa = new
+                TextureRegionDrawable(new TextureRegion(texturaBotonPausa));
+        // Colocar boton de pausa
+        ImageButton btnPausa = new ImageButton(trdBtnPausa);
+        btnPausa.setPosition(pantalla.getANCHO()-btnPausa.getWidth()-pantalla.getANCHO()*.02f,
+                pantalla.getALTO()-btnPausa.getHeight()-pantalla.getALTO()*.02f);
+
+
 
         //Crear boton Reanudar
         TextureRegionDrawable trdBtnReanudar = new
@@ -459,31 +480,42 @@ public abstract class Nivel implements Screen{
             }
         });
 
-        //Cuadro de pausa actor posicion 3
+        // Interaccion boton pausa
+        btnPausa.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                //Para quitar la pausa
+                pausado = pausar(pausado, escenaHUD);
+            }
+        });
+
+
+        //Botón pausa en actor posicion 4
+        escenaHUD.addActor(btnPausa);
+
+        //Cuadro de pausa actor posicion 5
         escenaHUD.addActor(fondoMenuImagen);
         fondoMenuImagen.setVisible(false);
 
-        //Cuadro de pausa actor posicion 3
+        //Cuadro de pausa actor posicion 6
         escenaHUD.addActor(cuadroPausa);
         cuadroPausa.setVisible(false);
 
-        //Cuadro de reanudar actor posicion 4
+        //Cuadro de reanudar actor posicion 7
         escenaHUD.addActor(btnReanudar);
         btnReanudar.setVisible(false);
 
-        //Cuadro de salir actor posicion 5
+        //Cuadro de salir actor posicion 8
         escenaHUD.addActor(btnSalir);
         btnSalir.setVisible(false);
 
-        //Cuadro de salir actor posicion 6
+        //Cuadro de salir actor posicion 9
         escenaHUD.addActor(btnFX);
         btnFX.setVisible(false);
 
-        //Cuadro de salir actor posicion 7
+        //Cuadro de salir actor posicion 10
         escenaHUD.addActor(btnMusica);
         btnMusica.setVisible(false);
-
-//        escribirEnPantalla();
     }
 
 
@@ -508,14 +540,13 @@ public abstract class Nivel implements Screen{
 
     protected boolean pausar(boolean pausado, Stage escenaHUD){
         //Se le resta uno por ser el tamano y no la posición, se le resta otro para no contar con el botón de pausa
-        int actorHUD = escenaHUD.getActors().size-2;
+        int actorHUD = escenaHUD.getActors().size-1;
         //Los actores relacionados a pausa es 5 más el del botón pausa de la esquina
         int cantidadActoresPausa = 5;
         int actoresNoPausa = actorHUD-cantidadActoresPausa;
         //En caso de que el booleano pausa sea verdadero
         if (pausado){
             pausado = false;
-            escenaHUD.getActors().get(escenaHUD.getActors().size-1).setVisible(!pausado);
 
             for (;actorHUD >= 0; actorHUD--){
                 if(actorHUD>=actoresNoPausa){
@@ -532,7 +563,7 @@ public abstract class Nivel implements Screen{
         //En caso de que el booleano pausa sea falso
         else{
             pausado = true;
-            escenaHUD.getActors().get(escenaHUD.getActors().size-1).setVisible(!pausado);
+
             for (;actorHUD >= 0; actorHUD--){
                 if(actorHUD>=actoresNoPausa){
                     escenaHUD.getActors().get(actorHUD).setVisible(pausado);
