@@ -75,10 +75,12 @@ public abstract class Nivel implements Screen{
     protected Texture texturaFX;
 
     //INTERACCION
-    protected Texture texturaInteraccin;
+    private Texture texturaInteraccin;
     public ImageButton btnInteraccion;
-    protected Texture texturaAccion;
+    private Texture texturaAccion;
     public ImageButton btnAccion;
+    private Texture texturaInventario;
+    public ImageButton btnInventario;
     public Objeto alertaAccion;
 
     //Manejador de assets
@@ -206,7 +208,7 @@ public abstract class Nivel implements Screen{
         });
 
             // INTERACCIÓN
-        //// Asignar textura a botón de acción
+        //// Asignar textura a sprite de acción
         texturaAccion = new Texture("Pantalla/Accion.png");
         alertaAccion = new Objeto(texturaAccion, 0, 0);
         alertaAccion.sprite.setColor(1, 1, 1, 0);
@@ -256,15 +258,36 @@ public abstract class Nivel implements Screen{
                 }
             }
         });
+
+        //// Asignar textura al boton de acción
+        texturaInventario = new Texture("Pantalla/inventario.png");
+        TextureRegionDrawable trdBtnInventario = new
+                TextureRegionDrawable(new TextureRegion(texturaInventario));
+
+        // Colocar boton de acción
+        btnInventario = new ImageButton(trdBtnInventario);
+        btnInventario.setPosition(pantalla.getANCHO()-btnInventario.getWidth()-pantalla.getANCHO()*.26f,
+                pantalla.getALTO()*.02f);
+        btnInventario.setColor(1,1,1,1);
+
+        btnInventario.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+
+            }
+        });
+
         escenaHUD = new Stage(vistaHUD);
         escenaHUD.addActor(pad);//Actor en posicion 0
         escenaHUD.addActor(btnInteraccion);//Actor en posicion 1
         escenaHUD.addActor(btnAccion);//Actor en posicion 2
+        escenaHUD.addActor(btnInventario);
+
         escenaHUD.addListener(new ClickListener() {
 
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                if (y < pantalla.getALTO()/6 && x > pantalla.getANCHO()* 6/7) {
+                if (y < pantalla.getALTO()/6 && x > pantalla.getANCHO()* 6.5/10) {
 
                 } else {
                     pad.setSize(200, 200);
@@ -293,16 +316,17 @@ public abstract class Nivel implements Screen{
         // Llaves: 49
         // Martillo: 81
         // Carta: 63
-        Gdx.app.log("ItemID", String.valueOf(celda.getTile().getId()));
-        switch (celda.getTile().getId()){
-            case 49: //Llave
+        Gdx.app.log("ItemID", celda.getTile().getProperties().get("IDItem").toString());
+        int prueba = Integer.parseInt(celda.getTile().getProperties().get("IDItem").toString());
+        switch (prueba){
+            case 1: //Llave
                 fxLlave.play();
                 Llave llave;
                 return llave = new Llave(0, 0, (int) (Math.random()*10) + 1); // Valores del 1 al 10
-            case 63:
+            case 2:
                 fxCarta.play();
                 break;
-            case 81:
+            case 10:
                 Texture texturaMartillo = new Texture("Items/Martillo.png");
                 Arma martillo;
                 return martillo = new Arma(texturaMartillo, 0, 0, 30, "romper");
