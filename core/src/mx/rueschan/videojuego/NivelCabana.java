@@ -66,6 +66,7 @@ public class NivelCabana extends Nivel {
         //Creación de HUD
         super.crearHUD(pantalla);
         super.crearPausa(escenaHUD);
+        super.crearInventario(escenaHUD);
 
         // Objetos
         crearObjetos();
