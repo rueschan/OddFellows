@@ -84,6 +84,11 @@ public abstract class Nivel implements Screen{
     public ImageButton btnInventario;
     public Objeto alertaAccion;
 
+    // Texturas carta e inventario
+    Objeto fondoCarta;
+    private Texture texturaCerrar;
+    private ImageButton btnCerrar;
+
     //Manejador de assets
     protected static AssetManager manager;
 
@@ -262,12 +267,12 @@ public abstract class Nivel implements Screen{
             }
         });
 
-        //// Asignar textura al boton de acción
+        //// Asignar textura al boton de inventario
         texturaInventario = new Texture("Pantalla/inventario.png");
         TextureRegionDrawable trdBtnInventario = new
                 TextureRegionDrawable(new TextureRegion(texturaInventario));
 
-        // Colocar boton de acción
+        // Colocar boton de inventario
         btnInventario = new ImageButton(trdBtnInventario);
         btnInventario.setPosition(pantalla.getANCHO()-btnInventario.getWidth()-pantalla.getANCHO()*.26f,
                 pantalla.getALTO()*.02f);
@@ -282,11 +287,40 @@ public abstract class Nivel implements Screen{
             }
         });
 
+        // Cartas
+        Texture pathFondoCarta = new Texture("Pantalla/fondoCarta.png");
+        fondoCarta = new Objeto(pathFondoCarta, pantalla.getANCHO()/2 - pathFondoCarta.getWidth()/2, 0);
+        fondoCarta.sprite.setColor(1,1,1,0);
+
+        //// Asignar textura al boton de cerrar carta
+        texturaCerrar = new Texture("Pantalla/cerrar.png");
+        TextureRegionDrawable trdBtnCerrar = new
+                TextureRegionDrawable(new TextureRegion(texturaCerrar));
+
+        // Colocar boton de cerrar carta
+        btnCerrar = new ImageButton(trdBtnCerrar);
+        btnCerrar.setPosition(pantalla.getANCHO()/2 + pathFondoCarta.getWidth()/2 - 100,
+                pantalla.getALTO()*9/10);
+        btnCerrar.setVisible(false);
+
+        btnCerrar.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                cerrarCarta();
+            }
+        });
+
         escenaHUD = new Stage(vistaHUD);
         escenaHUD.addActor(pad);//Actor en posicion 0
+        escenaHUD.getActors().get(0).setName("Pad");
         escenaHUD.addActor(btnInteraccion);//Actor en posicion 1
+        escenaHUD.getActors().get(1).setName("Interaccion");
         escenaHUD.addActor(btnAccion);//Actor en posicion 2
+        escenaHUD.getActors().get(2).setName("Accion");
         escenaHUD.addActor(btnInventario);//Actor en posicion 3
+        escenaHUD.getActors().get(3).setName("Inventario");
+        escenaHUD.addActor(btnCerrar);
+        escenaHUD.getActors().get(4).setName("Cerrar");
 
         escenaHUD.addListener(new ClickListener() {
 
@@ -337,6 +371,7 @@ public abstract class Nivel implements Screen{
                 } else {
                     carta = new Carta(0, 0, (int) (Math.random() * 10) + 1);
                 }
+                mostrarCarta();
                 return carta;
             case 10:
                 Texture texturaMartillo = new Texture("Items/martillo.png");
@@ -346,11 +381,52 @@ public abstract class Nivel implements Screen{
         return null;
     }
 
+    private void mostrarCarta() {
+        fondoCarta.sprite.setColor(1,1,1,1);
+        fxCarta.play();
+
+        //Se le resta uno por ser el tamano y no la posición, se le resta otro para no contar con el botón de pausa
+        int actorHUD = escenaHUD.getActors().size-1;
+        Actor a;
+
+        for (;actorHUD >= 0; actorHUD--){
+            a = escenaHUD.getActors().get(actorHUD);
+            if (a.getName() != "Cerrar") {
+                escenaHUD.getActors().get(actorHUD).setVisible(false);
+            } else {
+                a.setVisible(true);
+            }
+        }
+    }
+
+    private void cerrarCarta() {
+        fondoCarta.sprite.setColor(1,1,1,0);
+        fxCarta.play();
+        boolean isPausa = true;
+
+        //Se le resta uno por ser el tamano y no la posición, se le resta otro para no contar con el botón de pausa
+        int actorHUD = escenaHUD.getActors().size-1;
+        Actor a;
+
+        for (;actorHUD >= 0; actorHUD--){
+            a = escenaHUD.getActors().get(actorHUD);
+            if (a.getName() != "Cerrar" && !isPausa) {
+                escenaHUD.getActors().get(actorHUD).setVisible(true);
+            } else if (a.getName() == "Cerrar"){
+                a.setVisible(false);
+                isPausa = false;
+            } else {
+                a.setVisible(false);
+            }
+        }
+    }
+
     protected void dibujar(SpriteBatch batch) {
         alertaAccion.dibujar(batch);
         henric.dibujar(batch);
         hp.dibujar(batch);
         barraHP.dibujar(batch);
+        fondoCarta.dibujar(batch);
     }
 
     @Override
@@ -399,16 +475,6 @@ public abstract class Nivel implements Screen{
         texturaMusica = new Texture("Pantalla/Audio.png");
         texturaFX = new Texture("Pantalla/ecualizador.png");
 
-
-
-
-
-
-
-
-
-
-
         //Crear boton Pausa
         TextureRegionDrawable trdBtnPausa = new
                 TextureRegionDrawable(new TextureRegion(texturaBotonPausa));
@@ -416,8 +482,6 @@ public abstract class Nivel implements Screen{
         ImageButton btnPausa = new ImageButton(trdBtnPausa);
         btnPausa.setPosition(pantalla.getANCHO()-btnPausa.getWidth()-pantalla.getANCHO()*.02f,
                 pantalla.getALTO()-btnPausa.getHeight()-pantalla.getALTO()*.02f);
-
-
 
         //Crear boton Reanudar
         TextureRegionDrawable trdBtnReanudar = new
