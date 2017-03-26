@@ -337,7 +337,6 @@ public abstract class Nivel implements Screen{
                 } else {
                     carta = new Carta(0, 0, (int) (Math.random() * 10) + 1);
                 }
-                Gdx.app.log("Carta", carta.getTexto());
                 return carta;
             case 10:
                 Texture texturaMartillo = new Texture("Items/martillo.png");
