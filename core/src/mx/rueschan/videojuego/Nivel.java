@@ -49,6 +49,8 @@ public abstract class Nivel implements Screen{
     // Personaje
     protected Personaje henric;
     protected Texture texturaHenric;
+    protected ArrayList<Objeto> inventario = new ArrayList<Objeto>();
+    protected Objeto seleccionado;
 
     // Mapa
     protected OrthogonalTiledMapRenderer renderer; // Dibuja el mapa
@@ -300,9 +302,8 @@ public abstract class Nivel implements Screen{
         btnInventario.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                fxInventario.play(1,2,0);
-                ArrayList<Objeto> inventario;
                 inventario = henric.verInventario();
+                // Muestra la pantalla de inventario
                 enInventario = irInventario(enInventario,escenaHUD);
             }
         });
@@ -448,7 +449,55 @@ public abstract class Nivel implements Screen{
             } else {
                 a.setVisible(false);
             }
+            if (a.getName() == "Pausa") {
+                a.setVisible(true);
+            }
         }
+    }
+
+    private void mostrarInventario(ArrayList<Objeto> inventario, boolean inInventario) {
+        // Desplazamiento en X y Y
+        float despX = 140;
+        float despY = 140;
+
+        // ITEMS
+        ArrayList<ImageButton> items = new ArrayList<ImageButton>(inventario.size());
+        float x = (pantalla.getANCHO()/2 - regionInventario.getWidth()/2 + regionInventario.getWidth()*0.18f);
+        float y = (pantalla.getALTO()*0.765f);
+        if (!inventario.isEmpty()) {
+            for (final Objeto item: inventario) {
+                item.sprite.getTexture();
+
+                // Crear boton item
+                TextureRegionDrawable trdBtnItem = new
+                        TextureRegionDrawable(new TextureRegion(item.sprite.getTexture()));
+                // Colocar botón item
+                ImageButton btnItem = new ImageButton(trdBtnItem);
+                btnItem.setPosition(x - btnItem.getWidth()/2, y);
+
+                // Interaccion boton item
+                btnItem.addListener(new ClickListener(){
+                    @Override
+                    public void clicked(InputEvent event, float x, float y) {
+                        seleccionado = item;
+                        enInventario = irInventario(enInventario, escenaHUD);
+                    }
+                });
+
+                x += despX;
+                if (x >= ((pantalla.getANCHO()/2 - regionInventario.getWidth()/2 + regionInventario.getWidth()*0.18f)
+                        + despX*5)) {
+                    x = (pantalla.getANCHO()/2 - regionInventario.getWidth()/2 + regionInventario.getWidth()*0.18f);
+                    y -= despY;
+                }
+
+                items.add(btnItem);
+                escenaHUD.addActor(btnItem);
+                btnItem.setVisible(inInventario);
+            }
+        }
+
+
     }
 
     protected void dibujar(SpriteBatch batch) {
@@ -597,6 +646,7 @@ public abstract class Nivel implements Screen{
 
         //Botón pausa en actor posicion 5
         escenaHUD.addActor(btnPausa);
+        escenaHUD.getActors().get(5).setName("Pausa");
         indiceActoresAntesPausa++;
         indiceActoresPausa+=indiceActoresAntesPausa;
 
@@ -634,15 +684,9 @@ public abstract class Nivel implements Screen{
         enInventario=false;
 
         //Textura de cuadro de pausa
-        // Crear menú semi transparente
-        Pixmap pixmapInv = new Pixmap((int)(pantalla.getANCHO()*0.55f), (int)(pantalla.getALTO()*0.7f), Pixmap.Format.RGBA8888 );
-        //pixmap.setColor( 0.2f, 0.3f, 0.5f, 0.65f );
-        pixmapInv.setColor( 0.2f, 0.3f, 0.5f, 85f );
-        pixmapInv.fillRectangle(0,0,(int)pantalla.getANCHO(),(int)pantalla.getALTO());
-        regionInventario = new Texture( pixmapInv );
-        pixmapInv.dispose();
+        regionInventario = new Texture( "Pantalla/fondoInventario.png" );
         Image cuadroInventario = new Image(regionInventario);
-        cuadroInventario.setPosition(0.225f*pantalla.getANCHO(), 0.15f*pantalla.getALTO());
+        cuadroInventario.setPosition(pantalla.getANCHO()/2 - regionInventario.getWidth()/2, 0.15f*pantalla.getALTO());
 
         //Crear ligero cambio oscuro a la pantalla
         Pixmap pixmapOscuro = new Pixmap((int)(pantalla.getANCHO()), (int)(pantalla.getALTO()), Pixmap.Format.RGBA8888 );
@@ -680,7 +724,7 @@ public abstract class Nivel implements Screen{
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 //Para quitar la pausa
-                enInventario = irInventario(enInventario,escenaHUD);
+                enInventario = irInventario(enInventario, escenaHUD);
             }
         });
     }
@@ -738,6 +782,10 @@ public abstract class Nivel implements Screen{
     }
 
     protected boolean irInventario(boolean enInventario, Stage escenaHUD){
+        fxInventario.play(1,2,0);
+        // Muestra los items
+        mostrarInventario(inventario, !enInventario);
+
         //Posición del ultimo actor
         int maxActores = escenaHUD.getActors().size -1;
         //Posicion actual de los actores que se crean antes de pausa

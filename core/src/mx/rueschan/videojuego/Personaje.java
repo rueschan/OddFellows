@@ -78,6 +78,21 @@ public class Personaje extends Objeto
     }
 
     public ArrayList<Objeto> verInventario() {
+        Pantalla pantalla = Pantalla.getInstanciaPantalla();
+//        float x = (pantalla.getANCHO()*0.55f) + 64;
+//        float y = (pantalla.getALTO()*0.7f) + 64;
+        float x = 100;
+        float y = 100;
+        if (!inventario.isEmpty()) {
+            for (Objeto item: inventario) {
+                item.sprite.setPosition(x, y);
+                x += 100;
+                if (x >= (100*5)) {
+                    x = 100;
+                    y += 100;
+                }
+            }
+        }
         return inventario;
     }
 
