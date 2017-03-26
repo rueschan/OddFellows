@@ -248,11 +248,11 @@
    </properties>
   </tile>
  </tileset>
- <tileset firstgid="74" name="Martillo" tilewidth="64" tileheight="64" tilecount="1" columns="1">
-  <image source="../Items/Martillo.png" width="64" height="64"/>
+ <tileset firstgid="74" name="martillo" tilewidth="64" tileheight="64" tilecount="1" columns="1">
+  <image source="../Items/martillo.png" width="64" height="64"/>
   <tile id="0">
    <properties>
-    <property name="IDItem" type="int" value="0"/>
+    <property name="IDItem" type="int" value="10"/>
     <property name="item" value="martillo"/>
     <property name="tipo" value="item"/>
    </properties>

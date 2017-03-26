@@ -325,7 +325,7 @@ public abstract class Nivel implements Screen{
                 fxCarta.play();
                 break;
             case 10:
-                Texture texturaMartillo = new Texture("Items/Martillo.png");
+                Texture texturaMartillo = new Texture("Items/martillo.png");
                 Arma martillo;
                 return martillo = new Arma(texturaMartillo, 0, 0, 30, "romper");
         }

@@ -13,7 +13,7 @@ public class Llave extends Objeto {
 
     public Llave(float x, float y, int idPuerta) {
         super();
-        texturaLlave = new Texture("Items/Llave.png");
+        texturaLlave = new Texture("Items/llave.png");
         sprite = new Sprite(texturaLlave);
         sprite.setPosition(x, y);
         sprite.setColor(1,1,1,0);
