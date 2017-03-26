@@ -24,7 +24,16 @@ public class Carta extends Objeto {
         switch (idContenido) {
             case 1:
                 // CARTA DE INTRODUCCIÓN (CABAÑA)
-                return "";
+                return "Dear Idlen:\n" +
+                        "The forest you recommended us is wonderful! The perfect camping site. " +
+                        "Quiet. Lonely. Peaceful. We are very thankful.\n" +
+                        "Every time Viktor has an idea, he searches in his backpack for the " +
+                        "correct tool to achieve his goals. He is so exited!\n" +
+                        "We have just scavenged for materials and useful items to build our camp." +
+                        " I hope this romantic travel goes well.\n" +
+                        "\n" +
+                        "See you soon! We are coming!\n" +
+                        "With love, your sister.\n";
         }
 
         return "";

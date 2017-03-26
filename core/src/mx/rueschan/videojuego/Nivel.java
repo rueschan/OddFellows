@@ -29,6 +29,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
+import java.util.ArrayList;
+
 /**
  * Created by OddFellows on 14/02/2017.
  */
@@ -276,6 +278,9 @@ public abstract class Nivel implements Screen{
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 fxInventario.play(1,2,0);
+                ArrayList<Objeto> inventario;
+                inventario = henric.verInventario();
+                Gdx.app.log("Invcentario", inventario.toString());
             }
         });
 
@@ -329,7 +334,11 @@ public abstract class Nivel implements Screen{
             case 2:
                 if (Configuraciones.isFxOn)
                     fxCarta.play();
-                break;
+                Carta carta;
+                if (juego.actual.equals(NivelCabana.class)) {
+                    return carta = new Carta(0, 0, 1);
+                }
+                return carta = new Carta(0, 0, (int) (Math.random()*10) + 1);
             case 10:
                 Texture texturaMartillo = new Texture("Items/martillo.png");
                 Arma martillo;
@@ -477,6 +486,7 @@ public abstract class Nivel implements Screen{
                 Gdx.input.setInputProcessor(pantalla.escena);
                 musicaPausa.stop();
                 oddFellows.crearMusica();
+                juego.actual = null;
                 oddFellows.setScreen(new MenuPrincipal(oddFellows));
             }
         });

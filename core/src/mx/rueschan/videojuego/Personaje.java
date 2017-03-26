@@ -77,6 +77,10 @@ public class Personaje extends Objeto
         inventario.add(item);
     }
 
+    public ArrayList<Objeto> verInventario() {
+        return inventario;
+    }
+
     private void animar(SpriteBatch batch) {
         timerAnimacion += Gdx.graphics.getDeltaTime();
         // Frame que se dibujará
