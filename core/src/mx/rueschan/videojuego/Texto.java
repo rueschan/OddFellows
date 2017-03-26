@@ -30,6 +30,25 @@ public class Texto {
         font.draw(batch, glyph, x-anchoTexto/2, y);
     }
 
+    public void hacerMensajes(Color color, String mensaje) {
+        glyph.reset();
+        font.setColor(color);
+        glyph.setText(font, mensaje);
+        anchoTexto = glyph.width;
+        altoTexto = glyph.height;
+    }
+
+    public void cambiarMensaje(String mensaje) {
+        glyph.reset();
+        glyph.setText(font, mensaje);
+        anchoTexto = glyph.width;
+        altoTexto = glyph.height;
+    }
+
+    public void escribir(SpriteBatch batch, float x, float y) {
+        font.draw(batch, glyph, x, y);
+    }
+
     public float getAnchoTexto() {
         return anchoTexto;
     }

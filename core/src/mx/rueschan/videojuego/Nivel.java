@@ -88,6 +88,7 @@ public abstract class Nivel implements Screen{
     Objeto fondoCarta;
     private Texture texturaCerrar;
     private ImageButton btnCerrar;
+    private Texto txt;
 
     //Manejador de assets
     protected static AssetManager manager;
@@ -127,6 +128,10 @@ public abstract class Nivel implements Screen{
     protected void crearRecursos(Pantalla pantalla, String nombreMapa, String nombreMusicaFondo) {
         texturaHenric = new Texture("Personaje/Henric.png");
         henric = new Personaje(texturaHenric, pantalla.getANCHO()/2, pantalla.getALTO()/2);
+
+        // Texto cartas
+        txt = new Texto();
+        txt.hacerMensajes(new Color(0,0,0,1), "");
 
         // Vida
         texturaHP = new Texture("Pantalla/HP.png");
@@ -371,7 +376,7 @@ public abstract class Nivel implements Screen{
                 } else {
                     carta = new Carta(0, 0, (int) (Math.random() * 10) + 1);
                 }
-                mostrarCarta();
+                mostrarCarta(carta);
                 return carta;
             case 10:
                 Texture texturaMartillo = new Texture("Items/martillo.png");
@@ -381,9 +386,11 @@ public abstract class Nivel implements Screen{
         return null;
     }
 
-    private void mostrarCarta() {
+    private void mostrarCarta(Carta carta) {
         fondoCarta.sprite.setColor(1,1,1,1);
         fxCarta.play();
+
+        txt.cambiarMensaje(carta.getTexto());
 
         //Se le resta uno por ser el tamano y no la posición, se le resta otro para no contar con el botón de pausa
         int actorHUD = escenaHUD.getActors().size-1;
@@ -403,6 +410,7 @@ public abstract class Nivel implements Screen{
         fondoCarta.sprite.setColor(1,1,1,0);
         fxCarta.play();
         boolean isPausa = true;
+        txt.cambiarMensaje("");
 
         //Se le resta uno por ser el tamano y no la posición, se le resta otro para no contar con el botón de pausa
         int actorHUD = escenaHUD.getActors().size-1;
@@ -427,6 +435,7 @@ public abstract class Nivel implements Screen{
         hp.dibujar(batch);
         barraHP.dibujar(batch);
         fondoCarta.dibujar(batch);
+        txt.escribir(batch, fondoCarta.sprite.getX() + 80, fondoCarta.sprite.getHeight() - 60);
     }
 
     @Override

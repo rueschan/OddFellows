@@ -23,19 +23,25 @@ public class Carta extends Objeto {
 
     private String elegigContenido() {
         switch (idContenido) {
+        ////            |< TAMAÑO MAXIMO DE LA CARTA >|
             case 1:
                 // CARTA DE INTRODUCCIÓN (CABAÑA)
-                return "\n" +
-                        "Dear Idlen:\n" +
-                        "The forest you recommended us is wonderful! The perfect camping site. " +
-                        "Quiet. Lonely. Peaceful. We are very thankful.\n" +
-                        "Every time Viktor has an idea, he searches in his backpack for the " +
-                        "correct tool to achieve his goals. He is so exited!\n" +
-                        "We have just scavenged for materials and useful items to build our camp." +
-                        " I hope this romantic travel goes well.\n" +
+                return "Dear Idlen:\n" +
+                        "The forest you recommended us\n" +
+                        " is wonderful! The perfect\n" +
+                        " camping site. Quiet. Lonely.\n" +
+                        " Peaceful. We are very thankful.\n" +
+                        "Every time Viktor has an idea,\n" +
+                        " he searches in his backpack\n " +
+                        "for the correct tool to achieve\n" +
+                        " his goals. He is so exited!\n\n" +
+                        "We have just scavenged for\n " +
+                        "materials and useful items to\n " +
+                        "build our camp. I hope this\n " +
+                        "romantic travel goes well.\n\n" +
                         "\n" +
                         "See you soon! We are coming!\n" +
-                        "With love, your sister.\n";
+                        "With love, your sister. XOXOX\n";
         }
 
         return "";
