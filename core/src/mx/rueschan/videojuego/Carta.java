@@ -1,5 +1,6 @@
 package mx.rueschan.videojuego;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 
@@ -17,14 +18,15 @@ public class Carta extends Objeto {
         sprite = new Sprite(texturaCarta);
         sprite.setPosition(x, y);
         this.idContenido = idContenido;
-        this.contenido = elegigContenido(idContenido);
+        this.contenido = elegigContenido();
     }
 
-    private String elegigContenido(int idContenido) {
+    private String elegigContenido() {
         switch (idContenido) {
             case 1:
                 // CARTA DE INTRODUCCIÓN (CABAÑA)
-                return "Dear Idlen:\n" +
+                return "\n" +
+                        "Dear Idlen:\n" +
                         "The forest you recommended us is wonderful! The perfect camping site. " +
                         "Quiet. Lonely. Peaceful. We are very thankful.\n" +
                         "Every time Viktor has an idea, he searches in his backpack for the " +
@@ -37,5 +39,9 @@ public class Carta extends Objeto {
         }
 
         return "";
+    }
+
+    public String getTexto() {
+        return contenido;
     }
 }

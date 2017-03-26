@@ -233,7 +233,6 @@ public abstract class Nivel implements Screen{
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 if (!btnInteraccion.isDisabled()) {
-                    Gdx.app.log("Btn", "Elimina!");
                     Objeto obj = identificarItem(tileObjetivo);
                     henric.addInventario(obj);
                     tileObjetivo.setTile(null);
@@ -280,7 +279,6 @@ public abstract class Nivel implements Screen{
                 fxInventario.play(1,2,0);
                 ArrayList<Objeto> inventario;
                 inventario = henric.verInventario();
-                Gdx.app.log("Invcentario", inventario.toString());
             }
         });
 
@@ -320,10 +318,9 @@ public abstract class Nivel implements Screen{
 
     private Objeto identificarItem(TiledMapTileLayer.Cell celda) {
         // ID:
-        // Llaves: 49
-        // Martillo: 81
-        // Carta: 63
-        Gdx.app.log("ItemID", celda.getTile().getProperties().get("IDItem").toString());
+        // Llaves: 1
+        // Carta: 2
+        // Martillo: 10
         int prueba = Integer.parseInt(celda.getTile().getProperties().get("IDItem").toString());
         switch (prueba){
             case 1: //Llave
@@ -335,10 +332,13 @@ public abstract class Nivel implements Screen{
                 if (Configuraciones.isFxOn)
                     fxCarta.play();
                 Carta carta;
-                if (juego.actual.equals(NivelCabana.class)) {
-                    return carta = new Carta(0, 0, 1);
+                if (juego.actual.getClass().equals(NivelCabana.class)) {
+                    carta = new Carta(0, 0, 1);
+                } else {
+                    carta = new Carta(0, 0, (int) (Math.random() * 10) + 1);
                 }
-                return carta = new Carta(0, 0, (int) (Math.random()*10) + 1);
+                Gdx.app.log("Carta", carta.getTexto());
+                return carta;
             case 10:
                 Texture texturaMartillo = new Texture("Items/martillo.png");
                 Arma martillo;
