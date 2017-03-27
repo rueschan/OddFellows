@@ -34,7 +34,7 @@ public class Carta extends Objeto {
                         "Every time Viktor has an idea,\n" +
                         " he searches in his backpack\n " +
                         "for the correct tool to achieve\n" +
-                        " his goals. He is so exited!\n\n" +
+                        " his goals. He is so excited!\n\n" +
                         "We have just scavenged for\n " +
                         "materials and useful items to\n " +
                         "build our camp. I hope this\n " +
