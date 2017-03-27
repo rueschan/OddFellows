@@ -302,10 +302,8 @@ public abstract class Nivel implements Screen{
                 }
             }
         });
-    }
 
-    private void crearBtnInventario(){
-    //// Asignar textura al boton de item
+        //// Asignar textura al boton de item
         if (seleccionado != null) {
             trdBtnItem = new
                     TextureRegionDrawable(new TextureRegion(seleccionado.sprite.getTexture()));
@@ -317,7 +315,7 @@ public abstract class Nivel implements Screen{
         btnItem = new ImageButton(trdBtnItem);
         btnItem.setPosition(pantalla.getANCHO()-btnItem.getWidth()-pantalla.getANCHO()*.14f,
                 pantalla.getALTO()*.02f);
-        btnItem.setColor(1,1,1,1);
+        btnItem.setColor(1,1,1,0.4f);
 
         btnItem.addListener(new ClickListener(){
             @Override
@@ -326,8 +324,10 @@ public abstract class Nivel implements Screen{
                 }
             }
         });
+    }
 
     private void crearBtnInventario(){
+
         //// Asignar textura al boton de inventario
         texturaInventario = new Texture("Pantalla/inventario.png");
         TextureRegionDrawable trdBtnInventario = new
@@ -547,7 +547,7 @@ public abstract class Nivel implements Screen{
         }
     }
 
-    private void mostrarItemSeleccionado() {
+    protected void mostrarItemSeleccionado() {
         //// Asignar textura al boton de item
         if (seleccionado != null) {
             trdBtnItem = new
@@ -555,8 +555,11 @@ public abstract class Nivel implements Screen{
         } else {
             trdBtnItem = new TextureRegionDrawable(new TextureRegion(texturaAccion));
         }
+        btnItem.setBackground(trdBtnItem);
+        // TEST
+        btnAccion.setVisible(false);
         if (seleccionado != null){
-            Gdx.app.log("Seleccionado", seleccionado.toString());
+            Gdx.app.log("Seleccionado", btnItem.getBackground().toString());
         }
     }
 
@@ -568,7 +571,6 @@ public abstract class Nivel implements Screen{
         barraHP.dibujar(batch);
         fondoCarta.dibujar(batch);
         txt.escribir(batch, fondoCarta.sprite.getX() + 80, fondoCarta.sprite.getHeight() - 60);
-        mostrarItemSeleccionado();
     }
 
     @Override

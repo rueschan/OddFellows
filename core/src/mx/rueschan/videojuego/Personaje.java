@@ -195,6 +195,7 @@ public class Personaje extends Objeto
             nivel.alertaAccion.sprite.setColor(1,1,1,1);
             nivel.btnAccion.setDisabled(false);
             nivel.btnItem.setDisabled(false);
+            nivel.btnItem.setColor(1,1,1,1);
             nivel.tileInteractivo = celda;
             if (!estatusAccion) {
                 if (Configuraciones.isFxOn)
@@ -206,6 +207,7 @@ public class Personaje extends Objeto
             nivel.alertaAccion.sprite.setColor(1,1,1,0);
             nivel.btnAccion.setDisabled(true);
             nivel.btnItem.setDisabled(true);
+            nivel.btnItem.setColor(1,1,1,0.4f);
             nivel.tileInteractivo = null;
             estatusAccion = false;
         }
