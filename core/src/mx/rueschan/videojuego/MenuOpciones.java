@@ -180,7 +180,7 @@ public class MenuOpciones implements Screen{
             mensajeMusica = "OFF";
         }
         pantalla.texto.mostrarMensajes(pantalla.batch, Color.WHITE, mensajeMusica,
-                pantalla.getANCHO()/3 + 400, 5*pantalla.getALTO()/6);
+                pantalla.getANCHO()/3 + 400, 5*pantalla.getALTO()/6-11);
 
         // Texto de efectos
         pantalla.texto.mostrarMensajes(pantalla.batch, Color.BLACK, "Effects",

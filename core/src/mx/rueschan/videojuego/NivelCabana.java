@@ -103,12 +103,19 @@ public class NivelCabana extends Nivel {
 
 
 
-        // Detectar botón físico "return"
+        // Detectar botón físico "return", solo se activa cuando
+        //&& !enInventario
         if (Gdx.input.isKeyJustPressed(Input.Keys.BACK)) {
-            //Abrir MenuPausa
-            pausado = pausar(pausado, NivelCabana.super.escenaHUD);
+            if(enInventario) {
+                enInventario = irInventario(enInventario, NivelCabana.super.escenaHUD);
+            }
+             else {
+                //Abrir MenuPausa
+                pausado = pausar(pausado, NivelCabana.super.escenaHUD);
+            }
+
         }
-        escribirMenuPausa(pausado, NivelCabana.super.musicaFondo);
+        escribirMenuPausa(pausado);
     }
 
     @Override

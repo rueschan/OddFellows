@@ -30,34 +30,13 @@ public class NivelBosque extends Nivel {
     @Override
     protected void cargarTexturas() {
         //Textura de los diferentes elementos que componen el nivel
-        //texturaBotonPausa = new Texture("Pantalla/BotonPausa64.png");
+
     }
 
     @Override
     protected void crearObjetos() {
         // Limpia escena de pantalla anterior
         pantalla.escena.clear();
-
-//        // Asignar textura al boton de pausa
-//        TextureRegionDrawable trdBtnPausa = new
-//                TextureRegionDrawable(new TextureRegion(texturaBotonPausa));
-//
-//        // Colocar boton de pausa
-//        ImageButton btnPausa = new ImageButton(trdBtnPausa);
-//        btnPausa.setPosition(pantalla.getANCHO()-btnPausa.getWidth()-pantalla.getANCHO()*.02f,
-//                pantalla.getALTO()-btnPausa.getHeight()-pantalla.getALTO()*.02f);
-//        super.escenaHUD.addActor(btnPausa);
-//
-//        // Acciones de botones
-//        // Botón opciones
-//        btnPausa.addListener(new ClickListener(){
-//            @Override
-//            public void clicked(InputEvent event, float x, float y) {
-//                Gdx.app.log("clicked", "***Cambio a pausa***");
-//                Gdx.input.setInputProcessor(pantalla.escena);
-//                oddFellows.setScreen(new MenuPausa(oddFellows, actual));
-//            }
-//        });
 
         //Pad
         Gdx.input.setCatchBackKey(true);
@@ -128,6 +107,5 @@ public class NivelBosque extends Nivel {
     @Override
     public void dispose() {
 
-        //texturaBotonPausa.dispose();
     }
 }
