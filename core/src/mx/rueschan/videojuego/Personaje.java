@@ -193,9 +193,7 @@ public class Personaje extends Objeto
         if (celda != null) {
             nivel.alertaAccion.sprite.setPosition(sprite.getX(), sprite.getY() + 100);
             nivel.alertaAccion.sprite.setColor(1,1,1,1);
-            nivel.btnAccion.setDisabled(false);
-            nivel.btnItem.setDisabled(false);
-            nivel.btnItem.setColor(1,1,1,1);
+//            nivel.btnAccion.setDisabled(false);
             nivel.tileInteractivo = celda;
             if (!estatusAccion) {
                 if (Configuraciones.isFxOn)
@@ -205,9 +203,7 @@ public class Personaje extends Objeto
         } else {
             nivel.alertaAccion.sprite.setPosition(0, 0);
             nivel.alertaAccion.sprite.setColor(1,1,1,0);
-            nivel.btnAccion.setDisabled(true);
-            nivel.btnItem.setDisabled(true);
-            nivel.btnItem.setColor(1,1,1,0.4f);
+//            nivel.btnAccion.setDisabled(true);
             nivel.tileInteractivo = null;
             estatusAccion = false;
         }

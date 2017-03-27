@@ -115,7 +115,7 @@ public class NivelCabana extends Nivel {
             }
 
         }
-        escribirMenuPausa(pausado, NivelCabana.super.musicaFondo);
+        escribirMenuPausa(pausado);
     }
 
     @Override
