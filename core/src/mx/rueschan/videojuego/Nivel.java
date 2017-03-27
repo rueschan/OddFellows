@@ -142,10 +142,10 @@ public abstract class Nivel implements Screen{
 
     protected abstract void cargarTexturas();
 
-    protected void crearRecursos(Pantalla pantalla, String nombreMapa, String nombreMusicaFondo) {
+    protected void crearRecursos(Pantalla pantalla, String nombreMapa, String nombreMusicaFondo, String nombreFXPasos) {
         // Henric
         texturaHenric = new Texture("Personaje/Henric.png");
-        henric = new Personaje(texturaHenric, pantalla.getANCHO()/2, pantalla.getALTO()/2);
+        henric = new Personaje(texturaHenric, pantalla.getANCHO()/2, pantalla.getALTO()/2,nombreFXPasos);
 
         // Texto cartas
         txt = new Texto();
@@ -417,7 +417,6 @@ public abstract class Nivel implements Screen{
             }
         });
     }
-
 
     private Objeto identificarItem(TiledMapTileLayer.Cell celda) {
         // ID:

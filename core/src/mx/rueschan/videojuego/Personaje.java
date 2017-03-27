@@ -44,7 +44,8 @@ public class Personaje extends Objeto
     private boolean estatusAccion = false;
 
     // Recibe una imagen con varios frames (ver marioSprite.png)
-    public Personaje(Texture textura, float x, float y) {
+    public Personaje(Texture textura, float x, float y, String pathFxPasos) {
+
         // Crea inventario
         inventario = new ArrayList<Objeto>(10);
         // Lee la textura como región

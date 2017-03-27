@@ -28,6 +28,7 @@ public class NivelCabana extends Nivel {
     // Recursos
     private String pathMapa;
     private String pathMusica;
+    private String pathFxPasos;
 
 
     public NivelCabana(OddFellows oddFellows) {
@@ -40,8 +41,9 @@ public class NivelCabana extends Nivel {
     protected void cargarTexturas() {
 
         // Recursos
-        pathMapa = "Mapa/Cabana.tmx";
+        pathMapa = "NivelCabana/Cabana.tmx";
         pathMusica = "Musica/ofeliasdream.mp3";
+        pathFxPasos = "Sonidos/pasoMadera.mp3";
     }
 
     @Override
@@ -58,7 +60,7 @@ public class NivelCabana extends Nivel {
         cargarTexturas();
 
         // Crear mapa
-        super.crearRecursos(pantalla, pathMapa,pathMusica);
+        super.crearRecursos(pantalla, pathMapa,pathMusica,pathFxPasos);
 
         //Creación de HUD
         super.crearElementosPantalla(pantalla);
