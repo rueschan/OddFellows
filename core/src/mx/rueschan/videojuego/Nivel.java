@@ -134,13 +134,14 @@ public abstract class Nivel implements Screen{
 
     protected void cargarJuego(){
         juego = Juego.getJuego(oddFellows);
-    };
+    }
 
     protected abstract void crearObjetos();
 
     protected abstract void cargarTexturas();
 
     protected void crearRecursos(Pantalla pantalla, String nombreMapa, String nombreMusicaFondo) {
+        // Henric
         texturaHenric = new Texture("Personaje/Henric.png");
         henric = new Personaje(texturaHenric, pantalla.getANCHO()/2, pantalla.getALTO()/2);
 
@@ -179,6 +180,17 @@ public abstract class Nivel implements Screen{
         fxLlave = manager.get(pathFxLlave);
         fxCarta = manager.get(pathFxCarta);
         fxInventario = manager.get(pathFxInventario);
+    }
+
+    protected void crearElementosPantalla(final Pantalla pantalla){
+        crearHUD(pantalla);
+        crearAlerta();
+        crearBtnInteraccion();
+        crearBtnAccion();
+        crearBtnInventario();
+        crearCartas();
+        agregarActoresInicialesHUD();
+
     }
 
     protected void crearHUD(final Pantalla pantalla) {
@@ -236,13 +248,16 @@ public abstract class Nivel implements Screen{
                 }
             }
         });
+    }
 
-            // INTERACCIÓN
+    private void crearAlerta(){
         //// Asignar textura a sprite de acción
         texturaAccion = new Texture("Pantalla/Accion.png");
         alertaAccion = new Objeto(texturaAccion, 0, 0);
         alertaAccion.sprite.setColor(1, 1, 1, 0);
+    }
 
+    private void crearBtnInteraccion(){
         //// Asignar textura al boton de interación
         texturaInteraccion = new Texture("Pantalla/BotonInteraccion.png");
         TextureRegionDrawable trdBtnInteraccion = new
@@ -264,7 +279,9 @@ public abstract class Nivel implements Screen{
                 }
             }
         });
+    }
 
+    private void crearBtnAccion(){
         //// Asignar textura al boton de acción
         texturaAccion = new Texture("Pantalla/baseItems.png");
         TextureRegionDrawable trdBtnAccion = new
@@ -283,7 +300,9 @@ public abstract class Nivel implements Screen{
                 }
             }
         });
+    }
 
+    private void crearBtnInventario(){
         //// Asignar textura al boton de inventario
         texturaInventario = new Texture("Pantalla/inventario.png");
         TextureRegionDrawable trdBtnInventario = new
@@ -304,7 +323,9 @@ public abstract class Nivel implements Screen{
                 enInventario = irInventario(enInventario,escenaHUD);
             }
         });
+    }
 
+    private void crearCartas(){
         // Cartas
         Texture pathFondoCarta = new Texture("Pantalla/fondoCarta.png");
         fondoCarta = new Objeto(pathFondoCarta, pantalla.getANCHO()/2 - pathFondoCarta.getWidth()/2, 0);
@@ -327,7 +348,9 @@ public abstract class Nivel implements Screen{
                 cerrarCarta();
             }
         });
+    }
 
+    private void agregarActoresInicialesHUD(){
         escenaHUD = new Stage(vistaHUD);
         escenaHUD.addActor(pad);//Actor en posicion 0
         escenaHUD.getActors().get(0).setName("Pad");
@@ -374,6 +397,7 @@ public abstract class Nivel implements Screen{
             }
         });
     }
+
 
     private Objeto identificarItem(TiledMapTileLayer.Cell celda) {
         // ID:
@@ -627,6 +651,7 @@ public abstract class Nivel implements Screen{
                 musicaPausa.stop();
                 oddFellows.crearMusica();
                 juego.actual = null;
+                henric.pararSonido();
                 oddFellows.setScreen(new MenuPrincipal(oddFellows));
             }
         });
@@ -779,7 +804,8 @@ public abstract class Nivel implements Screen{
     }
 
     protected boolean irInventario(boolean enInventario, Stage escenaHUD){
-        fxInventario.play(1,2,0);
+        if (Configuraciones.isFxOn)
+            fxInventario.play(1,2,0);
         // Muestra los items
         mostrarInventario(inventario, !enInventario);
 
