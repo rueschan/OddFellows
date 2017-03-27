@@ -28,6 +28,7 @@ public class Personaje extends Objeto
 
     private Animation<TextureRegion> spriteAnimado;         // Animación caminando
     private float timerAnimacion;                           // Tiempo para cambiar frames de la animación
+    private TextureRegion[][] texturaPersonaje;
 
     private EstadoMovimiento estadoMovimiento = EstadoMovimiento.QUIETO;
     private EstadoMovimientoVertical estadoMovimientoVertical = EstadoMovimientoVertical.QUIETO_Y;
@@ -43,13 +44,14 @@ public class Personaje extends Objeto
     private boolean estatusAccion = false;
 
     // Recibe una imagen con varios frames (ver marioSprite.png)
-    public Personaje(Texture textura, float x, float y) {
+    public Personaje(Texture textura, float x, float y, String pathFxPasos) {
+
         // Crea inventario
         inventario = new ArrayList<Objeto>(10);
         // Lee la textura como región
         TextureRegion texturaCompleta = new TextureRegion(textura);
         // La divide en 4 frames de 32x64 (ver marioSprite.png)
-        TextureRegion[][] texturaPersonaje = texturaCompleta.split(96,96);
+        texturaPersonaje = texturaCompleta.split(96,96);
         // Crea la animación con tiempo de 0.15 segundos entre frames.
 
         spriteAnimado = new Animation(0.15f, texturaPersonaje[0][2], texturaPersonaje[0][1] );
@@ -73,6 +75,18 @@ public class Personaje extends Objeto
         fxAccion = manager.get(pathFxAccion);
     }
 
+    public void setSprite(TextureRegion[][] texturaPersonaje) {
+        this.texturaPersonaje = texturaPersonaje;
+        spriteAnimado = new Animation(0.15f, texturaPersonaje[0][2], texturaPersonaje[0][1] );
+        // Animación infinita
+        spriteAnimado.setPlayMode(Animation.PlayMode.LOOP);
+        // Inicia el timer que contará tiempo para saber qué frame se dibuja
+        timerAnimacion = 0;
+        // Crea el sprite con el personaje quieto (idle)
+        sprite = new Sprite(texturaPersonaje[0][0]);    // QUIETO
+        sprite.setPosition(sprite.getX(), sprite.getY());    // Posición inicial
+    }
+
     public void addInventario(Objeto item) {
         inventario.add(item);
     }
@@ -81,18 +95,18 @@ public class Personaje extends Objeto
         Pantalla pantalla = Pantalla.getInstanciaPantalla();
 //        float x = (pantalla.getANCHO()*0.55f) + 64;
 //        float y = (pantalla.getALTO()*0.7f) + 64;
-        float x = 100;
-        float y = 100;
-        if (!inventario.isEmpty()) {
-            for (Objeto item: inventario) {
-                item.sprite.setPosition(x, y);
-                x += 100;
-                if (x >= (100*5)) {
-                    x = 100;
-                    y += 100;
-                }
-            }
-        }
+//        float x = 100;
+//        float y = 100;
+//        if (!inventario.isEmpty()) {
+//            for (Objeto item: inventario) {
+//                item.sprite.setPosition(x, y);
+//                x += 100;
+//                if (x >= (100*5)) {
+//                    x = 100;
+//                    y += 100;
+//                }
+//            }
+//        }
         return inventario;
     }
 

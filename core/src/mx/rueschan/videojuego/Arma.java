@@ -7,14 +7,28 @@ import com.badlogic.gdx.graphics.Texture;
  */
 
 public class Arma extends Objeto {
-    float dano;
-    String special; // HABILIDAD ESPECIAL DEL ARMA (ROMPER, CORTAR, ETC)
+    private float dano;
+    private String nombre;
+    private String special; // HABILIDAD ESPECIAL DEL ARMA (ROMPER, CORTAR, ETC)
 
-    public Arma(Texture textura, float x, float y, float dano, String special) {
+    public Arma(Texture textura, float x, float y, float dano, String nombre, String special) {
         super(textura, x, y);
         this.dano = dano;
+        this.nombre = nombre;
         this.special = special;
         sprite.setColor(1,1,1,0);
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public float getDano() {
+        return dano;
+    }
+
+    public String getSpecial() {
+        return special;
     }
 
 

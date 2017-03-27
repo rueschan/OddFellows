@@ -10,7 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
 /**
- * Created by Jonathan on 19/03/2017.
+ * Created by Odd Fellows on 19/03/2017.
  */
 
 public class NivelBosque extends Nivel {
@@ -20,6 +20,7 @@ public class NivelBosque extends Nivel {
     //Mapa tipo tmx del Bosque
     private String pathMapa;
     private String pathMusica;
+    private String pathFXPasos;
 
     public NivelBosque(OddFellows oddFellows) {
         super.oddFellows = oddFellows;
@@ -30,14 +31,15 @@ public class NivelBosque extends Nivel {
     @Override
     protected void cargarTexturas() {
         //Textura de los diferentes elementos que componen el nivel
-
+        pathMapa = "NivelBosque/bosque.tmx";
+        pathMusica = "Musica/lostInForest.mp3";
+        pathFXPasos = "Sonidos/pasoBosque.mp3";
     }
 
     @Override
     protected void crearObjetos() {
         // Limpia escena de pantalla anterior
         pantalla.escena.clear();
-
         //Pad
         Gdx.input.setCatchBackKey(true);
     }
@@ -47,10 +49,12 @@ public class NivelBosque extends Nivel {
         cargarTexturas();
 
         // Crear mapa
-        super.crearRecursos(pantalla, pathMapa,pathMusica);
+        super.crearRecursos(pantalla, pathMapa,pathMusica,pathFXPasos);
 
         //Creación de HUD
-        super.crearHUD(pantalla);
+        super.crearElementosPantalla(pantalla);
+        super.crearPausa(escenaHUD);
+        super.crearInventario(escenaHUD);
 
         // Objetos
         crearObjetos();
@@ -72,26 +76,36 @@ public class NivelBosque extends Nivel {
         // Elementos juego
         super.pantalla.escena.draw();
         pantalla.batch.begin();
-        super.henric.dibujar(pantalla.batch);
+        super.dibujar(pantalla.batch);
+//        super.henric.dibujar(pantalla.batch);
+//        hp.dibujar(pantalla.batch);
+//        barraHP.dibujar(pantalla.batch);
         pantalla.batch.end();
 
         // HUD
         pantalla.batch.setProjectionMatrix(camaraHUD.combined);
+        mostrarItemSeleccionado();
         escenaHUD.draw();
 
         // Jugador
         henric.actualizar(mapa);
+        henric.interactuar(this);
 
-        // Detectar botón físico "return"
+
+
+        // Detectar botón físico "return", solo se activa cuando
+        //&& !enInventario
         if (Gdx.input.isKeyJustPressed(Input.Keys.BACK)) {
-            //Abrir MenuPausa
-            oddFellows.setScreen(new MenuPausa(oddFellows, actual));
-        }
-    }
+            if(enInventario) {
+                enInventario = irInventario(enInventario, NivelBosque.super.escenaHUD);
+            }
+            else {
+                //Abrir MenuPausa
+                pausado = pausar(pausado, NivelBosque.super.escenaHUD);
+            }
 
-    @Override
-    public void resize(int width, int height) {
-        pantalla.resize(width, height);
+        }
+        escribirMenuPausa(pausado);
     }
 
     @Override

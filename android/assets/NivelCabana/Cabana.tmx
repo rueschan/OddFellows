@@ -197,10 +197,10 @@
   </tile>
  </tileset>
  <tileset firstgid="49" name="Lampara" tilewidth="64" tileheight="64" tilecount="4" columns="4">
-  <image source="../NivelCabana/LamparaPartes.png" width="256" height="64"/>
+  <image source="LamparaPartes.png" width="256" height="64"/>
  </tileset>
  <tileset firstgid="53" name="Puertas" tilewidth="64" tileheight="64" tilecount="8" columns="8">
-  <image source="../NivelCabana/Puertas.png" width="512" height="64"/>
+  <image source="Puertas.png" width="512" height="64"/>
   <tile id="0">
    <properties>
     <property name="tipo" value="puerta"/>
@@ -223,10 +223,10 @@
   </tile>
  </tileset>
  <tileset firstgid="61" name="Alfombra" tilewidth="64" tileheight="64" tilecount="9" columns="9">
-  <image source="../NivelCabana/Alfombra.png" width="576" height="64"/>
+  <image source="Alfombra.png" width="576" height="64"/>
  </tileset>
  <tileset firstgid="70" name="Window" tilewidth="64" tileheight="64" tilecount="2" columns="2">
-  <image source="../NivelCabana/Window.png" width="128" height="64"/>
+  <image source="Window.png" width="128" height="64"/>
  </tileset>
  <tileset firstgid="72" name="llave" tilewidth="64" tileheight="64" tilecount="1" columns="1">
   <image source="../Items/llave.png" width="64" height="64"/>
