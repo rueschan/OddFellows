@@ -94,7 +94,6 @@ public abstract class Nivel implements Screen{
     private Texture texturaInteraccion;
     public ImageButton btnInteraccion;
     private Texture texturaAccion;
-    public ImageButton btnAccion;
     public Objeto fondoAccion;
     private Texture texturaInventario;
     public ImageButton btnInventario;
@@ -389,7 +388,7 @@ public abstract class Nivel implements Screen{
         escenaHUD.getActors().get(4).setName("Item");
         indiceActoresAntesPausa++;
         //Anadir en lista de casos aparte
-        actoresAparte.add(4);
+        actoresAparte.add(3);
 
         escenaHUD.addListener(new ClickListener() {
 
@@ -446,7 +445,7 @@ public abstract class Nivel implements Screen{
             case 10:
                 Texture texturaMartillo = new Texture("Items/martillo.png");
                 Arma martillo;
-                return martillo = new Arma(texturaMartillo, 0, 0, 30, "romper");
+                return martillo = new Arma(texturaMartillo, 0, 0, 30, "martillo", "romper");
         }
         return null;
     }
@@ -559,11 +558,29 @@ public abstract class Nivel implements Screen{
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 if (!btnItem.isDisabled()) {
-                    Gdx.app.log("#", String.valueOf(indiceActoresAntesPausa));
+                    ejecutarAccion();
                 }
             }
         });
         escenaHUD.getActors().set(4, btnItem);
+    }
+
+    private void ejecutarAccion() {
+
+        if (seleccionado instanceof Arma) {
+            Arma arma = (Arma) seleccionado;
+            if (arma.getNombre() == "martillo") {
+                Texture textura = new Texture("Personaje/HendricMartilloCorriendo.png");
+                henric.setSprite(new TextureRegion(textura).split(96, 96));
+            }
+        } else if (seleccionado instanceof Carta) {
+            Carta carta = (Carta) seleccionado;
+            mostrarCarta(carta);
+        } else if (seleccionado instanceof  Llave) {
+            Llave llave = (Llave) seleccionado;
+        }
+
+
     }
 
     // SE CORRE 1 VEZ POR FRAME
@@ -713,7 +730,7 @@ public abstract class Nivel implements Screen{
         });
 
 
-        //Botón pausa en actor posicion 5
+        //Botón pausa en actor posicion 6
         escenaHUD.addActor(btnPausa);
         escenaHUD.getActors().get(5).setName("Pausa");
         indiceActoresAntesPausa++;
