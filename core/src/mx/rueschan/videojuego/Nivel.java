@@ -378,13 +378,13 @@ public abstract class Nivel implements Screen{
 //        escenaHUD.addActor(btnAccion);//Actor en posicion 2
 //        escenaHUD.getActors().get(2).setName("Accion");
 //        indiceActoresAntesPausa++;
-        escenaHUD.addActor(btnInventario);//Actor en posicion 3
+        escenaHUD.addActor(btnInventario);//Actor en posicion 2
         escenaHUD.getActors().get(2).setName("Inventario");
         indiceActoresAntesPausa++;
-        escenaHUD.addActor(btnCerrar);//Actor en posicion 4
+        escenaHUD.addActor(btnCerrar);//Actor en posicion 3
         escenaHUD.getActors().get(3).setName("Cerrar");
         indiceActoresAntesPausa++;
-        escenaHUD.addActor(btnItem);
+        escenaHUD.addActor(btnItem);//Actor en posicion 4
         escenaHUD.getActors().get(4).setName("Item");
         indiceActoresAntesPausa++;
         //Anadir en lista de casos aparte
@@ -535,6 +535,7 @@ public abstract class Nivel implements Screen{
                 items.add(btnItem);
                 escenaHUD.addActor(btnItem);
                 btnItem.setVisible(inInventario);
+
             }
         }
     }
@@ -736,28 +737,28 @@ public abstract class Nivel implements Screen{
         indiceActoresAntesPausa++;
         indiceActoresPausa+=indiceActoresAntesPausa;
 
-        //Cuadro de pausa actor posicion
+        //Cuadro de pausa actor posicion 6
         escenaHUD.addActor(fondoMenuImagen);
         fondoMenuImagen.setVisible(false);
         indiceActoresPausa++;
 
-        //Cuadro de pausa actor posicion
+        //Cuadro de pausa actor posicion 7
         escenaHUD.addActor(cuadroPausa);
         cuadroPausa.setVisible(false);
         indiceActoresPausa++;
-        //Cuadro de reanudar actor posicion
+        //Cuadro de reanudar actor posicion 8
         escenaHUD.addActor(btnReanudar);
         btnReanudar.setVisible(false);
         indiceActoresPausa++;
-        //Cuadro de salir actor posicion
+        //Cuadro de salir actor posicion 9
         escenaHUD.addActor(btnSalir);
         btnSalir.setVisible(false);
         indiceActoresPausa++;
-        //Cuadro de salir actor posicion
+        //Cuadro de salir actor posicion 10
         escenaHUD.addActor(btnFX);
         btnFX.setVisible(false);
         indiceActoresPausa++;
-        //Cuadro de salir actor posicion
+        //Cuadro de salir actor posicion 11
         escenaHUD.addActor(btnMusica);
         btnMusica.setVisible(false);
         indiceActoresPausa++;
