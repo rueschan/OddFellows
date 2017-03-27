@@ -406,6 +406,11 @@ public class Personaje extends Objeto
         this.velocidadY = vy;
     }
 
+    public void pararSonido(){
+        fxAccion.stop();
+        fxPasos.stop();
+    }
+
     public enum EstadoMovimiento {
         QUIETO,
         MOV_IZQUIERDA,

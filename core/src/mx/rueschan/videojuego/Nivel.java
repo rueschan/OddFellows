@@ -651,6 +651,7 @@ public abstract class Nivel implements Screen{
                 musicaPausa.stop();
                 oddFellows.crearMusica();
                 juego.actual = null;
+                henric.pararSonido();
                 oddFellows.setScreen(new MenuPrincipal(oddFellows));
             }
         });
