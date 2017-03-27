@@ -878,7 +878,7 @@ public abstract class Nivel implements Screen{
 
 
     //Se pone en el render del nivel particular
-    protected void escribirMenuPausa(boolean pausado, Music musica){
+    protected void escribirMenuPausa(boolean pausado){
         String tituloReanudar;
         String tituloSalir;
         String tituloMusica;
