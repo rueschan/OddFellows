@@ -280,9 +280,6 @@ public abstract class Nivel implements Screen{
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 if (!btnAccion.isDisabled()) {
-                    Objeto obj = identificarItem(tileObjetivo);
-                    henric.addInventario(obj);
-                    tileObjetivo.setTile(null);
                 }
             }
         });
