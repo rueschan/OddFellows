@@ -94,6 +94,7 @@ public class NivelCabana extends Nivel {
 
         // HUD
         pantalla.batch.setProjectionMatrix(camaraHUD.combined);
+        mostrarItemSeleccionado();
         escenaHUD.draw();
 
         // Jugador
