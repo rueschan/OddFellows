@@ -104,7 +104,8 @@ public class NivelCabana extends Nivel {
 
 
         // Detectar botón físico "return", solo se activa cuando
-        if (Gdx.input.isKeyJustPressed(Input.Keys.BACK) && !enInventario) {
+        //&& !enInventario
+        if (Gdx.input.isKeyJustPressed(Input.Keys.BACK)) {
             if(enInventario) {
                 enInventario = irInventario(enInventario, NivelCabana.super.escenaHUD);
             }
