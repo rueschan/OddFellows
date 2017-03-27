@@ -97,6 +97,8 @@ public abstract class Nivel implements Screen{
     public ImageButton btnAccion;
     private Texture texturaInventario;
     public ImageButton btnInventario;
+    private TextureRegionDrawable trdBtnItem;
+    public ImageButton btnItem;
     public Objeto alertaAccion;
 
     // Texturas carta e inventario
@@ -303,6 +305,29 @@ public abstract class Nivel implements Screen{
     }
 
     private void crearBtnInventario(){
+    //// Asignar textura al boton de item
+        if (seleccionado != null) {
+            trdBtnItem = new
+                    TextureRegionDrawable(new TextureRegion(seleccionado.sprite.getTexture()));
+        } else {
+            trdBtnItem = new TextureRegionDrawable(new TextureRegion(texturaAccion));
+        }
+
+        // Colocar boton de item
+        btnItem = new ImageButton(trdBtnItem);
+        btnItem.setPosition(pantalla.getANCHO()-btnItem.getWidth()-pantalla.getANCHO()*.14f,
+                pantalla.getALTO()*.02f);
+        btnItem.setColor(1,1,1,1);
+
+        btnItem.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                if (!btnItem.isDisabled()) {
+                }
+            }
+        });
+
+    private void crearBtnInventario(){
         //// Asignar textura al boton de inventario
         texturaInventario = new Texture("Pantalla/inventario.png");
         TextureRegionDrawable trdBtnInventario = new
@@ -366,6 +391,9 @@ public abstract class Nivel implements Screen{
         indiceActoresAntesPausa++;
         escenaHUD.addActor(btnCerrar);//Actor en posicion 4
         escenaHUD.getActors().get(4).setName("Cerrar");
+        indiceActoresAntesPausa++;
+        escenaHUD.addActor(btnItem);
+        escenaHUD.getActors().get(5).setName("Item");
         indiceActoresAntesPausa++;
         //Anadir en lista de casos aparte
         actoresAparte.add(4);
@@ -517,10 +545,22 @@ public abstract class Nivel implements Screen{
                 btnItem.setVisible(inInventario);
             }
         }
-
-
     }
 
+    private void mostrarItemSeleccionado() {
+        //// Asignar textura al boton de item
+        if (seleccionado != null) {
+            trdBtnItem = new
+                    TextureRegionDrawable(new TextureRegion(seleccionado.sprite.getTexture()));
+        } else {
+            trdBtnItem = new TextureRegionDrawable(new TextureRegion(texturaAccion));
+        }
+        if (seleccionado != null){
+            Gdx.app.log("Seleccionado", seleccionado.toString());
+        }
+    }
+
+    // SE CORRE 1 VEZ POR FRAME
     protected void dibujar(SpriteBatch batch) {
         alertaAccion.dibujar(batch);
         henric.dibujar(batch);
@@ -528,6 +568,7 @@ public abstract class Nivel implements Screen{
         barraHP.dibujar(batch);
         fondoCarta.dibujar(batch);
         txt.escribir(batch, fondoCarta.sprite.getX() + 80, fondoCarta.sprite.getHeight() - 60);
+        mostrarItemSeleccionado();
     }
 
     @Override
