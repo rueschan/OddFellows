@@ -29,9 +29,6 @@ public class NivelCabana extends Nivel {
     private String pathMapa;
     private String pathMusica;
 
-    //Musica
-    private Music musicaFondo;
-
 
     public NivelCabana(OddFellows oddFellows) {
         super.oddFellows = oddFellows;
@@ -64,7 +61,7 @@ public class NivelCabana extends Nivel {
         super.crearRecursos(pantalla, pathMapa,pathMusica);
 
         //Creación de HUD
-        super.crearHUD(pantalla);
+        super.crearElementosPantalla(pantalla);
         super.crearPausa(escenaHUD);
         super.crearInventario(escenaHUD);
 
