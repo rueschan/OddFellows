@@ -38,7 +38,7 @@ public class MenuExtras implements Screen {
     }
 
     private void cargarTexturas() {
-        texturaFondo = new Texture("Pantalla/Fondo/fondoExtras.jpg");
+        texturaFondo = new Texture("Pantalla/Fondo/fondoExtras.png");
         texturaExit = new Texture("Pantalla/btnExit.png");
     }
 
