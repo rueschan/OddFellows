@@ -880,6 +880,7 @@ public abstract class Nivel implements Screen{
             public void clicked(InputEvent event, float x, float y) {
                 //Para quitar la pausa
                 oddFellows.setScreen(new NivelBosque(oddFellows));
+                musicaFondo.stop();
             }
         });
     }
