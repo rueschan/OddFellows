@@ -239,7 +239,11 @@ public class Personaje extends Objeto
 
         celda = buscaSalida(nivel.mapa);
         if (celda != null) {
-
+            nivel.btnEntrar.setDisabled(false);
+            nivel.btnEntrar.setVisible(true);
+        } else {
+            nivel.btnEntrar.setDisabled(true);
+            nivel.btnEntrar.setVisible(false);
         }
     }
 
@@ -429,7 +433,7 @@ public class Personaje extends Objeto
                 // Obtiene la salida
                 celdaSalida = capaSalidas.getCell((x / 64), (y / 64));
                 // Si hay una salida y nada la bloquea...
-                if (celdaSalida != null && celda == null) {
+                if (celdaSalida != null && celda.getTile() == null) {
                     return celdaSalida;
                 }
             }

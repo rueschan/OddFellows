@@ -871,10 +871,17 @@ public abstract class Nivel implements Screen{
         escenaHUD.addActor(btnEntrar);//posicion 15
         actoresAparte.add(15);
         btnEntrar.setVisible(false);
-        //btnEntrar.setPosition();
-//wololo
+        btnEntrar.setPosition(pantalla.getANCHO()-btnEntrar.getWidth()-pantalla.getANCHO()*.02f,
+        pantalla.getALTO()*.02f);
 
-
+        // Interaccion boton entrar
+        btnEntrar.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                //Para quitar la pausa
+                oddFellows.setScreen(new NivelBosque(oddFellows));
+            }
+        });
     }
 
 
