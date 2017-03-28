@@ -279,7 +279,6 @@ public abstract class Nivel implements Screen{
                     Objeto obj = identificarItem(tileObjetivo);
                     henric.addInventario(obj);
                     tileObjetivo.setTile(null);
-                    fondoAccion.sprite.setColor(1,1,1,0);
                 }
             }
         });
