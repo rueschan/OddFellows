@@ -31,7 +31,7 @@ public class NivelBosque extends Nivel {
     @Override
     protected void cargarTexturas() {
         //Textura de los diferentes elementos que componen el nivel
-        pathMapa = "NivelBosque/Bosque.tmx";
+        pathMapa = "NivelBosque/bosque.tmx";
         pathMusica = "Musica/lostInForest.mp3";
         pathFXPasos = "Sonidos/pasoBosque.mp3";
     }
