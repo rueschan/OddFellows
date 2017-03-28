@@ -34,7 +34,7 @@ public class Pantalla implements Screen {
     // Pantalla existente
     private static Pantalla instancia = null;
 
-    private Pantalla() {
+    protected Pantalla() {
         crearCamara();
         crearObjetos();
     }
