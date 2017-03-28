@@ -27,6 +27,7 @@ public class Personaje extends Objeto
     private ArrayList<Objeto> inventario;
 
     private Animation<TextureRegion> spriteAnimado;         // Animación caminando
+    private Animation<TextureRegion> animacionPrevia;       // Animación previa
     private float timerAnimacion;                           // Tiempo para cambiar frames de la animación
     private TextureRegion[][] texturaPersonaje;
 
@@ -55,6 +56,7 @@ public class Personaje extends Objeto
         // Crea la animación con tiempo de 0.15 segundos entre frames.
 
         spriteAnimado = new Animation(0.15f, texturaPersonaje[0][2], texturaPersonaje[0][1] );
+        animacionPrevia = new Animation(0.15f, texturaPersonaje[0][2], texturaPersonaje[0][1] );
         // Animación infinita
         spriteAnimado.setPlayMode(Animation.PlayMode.LOOP);
         // Inicia el timer que contará tiempo para saber qué frame se dibuja
@@ -65,7 +67,7 @@ public class Personaje extends Objeto
 
         // ASSET MANAGER
         manager = Nivel.getManager();
-        manager.load(pathFxPasos,Sound.class);
+        manager.load(pathFxPasos, Sound.class);
         manager.load(pathFxAccion, Sound.class);
         manager.finishLoading();    // Carga los recursos
 
@@ -87,7 +89,22 @@ public class Personaje extends Objeto
         float y = sprite.getY();
         sprite = new Sprite(texturaPersonaje[0][0]);    // QUIETO
         sprite.setPosition(x, y);    // Posición inicial
+    }
 
+    public void usarArma(TextureRegion[][] textureRegions) {
+        estadoMovimiento = EstadoMovimiento.ATACAR;
+        this.texturaPersonaje = textureRegions;
+        animacionPrevia = spriteAnimado;
+        spriteAnimado = new Animation(0.15f, texturaPersonaje[0][2], texturaPersonaje[0][1] );
+        // Animación infinita
+        spriteAnimado.setPlayMode(Animation.PlayMode.REVERSED);
+        // Inicia el timer que contará tiempo para saber qué frame se dibuja
+        timerAnimacion = 0;
+        // Crea el sprite con el personaje quieto (idle)
+        float x = sprite.getX();
+        float y = sprite.getY();
+        sprite = new Sprite(texturaPersonaje[0][0]);    // QUIETO
+        sprite.setPosition(x, y);    // Posición inicial
     }
 
     public void addInventario(Objeto item) {
@@ -95,24 +112,10 @@ public class Personaje extends Objeto
     }
 
     public ArrayList<Objeto> verInventario() {
-        Pantalla pantalla = Pantalla.getInstanciaPantalla();
-//        float x = (pantalla.getANCHO()*0.55f) + 64;
-//        float y = (pantalla.getALTO()*0.7f) + 64;
-//        float x = 100;
-//        float y = 100;
-//        if (!inventario.isEmpty()) {
-//            for (Objeto item: inventario) {
-//                item.sprite.setPosition(x, y);
-//                x += 100;
-//                if (x >= (100*5)) {
-//                    x = 100;
-//                    y += 100;
-//                }
-//            }
-//        }
         return inventario;
     }
 
+    // SE CORRE CADA FRAME
     private void animar(SpriteBatch batch) {
         timerAnimacion += Gdx.graphics.getDeltaTime();
         // Frame que se dibujará
@@ -148,6 +151,7 @@ public class Personaje extends Objeto
         switch (estadoMovimiento) {
             case MOV_DERECHA:
             case MOV_IZQUIERDA:
+            case ATACAR:
                 enMovimiento = true;
                 break;
             case QUIETO:
@@ -189,6 +193,12 @@ public class Personaje extends Objeto
             case QUIETO_Y:
                 darPaso();
                 break;
+        }
+
+        // Actualiza animación dependiendo de que hace
+        if (spriteAnimado.isAnimationFinished(timerAnimacion) && estadoMovimiento == EstadoMovimiento.ATACAR) {
+            estadoMovimiento = EstadoMovimiento.QUIETO;
+            spriteAnimado = animacionPrevia;
         }
     }
 
@@ -431,7 +441,8 @@ public class Personaje extends Objeto
     public enum EstadoMovimiento {
         QUIETO,
         MOV_IZQUIERDA,
-        MOV_DERECHA
+        MOV_DERECHA,
+        ATACAR
     }
 
     public enum EstadoMovimientoVertical {
