@@ -78,6 +78,9 @@ public abstract class Nivel implements Screen{
     protected Texture fondoMenu;
     protected Boolean pausado;
 
+    //En carta
+    protected Boolean enCarta = false;
+
         //Textura en Menu Pausa
     protected Texture texturaBotonReanudar;
     protected Texture texturaBotonSalir;
@@ -458,6 +461,7 @@ public abstract class Nivel implements Screen{
     }
 
     private void mostrarCarta(Carta carta) {
+        enCarta=true;
         fondoCarta.sprite.setColor(1,1,1,1);
         if (Configuraciones.isFxOn)
             fxCarta.play();
@@ -482,6 +486,7 @@ public abstract class Nivel implements Screen{
     }
 
     private void cerrarCarta() {
+        enCarta = false;
         fondoCarta.sprite.setColor(1,1,1,0);
         fxCarta.play();
         boolean isPausa = true;
@@ -589,7 +594,9 @@ public abstract class Nivel implements Screen{
                 henric.setSprite(new TextureRegion(textura).split(96, 96));
             }
         }
-        escenaHUD.getActors().set(4, btnItem);
+        if (!enInventario&&!pausado&&!enCarta) {
+            escenaHUD.getActors().set(4, btnItem);
+        }
     }
 
     private void ejecutarAccion() {
@@ -650,7 +657,7 @@ public abstract class Nivel implements Screen{
         cuadroPausa.setPosition(0.275f*pantalla.getANCHO(), 0.1f*pantalla.getALTO());
 
         //Crear Fondo de pantalla de pausa
-        fondoMenu = new Texture("Pantalla/Fondo/fondoPausa.jpg");
+        fondoMenu = new Texture("Pantalla/Fondo/fondoPausa.png");
         Image fondoMenuImagen = new Image(fondoMenu);
         fondoMenuImagen.setPosition(0,0);
 
