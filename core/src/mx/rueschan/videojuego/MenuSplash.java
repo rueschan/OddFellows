@@ -7,7 +7,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
  * Created by Odd Fellows on 27/03/2017.
  */
 
-class MenuSplash extends Pantalla {
+public class MenuSplash extends Pantalla {
     private float tiempoVisible = 2.2f;
     private OddFellows oddFellows;
 
