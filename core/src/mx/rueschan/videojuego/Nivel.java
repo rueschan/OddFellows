@@ -104,6 +104,8 @@ public abstract class Nivel implements Screen{
     private TextureRegionDrawable trdBtnItem;
     public ImageButton btnItem;
     public Objeto alertaAccion;
+    protected Texture texturaEntrar;
+    protected ImageButton btnEntrar;
 
     // Texturas carta e inventario
     Objeto fondoCarta;
@@ -348,6 +350,8 @@ public abstract class Nivel implements Screen{
                 enInventario = irInventario(enInventario,escenaHUD);
             }
         });
+
+
     }
 
     private void crearCartas(){
@@ -857,6 +861,20 @@ public abstract class Nivel implements Screen{
                 enInventario = irInventario(enInventario, escenaHUD);
             }
         });
+
+        //Boton Salir
+        texturaEntrar = new Texture("Pantalla/entrar.png");
+        TextureRegionDrawable trdBtnentrar = new
+                TextureRegionDrawable(new TextureRegion(texturaEntrar));
+        btnEntrar = new ImageButton(trdBtnentrar);
+
+        escenaHUD.addActor(btnEntrar);//posicion 15
+        actoresAparte.add(15);
+        btnEntrar.setVisible(false);
+        //btnEntrar.setPosition();
+//wololo
+
+
     }
 
 
@@ -935,7 +953,9 @@ public abstract class Nivel implements Screen{
 
         //ciclo en el que se le agrega uno a los actores para no empezar con un elemento de pausa
         for (int actor=indiceActoresPausa+1; actor<=maxActores; actor++){
-            escenaHUD.getActors().get(actor).setVisible(enInventario);
+            if (!actoresAparte.contains(actor)) {
+                escenaHUD.getActors().get(actor).setVisible(enInventario);
+            }
         }
 
         if (enInventario) {
