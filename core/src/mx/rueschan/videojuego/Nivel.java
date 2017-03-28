@@ -590,8 +590,7 @@ public abstract class Nivel implements Screen{
         if (seleccionado instanceof Arma) {
             Arma arma = (Arma) seleccionado;
             if (arma.getNombre() == "martillo") {
-                Texture textura = new Texture("Personaje/HendricMartilloCorriendo.png");
-                henric.setSprite(new TextureRegion(textura).split(96, 96));
+                romper();
             }
         } else if (seleccionado instanceof Carta) {
             Carta carta = (Carta) seleccionado;
@@ -601,6 +600,12 @@ public abstract class Nivel implements Screen{
         }
 
 
+    }
+
+    private void romper() {
+        if (tileInteractivo != null) {
+            tileInteractivo.setTile(null);
+        }
     }
 
     // SE CORRE 1 VEZ POR FRAME
