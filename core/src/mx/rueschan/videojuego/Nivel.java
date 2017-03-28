@@ -118,6 +118,8 @@ public abstract class Nivel implements Screen{
     protected String pathFxLlave = "Sonidos/levantarLlave.mp3";
     protected Sound fxCarta;
     protected String pathFxCarta = "Sonidos/levantarPapel.mp3";
+    protected Sound fxMartillo;
+    protected String pathFxMartillo = "Sonidos/levantarMartillo.mp3";
     private Sound fxInventario;
     private String pathFxInventario = "Sonidos/zipper.mp3";
 
@@ -166,6 +168,7 @@ public abstract class Nivel implements Screen{
         manager.load(pathMusicaPausa,Music.class);
         manager.load(pathFxLlave, Sound.class);
         manager.load(pathFxCarta, Sound.class);
+        manager.load(pathFxMartillo, Sound.class);
         manager.load(pathFxInventario, Sound.class);
 
         manager.finishLoading();    // Carga los recursos
@@ -182,6 +185,7 @@ public abstract class Nivel implements Screen{
         // Sonidos generales
         fxLlave = manager.get(pathFxLlave);
         fxCarta = manager.get(pathFxCarta);
+        fxMartillo = manager.get(pathFxMartillo);
         fxInventario = manager.get(pathFxInventario);
     }
 
@@ -445,6 +449,9 @@ public abstract class Nivel implements Screen{
             case 10:
                 Texture texturaMartillo = new Texture("Items/martillo.png");
                 Arma martillo;
+                if (Configuraciones.isFxOn)
+                    fxMartillo.play();
+
                 return martillo = new Arma(texturaMartillo, 0, 0, 30, "martillo", "romper");
         }
         return null;
@@ -452,7 +459,8 @@ public abstract class Nivel implements Screen{
 
     private void mostrarCarta(Carta carta) {
         fondoCarta.sprite.setColor(1,1,1,1);
-        fxCarta.play();
+        if (Configuraciones.isFxOn)
+            fxCarta.play();
 
         txt.cambiarMensaje(carta.getTexto());
 
