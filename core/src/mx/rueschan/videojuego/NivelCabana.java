@@ -60,7 +60,8 @@ public class NivelCabana extends Nivel {
         cargarTexturas();
 
         // Crear mapa
-        super.crearRecursos(pantalla, pathMapa,pathMusica,pathFxPasos);
+        super.crearRecursos(pantalla, pathMapa, pathMusica);
+        henric.setFxPasos(pathFxPasos);
 
         //Creación de HUD
         super.crearElementosPantalla(pantalla);

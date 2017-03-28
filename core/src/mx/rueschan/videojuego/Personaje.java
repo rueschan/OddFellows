@@ -17,8 +17,10 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 
 import java.util.ArrayList;
 
-public class Personaje extends Objeto
-{
+public class Personaje extends Objeto {
+
+    private static Personaje instancia = null;
+
     private float velocidadX = 0;      // Velocidad en x
     private float velocidadY = 0;      // Velocidad en y
 
@@ -45,7 +47,7 @@ public class Personaje extends Objeto
     private boolean estatusAccion = false;
 
     // Recibe una imagen con varios frames (ver marioSprite.png)
-    public Personaje(Texture textura, float x, float y, String pathFxPasos) {
+    public Personaje(Texture textura, float x, float y) {
 
         // Crea inventario
         inventario = new ArrayList<Objeto>(10);
@@ -75,6 +77,29 @@ public class Personaje extends Objeto
         fxPasos.loop(1,1.5f,0);
         fxPasos.pause();
         fxAccion = manager.get(pathFxAccion);
+    }
+
+    // Método para obtener personaje o crearlo
+    public static Personaje getInstanciaPersonaje() {
+        if (instancia == null) {
+            Pantalla pantalla = Pantalla.getInstanciaPantalla();
+            Texture texturaHenric = new Texture("Personaje/Henric.png");
+            instancia = new Personaje(texturaHenric, pantalla.getANCHO()/2, pantalla.getALTO()/2);
+        }
+        return instancia;
+    }
+
+    public void setFxPasos(String nuevoFx) {
+        manager.unload(pathFxPasos);
+        manager.load(nuevoFx, Sound.class);
+        manager.finishLoadingAsset(nuevoFx);
+        fxPasos = manager.get(nuevoFx);
+        Gdx.app.log("Audio", fxPasos.toString());
+        fxPasos.toString();
+        fxPasos.loop(1,1.5f,0);
+        fxPasos.pause();
+
+        pathFxPasos = nuevoFx;
     }
 
     public void setSprite(TextureRegion[][] texturaPersonaje) {

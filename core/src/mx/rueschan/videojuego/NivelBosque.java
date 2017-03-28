@@ -20,7 +20,7 @@ public class NivelBosque extends Nivel {
     //Mapa tipo tmx del Bosque
     private String pathMapa;
     private String pathMusica;
-    private String pathFXPasos;
+    private String pathFxPasos;
 
     public NivelBosque(OddFellows oddFellows) {
         super.oddFellows = oddFellows;
@@ -33,7 +33,7 @@ public class NivelBosque extends Nivel {
         //Textura de los diferentes elementos que componen el nivel
         pathMapa = "NivelBosque/bosque.tmx";
         pathMusica = "Musica/lostInForest.mp3";
-        pathFXPasos = "Sonidos/pasoBosque.mp3";
+        pathFxPasos = "Sonidos/pasoBosque.mp3";
     }
 
     @Override
@@ -49,7 +49,8 @@ public class NivelBosque extends Nivel {
         cargarTexturas();
 
         // Crear mapa
-        super.crearRecursos(pantalla, pathMapa,pathMusica,pathFXPasos);
+        super.crearRecursos(pantalla, pathMapa, pathMusica);
+        henric.setFxPasos(pathFxPasos);
 
         //Creación de HUD
         super.crearElementosPantalla(pantalla);

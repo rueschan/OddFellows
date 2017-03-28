@@ -150,10 +150,11 @@ public abstract class Nivel implements Screen{
 
     protected abstract void cargarTexturas();
 
-    protected void crearRecursos(Pantalla pantalla, String nombreMapa, String nombreMusicaFondo, String nombreFXPasos) {
+    protected void crearRecursos(Pantalla pantalla, String nombreMapa, String nombreMusicaFondo) {
         // Henric
-        texturaHenric = new Texture("Personaje/Henric.png");
-        henric = new Personaje(texturaHenric, pantalla.getANCHO()/2, pantalla.getALTO()/2,nombreFXPasos);
+        henric = Personaje.getInstanciaPersonaje();
+//        texturaHenric = new Texture("Personaje/Henric.png");
+//        henric = new Personaje(texturaHenric, pantalla.getANCHO()/2, pantalla.getALTO()/2,nombreFXPasos);
 
         // Texto cartas
         txt = new Texto();
@@ -874,13 +875,14 @@ public abstract class Nivel implements Screen{
         btnEntrar.setPosition(pantalla.getANCHO()-btnEntrar.getWidth()-pantalla.getANCHO()*.02f,
         pantalla.getALTO()*.02f);
 
-        // Interaccion boton entrar
+        // Interaccion boton entrar ( CAMBIAR NIVEL )
         btnEntrar.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 //Para quitar la pausa
                 oddFellows.setScreen(new NivelBosque(oddFellows));
                 musicaFondo.stop();
+                //henric.pararSonido();
             }
         });
     }
