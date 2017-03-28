@@ -278,6 +278,7 @@ public abstract class Nivel implements Screen{
                     Objeto obj = identificarItem(tileObjetivo);
                     henric.addInventario(obj);
                     tileObjetivo.setTile(null);
+                    fondoAccion.sprite.setColor(1,1,1,0);
                 }
             }
         });
@@ -463,10 +464,13 @@ public abstract class Nivel implements Screen{
             a = escenaHUD.getActors().get(actorHUD);
             if (a.getName() != "Cerrar") {
                 escenaHUD.getActors().get(actorHUD).setVisible(false);
+                btnItem.setColor(1,1,1,0);
+                escenaHUD.getActors().set(4, btnItem);
             } else {
                 a.setVisible(true);
             }
         }
+        fondoAccion.sprite.setColor(1,1,1,0);
     }
 
     private void cerrarCarta() {
@@ -483,6 +487,8 @@ public abstract class Nivel implements Screen{
             a = escenaHUD.getActors().get(actorHUD);
             if (a.getName() != "Cerrar" && !isPausa) {
                 escenaHUD.getActors().get(actorHUD).setVisible(true);
+                btnItem.setColor(1,1,1,1);
+                escenaHUD.getActors().set(4, btnItem);
             } else if (a.getName() == "Cerrar"){
                 a.setVisible(false);
                 isPausa = false;
@@ -493,6 +499,7 @@ public abstract class Nivel implements Screen{
                 a.setVisible(true);
             }
         }
+        fondoAccion.sprite.setColor(1,1,1,1);
     }
 
     private void mostrarInventario(ArrayList<Objeto> inventario, boolean inInventario) {

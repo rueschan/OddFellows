@@ -83,8 +83,11 @@ public class Personaje extends Objeto
         // Inicia el timer que contará tiempo para saber qué frame se dibuja
         timerAnimacion = 0;
         // Crea el sprite con el personaje quieto (idle)
+        float x = sprite.getX();
+        float y = sprite.getY();
         sprite = new Sprite(texturaPersonaje[0][0]);    // QUIETO
-        sprite.setPosition(sprite.getX(), sprite.getY());    // Posición inicial
+        sprite.setPosition(x, y);    // Posición inicial
+
     }
 
     public void addInventario(Objeto item) {
