@@ -51,6 +51,7 @@ public abstract class Nivel implements Screen{
     protected Texture texturaHenric;
     protected ArrayList<Objeto> inventario = new ArrayList<Objeto>();
     protected Objeto seleccionado;
+    protected boolean isArmado = false;
 
     // Mapa
     protected OrthogonalTiledMapRenderer renderer; // Dibuja el mapa
@@ -117,6 +118,8 @@ public abstract class Nivel implements Screen{
     protected String pathFxLlave = "Sonidos/levantarLlave.mp3";
     protected Sound fxCarta;
     protected String pathFxCarta = "Sonidos/levantarPapel.mp3";
+    protected Sound fxMartillo;
+    protected String pathFxMartillo = "Sonidos/levantarMartillo.mp3";
     private Sound fxInventario;
     private String pathFxInventario = "Sonidos/zipper.mp3";
 
@@ -165,6 +168,7 @@ public abstract class Nivel implements Screen{
         manager.load(pathMusicaPausa,Music.class);
         manager.load(pathFxLlave, Sound.class);
         manager.load(pathFxCarta, Sound.class);
+        manager.load(pathFxMartillo, Sound.class);
         manager.load(pathFxInventario, Sound.class);
 
         manager.finishLoading();    // Carga los recursos
@@ -181,6 +185,7 @@ public abstract class Nivel implements Screen{
         // Sonidos generales
         fxLlave = manager.get(pathFxLlave);
         fxCarta = manager.get(pathFxCarta);
+        fxMartillo = manager.get(pathFxMartillo);
         fxInventario = manager.get(pathFxInventario);
     }
 
@@ -444,6 +449,9 @@ public abstract class Nivel implements Screen{
             case 10:
                 Texture texturaMartillo = new Texture("Items/martillo.png");
                 Arma martillo;
+                if (Configuraciones.isFxOn)
+                    fxMartillo.play();
+
                 return martillo = new Arma(texturaMartillo, 0, 0, 30, "martillo", "romper");
         }
         return null;
@@ -451,7 +459,8 @@ public abstract class Nivel implements Screen{
 
     private void mostrarCarta(Carta carta) {
         fondoCarta.sprite.setColor(1,1,1,1);
-        fxCarta.play();
+        if (Configuraciones.isFxOn)
+            fxCarta.play();
 
         txt.cambiarMensaje(carta.getTexto());
 
@@ -463,10 +472,13 @@ public abstract class Nivel implements Screen{
             a = escenaHUD.getActors().get(actorHUD);
             if (a.getName() != "Cerrar") {
                 escenaHUD.getActors().get(actorHUD).setVisible(false);
+                btnItem.setColor(1,1,1,0);
+                escenaHUD.getActors().set(4, btnItem);
             } else {
                 a.setVisible(true);
             }
         }
+        fondoAccion.sprite.setColor(1,1,1,0);
     }
 
     private void cerrarCarta() {
@@ -483,6 +495,8 @@ public abstract class Nivel implements Screen{
             a = escenaHUD.getActors().get(actorHUD);
             if (a.getName() != "Cerrar" && !isPausa) {
                 escenaHUD.getActors().get(actorHUD).setVisible(true);
+                btnItem.setColor(1,1,1,1);
+                escenaHUD.getActors().set(4, btnItem);
             } else if (a.getName() == "Cerrar"){
                 a.setVisible(false);
                 isPausa = false;
@@ -493,6 +507,7 @@ public abstract class Nivel implements Screen{
                 a.setVisible(true);
             }
         }
+        fondoAccion.sprite.setColor(1,1,1,1);
     }
 
     private void mostrarInventario(ArrayList<Objeto> inventario, boolean inInventario) {
@@ -519,8 +534,11 @@ public abstract class Nivel implements Screen{
                 btnItem.addListener(new ClickListener(){
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
+                        isArmado = false;
                         seleccionado = item;
                         enInventario = irInventario(enInventario, escenaHUD);
+                        Texture textura = new Texture("Personaje/Henric.png");
+                        henric.setSprite(new TextureRegion(textura).split(96, 96));
                     }
                 });
 
@@ -562,6 +580,15 @@ public abstract class Nivel implements Screen{
                 }
             }
         });
+
+        if (seleccionado instanceof Arma && !isArmado) {
+            isArmado = true;
+            Arma arma = (Arma) seleccionado;
+            if (arma.getNombre() == "martillo") {
+                Texture textura = new Texture("Personaje/HendricMartilloCorriendo.png");
+                henric.setSprite(new TextureRegion(textura).split(96, 96));
+            }
+        }
         escenaHUD.getActors().set(4, btnItem);
     }
 
@@ -570,8 +597,7 @@ public abstract class Nivel implements Screen{
         if (seleccionado instanceof Arma) {
             Arma arma = (Arma) seleccionado;
             if (arma.getNombre() == "martillo") {
-                Texture textura = new Texture("Personaje/HendricMartilloCorriendo.png");
-                henric.setSprite(new TextureRegion(textura).split(96, 96));
+                romper();
             }
         } else if (seleccionado instanceof Carta) {
             Carta carta = (Carta) seleccionado;
@@ -581,6 +607,12 @@ public abstract class Nivel implements Screen{
         }
 
 
+    }
+
+    private void romper() {
+        if (tileInteractivo != null) {
+            tileInteractivo.setTile(null);
+        }
     }
 
     // SE CORRE 1 VEZ POR FRAME
@@ -894,6 +926,11 @@ public abstract class Nivel implements Screen{
             escenaHUD.getActors().get(actor).setVisible(enInventario);
         }
 
+        if (enInventario) {
+            fondoAccion.sprite.setColor(1,1,1,0);
+        } else {
+            fondoAccion.sprite.setColor(1,1,1,1);
+        }
         return enInventario;
     }
 
