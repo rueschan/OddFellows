@@ -918,6 +918,11 @@ public abstract class Nivel implements Screen{
             escenaHUD.getActors().get(actor).setVisible(enInventario);
         }
 
+        if (enInventario) {
+            fondoAccion.sprite.setColor(1,1,1,0);
+        } else {
+            fondoAccion.sprite.setColor(1,1,1,1);
+        }
         return enInventario;
     }
 
