@@ -51,6 +51,7 @@ public abstract class Nivel implements Screen{
     protected Texture texturaHenric;
     protected ArrayList<Objeto> inventario = new ArrayList<Objeto>();
     protected Objeto seleccionado;
+    protected boolean isArmado = false;
 
     // Mapa
     protected OrthogonalTiledMapRenderer renderer; // Dibuja el mapa
@@ -526,8 +527,11 @@ public abstract class Nivel implements Screen{
                 btnItem.addListener(new ClickListener(){
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
+                        isArmado = false;
                         seleccionado = item;
                         enInventario = irInventario(enInventario, escenaHUD);
+                        Texture textura = new Texture("Personaje/Henric.png");
+                        henric.setSprite(new TextureRegion(textura).split(96, 96));
                     }
                 });
 
@@ -569,6 +573,15 @@ public abstract class Nivel implements Screen{
                 }
             }
         });
+
+        if (seleccionado instanceof Arma && !isArmado) {
+            isArmado = true;
+            Arma arma = (Arma) seleccionado;
+            if (arma.getNombre() == "martillo") {
+                Texture textura = new Texture("Personaje/HendricMartilloCorriendo.png");
+                henric.setSprite(new TextureRegion(textura).split(96, 96));
+            }
+        }
         escenaHUD.getActors().set(4, btnItem);
     }
 
