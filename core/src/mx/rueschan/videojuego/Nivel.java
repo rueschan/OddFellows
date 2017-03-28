@@ -617,10 +617,13 @@ public abstract class Nivel implements Screen{
     }
 
     private void romper() {
+        if (Configuraciones.isFxOn) {
+            fxMartillo.play();
+        }
+        Texture textura = new Texture("Personaje/HendricMartilloAtaque.png");
+        henric.usarArma(new TextureRegion(textura).split(120, 96));
         if (tileInteractivo != null) {
             tileInteractivo.setTile(null);
-            Texture textura = new Texture("Personaje/HendricMartilloAtaque.png");
-            henric.usarArma(new TextureRegion(textura).split(120, 96));
         }
     }
 

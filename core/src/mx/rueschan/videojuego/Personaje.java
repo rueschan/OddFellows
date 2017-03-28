@@ -92,10 +92,12 @@ public class Personaje extends Objeto
     }
 
     public void usarArma(TextureRegion[][] textureRegions) {
-        estadoMovimiento = EstadoMovimiento.ATACAR;
         this.texturaPersonaje = textureRegions;
-        animacionPrevia = spriteAnimado;
-        spriteAnimado = new Animation(0.15f, texturaPersonaje[0][2], texturaPersonaje[0][1] );
+        if (estadoMovimiento != EstadoMovimiento.ATACAR) {
+            animacionPrevia = spriteAnimado;
+        }
+        estadoMovimiento = EstadoMovimiento.ATACAR;
+        spriteAnimado = new Animation(0.1f, texturaPersonaje[0][2], texturaPersonaje[0][1] );
         // Animación infinita
         spriteAnimado.setPlayMode(Animation.PlayMode.REVERSED);
         // Inicia el timer que contará tiempo para saber qué frame se dibuja
