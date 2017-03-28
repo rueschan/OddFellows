@@ -236,6 +236,11 @@ public class Personaje extends Objeto
             nivel.tileInteractivo = null;
             estatusAccion = false;
         }
+
+        celda = buscaSalida(nivel.mapa);
+        if (celda != null) {
+
+        }
     }
 
 
@@ -401,6 +406,31 @@ public class Personaje extends Objeto
                 celda = capa.getCell((x / 64), (y / 64));
                 if (celda != null && celda.getTile() != null) {
                     return celda;
+                }
+            }
+        }
+        return null;
+    }
+
+    public TiledMapTileLayer.Cell buscaSalida(TiledMap mapa) {
+
+        TiledMapTileLayer capa = (TiledMapTileLayer) mapa.getLayers().get("Interactivos");
+        TiledMapTileLayer capaSalidas = (TiledMapTileLayer) mapa.getLayers().get("Salidas");
+        TiledMapTileLayer.Cell celda;
+        TiledMapTileLayer.Cell celdaSalida;
+
+        int xPersonaje = (int) sprite.getX();
+        int yPersonaje = (int) sprite.getY();
+
+        for (int x = xPersonaje - 64; x <= xPersonaje + (64*2); x += 32) {
+            for (int y = yPersonaje - 64; y <= yPersonaje + (64*2); y += 32) {
+                // Obtiene celda que bloquea la salida
+                celda = capa.getCell((x / 64), (y / 64));
+                // Obtiene la salida
+                celdaSalida = capaSalidas.getCell((x / 64), (y / 64));
+                // Si hay una salida y nada la bloquea...
+                if (celdaSalida != null && celda == null) {
+                    return celdaSalida;
                 }
             }
         }
