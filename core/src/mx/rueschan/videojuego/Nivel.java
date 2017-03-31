@@ -403,6 +403,31 @@ public abstract class Nivel implements Screen{
         //Anadir en lista de casos aparte
         actoresAparte.add(3);
 
+        //Boton Salir
+        texturaEntrar = new Texture("Pantalla/entrar.png");
+        TextureRegionDrawable trdBtnentrar = new
+                TextureRegionDrawable(new TextureRegion(texturaEntrar));
+        btnEntrar = new ImageButton(trdBtnentrar);
+
+        escenaHUD.addActor(btnEntrar);//posicion 5
+        actoresAparte.add(5);
+        btnEntrar.setVisible(false);
+        btnEntrar.setPosition(pantalla.getANCHO()-btnEntrar.getWidth()-pantalla.getANCHO()*.02f,
+                pantalla.getALTO()*.02f);
+
+        // Interaccion boton entrar ( CAMBIAR NIVEL )
+        btnEntrar.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                //Para quitar la pausa
+                oddFellows.setScreen(new NivelBosque(oddFellows));
+                musicaFondo.stop();
+                //henric.pararSonido();
+            }
+        });
+        //Aumentar indice por btn entrar
+        indiceActoresAntesPausa++;
+
         escenaHUD.addListener(new ClickListener() {
 
             @Override
@@ -863,28 +888,28 @@ public abstract class Nivel implements Screen{
             }
         });
 
-        //Boton Salir
-        texturaEntrar = new Texture("Pantalla/entrar.png");
-        TextureRegionDrawable trdBtnentrar = new
-                TextureRegionDrawable(new TextureRegion(texturaEntrar));
-        btnEntrar = new ImageButton(trdBtnentrar);
-
-        escenaHUD.addActor(btnEntrar);//posicion 15
-        actoresAparte.add(15);
-        btnEntrar.setVisible(false);
-        btnEntrar.setPosition(pantalla.getANCHO()-btnEntrar.getWidth()-pantalla.getANCHO()*.02f,
-        pantalla.getALTO()*.02f);
-
-        // Interaccion boton entrar ( CAMBIAR NIVEL )
-        btnEntrar.addListener(new ClickListener(){
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                //Para quitar la pausa
-                oddFellows.setScreen(new NivelBosque(oddFellows));
-                musicaFondo.stop();
-                //henric.pararSonido();
-            }
-        });
+//        //Boton Salir
+//        texturaEntrar = new Texture("Pantalla/entrar.png");
+//        TextureRegionDrawable trdBtnentrar = new
+//                TextureRegionDrawable(new TextureRegion(texturaEntrar));
+//        btnEntrar = new ImageButton(trdBtnentrar);
+//
+//        escenaHUD.addActor(btnEntrar);//posicion 15
+//        actoresAparte.add(15);
+//        btnEntrar.setVisible(false);
+//        btnEntrar.setPosition(pantalla.getANCHO()-btnEntrar.getWidth()-pantalla.getANCHO()*.02f,
+//        pantalla.getALTO()*.02f);
+//
+//        // Interaccion boton entrar ( CAMBIAR NIVEL )
+//        btnEntrar.addListener(new ClickListener(){
+//            @Override
+//            public void clicked(InputEvent event, float x, float y) {
+//                //Para quitar la pausa
+//                oddFellows.setScreen(new NivelBosque(oddFellows));
+//                musicaFondo.stop();
+//                //henric.pararSonido();
+//            }
+//        });
     }
 
 
