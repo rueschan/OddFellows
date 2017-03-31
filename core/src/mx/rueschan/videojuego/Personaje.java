@@ -35,6 +35,7 @@ public class Personaje extends Objeto {
 
     private EstadoMovimiento estadoMovimiento = EstadoMovimiento.QUIETO;
     private EstadoMovimientoVertical estadoMovimientoVertical = EstadoMovimientoVertical.QUIETO_Y;
+    private boolean veDerecha;
 
     // ASSETS
     private AssetManager manager;
@@ -66,6 +67,7 @@ public class Personaje extends Objeto {
         // Crea el sprite con el personaje quieto (idle)
         sprite = new Sprite(texturaPersonaje[0][0]);    // QUIETO
         sprite.setPosition(x,y);    // Posición inicial
+        veDerecha = false; // El sprite esta viendo a la izquierda
 
         // ASSET MANAGER
         manager = Nivel.getManager();
@@ -87,6 +89,21 @@ public class Personaje extends Objeto {
             instancia = new Personaje(texturaHenric, pantalla.getANCHO()/2, pantalla.getALTO()/2);
         }
         return instancia;
+    }
+
+    public void reset() {
+        spriteAnimado = new Animation(0.15f, texturaPersonaje[0][2], texturaPersonaje[0][1] );
+        animacionPrevia = new Animation(0.15f, texturaPersonaje[0][2], texturaPersonaje[0][1] );
+        // Animación infinita
+        spriteAnimado.setPlayMode(Animation.PlayMode.LOOP);
+        // Inicia el timer que contará tiempo para saber qué frame se dibuja
+        timerAnimacion = 0;
+        // Crea el sprite con el personaje quieto (idle)
+        sprite = new Sprite(texturaPersonaje[0][0]);    // QUIETO
+        sprite.setPosition(Pantalla.getInstanciaPantalla().getANCHO()/2,
+                Pantalla.getInstanciaPantalla().getALTO()/2);    // Posición inicial
+        veDerecha = false; // El sprite esta viendo a la izquierda
+
     }
 
     public void setFxPasos(String nuevoFx) {
@@ -148,10 +165,13 @@ public class Personaje extends Objeto {
         // Frame que se dibujará
         TextureRegion region = spriteAnimado.getKeyFrame(timerAnimacion);
         if (estadoMovimiento==EstadoMovimiento.MOV_DERECHA) {
+            veDerecha = true;
             if (!region.isFlipX()) {
                 region.flip(true,false);
             }
-        } else {
+        }
+        else {
+            veDerecha = false;
             if (region.isFlipX()) {
                 region.flip(true,false);
             }
@@ -193,6 +213,11 @@ public class Personaje extends Objeto {
         }
 
         if (!enMovimiento) {
+            if (veDerecha && !sprite.isFlipX()) {
+                sprite.flip(true, false);
+            } else if(!veDerecha && sprite.isFlipX()) {
+                sprite.flip(true, false);
+            }
             sprite.draw(batch); // Dibuja el sprite estático
         } else {
             animar(batch);

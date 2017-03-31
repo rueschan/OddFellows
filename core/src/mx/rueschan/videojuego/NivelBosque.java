@@ -50,6 +50,7 @@ public class NivelBosque extends Nivel {
 
         // Crear mapa
         super.crearRecursos(pantalla, pathMapa, pathMusica);
+        henric.reset();
         henric.setFxPasos(pathFxPasos);
 
         //Creación de HUD
