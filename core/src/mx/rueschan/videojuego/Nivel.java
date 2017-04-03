@@ -659,13 +659,26 @@ public abstract class Nivel implements Screen{
 
     // SE CORRE 1 VEZ POR FRAME
     protected void dibujar(SpriteBatch batch) {
+
+        // ACTUALIZA POSICION EN NIVEL GRANDE
+        barraHP.sprite.setPosition(pantalla.getCamaraX() + 10,
+                pantalla.getCamaraY() + pantalla.getALTO() - 10 - texturaHP.getHeight());
+        hp.sprite.setPosition(pantalla.getCamaraX() + 10,
+                pantalla.getCamaraY() + pantalla.getALTO() - 10 - texturaHP.getHeight());
+        fondoAccion.sprite.setPosition(pantalla.getCamaraX() + pantalla.getANCHO()-texturaAccion.getWidth()-pantalla.getANCHO()*.14f,
+                pantalla.getCamaraY() + pantalla.getALTO()*.02f);
+        fondoCarta.sprite.setPosition(pantalla.getCamaraX() + pantalla.getANCHO()/2 - fondoCarta.sprite.getWidth()/2,
+                pantalla.getCamaraY());
+
+        // DIBUJA
         alertaAccion.dibujar(batch);
         henric.dibujar(batch);
         hp.dibujar(batch);
         barraHP.dibujar(batch);
         fondoCarta.dibujar(batch);
         fondoAccion.dibujar(batch);
-        txt.escribir(batch, fondoCarta.sprite.getX() + 80, fondoCarta.sprite.getHeight() - 60);
+        txt.escribir(batch, fondoCarta.sprite.getX() + 80,
+                pantalla.getCamaraY() + fondoCarta.sprite.getHeight() - 60);
     }
 
     @Override
@@ -760,7 +773,6 @@ public abstract class Nivel implements Screen{
             public void clicked(InputEvent event, float x, float y) {
                 Configuraciones.cambiaMusica();
                 tocarMusica();
-                Gdx.app.log("clicked", "***audio "+Configuraciones.isMusicOn+"***");
             }
         });
 
@@ -769,7 +781,6 @@ public abstract class Nivel implements Screen{
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 Configuraciones.cambiaFx();
-                Gdx.app.log("clicked", "***FX "+Configuraciones.isFxOn+"***");
             }
         });
 
@@ -790,6 +801,8 @@ public abstract class Nivel implements Screen{
                 oddFellows.crearMusica();
                 juego.actual = null;
                 henric.pararSonido();
+                henric.reset();
+                pantalla.resetCamara();
                 oddFellows.setScreen(new MenuPrincipal(oddFellows));
             }
         });
@@ -1052,7 +1065,6 @@ public abstract class Nivel implements Screen{
     }
 
     private void tocarMusica(){
-        Gdx.app.log("tocarMusica Nivel","estado "+Configuraciones.isMusicOn);
         if (Configuraciones.isMusicOn)
             musicaPausa.play();
         else

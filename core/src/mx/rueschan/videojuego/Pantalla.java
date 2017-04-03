@@ -55,6 +55,18 @@ public class Pantalla implements Screen {
         vista = new StretchViewport(ANCHO, ALTO, camara);
     }
 
+    public float getCamaraX() {
+        return camara.position.x - ANCHO/2;
+    }
+
+    public float getCamaraY() {
+        return camara.position.y - ALTO/2;
+    }
+
+    public void resetCamara() {
+        camara.position.set(ANCHO/2, ALTO/2, 0);
+    }
+
     private void crearObjetos() {
         batch = new SpriteBatch();
         escena = new Stage(vista, batch) {
@@ -62,8 +74,6 @@ public class Pantalla implements Screen {
             @Override
             public boolean keyDown(int keycode) {
                 if (keycode == Input.Keys.BACK) {
-                    // DEBUG
-                    Gdx.app.log("Btn BACK", "Atras en opciones");
                     return true;
                 }
                 return super.keyDown(keycode);

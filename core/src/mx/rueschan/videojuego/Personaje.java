@@ -122,7 +122,6 @@ public class Personaje extends Objeto {
         manager.load(nuevoFx, Sound.class);
         manager.finishLoadingAsset(nuevoFx);
         fxPasos = manager.get(nuevoFx);
-        Gdx.app.log("Audio", fxPasos.toString());
         fxPasos.toString();
         fxPasos.loop(1,1.5f,0);
         fxPasos.pause();
@@ -319,7 +318,6 @@ public class Personaje extends Objeto {
             nivel.btnEntrar.setVisible(false);
         }
     }
-
 
     // Mueve el personaje a la derecha/izquierda, prueba choques con paredes
     private void moverHorizontal(TiledMap mapa) {
