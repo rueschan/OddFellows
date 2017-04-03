@@ -24,6 +24,9 @@ public class Personaje extends Objeto {
     private float velocidadX = 0;      // Velocidad en x
     private float velocidadY = 0;      // Velocidad en y
 
+    private float camaraX = 0;
+    private float camaraY = 0;
+
     private float vida = 100;
 
     private ArrayList<Objeto> inventario;
@@ -91,7 +94,11 @@ public class Personaje extends Objeto {
         return instancia;
     }
 
-    public void reset() {
+    public void reset() {TextureRegion texturaCompleta = new TextureRegion(new Texture("Personaje/Henric.png"));
+        // La divide en 4 frames de 32x64 (ver marioSprite.png)
+        texturaPersonaje = texturaCompleta.split(96,96);
+        // Crea la animación con tiempo de 0.15 segundos entre frames.
+
         spriteAnimado = new Animation(0.15f, texturaPersonaje[0][2], texturaPersonaje[0][1] );
         animacionPrevia = new Animation(0.15f, texturaPersonaje[0][2], texturaPersonaje[0][1] );
         // Animación infinita
@@ -224,6 +231,17 @@ public class Personaje extends Objeto {
         }
     }
 
+    public void moverCamara(TiledMap mapa) {
+        // PRUEBA DE MEDIR MAPA PARA MOVER
+        int ANCHO_MAPA = mapa.getProperties().get("width", Integer.class);
+        int ALTO_MAPA = mapa.getProperties().get("height", Integer.class);
+        if (ANCHO_MAPA > 20 || ALTO_MAPA > 12) {
+            Pantalla.getInstanciaPantalla().camara.position.set(camaraX + Pantalla.getInstanciaPantalla().getANCHO()/2,
+                    camaraY + Pantalla.getInstanciaPantalla().getALTO()/2, 0);
+            Gdx.app.log("PosX", String.valueOf(camaraX));
+        }
+    }
+
     // Actualiza el sprite, de acuerdo al estadoMovimiento y estadoSalto
     public void actualizar(TiledMap mapa) {
         switch (estadoMovimiento) {
@@ -231,6 +249,7 @@ public class Personaje extends Objeto {
             case MOV_IZQUIERDA:
                 moverHorizontal(mapa);
                 darPaso();
+                moverCamara(mapa);
                 break;
             case QUIETO:
                 darPaso();
@@ -241,6 +260,7 @@ public class Personaje extends Objeto {
             case MOV_ABAJO:
                 moverVertical(mapa);
                 darPaso();
+                moverCamara(mapa);
                 break;
             case QUIETO_Y:
                 darPaso();
@@ -330,6 +350,7 @@ public class Personaje extends Objeto {
                 // Prueba que no salga del mundo por la derecha
                 if (nuevaX <= Pantalla.getInstanciaPantalla().getANCHO() - sprite.getWidth()) {
                     sprite.setX(nuevaX);
+                    camaraX += velocidadX;
                 }
             }
         }
@@ -358,6 +379,7 @@ public class Personaje extends Objeto {
                 nuevaX += velocidadX;
                 if (nuevaX >= 0) {
                     sprite.setX(nuevaX);
+                    camaraX += velocidadX;
                 }
             }
         }
@@ -395,6 +417,7 @@ public class Personaje extends Objeto {
                 // Prueba que no salga del mundo por la arriba
                 if (nuevaY <= Pantalla.getInstanciaPantalla().getALTO() - sprite.getHeight()) {
                     sprite.setY(nuevaY);
+                    camaraY += velocidadY;
                 }
             }
         }
@@ -423,6 +446,7 @@ public class Personaje extends Objeto {
                 nuevaY += velocidadY;
                 if (nuevaY >= 0) {
                     sprite.setY(nuevaY);
+                    camaraY += velocidadY;
                 }
             }
         }

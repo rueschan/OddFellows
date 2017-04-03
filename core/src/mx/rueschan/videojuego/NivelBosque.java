@@ -53,9 +53,8 @@ public class NivelBosque extends Nivel {
         henric.reset();
         henric.setFxPasos(pathFxPasos);
 
-
-        //Jugar con el color de Henric
-        henric.sprite.setColor(.5f,.5f,.5f,1);
+//        //Jugar con el color de Henric
+//        henric.sprite.setColor(.5f,.5f,.5f,1);
 
         //Creación de HUD
         super.crearElementosPantalla(pantalla);
