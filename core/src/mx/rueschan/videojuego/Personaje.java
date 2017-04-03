@@ -24,8 +24,8 @@ public class Personaje extends Objeto {
     private float velocidadX = 0;      // Velocidad en x
     private float velocidadY = 0;      // Velocidad en y
 
-    private float camaraX = 0;
-    private float camaraY = 0;
+//    private float camaraX = 0;
+//    private float camaraY = 0;
 
     private float vida = 100;
 
@@ -52,6 +52,7 @@ public class Personaje extends Objeto {
 
     // Recibe una imagen con varios frames (ver marioSprite.png)
     public Personaje(Texture textura, float x, float y) {
+        Pantalla pantalla = Pantalla.getInstanciaPantalla();
 
         // Crea inventario
         inventario = new ArrayList<Objeto>(10);
@@ -82,6 +83,9 @@ public class Personaje extends Objeto {
         fxPasos.loop(1,1.5f,0);
         fxPasos.pause();
         fxAccion = manager.get(pathFxAccion);
+
+//        camaraX = pantalla.camara.position.x;
+//        camaraY = pantalla.camara.position.y;
     }
 
     // Método para obtener personaje o crearlo
@@ -236,9 +240,8 @@ public class Personaje extends Objeto {
         int ANCHO_MAPA = mapa.getProperties().get("width", Integer.class);
         int ALTO_MAPA = mapa.getProperties().get("height", Integer.class);
         if (ANCHO_MAPA > 20 || ALTO_MAPA > 12) {
-            Pantalla.getInstanciaPantalla().camara.position.set(camaraX + Pantalla.getInstanciaPantalla().getANCHO()/2,
-                    camaraY + Pantalla.getInstanciaPantalla().getALTO()/2, 0);
-            Gdx.app.log("PosX", String.valueOf(camaraX));
+            Pantalla.getInstanciaPantalla().camara.position.set(sprite.getX(),
+                    sprite.getY(), 0);
         }
     }
 
@@ -320,6 +323,7 @@ public class Personaje extends Objeto {
 
     // Mueve el personaje a la derecha/izquierda, prueba choques con paredes
     private void moverHorizontal(TiledMap mapa) {
+        Pantalla pantalla = Pantalla.getInstanciaPantalla();
         // Obtiene la primer capa del mapa (en este caso es la única)
         TiledMapTileLayer capa = (TiledMapTileLayer) mapa.getLayers().get("Limites");
         // Ejecutar movimiento horizontal
@@ -348,9 +352,9 @@ public class Personaje extends Objeto {
                 // Ejecutar movimiento horizontal
                 nuevaX += velocidadX;
                 // Prueba que no salga del mundo por la derecha
-                if (nuevaX <= Pantalla.getInstanciaPantalla().getANCHO() - sprite.getWidth()) {
+                if (nuevaX <= (mapa.getProperties().get("width", Integer.class) * 64) - sprite.getWidth()) {
                     sprite.setX(nuevaX);
-                    camaraX += velocidadX;
+//                    camaraX += velocidadX;
                 }
             }
         }
@@ -379,7 +383,7 @@ public class Personaje extends Objeto {
                 nuevaX += velocidadX;
                 if (nuevaX >= 0) {
                     sprite.setX(nuevaX);
-                    camaraX += velocidadX;
+//                    camaraX += velocidadX;
                 }
             }
         }
@@ -387,6 +391,7 @@ public class Personaje extends Objeto {
 
     // Mueve el personaje a la derecha/izquierda, prueba choques con paredes
     private void moverVertical(TiledMap mapa) {
+        Pantalla pantalla = Pantalla.getInstanciaPantalla();
         // Obtiene la primer capa del mapa (en este caso es la única)
         TiledMapTileLayer capa = (TiledMapTileLayer) mapa.getLayers().get("Limites");
         // Ejecutar movimiento horizontal
@@ -415,9 +420,9 @@ public class Personaje extends Objeto {
                 // Ejecutar movimiento horizontal
                 nuevaY += velocidadY;
                 // Prueba que no salga del mundo por la arriba
-                if (nuevaY <= Pantalla.getInstanciaPantalla().getALTO() - sprite.getHeight()) {
+                if (nuevaY <= (mapa.getProperties().get("height", Integer.class) * 64) - sprite.getHeight()) {
                     sprite.setY(nuevaY);
-                    camaraY += velocidadY;
+//                    camaraY += velocidadY;
                 }
             }
         }
@@ -446,7 +451,7 @@ public class Personaje extends Objeto {
                 nuevaY += velocidadY;
                 if (nuevaY >= 0) {
                     sprite.setY(nuevaY);
-                    camaraY += velocidadY;
+//                    camaraY += velocidadY;
                 }
             }
         }
