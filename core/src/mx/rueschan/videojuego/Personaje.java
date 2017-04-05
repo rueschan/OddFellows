@@ -518,6 +518,14 @@ public class Personaje extends Objeto {
         return null;
     }
 
+    public float getVida(){
+        return vida;
+    }
+
+    public void setVida(float cambio){
+        vida = cambio;
+    }
+
     // Accesor de estadoMovimiento
     public EstadoMovimiento getEstadoMovimiento() {
         return estadoMovimiento;
