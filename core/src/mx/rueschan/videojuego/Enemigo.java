@@ -27,7 +27,7 @@ public class Enemigo extends Objeto {
 //        //Checa primero a la posición X
 //        if (enemigoPosicionX > jugadorPosicionX) {
 //            enemigoPosicionX--;
-//        } else if (enemigoPosicionX < jugadorPosicionX) {
+//        } else if (enemigoPosicsionX < jugadorPosicionX) {
 //            enemigoPosicionX++;
 //        }
 //
