@@ -194,8 +194,9 @@ public class Personaje extends Objeto {
         if (estadoMovimiento == EstadoMovimiento.QUIETO && estadoMovimientoVertical == EstadoMovimientoVertical.QUIETO_Y) {
             fxPasos.pause();
         } else {
-            if (Configuraciones.isFxOn)
+            if (Configuraciones.isFxOn) {
                 fxPasos.resume();
+            }
         }
     }
 
