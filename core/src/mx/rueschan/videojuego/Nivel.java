@@ -224,6 +224,7 @@ public abstract class Nivel implements Screen{
         crearPausa(escenaHUD);
         crearInventario(escenaHUD);
         addActoresHUD();
+        crearAccionesBotones();
 //        agregarActoresInicialesHUD();
     }
 
