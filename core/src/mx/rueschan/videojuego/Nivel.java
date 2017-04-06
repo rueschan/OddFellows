@@ -881,7 +881,6 @@ public abstract class Nivel implements Screen{
                 btnItem.setVisible(inInventario);
                 btnItem.setName("btnItem");
                 actoresAparecenInventario.add("btnItem");
-
             }
         }
     }
@@ -915,7 +914,6 @@ public abstract class Nivel implements Screen{
     }
 
     private void ejecutarAccion() {
-
         if (seleccionado instanceof Arma) {
             Arma arma = (Arma) seleccionado;
             if (arma.getNombre() == "martillo") {
@@ -927,8 +925,6 @@ public abstract class Nivel implements Screen{
         } else if (seleccionado instanceof  Llave) {
             Llave llave = (Llave) seleccionado;
         }
-
-
     }
 
     private void romper() {
@@ -1227,8 +1223,9 @@ public abstract class Nivel implements Screen{
     }
 
     protected boolean irInventario(boolean enInventario, Stage escenaHUD){
-        if (Configuraciones.isFxOn)
-            fxInventario.play(1,1,0);
+        if (Configuraciones.isFxOn) {
+            fxInventario.play(1, 1, 0);
+        }
         // Muestra los items
         mostrarInventario(inventario, !enInventario);
 
@@ -1242,7 +1239,8 @@ public abstract class Nivel implements Screen{
         //Cambia de valor el booleano enInventario
         enInventario= !enInventario;
 
-        int actorHUD = escenaHUD.getActors().size-1;
+//        int actorHUD = escenaHUD.getActors().size-1;
+        int actorHUD = nombreActores.length-1;
         Actor a;
 
         if (enInventario == true){
