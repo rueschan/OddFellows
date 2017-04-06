@@ -285,7 +285,95 @@ public abstract class Nivel implements Screen{
     }
 
     private void crearAccionesBotones() {
+        btnInteraccion.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                if (!btnInteraccion.isDisabled()) {
+                    Objeto obj = identificarItem(tileObjetivo);
+                    henric.addInventario(obj);
+                    tileObjetivo.setTile(null);
+                }
+            }
+        });
 
+        btnInventario.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                inventario = henric.verInventario();
+                // Muestra la pantalla de inventario
+                enInventario = irInventario(enInventario,escenaHUD);
+            }
+        });
+
+        btnCerrar.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                cerrarCarta();
+            }
+        });
+
+        btnItem.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                if (!btnItem.isDisabled()) {
+                    ejecutarAccion();
+                }
+            }
+        });
+
+        btnEntrar.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                //Para quitar la pausa
+                oddFellows.setScreen(new NivelBosque(oddFellows));
+                musicaFondo.stop();
+                //henric.pararSonido();
+            }
+        });
+
+        btnPausa.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                //Para quitar la pausa
+                pausado = pausar(pausado, escenaHUD);
+            }
+        });
+
+        btnReanudar.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                pausado = pausar(pausado,escenaHUD);
+            }
+        });
+
+        btnSalir.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                Gdx.input.setInputProcessor(pantalla.escena);
+                musicaPausa.stop();
+                oddFellows.crearMusica();
+                juego.actual = null;
+                henric.pararSonido();
+                henric.reset();
+                pantalla.resetCamara();
+                oddFellows.setScreen(new MenuPrincipal(oddFellows));
+            }
+        });
+
+        btnFX.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                Configuraciones.cambiaFx();
+            }
+        });
+
+        btnMusica.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                Configuraciones.cambiaMusica();
+                tocarMusica();
+            }
+        });
     }
 
     private void addActoresHUD() {
@@ -370,29 +458,7 @@ public abstract class Nivel implements Screen{
             nombreActores[i] = escenaHUD.getActors().get(i).getName();
         }
 
-//        //Boton Salir
-//        texturaEntrar = new Texture("Pantalla/entrar.png");
-//        TextureRegionDrawable trdBtnentrar = new
-//                TextureRegionDrawable(new TextureRegion(texturaEntrar));
-//        btnEntrar = new ImageButton(trdBtnentrar);
-//
-//
-//        actoresAparte.add(5);
-//        btnEntrar.setVisible(false);
-//        btnEntrar.setPosition(pantalla.getANCHO()-btnEntrar.getWidth()-pantalla.getANCHO()*.02f,
-//                pantalla.getALTO()*.02f);
-//
-//        // Interaccion boton entrar ( CAMBIAR NIVEL )
-//        btnEntrar.addListener(new ClickListener(){
-//            @Override
-//            public void clicked(InputEvent event, float x, float y) {
-//                //Para quitar la pausa
-//                oddFellows.setScreen(new NivelBosque(oddFellows));
-//                musicaFondo.stop();
-//                //henric.pararSonido();
-//            }
-//        });
-
+        // Crea los limites de pad y botones, es decir, evita que se cree el pad sobre los botones
         escenaHUD.addListener(new ClickListener() {
 
             @Override
@@ -440,17 +506,6 @@ public abstract class Nivel implements Screen{
                 pantalla.getALTO()*.02f);
         btnInteraccion.setColor(1,1,1,0.4f);
 
-        btnInteraccion.addListener(new ClickListener(){
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                if (!btnInteraccion.isDisabled()) {
-                    Objeto obj = identificarItem(tileObjetivo);
-                    henric.addInventario(obj);
-                    tileObjetivo.setTile(null);
-                }
-            }
-        });
-
         //Boton Salir
         texturaEntrar = new Texture("Pantalla/entrar.png");
         TextureRegionDrawable trdBtnentrar = new
@@ -462,17 +517,6 @@ public abstract class Nivel implements Screen{
         btnEntrar.setVisible(false);
         btnEntrar.setPosition(pantalla.getANCHO()-btnEntrar.getWidth()-pantalla.getANCHO()*.02f,
                 pantalla.getALTO()*.02f);
-
-        // Interaccion boton entrar ( CAMBIAR NIVEL )
-        btnEntrar.addListener(new ClickListener(){
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                //Para quitar la pausa
-                oddFellows.setScreen(new NivelBosque(oddFellows));
-                musicaFondo.stop();
-                //henric.pararSonido();
-            }
-        });
     }
 
     private void crearBtnAccion(){
@@ -522,18 +566,6 @@ public abstract class Nivel implements Screen{
         btnInventario.setPosition(pantalla.getANCHO()-btnInventario.getWidth()-pantalla.getANCHO()*.26f,
                 pantalla.getALTO()*.02f);
         btnInventario.setColor(1,1,1,1);
-
-        //Asignar accion al boton inventario
-        btnInventario.addListener(new ClickListener(){
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                inventario = henric.verInventario();
-                // Muestra la pantalla de inventario
-                enInventario = irInventario(enInventario,escenaHUD);
-            }
-        });
-
-
     }
 
     private void crearCartas(){
@@ -561,13 +593,6 @@ public abstract class Nivel implements Screen{
         btnCerrar.setPosition(pantalla.getANCHO()/2 + pathFondoCarta.getWidth()/2 - 100,
                 pantalla.getALTO()*9/10);
         btnCerrar.setVisible(false);
-
-        btnCerrar.addListener(new ClickListener(){
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                cerrarCarta();
-            }
-        });
     }
 
 //    private void agregarActoresInicialesHUD(){
@@ -797,15 +822,6 @@ public abstract class Nivel implements Screen{
                     pantalla.getALTO()*.02f);
         }
 
-        btnItem.addListener(new ClickListener(){
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                if (!btnItem.isDisabled()) {
-                    ejecutarAccion();
-                }
-            }
-        });
-
         if (seleccionado instanceof Arma && !isArmado) {
             isArmado = true;
             Arma arma = (Arma) seleccionado;
@@ -957,54 +973,7 @@ public abstract class Nivel implements Screen{
         btnMusica.setPosition(2*pantalla.getANCHO()/5 - btnMusica.getWidth()/2,pantalla.getALTO()/2
                 - btnMusica.getHeight()/2);
 
-        // Interaccion boton Musica
-        btnMusica.addListener(new ClickListener(){
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                Configuraciones.cambiaMusica();
-                tocarMusica();
-            }
-        });
 
-        //Interaccion botón Efectos
-        btnFX.addListener(new ClickListener(){
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                Configuraciones.cambiaFx();
-            }
-        });
-
-        //Interaccion boton reanudar
-        btnReanudar.addListener(new ClickListener(){
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                pausado = pausar(pausado,escenaHUD);
-            }
-        });
-
-        //Interaccion boton salir
-        btnSalir.addListener(new ClickListener(){
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                Gdx.input.setInputProcessor(pantalla.escena);
-                musicaPausa.stop();
-                oddFellows.crearMusica();
-                juego.actual = null;
-                henric.pararSonido();
-                henric.reset();
-                pantalla.resetCamara();
-                oddFellows.setScreen(new MenuPrincipal(oddFellows));
-            }
-        });
-
-        // Interaccion boton pausa
-        btnPausa.addListener(new ClickListener(){
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                //Para quitar la pausa
-                pausado = pausar(pausado, escenaHUD);
-            }
-        });
 
 
 //        //Botón pausa en actor posicion 6
@@ -1061,11 +1030,11 @@ public abstract class Nivel implements Screen{
         oscuroPausa.setPosition(0,0);
 
         //Crear rectángulo de regreso
-        Pixmap pixmapRegresar = new Pixmap((int)(pantalla.getANCHO()*0.4f), (int)(pantalla.getALTO()*0.1f), Pixmap.Format.RGBA8888 ); // 512 x 128
-        pixmapRegresar.setColor( 0.6f, 0.2f, 0.8f, 0.85f );
-        pixmapRegresar.fillRectangle(0,0,(int)pantalla.getANCHO(),(int)pantalla.getALTO());
-        regionRegresarInventario = new Texture( pixmapRegresar );
-        pixmapRegresar.dispose();
+//        Pixmap pixmapRegresar = new Pixmap((int)(pantalla.getANCHO()*0.4f), (int)(pantalla.getALTO()*0.1f), Pixmap.Format.RGBA8888 ); // 512 x 128
+//        pixmapRegresar.setColor( 0.6f, 0.2f, 0.8f, 0.85f );
+//        pixmapRegresar.fillRectangle(0,0,(int)pantalla.getANCHO(),(int)pantalla.getALTO());
+        regionRegresarInventario = new Texture( "Pantalla/btnSalirInventario.png" );
+//        pixmapRegresar.dispose();
         regresarInventario = new Image(regionRegresarInventario);
         regresarInventario.setPosition(.3f*pantalla.getANCHO(),.05f*pantalla.getALTO());
 
