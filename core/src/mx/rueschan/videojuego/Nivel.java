@@ -83,7 +83,6 @@ public abstract class Nivel implements Screen{
     public ImageButton btnSalir;
     public ImageButton btnFX;
     public ImageButton btnMusica;
-    public String nombreActores[] = new String[16];
 
     //Indices
     protected int indiceActoresAntesPausa;
@@ -93,6 +92,7 @@ public abstract class Nivel implements Screen{
     protected List<String> actoresAparecenInventario = new ArrayList<String>();
     protected List<String> actoresAparecenCarta = new ArrayList<String>();
     protected List<String> actoresAparecenInicialmente = new ArrayList<String>();
+    protected List<String> nombreActores = new ArrayList<String>();
 
 
 
@@ -121,7 +121,8 @@ public abstract class Nivel implements Screen{
     //INTERACCION
     private Texture texturaInteraccion;
     private Texture texturaAccion;
-    public Objeto fondoAccion;
+//    public Objeto fondoAccion;
+    protected Image fondoAccionBueno;
     private Texture texturaInventario;
     private TextureRegionDrawable trdBtnItem;
     public Objeto alertaAccion;
@@ -454,55 +455,64 @@ public abstract class Nivel implements Screen{
         actoresAparecenCarta.add("btnCerrar");
 //        Gdx.app.log("woloo", "8");
 
-//        public ImageButton btnItem;
-        escenaHUD.addActor(btnItem);//Actor en posicion 9
-        escenaHUD.getActors().get(9).setName("btnItem");
-        btnItem.setVisible(false);
+
+//        public ImageButton fondoAccionBueno;
+        escenaHUD.addActor(fondoAccionBueno);//Actor en posicion 9
+        escenaHUD.getActors().get(9).setName("fondoAccionBueno");
+        fondoAccionBueno.setVisible(false);
+        actoresAparecenInicialmente.add("fondoAccionBueno");
 //        Gdx.app.log("woloo", "9");
 
-//        public ImageButton btnEntrar;
-        escenaHUD.addActor(btnEntrar);//Actor en posicion 10
-        escenaHUD.getActors().get(10).setName("btnEntrar");
-        btnEntrar.setVisible(false);
+//        public ImageButton btnItem;
+        escenaHUD.addActor(btnItem);//Actor en posicion 10
+        escenaHUD.getActors().get(10).setName("btnItem");
+        btnItem.setVisible(false);
 //        Gdx.app.log("woloo", "10");
 
-//        public ImageButton btnPausa;
-        escenaHUD.addActor(btnPausa);//Actor en posicion 11
-        escenaHUD.getActors().get(11).setName("btnPausa");
-        btnPausa.setVisible(false);
-        actoresAparecenInicialmente.add("btnPausa");
+//        public ImageButton btnEntrar;
+        escenaHUD.addActor(btnEntrar);//Actor en posicion 11
+        escenaHUD.getActors().get(11).setName("btnEntrar");
+        btnEntrar.setVisible(false);
 //        Gdx.app.log("woloo", "11");
 
-//        public ImageButton btnReanudar;
-        escenaHUD.addActor(btnReanudar);//Actor en posicion 12
-        escenaHUD.getActors().get(12).setName("btnReanudar");
-        btnReanudar.setVisible(false);
-        actoresAparecenPausa.add("btnReanudar");
+//        public ImageButton btnPausa;
+        escenaHUD.addActor(btnPausa);//Actor en posicion 12
+        escenaHUD.getActors().get(12).setName("btnPausa");
+        btnPausa.setVisible(false);
+        actoresAparecenInicialmente.add("btnPausa");
 //        Gdx.app.log("woloo", "12");
 
-//        public ImageButton btnSalir;
-        escenaHUD.addActor(btnSalir);//Actor en posicion 13
-        escenaHUD.getActors().get(13).setName("btnSalir");
-        btnSalir.setVisible(false);
-        actoresAparecenPausa.add("btnSalir");
+//        public ImageButton btnReanudar;
+        escenaHUD.addActor(btnReanudar);//Actor en posicion 13
+        escenaHUD.getActors().get(13).setName("btnReanudar");
+        btnReanudar.setVisible(false);
+        actoresAparecenPausa.add("btnReanudar");
 //        Gdx.app.log("woloo", "13");
 
-//        public ImageButton btnFX;
-        escenaHUD.addActor(btnFX);//Actor en posicion 14
-        escenaHUD.getActors().get(14).setName("btnFX");
-        btnFX.setVisible(false);
-        actoresAparecenPausa.add("btnFX");
+//        public ImageButton btnSalir;
+        escenaHUD.addActor(btnSalir);//Actor en posicion 14
+        escenaHUD.getActors().get(14).setName("btnSalir");
+        btnSalir.setVisible(false);
+        actoresAparecenPausa.add("btnSalir");
 //        Gdx.app.log("woloo", "14");
 
-//        public ImageButton btnMusica;
-        escenaHUD.addActor(btnMusica);//Actor en posicion 15
-        escenaHUD.getActors().get(15).setName("btnMusica");
-        btnMusica.setVisible(false);
-        actoresAparecenPausa.add("btnMusica");
+//        public ImageButton btnFX;
+        escenaHUD.addActor(btnFX);//Actor en posicion 15
+        escenaHUD.getActors().get(15).setName("btnFX");
+        btnFX.setVisible(false);
+        actoresAparecenPausa.add("btnFX");
 //        Gdx.app.log("woloo", "15");
 
+//        public ImageButton btnMusica;
+        escenaHUD.addActor(btnMusica);//Actor en posicion 16
+        escenaHUD.getActors().get(16).setName("btnMusica");
+        btnMusica.setVisible(false);
+        actoresAparecenPausa.add("btnMusica");
+//        Gdx.app.log("woloo", "16");
+
+
         for (int i = 0; i < escenaHUD.getActors().size; i++) {
-            nombreActores[i] = escenaHUD.getActors().get(i).getName();
+            nombreActores.add(escenaHUD.getActors().get(i).getName());
         }
 
         // Crea los limites de pad y botones, es decir, evita que se cree el pad sobre los botones
@@ -584,8 +594,13 @@ public abstract class Nivel implements Screen{
     private void crearBtnAccion(){
         //// Asignar textura al boton de acción
         texturaAccion = new Texture("Pantalla/baseItems.png");
-        fondoAccion = new Objeto(texturaAccion, pantalla.getANCHO()-texturaAccion.getWidth()-pantalla.getANCHO()*.14f,
+//        fondoAccion = new Objeto(texturaAccion, pantalla.getANCHO()-texturaAccion.getWidth()-pantalla.getANCHO()*.14f,
+//                pantalla.getALTO()*.02f);
+
+        fondoAccionBueno = new Image(texturaAccion);
+        fondoAccionBueno.setPosition(pantalla.getANCHO()-texturaAccion.getWidth()-pantalla.getANCHO()*.14f,
                 pantalla.getALTO()*.02f);
+
 
 //        TextureRegionDrawable trdBtnAccion = new
 //                TextureRegionDrawable(new TextureRegion(texturaAccion));
@@ -772,7 +787,7 @@ public abstract class Nivel implements Screen{
         enCarta=true;
 
         fondoCarta.sprite.setColor(1,1,1,1);
-        fondoAccion.sprite.setColor(1,1,1,0);
+//        fondoAccion.sprite.setColor(1,1,1,0);
         btnItem.setColor(1,1,1,0);
 
         if (Configuraciones.isFxOn)
@@ -790,7 +805,7 @@ public abstract class Nivel implements Screen{
                 a.setVisible(enCarta);
             }else {
                 a.setVisible(!enCarta);
-                escenaHUD.getActors().set(9, btnItem);
+                escenaHUD.getActors().set(10, btnItem);
             }
         }
 //        for (;actorHUD >= 0; actorHUD--){
@@ -810,7 +825,7 @@ public abstract class Nivel implements Screen{
 
         fondoCarta.sprite.setColor(1,1,1,0);
         btnItem.setColor(1,1,1,1);
-        fondoAccion.sprite.setColor(1,1,1,1);
+//        fondoAccion.sprite.setColor(1,1,1,1);
 
         fxCarta.play();
         txt.cambiarMensaje("");
@@ -825,7 +840,7 @@ public abstract class Nivel implements Screen{
 //            if (a.getName() != "Cerrar" && !isPausa) {
 //                escenaHUD.getActors().get(actorHUD).setVisible(true);
 //
-//                escenaHUD.getActors().set(9, btnItem);
+//                escenaHUD.getActors().set(10, btnItem);
 //            } else if (a.getName() == "Cerrar"){
 //                a.setVisible(false);
 //                isPausa = false;
@@ -910,8 +925,8 @@ public abstract class Nivel implements Screen{
             }
         }
         if (!enInventario && !pausado && !enCarta) {
-            escenaHUD.getActors().set(9, btnItem);
-            escenaHUD.getActors().get(9).setName("btnItem");
+            escenaHUD.getActors().set(10, btnItem);
+            escenaHUD.getActors().get(10).setName("btnItem");
             btnItem.setVisible(true);
 
             btnItem.addListener(new ClickListener(){
@@ -956,8 +971,8 @@ public abstract class Nivel implements Screen{
                 pantalla.getCamaraY() + pantalla.getALTO() - 10 - texturaHP.getHeight());
         hp.sprite.setPosition(pantalla.getCamaraX() + 10,
                 pantalla.getCamaraY() + pantalla.getALTO() - 10 - texturaHP.getHeight());
-        fondoAccion.sprite.setPosition(pantalla.getCamaraX() + pantalla.getANCHO()-texturaAccion.getWidth()-pantalla.getANCHO()*.14f,
-                pantalla.getCamaraY() + pantalla.getALTO()*.02f);
+//        fondoAccion.sprite.setPosition(pantalla.getCamaraX() + pantalla.getANCHO()-texturaAccion.getWidth()-pantalla.getANCHO()*.14f,
+//                pantalla.getCamaraY() + pantalla.getALTO()*.02f);
         fondoCarta.sprite.setPosition(pantalla.getCamaraX() + pantalla.getANCHO()/2 - fondoCarta.sprite.getWidth()/2,
                 pantalla.getCamaraY());
 
@@ -967,7 +982,7 @@ public abstract class Nivel implements Screen{
         hp.dibujar(batch);
         barraHP.dibujar(batch);
         fondoCarta.dibujar(batch);
-        fondoAccion.dibujar(batch);
+//        fondoAccion.dibujar(batch);
         txt.escribir(batch, fondoCarta.sprite.getX() + 80,
                 pantalla.getCamaraY() + fondoCarta.sprite.getHeight() - 60);
     }
@@ -1250,7 +1265,7 @@ public abstract class Nivel implements Screen{
         enInventario= !enInventario;
 
 //        int actorHUD = escenaHUD.getActors().size-1;
-        int actorHUD = nombreActores.length-1;
+        int actorHUD = nombreActores.size()-1;
         Actor a;
 
         if (enInventario == true){
@@ -1279,9 +1294,9 @@ public abstract class Nivel implements Screen{
 //        }
 
         if (enInventario == true) {
-            fondoAccion.sprite.setColor(1,1,1,0);
+//            fondoAccion.sprite.setColor(1,1,1,0);
         } else {
-            fondoAccion.sprite.setColor(1,1,1,1);
+//            fondoAccion.sprite.setColor(1,1,1,1);
         }
         return enInventario;
     }
