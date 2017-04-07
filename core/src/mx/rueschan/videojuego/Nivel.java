@@ -395,7 +395,6 @@ public abstract class Nivel implements Screen{
         escenaHUD.getActors().get(0).setName("oscuroPausa");
         escenaHUD.getActors().get(0).setVisible(false);
         oscuroPausa.setVisible(false);
-        actoresAparecenCarta.add("oscuroPausa");
         actoresAparecenInventario.add("oscuroPausa");
 //        Gdx.app.log("woloo", "0");
 
@@ -1342,4 +1341,6 @@ public abstract class Nivel implements Screen{
         else
             musicaPausa.pause();
     }
+
+
 }

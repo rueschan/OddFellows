@@ -311,7 +311,8 @@ public class Personaje extends Objeto {
         }
 
         celda = buscaSalida(nivel.mapa);
-        if (celda != null) {
+        //Aparte de checar la celda, checa que no esté en otra interfaz
+        if (celda != null && !nivel.pausado && !nivel.enInventario && !nivel.enCarta) {
             nivel.btnEntrar.setDisabled(false);
             nivel.btnEntrar.setVisible(true);
         } else {
