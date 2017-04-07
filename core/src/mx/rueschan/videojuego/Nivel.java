@@ -63,8 +63,10 @@ public abstract class Nivel implements Screen{
     protected OrthographicCamera camaraHUD;
     protected Viewport vistaHUD;
     protected Stage escenaHUD;
-    protected Objeto hp;
-    protected Objeto barraHP;
+//    protected Objeto hp;
+//    protected Objeto barraHP;
+    protected Image hpAct;
+    protected Image barraHPAct;
 
     // Actores HUD
     public Image oscuroPausa;
@@ -186,8 +188,17 @@ public abstract class Nivel implements Screen{
         // Vida
         texturaHP = new Texture("Pantalla/HP.png");
         texturaBarraHP = new Texture("Pantalla/BarraHP.png");
-        hp = new Objeto(texturaHP, 10, pantalla.getALTO() - 10 - texturaHP.getHeight());
-        barraHP = new Objeto(texturaBarraHP, 10, pantalla.getALTO() - 10 - texturaHP.getHeight());
+//        hp = new Objeto(texturaHP, 10, pantalla.getALTO() - 10 - texturaHP.getHeight());
+//        barraHP = new Objeto(texturaBarraHP, 10, pantalla.getALTO() - 10 - texturaHP.getHeight());
+
+        //AQUI LE TOY MOVIENDO
+        hpAct = new Image(texturaHP);
+        hpAct.setPosition(10, pantalla.getALTO() - 10 - texturaHP.getHeight());
+
+        barraHPAct = new Image(texturaBarraHP);
+        barraHPAct.setPosition(10, pantalla.getALTO() - 10 - texturaHP.getHeight());
+
+
 
         manager = new AssetManager();
         manager.setLoader(TiledMap.class,
@@ -456,7 +467,7 @@ public abstract class Nivel implements Screen{
 //        Gdx.app.log("woloo", "8");
 
 
-//        public ImageButton fondoAccionBueno;
+//        public Image fondoAccionBueno;
         escenaHUD.addActor(fondoAccionBueno);//Actor en posicion 9
         escenaHUD.getActors().get(9).setName("fondoAccionBueno");
         fondoAccionBueno.setVisible(false);
@@ -509,6 +520,20 @@ public abstract class Nivel implements Screen{
         btnMusica.setVisible(false);
         actoresAparecenPausa.add("btnMusica");
 //        Gdx.app.log("woloo", "16");
+
+//        public Image hpAct;
+        escenaHUD.addActor(hpAct);//Actor en posicion 17
+        escenaHUD.getActors().get(17).setName("hpAct");
+        hpAct.setVisible(false);
+        actoresAparecenInicialmente.add("hpAct");
+//        Gdx.app.log("woloo", "17");
+
+//        public Image barraHPAct;
+        escenaHUD.addActor(barraHPAct);//Actor en posicion 18
+        escenaHUD.getActors().get(18).setName("barraHPAct");
+        barraHPAct.setVisible(false);
+        actoresAparecenInicialmente.add("barraHPAct");
+//        Gdx.app.log("woloo", "18");
 
 
         for (int i = 0; i < escenaHUD.getActors().size; i++) {
@@ -967,10 +992,10 @@ public abstract class Nivel implements Screen{
     protected void dibujar(SpriteBatch batch) {
 
         // ACTUALIZA POSICION EN NIVEL GRANDE
-        barraHP.sprite.setPosition(pantalla.getCamaraX() + 10,
-                pantalla.getCamaraY() + pantalla.getALTO() - 10 - texturaHP.getHeight());
-        hp.sprite.setPosition(pantalla.getCamaraX() + 10,
-                pantalla.getCamaraY() + pantalla.getALTO() - 10 - texturaHP.getHeight());
+//        barraHP.sprite.setPosition(pantalla.getCamaraX() + 10,
+//                pantalla.getCamaraY() + pantalla.getALTO() - 10 - texturaHP.getHeight());
+//        hp.sprite.setPosition(pantalla.getCamaraX() + 10,
+//                pantalla.getCamaraY() + pantalla.getALTO() - 10 - texturaHP.getHeight());
 //        fondoAccion.sprite.setPosition(pantalla.getCamaraX() + pantalla.getANCHO()-texturaAccion.getWidth()-pantalla.getANCHO()*.14f,
 //                pantalla.getCamaraY() + pantalla.getALTO()*.02f);
         fondoCarta.sprite.setPosition(pantalla.getCamaraX() + pantalla.getANCHO()/2 - fondoCarta.sprite.getWidth()/2,
@@ -979,8 +1004,8 @@ public abstract class Nivel implements Screen{
         // DIBUJA
         alertaAccion.dibujar(batch);
         henric.dibujar(batch);
-        hp.dibujar(batch);
-        barraHP.dibujar(batch);
+//        hp.dibujar(batch);
+//        barraHP.dibujar(batch);
         fondoCarta.dibujar(batch);
 //        fondoAccion.dibujar(batch);
         txt.escribir(batch, fondoCarta.sprite.getX() + 80,
