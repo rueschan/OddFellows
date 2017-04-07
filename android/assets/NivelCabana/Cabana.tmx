@@ -222,8 +222,8 @@
    </properties>
   </tile>
  </tileset>
- <tileset firstgid="61" name="Alfombra" tilewidth="64" tileheight="64" tilecount="9" columns="9">
-  <image source="Alfombra.png" width="576" height="64"/>
+ <tileset firstgid="61" name="Alfombra" tilewidth="64" tileheight="64" tilecount="9" columns="3">
+  <image source="Alfombra.png" width="192" height="192"/>
  </tileset>
  <tileset firstgid="70" name="Window" tilewidth="64" tileheight="64" tilecount="2" columns="2">
   <image source="Window.png" width="128" height="64"/>
@@ -298,9 +298,9 @@
 0,0,0,0,0,48,44,44,47,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,61,62,62,62,66,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,63,69,69,69,65,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,67,64,64,64,68,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,61,62,62,62,63,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,64,65,65,65,66,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,67,68,68,68,69,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0

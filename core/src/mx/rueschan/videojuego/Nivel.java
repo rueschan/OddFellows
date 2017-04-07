@@ -325,7 +325,9 @@ public abstract class Nivel implements Screen{
             public void clicked(InputEvent event, float x, float y) {
                 if (!btnItem.isDisabled()) {
                     ejecutarAccion();
+                    Gdx.app.log("btnItem","");
                 }
+                Gdx.app.log("btnItem","fuera");
             }
         });
 
@@ -395,110 +397,110 @@ public abstract class Nivel implements Screen{
         oscuroPausa.setVisible(false);
         actoresAparecenCarta.add("oscuroPausa");
         actoresAparecenInventario.add("oscuroPausa");
-        Gdx.app.log("woloo", "0");
+//        Gdx.app.log("woloo", "0");
 
 //        public Image cuadroInventario;
         escenaHUD.addActor(cuadroInventario);//Actor en posicion 1
         escenaHUD.getActors().get(1).setName("cuadroInventario");
         cuadroInventario.setVisible(false);
         actoresAparecenInventario.add("cuadroInventario");
-        Gdx.app.log("woloo", "1");
+//        Gdx.app.log("woloo", "1");
 
 //        public Image regresarInventario;
         escenaHUD.addActor(regresarInventario);//Actor en posicion 2
         escenaHUD.getActors().get(2).setName("regresarInventario");
         regresarInventario.setVisible(false);
         actoresAparecenInventario.add("regresarInventario");
-        Gdx.app.log("woloo", "2");
+//        Gdx.app.log("woloo", "2");
 
 //        public Image fondoMenuImagen;
         escenaHUD.addActor(fondoMenuImagen);//Actor en posicion 3
         escenaHUD.getActors().get(3).setName("fondoMenuImagen");
         fondoMenuImagen.setVisible(false);
         actoresAparecenPausa.add("fondoMenuImagen");
-        Gdx.app.log("woloo", "3");
+//        Gdx.app.log("woloo", "3");
 
 //        public Image cuadroPausa;
         escenaHUD.addActor(cuadroPausa);//Actor en posicion 4
         escenaHUD.getActors().get(4).setName("cuadroPausa");
         cuadroPausa.setVisible(false);
         actoresAparecenPausa.add("cuadroPausa");
-        Gdx.app.log("woloo", "4");
+//        Gdx.app.log("woloo", "4");
 
 //        protected Touchpad pad;
         escenaHUD.addActor(pad);//Actor en posicion 5
         escenaHUD.getActors().get(5).setName("pad");
         pad.setVisible(false);
         actoresAparecenInicialmente.add("pad");
-        Gdx.app.log("woloo", "5");
+//        Gdx.app.log("woloo", "5");
 
 //        public ImageButton btnInteraccion;
         escenaHUD.addActor(btnInteraccion);//Actor en posicion 6
         escenaHUD.getActors().get(6).setName("btnInteraccion");
         btnInteraccion.setVisible(false);
         actoresAparecenInicialmente.add("btnInteraccion");
-        Gdx.app.log("woloo", "6");
+//        Gdx.app.log("woloo", "6");
 
 //        public ImageButton btnInventario;
         escenaHUD.addActor(btnInventario);//Actor en posicion 7
         escenaHUD.getActors().get(7).setName("btnInventario");
         btnInventario.setVisible(false);
         actoresAparecenInicialmente.add("btnInventario");
-        Gdx.app.log("woloo", "7");
+//        Gdx.app.log("woloo", "7");
 
 //        public ImageButton btnCerrar;
         escenaHUD.addActor(btnCerrar);//Actor en posicion 8
         escenaHUD.getActors().get(8).setName("btnCerrar");
         btnCerrar.setVisible(false);
         actoresAparecenCarta.add("btnCerrar");
-        Gdx.app.log("woloo", "8");
+//        Gdx.app.log("woloo", "8");
 
 //        public ImageButton btnItem;
         escenaHUD.addActor(btnItem);//Actor en posicion 9
         escenaHUD.getActors().get(9).setName("btnItem");
         btnItem.setVisible(false);
-        Gdx.app.log("woloo", "9");
+//        Gdx.app.log("woloo", "9");
 
 //        public ImageButton btnEntrar;
         escenaHUD.addActor(btnEntrar);//Actor en posicion 10
         escenaHUD.getActors().get(10).setName("btnEntrar");
         btnEntrar.setVisible(false);
-        Gdx.app.log("woloo", "10");
+//        Gdx.app.log("woloo", "10");
 
 //        public ImageButton btnPausa;
         escenaHUD.addActor(btnPausa);//Actor en posicion 11
         escenaHUD.getActors().get(11).setName("btnPausa");
         btnPausa.setVisible(false);
         actoresAparecenInicialmente.add("btnPausa");
-        Gdx.app.log("woloo", "11");
+//        Gdx.app.log("woloo", "11");
 
 //        public ImageButton btnReanudar;
         escenaHUD.addActor(btnReanudar);//Actor en posicion 12
         escenaHUD.getActors().get(12).setName("btnReanudar");
         btnReanudar.setVisible(false);
         actoresAparecenPausa.add("btnReanudar");
-        Gdx.app.log("woloo", "12");
+//        Gdx.app.log("woloo", "12");
 
 //        public ImageButton btnSalir;
         escenaHUD.addActor(btnSalir);//Actor en posicion 13
         escenaHUD.getActors().get(13).setName("btnSalir");
         btnSalir.setVisible(false);
         actoresAparecenPausa.add("btnSalir");
-        Gdx.app.log("woloo", "13");
+//        Gdx.app.log("woloo", "13");
 
 //        public ImageButton btnFX;
         escenaHUD.addActor(btnFX);//Actor en posicion 14
         escenaHUD.getActors().get(14).setName("btnFX");
         btnFX.setVisible(false);
         actoresAparecenPausa.add("btnFX");
-        Gdx.app.log("woloo", "14");
+//        Gdx.app.log("woloo", "14");
 
 //        public ImageButton btnMusica;
         escenaHUD.addActor(btnMusica);//Actor en posicion 15
         escenaHUD.getActors().get(15).setName("btnMusica");
         btnMusica.setVisible(false);
         actoresAparecenPausa.add("btnMusica");
-        Gdx.app.log("woloo", "15");
+//        Gdx.app.log("woloo", "15");
 
         for (int i = 0; i < escenaHUD.getActors().size; i++) {
             nombreActores[i] = escenaHUD.getActors().get(i).getName();
@@ -851,14 +853,14 @@ public abstract class Nivel implements Screen{
                 item.sprite.getTexture();
 
                 // Crear boton item
-                TextureRegionDrawable trdBtnItem = new
+                TextureRegionDrawable trdBtnItemInv = new
                         TextureRegionDrawable(new TextureRegion(item.sprite.getTexture()));
                 // Colocar botón item
-                ImageButton btnItem = new ImageButton(trdBtnItem);
-                btnItem.setPosition(x - btnItem.getWidth()/2, y);
+                ImageButton btnItemInv = new ImageButton(trdBtnItemInv);
+                btnItemInv.setPosition(x - btnItemInv.getWidth()/2, y);
 
                 // Interaccion boton item
-                btnItem.addListener(new ClickListener(){
+                btnItemInv.addListener(new ClickListener(){
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
                         isArmado = false;
@@ -876,11 +878,11 @@ public abstract class Nivel implements Screen{
                     y -= despY;
                 }
 
-                items.add(btnItem);
-                escenaHUD.addActor(btnItem);
-                btnItem.setVisible(inInventario);
-                btnItem.setName("btnItem");
-                actoresAparecenInventario.add("btnItem");
+                items.add(btnItemInv);
+                escenaHUD.addActor(btnItemInv);
+                btnItemInv.setVisible(inInventario);
+                btnItemInv.setName("btnItemInv");
+                actoresAparecenInventario.add("btnItemInv");
             }
         }
     }
@@ -908,8 +910,17 @@ public abstract class Nivel implements Screen{
                 henric.setSprite(new TextureRegion(textura).split(96, 96));
             }
         }
-        if (!enInventario&&!pausado&&!enCarta) {
+        if (!enInventario && !pausado && !enCarta) {
             escenaHUD.getActors().set(9, btnItem);
+            escenaHUD.getActors().get(9).setName("btnItem");
+            btnItem.setVisible(true);
+
+            btnItem.addListener(new ClickListener(){
+                @Override
+                public void clicked(InputEvent event, float x, float y) {
+                        ejecutarAccion();
+                }
+            });
         }
     }
 
