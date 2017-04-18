@@ -6,6 +6,7 @@ package mx.rueschan.videojuego;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
@@ -42,7 +43,7 @@ public class Personaje extends Objeto {
 
     // ASSETS
     private AssetManager manager;
-    private Sound fxPasos;
+    private Music fxPasos;
     private String pathFxPasos = "Sonidos/pasoMadera.mp3";
     private Sound fxAccion;
     private String pathFxAccion = "Sonidos/alerta.mp3";
@@ -75,12 +76,12 @@ public class Personaje extends Objeto {
 
         // ASSET MANAGER
         manager = Nivel.getManager();
-        manager.load(pathFxPasos, Sound.class);
+        manager.load(pathFxPasos, Music.class);
         manager.load(pathFxAccion, Sound.class);
         manager.finishLoading();    // Carga los recursos
 
         fxPasos = manager.get(pathFxPasos);
-        fxPasos.loop(1,1.5f,0);
+        fxPasos.setLooping(true);
         fxPasos.pause();
         fxAccion = manager.get(pathFxAccion);
 
@@ -119,11 +120,10 @@ public class Personaje extends Objeto {
 
     public void setFxPasos(String nuevoFx) {
         manager.unload(pathFxPasos);
-        manager.load(nuevoFx, Sound.class);
+        manager.load(nuevoFx, Music.class);
         manager.finishLoadingAsset(nuevoFx);
         fxPasos = manager.get(nuevoFx);
-        fxPasos.toString();
-        fxPasos.loop(1,1.5f,0);
+        fxPasos.setLooping(true);
         fxPasos.pause();
 
         pathFxPasos = nuevoFx;
@@ -191,11 +191,11 @@ public class Personaje extends Objeto {
 
     // Sonido al caminar
     public void darPaso() {
-        if (estadoMovimiento == EstadoMovimiento.QUIETO && estadoMovimientoVertical == EstadoMovimientoVertical.QUIETO_Y) {
+        if (estadoMovimiento == EstadoMovimiento.QUIETO && estadoMovimientoVertical == EstadoMovimientoVertical.QUIETO_Y  || estadoMovimiento == EstadoMovimiento.ATACAR) {
             fxPasos.pause();
         } else {
             if (Configuraciones.isFxOn) {
-                fxPasos.resume();
+                fxPasos.play();
             }
         }
     }

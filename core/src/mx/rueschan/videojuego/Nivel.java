@@ -150,8 +150,10 @@ public abstract class Nivel implements Screen{
     protected String pathFxCarta = "Sonidos/levantarPapel.mp3";
     protected Sound fxMartillo;
     protected String pathFxMartillo = "Sonidos/levantarMartillo.mp3";
-    private Sound fxInventario;
-    private String pathFxInventario = "Sonidos/zipper.mp3";
+    private Sound fxInventarioAbrir;
+    private String pathFxInventarioAbrir = "Sonidos/zipperAbrir.mp3";
+    private Sound fxInventarioCerrar;
+    private String pathFxInventarioCerrar = "Sonidos/zipperCerrar.mp3";
 
     @Override
     public void show() {
@@ -209,7 +211,8 @@ public abstract class Nivel implements Screen{
         manager.load(pathFxLlave, Sound.class);
         manager.load(pathFxCarta, Sound.class);
         manager.load(pathFxMartillo, Sound.class);
-        manager.load(pathFxInventario, Sound.class);
+        manager.load(pathFxInventarioAbrir, Sound.class);
+        manager.load(pathFxInventarioCerrar, Sound.class);
 
         manager.finishLoading();    // Carga los recursos
 
@@ -227,7 +230,8 @@ public abstract class Nivel implements Screen{
         fxLlave = manager.get(pathFxLlave);
         fxCarta = manager.get(pathFxCarta);
         fxMartillo = manager.get(pathFxMartillo);
-        fxInventario = manager.get(pathFxInventario);
+        fxInventarioAbrir = manager.get(pathFxInventarioAbrir);
+        fxInventarioCerrar = manager.get(pathFxInventarioCerrar);
 
         
     }
@@ -851,8 +855,8 @@ public abstract class Nivel implements Screen{
         fondoCarta.sprite.setColor(1,1,1,0);
         btnItem.setColor(1,1,1,1);
 //        fondoAccion.sprite.setColor(1,1,1,1);
-
-        fxCarta.play();
+        if (Configuraciones.isFxOn)
+            fxCarta.play();
         txt.cambiarMensaje("");
 
         //Se le resta uno por ser el tamano y no la posición, se le resta otro para no contar con el botón de pausa
@@ -953,7 +957,7 @@ public abstract class Nivel implements Screen{
             escenaHUD.getActors().set(10, btnItem);
             escenaHUD.getActors().get(10).setName("btnItem");
             btnItem.setVisible(true);
-
+            //henric.setEstadoMovimiento(Personaje.EstadoMovimiento.QUIETO);
             btnItem.addListener(new ClickListener(){
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
@@ -964,6 +968,8 @@ public abstract class Nivel implements Screen{
     }
 
     private void ejecutarAccion() {
+        henric.setEstadoMovimiento(Personaje.EstadoMovimiento.QUIETO);
+        Gdx.app.log("ejecutarMovimiento:","wololo");
         if (seleccionado instanceof Arma) {
             Arma arma = (Arma) seleccionado;
             if (arma.getNombre() == "martillo") {
@@ -1273,8 +1279,11 @@ public abstract class Nivel implements Screen{
     }
 
     protected boolean irInventario(boolean enInventario, Stage escenaHUD){
-        if (Configuraciones.isFxOn) {
-            fxInventario.play(1, 1, 0);
+        if (Configuraciones.isFxOn){
+            if (enInventario)
+                fxInventarioCerrar.play();
+            else
+                fxInventarioAbrir.play();
         }
         // Muestra los items
         mostrarInventario(inventario, !enInventario);
