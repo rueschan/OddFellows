@@ -37,7 +37,7 @@ public class Personaje extends Objeto {
     private float timerAnimacion;                           // Tiempo para cambiar frames de la animación
     private TextureRegion[][] texturaPersonaje;
 
-    private EstadoMovimiento estadoMovimiento = EstadoMovimiento.QUIETO;
+    private EstadoMovimiento estadoMovimiento = EstadoMovimiento.QUIETO_X;
     private EstadoMovimientoVertical estadoMovimientoVertical = EstadoMovimientoVertical.QUIETO_Y;
     private boolean veDerecha;
 
@@ -70,7 +70,7 @@ public class Personaje extends Objeto {
         // Inicia el timer que contará tiempo para saber qué frame se dibuja
         timerAnimacion = 0;
         // Crea el sprite con el personaje quieto (idle)
-        sprite = new Sprite(texturaPersonaje[0][0]);    // QUIETO
+        sprite = new Sprite(texturaPersonaje[0][0]);    // QUIETO_X
         sprite.setPosition(x,y);    // Posición inicial
         veDerecha = false; // El sprite esta viendo a la izquierda
 
@@ -111,7 +111,7 @@ public class Personaje extends Objeto {
         // Inicia el timer que contará tiempo para saber qué frame se dibuja
         timerAnimacion = 0;
         // Crea el sprite con el personaje quieto (idle)
-        sprite = new Sprite(texturaPersonaje[0][0]);    // QUIETO
+        sprite = new Sprite(texturaPersonaje[0][0]);    // QUIETO_X
         sprite.setPosition(Pantalla.getInstanciaPantalla().getANCHO()/2,
                 Pantalla.getInstanciaPantalla().getALTO()/2);    // Posición inicial
         veDerecha = false; // El sprite esta viendo a la izquierda
@@ -139,7 +139,7 @@ public class Personaje extends Objeto {
         // Crea el sprite con el personaje quieto (idle)
         float x = sprite.getX();
         float y = sprite.getY();
-        sprite = new Sprite(texturaPersonaje[0][0]);    // QUIETO
+        sprite = new Sprite(texturaPersonaje[0][0]);    // QUIETO_X
         sprite.setPosition(x, y);    // Posición inicial
     }
 
@@ -157,7 +157,7 @@ public class Personaje extends Objeto {
         // Crea el sprite con el personaje quieto (idle)
         float x = sprite.getX();
         float y = sprite.getY();
-        sprite = new Sprite(texturaPersonaje[0][0]);    // QUIETO
+        sprite = new Sprite(texturaPersonaje[0][0]);    // QUIETO_X
         sprite.setPosition(x, y);    // Posición inicial
     }
 
@@ -191,7 +191,8 @@ public class Personaje extends Objeto {
 
     // Sonido al caminar
     public void darPaso() {
-        if (estadoMovimiento == EstadoMovimiento.QUIETO && estadoMovimientoVertical == EstadoMovimientoVertical.QUIETO_Y  || estadoMovimiento == EstadoMovimiento.ATACAR) {
+        if (estadoMovimiento == EstadoMovimiento.QUIETO_X && estadoMovimientoVertical == EstadoMovimientoVertical.QUIETO_Y
+                || estadoMovimiento == EstadoMovimiento.ATACAR) {
             fxPasos.pause();
         } else {
             if (Configuraciones.isFxOn) {
@@ -212,7 +213,7 @@ public class Personaje extends Objeto {
             case ATACAR:
                 enMovimiento = true;
                 break;
-            case QUIETO:
+            case QUIETO_X:
                 sprite.draw(batch); // Dibuja el sprite estático
                 break;
         }
@@ -254,7 +255,7 @@ public class Personaje extends Objeto {
                 darPaso();
                 moverCamara(mapa);
                 break;
-            case QUIETO:
+            case QUIETO_X:
                 darPaso();
                 break;
         }
@@ -272,7 +273,7 @@ public class Personaje extends Objeto {
 
         // Actualiza animación dependiendo de que hace
         if (spriteAnimado.isAnimationFinished(timerAnimacion) && estadoMovimiento == EstadoMovimiento.ATACAR) {
-            estadoMovimiento = EstadoMovimiento.QUIETO;
+            estadoMovimiento = EstadoMovimiento.QUIETO_X;
             spriteAnimado = animacionPrevia;
         }
     }
@@ -323,7 +324,7 @@ public class Personaje extends Objeto {
 
     // Mueve el personaje a la derecha/izquierda, prueba choques con paredes
     private void moverHorizontal(TiledMap mapa) {
-        Pantalla pantalla = Pantalla.getInstanciaPantalla();
+//        Pantalla pantalla = Pantalla.getInstanciaPantalla();
         // Obtiene la primer capa del mapa (en este caso es la única)
         TiledMapTileLayer capa = (TiledMapTileLayer) mapa.getLayers().get("Limites");
         // Ejecutar movimiento horizontal
@@ -333,22 +334,30 @@ public class Personaje extends Objeto {
             // Obtiene el bloque del lado derecho. Asigna null si puede pasar.
             int x = (int) ((sprite.getX() + 96) / 64);   // Convierte coordenadas del mundo en coordenadas del mapa
             int y = (int) ((sprite.getY() + 10) / 64);
-            TiledMapTileLayer.Cell celdaDerecha = capa.getCell(x, y);
+            TiledMapTileLayer.Cell celdaDerechaAbajo = capa.getCell(x, y);
             y = (int) ((sprite.getY() + 86) / 64);
-            TiledMapTileLayer.Cell celdaDerecha2 = capa.getCell(x, y);
-            if (celdaDerecha != null) {
-                Object tipo = (String) celdaDerecha.getTile().getProperties().get("tipo");
+            TiledMapTileLayer.Cell celdaDerechaArriba = capa.getCell(x, y);
+            y = (int) ((sprite.getY() + 48) / 64);
+            TiledMapTileLayer.Cell celdaDerechaCentro = capa.getCell(x, y);
+            if (celdaDerechaAbajo != null) {
+                Object tipo = (String) celdaDerechaAbajo.getTile().getProperties().get("tipo");
                 if (!"obstaculo".equals(tipo)) {
-                    celdaDerecha = null;  // Puede pasar
+                    celdaDerechaAbajo = null;  // Puede pasar
                 }
             }
-            if (celdaDerecha2 != null) {
-                Object tipo = (String) celdaDerecha2.getTile().getProperties().get("tipo");
+            if (celdaDerechaArriba != null) {
+                Object tipo = (String) celdaDerechaArriba.getTile().getProperties().get("tipo");
                 if (!"obstaculo".equals(tipo)) {
-                    celdaDerecha2 = null;  // Puede pasar
+                    celdaDerechaArriba = null;  // Puede pasar
                 }
             }
-            if ( celdaDerecha == null && celdaDerecha2 == null) {
+            if (celdaDerechaCentro != null) {
+                Object tipo = (String) celdaDerechaCentro.getTile().getProperties().get("tipo");
+                if (!"obstaculo".equals(tipo)) {
+                    celdaDerechaCentro = null;  // Puede pasar
+                }
+            }
+            if ( celdaDerechaAbajo == null && celdaDerechaArriba == null && celdaDerechaCentro == null) {
                 // Ejecutar movimiento horizontal
                 nuevaX += velocidadX;
                 // Prueba que no salga del mundo por la derecha
@@ -363,22 +372,30 @@ public class Personaje extends Objeto {
             int xIzq = (int) ((sprite.getX()) / 64);
             int y = (int) ((sprite.getY() + 10) / 64);
             // Obtiene el bloque del lado izquierdo. Asigna null si puede pasar.
-            TiledMapTileLayer.Cell celdaIzquierda = capa.getCell(xIzq, y);
+            TiledMapTileLayer.Cell celdaIzquierdaAbajo = capa.getCell(xIzq, y);
             y = (int) ((sprite.getY() + 86) / 64);
-            TiledMapTileLayer.Cell celdaIzquierda2 = capa.getCell(xIzq, y);
-            if (celdaIzquierda != null) {
-                Object tipo = (String) celdaIzquierda.getTile().getProperties().get("tipo");
+            TiledMapTileLayer.Cell celdaIzquierdaArriba = capa.getCell(xIzq, y);
+            y = (int) ((sprite.getY() + 48) / 64);
+            TiledMapTileLayer.Cell celdaIzquierdaCentro = capa.getCell(xIzq, y);
+            if (celdaIzquierdaAbajo != null) {
+                Object tipo = (String) celdaIzquierdaAbajo.getTile().getProperties().get("tipo");
                 if (!"obstaculo".equals(tipo)) {
-                    celdaIzquierda = null;  // Puede pasar
+                    celdaIzquierdaAbajo = null;  // Puede pasar
                 }
             }
-            if (celdaIzquierda2 != null) {
-                Object tipo = (String) celdaIzquierda2.getTile().getProperties().get("tipo");
+            if (celdaIzquierdaArriba != null) {
+                Object tipo = (String) celdaIzquierdaArriba.getTile().getProperties().get("tipo");
                 if (!"obstaculo".equals(tipo)) {
-                    celdaIzquierda2 = null;  // Puede pasar
+                    celdaIzquierdaArriba = null;  // Puede pasar
                 }
             }
-            if ( celdaIzquierda == null && celdaIzquierda2 == null) {
+            if (celdaIzquierdaCentro != null) {
+                Object tipo = (String) celdaIzquierdaCentro.getTile().getProperties().get("tipo");
+                if (!"obstaculo".equals(tipo)) {
+                    celdaIzquierdaCentro = null;  // Puede pasar
+                }
+            }
+            if ( celdaIzquierdaAbajo == null && celdaIzquierdaArriba == null && celdaIzquierdaCentro == null) {
                 // Prueba que no salga del mundo por la izquierda
                 nuevaX += velocidadX;
                 if (nuevaX >= 0) {
@@ -391,7 +408,7 @@ public class Personaje extends Objeto {
 
     // Mueve el personaje a la derecha/izquierda, prueba choques con paredes
     private void moverVertical(TiledMap mapa) {
-        Pantalla pantalla = Pantalla.getInstanciaPantalla();
+//        Pantalla pantalla = Pantalla.getInstanciaPantalla();
         // Obtiene la primer capa del mapa (en este caso es la única)
         TiledMapTileLayer capa = (TiledMapTileLayer) mapa.getLayers().get("Limites");
         // Ejecutar movimiento horizontal
@@ -401,22 +418,30 @@ public class Personaje extends Objeto {
             // Obtiene el bloque de arriba. Asigna null si puede pasar.
             int x = (int) ((sprite.getX() + 10) / 64);   // Convierte coordenadas del mundo en coordenadas del mapa
             int y = (int) ((sprite.getY() + 96) / 64);
-            TiledMapTileLayer.Cell celdaArriba = capa.getCell(x, y);
+            TiledMapTileLayer.Cell celdaArribaIzq = capa.getCell(x, y);
             x = (int) ((sprite.getX() + 86) / 64);
-            TiledMapTileLayer.Cell celdaArriba2 = capa.getCell(x, y);
-            if (celdaArriba != null) {
-                Object tipo = (String) celdaArriba.getTile().getProperties().get("tipo");
+            TiledMapTileLayer.Cell celdaArribaDer = capa.getCell(x, y);
+            x = (int) ((sprite.getX() + 48) / 64);
+            TiledMapTileLayer.Cell celdaArribaCentro = capa.getCell(x, y);
+            if (celdaArribaIzq != null) {
+                Object tipo = (String) celdaArribaIzq.getTile().getProperties().get("tipo");
                 if (!"obstaculo".equals(tipo)) {
-                    celdaArriba = null;  // Puede pasar
+                    celdaArribaIzq = null;  // Puede pasar
                 }
             }
-            if (celdaArriba2 != null) {
-                Object tipo = (String) celdaArriba2.getTile().getProperties().get("tipo");
+            if (celdaArribaDer != null) {
+                Object tipo = (String) celdaArribaDer.getTile().getProperties().get("tipo");
                 if (!"obstaculo".equals(tipo)) {
-                    celdaArriba2 = null;  // Puede pasar
+                    celdaArribaDer = null;  // Puede pasar
                 }
             }
-            if ( celdaArriba == null && celdaArriba2 == null) {
+            if (celdaArribaCentro != null) {
+                Object tipo = (String) celdaArribaCentro.getTile().getProperties().get("tipo");
+                if (!"obstaculo".equals(tipo)) {
+                    celdaArribaCentro = null;  // Puede pasar
+                }
+            }
+            if ( celdaArribaIzq == null && celdaArribaDer == null && celdaArribaCentro == null) {
                 // Ejecutar movimiento horizontal
                 nuevaY += velocidadY;
                 // Prueba que no salga del mundo por la arriba
@@ -431,22 +456,30 @@ public class Personaje extends Objeto {
             int x = (int) ((sprite.getX() + 10) / 64);
             int yAbajo = (int) (sprite.getY() / 64);
             // Obtiene el bloque del lado izquierdo. Asigna null si puede pasar.
-            TiledMapTileLayer.Cell celdaAbajo = capa.getCell(x, yAbajo);
+            TiledMapTileLayer.Cell celdaAbajoIzq = capa.getCell(x, yAbajo);
             x = (int) ((sprite.getX() +86) / 64);
-            TiledMapTileLayer.Cell celdaAbajo2 = capa.getCell(x, yAbajo);
-            if (celdaAbajo != null) {
-                Object tipo = (String) celdaAbajo.getTile().getProperties().get("tipo");
+            TiledMapTileLayer.Cell celdaAbajoDer = capa.getCell(x, yAbajo);
+            x = (int) ((sprite.getX() + 48) / 64);
+            TiledMapTileLayer.Cell celdaAbajoCentro = capa.getCell(x, yAbajo);
+            if (celdaAbajoIzq != null) {
+                Object tipo = (String) celdaAbajoIzq.getTile().getProperties().get("tipo");
                 if (!"obstaculo".equals(tipo)) {
-                    celdaAbajo = null;  // Puede pasar
+                    celdaAbajoIzq = null;  // Puede pasar
                 }
             }
-            if (celdaAbajo2 != null) {
-                Object tipo = (String) celdaAbajo2.getTile().getProperties().get("tipo");
+            if (celdaAbajoDer != null) {
+                Object tipo = (String) celdaAbajoDer.getTile().getProperties().get("tipo");
                 if (!"obstaculo".equals(tipo)) {
-                    celdaAbajo2 = null;  // Puede pasar
+                    celdaAbajoDer = null;  // Puede pasar
                 }
             }
-            if ( celdaAbajo == null && celdaAbajo2 == null) {
+            if (celdaAbajoCentro != null) {
+                Object tipo = (String) celdaAbajoCentro.getTile().getProperties().get("tipo");
+                if (!"obstaculo".equals(tipo)) {
+                    celdaAbajoCentro = null;  // Puede pasar
+                }
+            }
+            if ( celdaAbajoIzq == null && celdaAbajoDer == null && celdaAbajoCentro == null) {
                 // Prueba que no salga del mundo por la izquierda
                 nuevaY += velocidadY;
                 if (nuevaY >= 0) {
@@ -562,7 +595,7 @@ public class Personaje extends Objeto {
     }
 
     public enum EstadoMovimiento {
-        QUIETO,
+        QUIETO_X,
         MOV_IZQUIERDA,
         MOV_DERECHA,
         ATACAR

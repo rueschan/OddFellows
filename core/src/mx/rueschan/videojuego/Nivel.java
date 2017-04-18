@@ -301,7 +301,7 @@ public abstract class Nivel implements Screen{
                 henric.setVelocidadY(pad.getKnobPercentY() * 5);
 
                 if (pad.getKnobPercentY() == 0 && pad.getKnobPercentX() == 0) {
-                    henric.setEstadoMovimiento(Personaje.EstadoMovimiento.QUIETO);
+                    henric.setEstadoMovimiento(Personaje.EstadoMovimiento.QUIETO_X);
                     henric.setEstadoMovimientoVertical(Personaje.EstadoMovimientoVertical.QUIETO_Y);
                 }
             }
@@ -555,7 +555,7 @@ public abstract class Nivel implements Screen{
                     pad.setSize(200, 200);
                     pad.setPosition(x - pad.getWidth() / 2, y - pad.getHeight() / 2);
                     pad.setColor(1, 1, 1, 0.4f);
-                    henric.setEstadoMovimiento(Personaje.EstadoMovimiento.QUIETO);
+                    henric.setEstadoMovimiento(Personaje.EstadoMovimiento.QUIETO_X);
                     henric.setEstadoMovimientoVertical(Personaje.EstadoMovimientoVertical.QUIETO_Y);
                 }
                 return true;
@@ -567,7 +567,7 @@ public abstract class Nivel implements Screen{
                 pad.setSize(pantalla.getANCHO()*2,pantalla.getALTO()*2);
                 pad.setPosition(pantalla.getANCHO()/2 - pad.getWidth()/2,
                         pantalla.getALTO()/2 - pad.getHeight()/2);
-                henric.setEstadoMovimiento(Personaje.EstadoMovimiento.QUIETO);
+                henric.setEstadoMovimiento(Personaje.EstadoMovimiento.QUIETO_X);
                 henric.setEstadoMovimientoVertical(Personaje.EstadoMovimientoVertical.QUIETO_Y);
             }
         });
@@ -760,7 +760,7 @@ public abstract class Nivel implements Screen{
 //                    pad.setSize(200, 200);
 //                    pad.setPosition(x - pad.getWidth() / 2, y - pad.getHeight() / 2);
 //                    pad.setColor(1, 1, 1, 0.4f);
-//                    henric.setEstadoMovimiento(Personaje.EstadoMovimiento.QUIETO);
+//                    henric.setEstadoMovimiento(Personaje.EstadoMovimiento.QUIETO_X);
 //                    henric.setEstadoMovimientoVertical(Personaje.EstadoMovimientoVertical.QUIETO_Y);
 //                }
 //                return true;
@@ -772,7 +772,7 @@ public abstract class Nivel implements Screen{
 //                pad.setSize(pantalla.getANCHO()*2,pantalla.getALTO()*2);
 //                pad.setPosition(pantalla.getANCHO()/2 - pad.getWidth()/2,
 //                        pantalla.getALTO()/2 - pad.getHeight()/2);
-//                henric.setEstadoMovimiento(Personaje.EstadoMovimiento.QUIETO);
+//                henric.setEstadoMovimiento(Personaje.EstadoMovimiento.QUIETO_X);
 //                henric.setEstadoMovimientoVertical(Personaje.EstadoMovimientoVertical.QUIETO_Y);
 //            }
 //        });
@@ -968,7 +968,7 @@ public abstract class Nivel implements Screen{
     }
 
     private void ejecutarAccion() {
-        henric.setEstadoMovimiento(Personaje.EstadoMovimiento.QUIETO);
+        henric.setEstadoMovimiento(Personaje.EstadoMovimiento.QUIETO_X);
         Gdx.app.log("ejecutarMovimiento:","wololo");
         if (seleccionado instanceof Arma) {
             Arma arma = (Arma) seleccionado;
