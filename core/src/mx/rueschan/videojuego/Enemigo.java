@@ -1,11 +1,13 @@
 package mx.rueschan.videojuego;
 
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.MathUtils;
-
-import java.awt.geom.Point2D;
-import java.util.Random;
 
 /**
  * Created by OddFellows on 04/04/2017.
@@ -16,9 +18,70 @@ public class Enemigo extends Objeto {
     private float poderAtaque = 50;
     private float velocidadX = 0;
     private float velocidadY = 0;
+
+    private Animation<TextureRegion> spriteAnimado;         // Animación caminando
+    private Animation<TextureRegion> animacionPrevia;       // Animación previa
+    private float timerAnimacion;                           // Tiempo para cambiar frames de la animación
+    private TextureRegion[][] texturaEnemigo;
+
     private EstadoEnemigo estadoEnemigo = EstadoEnemigo.VAGANDO;
     private EstadoMovimiento estadoMovimiento = EstadoMovimiento.QUIETO_X;
     private EstadoMovimientoVertical estadoMovimientoVertical = EstadoMovimientoVertical.QUIETO_Y;
+
+    public Enemigo(Texture textura, float x, float y) {
+        // Lee la textura como región
+        TextureRegion texturaCompleta = new TextureRegion(textura);
+        // La divide en 4 frames de 32x64 (ver marioSprite.png)
+        texturaEnemigo = texturaCompleta.split(96,96);
+        // Crea la animación con tiempo de 0.15 segundos entre frames.
+
+        spriteAnimado = new Animation(0.15f, texturaEnemigo[0][2], texturaEnemigo[0][1] );
+        animacionPrevia = new Animation(0.15f, texturaEnemigo[0][2], texturaEnemigo[0][1] );
+        // Animación infinita
+        spriteAnimado.setPlayMode(Animation.PlayMode.LOOP);
+        // Inicia el timer que contará tiempo para saber qué frame se dibuja
+        timerAnimacion = 0;
+        // Crea el sprite con el personaje quieto (idle)
+        sprite = new Sprite(texturaEnemigo[0][0]);    // QUIETO_X
+        sprite.setPosition(x,y);    // Posición inicial
+    }
+
+    // Dibuja el personaje
+    public void dibujar(SpriteBatch batch) {
+
+        sprite.draw(batch); // Dibuja el sprite estático
+
+//        boolean enMovimiento = false;
+
+//        // Dibuja el personaje dependiendo del estadoMovimiento
+//        switch (estadoMovimiento) {
+//            case MOV_DERECHA:
+//            case MOV_IZQUIERDA:
+//            case ATACAR:
+//                enMovimiento = true;
+//                break;
+//            case QUIETO_X:
+//                sprite.draw(batch); // Dibuja el sprite estático
+//                break;
+//        }
+//
+//        switch (estadoMovimientoVertical) {
+//            case MOV_ABAJO:
+//            case MOV_ARRIBA:
+//                enMovimiento = true;
+//        }
+//
+//        if (!enMovimiento) {
+//            if (veDerecha && !sprite.isFlipX()) {
+//                sprite.flip(true, false);
+//            } else if(!veDerecha && sprite.isFlipX()) {
+//                sprite.flip(true, false);
+//            }
+//            sprite.draw(batch); // Dibuja el sprite estático
+//        } else {
+//            animar(batch);
+//        }
+    }
 
     //Actualiza las acciones del enemigo
     public void actualizar(TiledMap mapa) {

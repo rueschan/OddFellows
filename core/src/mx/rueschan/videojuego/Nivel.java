@@ -48,6 +48,11 @@ public abstract class Nivel implements Screen{
     protected Objeto seleccionado;
     protected boolean isArmado = false;
 
+    // Enemigo
+    protected Enemigo enemigo;
+    protected String pathTexturaJabali = "Enemigo/Jabali.png";
+    protected Texture texturaJabali;
+
     // Mapa
     protected OrthogonalTiledMapRenderer renderer; // Dibuja el mapa
     protected TiledMap mapa;
@@ -1016,6 +1021,7 @@ public abstract class Nivel implements Screen{
 //        fondoAccion.dibujar(batch);
         txt.escribir(batch, fondoCarta.sprite.getX() + 80,
                 pantalla.getCamaraY() + fondoCarta.sprite.getHeight() - 60);
+
     }
 
     @Override

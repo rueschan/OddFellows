@@ -3,6 +3,7 @@ package mx.rueschan.videojuego;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
@@ -44,6 +45,16 @@ public class NivelBosque extends Nivel {
         Gdx.input.setCatchBackKey(true);
     }
 
+    private void crearRecursosUnicos() {
+        // TEST ENEMIGO
+        texturaJabali = new Texture(pathTexturaJabali);
+        enemigo = new Enemigo(texturaJabali, 600, 1200);
+    }
+
+    private void dibujarRecursosUnicos(SpriteBatch batch) {
+        enemigo.dibujar(batch);
+    }
+
     @Override
     public void show() {
         cargarTexturas();
@@ -52,6 +63,7 @@ public class NivelBosque extends Nivel {
         super.crearRecursos(pantalla, pathMapa, pathMusica);
         henric.reset();
         henric.setFxPasos(pathFxPasos);
+        crearRecursosUnicos();
 
 //        //Jugar con el color de Henric
 //        henric.sprite.setColor(.5f,.5f,.5f,1);
@@ -82,6 +94,7 @@ public class NivelBosque extends Nivel {
         super.pantalla.escena.draw();
         pantalla.batch.begin();
         super.dibujar(pantalla.batch);
+        dibujarRecursosUnicos(pantalla.batch);
 //        super.henric.dibujar(pantalla.batch);
 //        hp.dibujar(pantalla.batch);
 //        barraHP.dibujar(pantalla.batch);
