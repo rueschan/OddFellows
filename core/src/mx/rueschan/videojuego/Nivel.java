@@ -50,8 +50,6 @@ public abstract class Nivel implements Screen{
 
     // Enemigo
     protected Enemigo enemigo;
-    protected String pathTexturaJabali = "Enemigo/Jabali.png";
-    protected Texture texturaJabali;
 
     // Mapa
     protected OrthogonalTiledMapRenderer renderer; // Dibuja el mapa
@@ -346,9 +344,9 @@ public abstract class Nivel implements Screen{
             public void clicked(InputEvent event, float x, float y) {
                 if (!btnItem.isDisabled()) {
                     ejecutarAccion();
-                    Gdx.app.log("btnItem","");
+//                    Gdx.app.log("btnItem","");
                 }
-                Gdx.app.log("btnItem","fuera");
+//                Gdx.app.log("btnItem","fuera");
             }
         });
 
@@ -974,7 +972,7 @@ public abstract class Nivel implements Screen{
 
     private void ejecutarAccion() {
         henric.setEstadoMovimiento(Personaje.EstadoMovimiento.QUIETO_X);
-        Gdx.app.log("ejecutarMovimiento:","wololo");
+//        Gdx.app.log("ejecutarMovimiento:","wololo");
         if (seleccionado instanceof Arma) {
             Arma arma = (Arma) seleccionado;
             if (arma.getNombre() == "martillo") {

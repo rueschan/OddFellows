@@ -47,8 +47,7 @@ public class NivelBosque extends Nivel {
 
     private void crearRecursosUnicos() {
         // TEST ENEMIGO
-        texturaJabali = new Texture(pathTexturaJabali);
-        enemigo = new Enemigo(texturaJabali, 600, 1200);
+        enemigo = new Enemigo(600, 400, Enemigo.Tipo.JABALI);
     }
 
     private void dibujarRecursosUnicos(SpriteBatch batch) {
@@ -109,7 +108,8 @@ public class NivelBosque extends Nivel {
         henric.actualizar(mapa);
         henric.interactuar(this);
 
-
+        // Enemigos
+        enemigo.actualizar(mapa);
 
         // Detectar botón físico "return", solo se activa cuando
         //&& !enInventario

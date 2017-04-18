@@ -174,13 +174,13 @@ public class Personaje extends Objeto {
         timerAnimacion += Gdx.graphics.getDeltaTime();
         // Frame que se dibujará
         TextureRegion region = spriteAnimado.getKeyFrame(timerAnimacion);
-        if (estadoMovimiento==EstadoMovimiento.MOV_DERECHA) {
+        if (estadoMovimiento == EstadoMovimiento.MOV_DERECHA) {
             veDerecha = true;
             if (!region.isFlipX()) {
                 region.flip(true,false);
             }
         }
-        else {
+        else if (estadoMovimiento == EstadoMovimiento.MOV_IZQUIERDA) {
             veDerecha = false;
             if (region.isFlipX()) {
                 region.flip(true,false);
