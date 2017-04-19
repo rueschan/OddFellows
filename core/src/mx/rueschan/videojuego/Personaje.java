@@ -115,7 +115,10 @@ public class Personaje extends Objeto {
         sprite.setPosition(Pantalla.getInstanciaPantalla().getANCHO()/2,
                 Pantalla.getInstanciaPantalla().getALTO()/2);    // Posición inicial
         veDerecha = false; // El sprite esta viendo a la izquierda
+    }
 
+    public void vaciarInventario() {
+        inventario.clear();
     }
 
     public void setFxPasos(String nuevoFx) {

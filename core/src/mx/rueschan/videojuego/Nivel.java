@@ -384,6 +384,7 @@ public abstract class Nivel implements Screen{
                 juego.actual = null;
                 henric.pararSonido();
                 henric.reset();
+                henric.vaciarInventario();
                 pantalla.resetCamara();
                 oddFellows.setScreen(new MenuPrincipal(oddFellows));
             }
