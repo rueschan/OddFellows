@@ -21,10 +21,14 @@ public class Enemigo extends Objeto {
     private float poderAtaque = 50;
     private float VELOCIDAD;
 
+    // Personaje
+    private Personaje henric;
+
     private Texture textura;
     private Animation<TextureRegion> spriteAnimado;         // Animación caminando
     private Animation<TextureRegion> animacionPrevia;       // Animación previa
     private float timerAnimacion;                           // Tiempo para cambiar frames de la animación
+    private float timerMovimiento;                          // Tiempo para decidir un nuevo movimiento
     private TextureRegion[][] texturaEnemigo;
     private boolean veDerecha;
 
@@ -34,6 +38,9 @@ public class Enemigo extends Objeto {
     private EstadoMovimientoVertical estadoMovimientoVertical = EstadoMovimientoVertical.QUIETO_Y;
 
     public Enemigo(float x, float y, Tipo tipo) {
+
+        // Encuentra la instancia de henric
+        henric = Personaje.getInstanciaPersonaje();
 
         // Le asigna una clase al enemigo creado
         tipoEnemigo = tipo;
@@ -51,6 +58,7 @@ public class Enemigo extends Objeto {
         spriteAnimado.setPlayMode(Animation.PlayMode.LOOP);
         // Inicia el timer que contará tiempo para saber qué frame se dibuja
         timerAnimacion = 0;
+        timerMovimiento = 0;
         // Crea el sprite con el personaje quieto (idle)
         sprite = new Sprite(texturaEnemigo[0][0]);    // QUIETO_X
         sprite.setPosition(x,y);    // Posición inicial
@@ -61,7 +69,7 @@ public class Enemigo extends Objeto {
     private void crearTipo() {
         switch (tipoEnemigo) {
             case JABALI:
-                VELOCIDAD = 8;
+                VELOCIDAD = 3;
                 textura = new Texture("Enemigo/Jabali.png");
 
                 // Lee la textura como región
@@ -70,8 +78,9 @@ public class Enemigo extends Objeto {
                 texturaEnemigo = texturaCompleta.split(96,96);
                 // Crea la animación con tiempo de 0.15 segundos entre frames.
 
-                spriteAnimado = new Animation(0.15f, texturaEnemigo[0][2], texturaEnemigo[0][3] );
+                spriteAnimado = new Animation(0.8f / VELOCIDAD, texturaEnemigo[0][2], texturaEnemigo[0][3] );
                 animacionPrevia = spriteAnimado;
+                break;
         }
     }
 
@@ -89,9 +98,9 @@ public class Enemigo extends Objeto {
 //            case ATACAR:
                 enMovimiento = true;
                 break;
-            case QUIETO_X:
-                sprite.draw(batch); // Dibuja el sprite estático
-                break;
+//            case QUIETO_X:
+//                sprite.draw(batch); // Dibuja el sprite estático
+//                break;
         }
 
         switch (estadoMovimientoVertical) {
@@ -142,33 +151,41 @@ public class Enemigo extends Objeto {
 
     //Movimiento del enemigo
     private void moverAletorio(TiledMap mapa) {
+        timerMovimiento += Gdx.graphics.getDeltaTime();
 
-        int randomMovimientoX = new Random().nextInt(3); // Random de 0 a 2 (antes de 3)
-        int randomMovimientoY = new Random().nextInt(3); // Random de 0 a 2 (antes de 3)
+        int randomMovimientoX = new Random().nextInt(5); // Random de 0 a 4 (antes de 5)
+        int randomMovimientoY = new Random().nextInt(5); // Random de 0 a 4 (antes de 5)
 
+        Gdx.app.log("Tiempo", String.valueOf(timerMovimiento));
+        if (timerMovimiento > 1) {
+            switch (randomMovimientoX) {
+                case 0:
+                    estadoMovimiento = EstadoMovimiento.MOV_IZQUIERDA;
+                    break;
+                case 1:
+                case 2:
+                case 3:
+                    estadoMovimiento = EstadoMovimiento.QUIETO_X;
+                    break;
+                case 4:
+                    estadoMovimiento = EstadoMovimiento.MOV_DERECHA;
+                    break;
+            }
 
-        switch (randomMovimientoX) {
-            case 0:
-                estadoMovimiento = EstadoMovimiento.MOV_IZQUIERDA;
-                break;
-            case 1:
-                estadoMovimiento = EstadoMovimiento.QUIETO_X;
-                break;
-            case 2:
-                estadoMovimiento = EstadoMovimiento.MOV_DERECHA;
-                break;
-        }
-
-        switch (randomMovimientoY) {
-            case 0:
-                estadoMovimientoVertical = EstadoMovimientoVertical.MOV_ABAJO;
-                break;
-            case 1:
-                estadoMovimientoVertical = EstadoMovimientoVertical.QUIETO_Y;
-                break;
-            case 2:
-                estadoMovimientoVertical = EstadoMovimientoVertical.MOV_ARRIBA;
-                break;
+            switch (randomMovimientoY) {
+                case 0:
+                    estadoMovimientoVertical = EstadoMovimientoVertical.MOV_ABAJO;
+                    break;
+                case 1:
+                case 2:
+                case 3:
+                    estadoMovimientoVertical = EstadoMovimientoVertical.QUIETO_Y;
+                    break;
+                case 4:
+                    estadoMovimientoVertical = EstadoMovimientoVertical.MOV_ARRIBA;
+                    break;
+            }
+            timerMovimiento = 0;
         }
 
         moverHorizontal(mapa);
@@ -250,7 +267,7 @@ public class Enemigo extends Objeto {
             }
             if ( celdaIzquierdaAbajo == null && celdaIzquierdaArriba == null && celdaIzquierdaCentro == null) {
                 // Prueba que no salga del mundo por la izquierda
-                nuevaX += VELOCIDAD;
+                nuevaX -= VELOCIDAD;
                 if (nuevaX >= 0) {
                     sprite.setX(nuevaX);
 //                    camaraX += velocidadX;
@@ -334,7 +351,7 @@ public class Enemigo extends Objeto {
             }
             if ( celdaAbajoIzq == null && celdaAbajoDer == null && celdaAbajoCentro == null) {
                 // Prueba que no salga del mundo por la izquierda
-                nuevaY += VELOCIDAD;
+                nuevaY -= VELOCIDAD;
                 if (nuevaY >= 0) {
                     sprite.setY(nuevaY);
 //                    camaraY += velocidadY;
@@ -344,7 +361,7 @@ public class Enemigo extends Objeto {
     }
 
     //Método que se acercará al personaje más no indicará como atacar
-    private void Perseguir(Personaje jugador) {
+    private void perseguir(Personaje jugador) {
 
         //Posiciones del enemigo antes de hacer el movimiento
         float enemigoPosicionX = this.sprite.getX();
