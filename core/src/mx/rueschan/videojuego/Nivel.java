@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMap;
@@ -70,6 +71,7 @@ public abstract class Nivel implements Screen{
 //    protected Objeto barraHP;
     protected Image hpAct;
     protected Image barraHPAct;
+    private float anchoBarraHP;
 
     // Actores HUD
     public Image oscuroPausa;
@@ -198,10 +200,13 @@ public abstract class Nivel implements Screen{
 
         //AQUI LE TOY MOVIENDO
         hpAct = new Image(texturaHP);
-        hpAct.setPosition(10, pantalla.getALTO() - 10 - texturaHP.getHeight());
+        hpAct.setPosition(10, pantalla.getALTO() - 10 - texturaHP.getHeight()); // LE CAMBIE PORQUE CUANDO SE REDUCE LA VIDA EL
 
         barraHPAct = new Image(texturaBarraHP);
-        barraHPAct.setPosition(10, pantalla.getALTO() - 10 - texturaHP.getHeight());
+        // 110 px porque son los 10 por default más 10 por cada cuadro del circulo que dice HP (320 px de la imagen / 32 cuadros)
+        barraHPAct.setPosition(110, pantalla.getALTO() - 10 - texturaHP.getHeight());
+        anchoBarraHP = barraHPAct.getWidth();
+        barraHPAct.setWidth(anchoBarraHP * (henric.getVida() / 100));
 
 
 

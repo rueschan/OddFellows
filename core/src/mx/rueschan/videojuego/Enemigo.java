@@ -29,6 +29,7 @@ public class Enemigo extends Objeto {
     private Animation<TextureRegion> animacionPrevia;       // Animación previa
     private float timerAnimacion;                           // Tiempo para cambiar frames de la animación
     private float timerMovimiento;                          // Tiempo para decidir un nuevo movimiento
+    private float randomTiempoMovimiento;                       // Tiempo limite cambiar estado de movimiento
     private TextureRegion[][] texturaEnemigo;
     private boolean veDerecha;
 
@@ -59,6 +60,7 @@ public class Enemigo extends Objeto {
         // Inicia el timer que contará tiempo para saber qué frame se dibuja
         timerAnimacion = 0;
         timerMovimiento = 0;
+        randomTiempoMovimiento = new Random().nextFloat() * 3; // Random de 0.0 a 1.0 multiplicado por 3
         // Crea el sprite con el personaje quieto (idle)
         sprite = new Sprite(texturaEnemigo[0][0]);    // QUIETO_X
         sprite.setPosition(x,y);    // Posición inicial
@@ -157,7 +159,7 @@ public class Enemigo extends Objeto {
         int randomMovimientoY = new Random().nextInt(5); // Random de 0 a 4 (antes de 5)
 
         Gdx.app.log("Tiempo", String.valueOf(timerMovimiento));
-        if (timerMovimiento > 1) {
+        if (timerMovimiento > randomTiempoMovimiento) {
             switch (randomMovimientoX) {
                 case 0:
                     estadoMovimiento = EstadoMovimiento.MOV_IZQUIERDA;
@@ -186,7 +188,13 @@ public class Enemigo extends Objeto {
                     break;
             }
             timerMovimiento = 0;
+            randomTiempoMovimiento = new Random().nextFloat() * 3; // Crea un nuevo valor para poner limite de tiempo de decision
         }
+
+        // vvv DESCOMENTAR PARA PRUEBAS DE MOVIMIENTO
+//        estadoMovimiento = EstadoMovimiento.MOV_DERECHA;
+//        estadoMovimientoVertical = EstadoMovimientoVertical.QUIETO_Y;
+        // ^^^ DESCOMENTAR PARA PRUEBAS DE MOVIMIENTO
 
         moverHorizontal(mapa);
         moverVertical(mapa);
@@ -235,6 +243,8 @@ public class Enemigo extends Objeto {
                     sprite.setX(nuevaX);
 //                    camaraX += velocidadX;
                 }
+            } else {
+                estadoMovimiento = EstadoMovimiento.QUIETO_X;
             }
         }
         // ¿Quiere ir a la izquierda?
@@ -272,6 +282,8 @@ public class Enemigo extends Objeto {
                     sprite.setX(nuevaX);
 //                    camaraX += velocidadX;
                 }
+            } else {
+                estadoMovimiento = EstadoMovimiento.QUIETO_X;
             }
         }
     }
@@ -319,6 +331,8 @@ public class Enemigo extends Objeto {
                     sprite.setY(nuevaY);
 //                    camaraY += velocidadY;
                 }
+            } else {
+                estadoMovimientoVertical = EstadoMovimientoVertical.QUIETO_Y;
             }
         }
         // ¿Quiere ir a la izquierda?
@@ -356,6 +370,8 @@ public class Enemigo extends Objeto {
                     sprite.setY(nuevaY);
 //                    camaraY += velocidadY;
                 }
+            } else {
+                estadoMovimientoVertical = EstadoMovimientoVertical.QUIETO_Y;
             }
         }
     }
@@ -436,7 +452,7 @@ public class Enemigo extends Objeto {
 
 
     //Método que determinará si se hará un ataque al personaje y realizará el daño correspondiente
-    private void Atacar(Personaje jugador, float multiplicadorDano){
+    private void atacar(Personaje jugador, float multiplicadorDano){
         //Vida del jugador
         float vidaJugador = jugador.getVida();
         //El daño que causará será el daño fijo que hará cada enemigo por un multiplicador dado por el nivel
