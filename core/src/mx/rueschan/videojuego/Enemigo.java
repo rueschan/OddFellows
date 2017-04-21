@@ -18,7 +18,9 @@ import java.util.Random;
 
 public class Enemigo extends Objeto {
 
-    private float poderAtaque = 50;
+    private float vida;
+    private float poderAtaque;
+    private float multiplicadorDano;
     private float VELOCIDAD;
 
     // Personaje
@@ -71,7 +73,10 @@ public class Enemigo extends Objeto {
     private void crearTipo() {
         switch (tipoEnemigo) {
             case JABALI:
+                vida = 45;
                 VELOCIDAD = 3;
+                poderAtaque = 5;
+                multiplicadorDano = new Random(1).nextInt(3);
                 textura = new Texture("Enemigo/Jabali.png");
 
                 // Lee la textura como región
@@ -85,6 +90,7 @@ public class Enemigo extends Objeto {
                 break;
         }
     }
+
 
     // Dibuja el personaje
     public void dibujar(SpriteBatch batch) {
@@ -145,9 +151,17 @@ public class Enemigo extends Objeto {
 
     //Actualiza las acciones del enemigo
     public void actualizar(TiledMap mapa) {
+
+        // Revisa contacto con el jugador
+//        if (tocaJugador()) {
+//            henric.her
+//        }
+
         switch (estadoEnemigo) {
             case VAGANDO:
                 moverAletorio(mapa);
+                break;
+            case ATACANDO:
         }
     }
 
@@ -452,14 +466,10 @@ public class Enemigo extends Objeto {
 
 
     //Método que determinará si se hará un ataque al personaje y realizará el daño correspondiente
-    private void atacar(Personaje jugador, float multiplicadorDano){
-        //Vida del jugador
-        float vidaJugador = jugador.getVida();
+    private void atacar(){
+
         //El daño que causará será el daño fijo que hará cada enemigo por un multiplicador dado por el nivel
         float danoAJugador = poderAtaque*multiplicadorDano;
-
-        //Disminuir la vida del jugador por la cantidad de daño que puede generar el enemigo
-        jugador.setVida(vidaJugador - danoAJugador);
 
         //En caso de que la vida llegue a ser cero o menor a cero
 

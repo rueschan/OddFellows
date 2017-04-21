@@ -7,9 +7,11 @@ import com.badlogic.gdx.graphics.Texture;
  */
 
 public class Arma extends Objeto {
+
     private float dano;
     private String nombre;
     private String special; // HABILIDAD ESPECIAL DEL ARMA (ROMPER, CORTAR, ETC)
+    private Tipo tipo;
 
     public Arma(Texture textura, float x, float y, float dano, String nombre, String special) {
         super(textura, x, y);
@@ -31,5 +33,9 @@ public class Arma extends Objeto {
         return special;
     }
 
+    public enum Tipo {
+        MARTILLO,
+        HACHA
+    }
 
 }
