@@ -2,6 +2,7 @@ package mx.rueschan.videojuego;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
@@ -20,6 +21,7 @@ public class MenuPrincipal implements Screen {
 
     private final OddFellows oddFellows;
     private final Pantalla pantalla;
+    private final AssetManager manager;
 
     // Texturas del menú
     private Texture texturaFondo;
@@ -30,8 +32,12 @@ public class MenuPrincipal implements Screen {
 
     public MenuPrincipal(OddFellows oddFellows) {
         this.oddFellows = oddFellows;
+        manager = this.oddFellows.getAssetManager();
         // Obtener pantalla
         pantalla = Pantalla.getInstanciaPantalla();
+
+        Music musicaMenus = manager.get("Musica/chopinNocturne.mp3");
+        this.oddFellows.crearMusica(musicaMenus);
     }
 
     @Override
@@ -44,11 +50,16 @@ public class MenuPrincipal implements Screen {
 
     // Metodo para iniciar texturas de pantalla
     private void cargarTexturas() {
-        texturaFondo = new Texture("Pantalla/Fondo/fondoMenu.png");
+        /*texturaFondo = new Texture("Pantalla/Fondo/fondoMenu.png");
         texturaBotonJugar = new Texture("Pantalla/Letrero.png");
         texturaBotonExtras = new Texture("Pantalla/LibroCreditos.png");
         texturaBotonOpciones = new Texture("Pantalla/BotonOpcionesHerramientas.png");
-        texturaBotonCreditos = new Texture("Pantalla/HojaCreditos.png");
+        texturaBotonCreditos = new Texture("Pantalla/HojaCreditos.png");*/
+        texturaFondo = manager.get("Pantalla/Fondo/fondoMenu.png");
+        texturaBotonJugar = manager.get("Pantalla/Letrero.png");
+        texturaBotonExtras = manager.get("Pantalla/LibroCreditos.png");
+        texturaBotonOpciones = manager.get("Pantalla/BotonOpcionesHerramientas.png");
+        texturaBotonCreditos = manager.get("Pantalla/HojaCreditos.png");
     }
 
     // Metodo para crear objetos en pantalla
@@ -124,12 +135,41 @@ public class MenuPrincipal implements Screen {
                 Gdx.app.log("clicked", "***Cambio a juego***");
                 oddFellows.pararMusica();
                 oddFellows.eliminarMusica();
+                descargarManager();
                 Juego juego = Juego.getJuego(oddFellows);
                 juego.iniciarJuego();
             }
         });
 
         Gdx.input.setCatchBackKey(false);
+        //Asignar procesador de entrada al menú
+        Gdx.input.setInputProcessor(pantalla.escena);
+    }
+
+    private void descargarManager() {
+        Gdx.app.log("descargarManager Menu","descargando");
+        manager.unload("Musica/chopinNocturne.mp3");
+
+        //MENU PRINCIPAL
+        manager.unload("Pantalla/Fondo/fondoMenu.png");
+        manager.unload("Pantalla/Letrero.png");
+        manager.unload("Pantalla/LibroCreditos.png");
+        manager.unload("Pantalla/BotonOpcionesHerramientas.png");
+        manager.unload("Pantalla/HojaCreditos.png");
+
+        //MENU OPCIONES
+        manager.unload("Pantalla/Fondo/FondoOpciones.jpg");
+        manager.unload("Pantalla/Audio.png");
+        manager.unload("Pantalla/ecualizador.png");
+
+        //MENU EXTRAS
+        manager.unload("Pantalla/Fondo/fondoExtras.png");
+
+        //MENU CREDITOS
+        manager.unload("Pantalla/Fondo/fondoCreditos.png");
+
+        //TEXTURA BOTON EXIT
+        manager.unload("Pantalla/btnExit.png");
     }
 
     @Override
@@ -152,8 +192,6 @@ public class MenuPrincipal implements Screen {
     @Override
     public void resize(int width, int height) {
         pantalla.resize(width,height);
-
-
     }
 
     @Override
@@ -166,6 +204,7 @@ public class MenuPrincipal implements Screen {
         cargarTexturas();
         crearObjetos();
         oddFellows.tocarMusica();
+
     }
 
     @Override
@@ -174,10 +213,13 @@ public class MenuPrincipal implements Screen {
     }
     @Override
     public void dispose() {
+        Gdx.app.log("dispose MenuPrincipal","disposeando");
         texturaFondo.dispose();
         texturaBotonJugar.dispose();
         texturaBotonCreditos.dispose();
         texturaBotonExtras.dispose();
         texturaBotonOpciones.dispose();
+        descargarManager();
     }
+
 }

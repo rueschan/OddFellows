@@ -389,7 +389,7 @@ public abstract class Nivel implements Screen{
                 henric.reset();
                 henric.vaciarInventario();
                 pantalla.resetCamara();
-                oddFellows.setScreen(new MenuPrincipal(oddFellows));
+                oddFellows.setScreen(new PantallaCargando(oddFellows,Niveles.MENU_PRINCIPAL));
             }
         });
 
@@ -976,7 +976,6 @@ public abstract class Nivel implements Screen{
 
     private void ejecutarAccion() {
         henric.setEstadoMovimiento(Personaje.EstadoMovimiento.QUIETO_X);
-//        Gdx.app.log("ejecutarMovimiento:","wololo");
         if (seleccionado instanceof Arma) {
             Arma arma = (Arma) seleccionado;
             if (arma.getNombre() == "martillo") {

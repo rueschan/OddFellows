@@ -3,6 +3,7 @@ package mx.rueschan.videojuego;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
@@ -14,13 +15,14 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
 /**
- * Created by Rubén Escalante on 09/02/2017.
+ * Created by Odd Fellows on 09/02/2017.
  */
 
 public class MenuOpciones implements Screen{
 
     private final OddFellows oddFellows;
     private final Pantalla pantalla;
+    private final AssetManager manager;
     private MenuPausa menuPausa = null;
 
     // Texturas de opciones
@@ -35,6 +37,7 @@ public class MenuOpciones implements Screen{
 
     public MenuOpciones(OddFellows oddFellows, boolean partidaEnCurso) {
         this.oddFellows = oddFellows;
+        manager = this.oddFellows.getAssetManager();
         // Obtener pantalla
         pantalla = Pantalla.getInstanciaPantalla();
         this.partidaEnCurso = partidaEnCurso;
@@ -42,6 +45,7 @@ public class MenuOpciones implements Screen{
 
     public MenuOpciones(OddFellows oddFellows, boolean partidaEnCurso, MenuPausa pausa) {
         this.oddFellows = oddFellows;
+        manager = this.oddFellows.getAssetManager();
         // Obtener pantalla
         pantalla = Pantalla.getInstanciaPantalla();
         this.partidaEnCurso = partidaEnCurso;
@@ -57,10 +61,14 @@ public class MenuOpciones implements Screen{
     }
 
     private void cargarTexturas() {
-        texturaFondo = new Texture("Pantalla/Fondo/FondoOpciones.jpg");
+        /*texturaFondo = new Texture("Pantalla/Fondo/FondoOpciones.jpg");
         texturaExit = new Texture("Pantalla/btnExit.png");
         texturaSonido = new Texture("Pantalla/Audio.png");
-        texturaFX = new Texture("Pantalla/ecualizador.png");
+        texturaFX = new Texture("Pantalla/ecualizador.png");*/
+        texturaFondo = manager.get("Pantalla/Fondo/FondoOpciones.jpg");
+        texturaExit = manager.get("Pantalla/btnExit.png");
+        texturaSonido = manager.get("Pantalla/Audio.png");
+        texturaFX = manager.get("Pantalla/ecualizador.png");
     }
 
     private void crearObjetos() {

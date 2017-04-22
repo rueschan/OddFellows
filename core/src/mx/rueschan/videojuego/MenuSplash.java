@@ -50,7 +50,7 @@ public class MenuSplash extends Pantalla {
         // Actualizar para cambiar pantalla
         tiempoVisible -= delta;
         if (tiempoVisible<=0) {
-            oddFellows.setScreen(new MenuPrincipal(oddFellows));
+            oddFellows.setScreen(new PantallaCargando(oddFellows,Niveles.MENU_PRINCIPAL));
         }
     }
 

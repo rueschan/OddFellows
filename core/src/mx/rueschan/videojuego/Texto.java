@@ -28,6 +28,7 @@ public class Texto {
         anchoTexto = glyph.width;
         altoTexto = glyph.height;
         font.draw(batch, glyph, x-anchoTexto/2, y);
+
     }
 
     public void hacerMensajes(Color color, String mensaje) {
@@ -37,6 +38,8 @@ public class Texto {
         anchoTexto = glyph.width;
         altoTexto = glyph.height;
     }
+
+
 
     public void cambiarMensaje(String mensaje) {
         glyph.reset();
@@ -55,5 +58,10 @@ public class Texto {
 
     public float getAltoTexto() {
         return altoTexto;
+    }
+
+    public void cambiarTamano(float scale) {
+        font.getData().setScale(scale);
+
     }
 }

@@ -3,6 +3,7 @@ package mx.rueschan.videojuego;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -19,6 +20,7 @@ public class MenuExtras implements Screen {
 
     private OddFellows oddFellows;
     private Pantalla pantalla;
+    private final AssetManager manager;
 
     private Texture texturaFondo;
     private Texture texturaExit;
@@ -26,6 +28,7 @@ public class MenuExtras implements Screen {
 
     public MenuExtras(OddFellows oddFellows) {
         this.oddFellows = oddFellows;
+        manager = this.oddFellows.getAssetManager();
         pantalla = Pantalla.getInstanciaPantalla();
     }
 
@@ -38,8 +41,10 @@ public class MenuExtras implements Screen {
     }
 
     private void cargarTexturas() {
-        texturaFondo = new Texture("Pantalla/Fondo/fondoExtras.png");
-        texturaExit = new Texture("Pantalla/btnExit.png");
+        /*texturaFondo = new Texture("Pantalla/Fondo/fondoExtras.png");
+        texturaExit = new Texture("Pantalla/btnExit.png");*/
+        texturaFondo = manager.get("Pantalla/Fondo/fondoExtras.png");
+        texturaExit = manager.get("Pantalla/btnExit.png");
     }
 
     private void crearObjetos() {
