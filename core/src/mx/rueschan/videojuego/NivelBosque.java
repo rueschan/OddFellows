@@ -47,7 +47,7 @@ public class NivelBosque extends Nivel {
 
     private void crearRecursosUnicos() {
         // TEST ENEMIGO
-        enemigo = new Enemigo(600, 400, Enemigo.Tipo.JABALI);
+        enemigo = new Enemigo(800, 400, Enemigo.Tipo.JABALI);
     }
 
     private void dibujarRecursosUnicos(SpriteBatch batch) {
@@ -82,7 +82,8 @@ public class NivelBosque extends Nivel {
     @Override
     public void render(float delta) {
 
-        super.pantalla.borrarPantalla();
+//        super.pantalla.borrarPantalla();
+        super.render(delta);
 
         // Mapa
         pantalla.batch.setProjectionMatrix(pantalla.camara.combined);;
@@ -90,7 +91,7 @@ public class NivelBosque extends Nivel {
         super.renderer.render();
 
         // Elementos juego
-        super.pantalla.escena.draw();
+//        super.pantalla.escena.draw();
         pantalla.batch.begin();
         super.dibujar(pantalla.batch);
         dibujarRecursosUnicos(pantalla.batch);

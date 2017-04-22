@@ -208,8 +208,6 @@ public abstract class Nivel implements Screen{
         anchoBarraHP = barraHPAct.getWidth();
         barraHPAct.setWidth(anchoBarraHP * (henric.getVida() / 100));
 
-
-
         manager = new AssetManager();
         manager.setLoader(TiledMap.class,
                 new TmxMapLoader(new InternalFileHandleResolver()));
@@ -1032,6 +1030,9 @@ public abstract class Nivel implements Screen{
     public void render(float delta) {
         pantalla.borrarPantalla();
         pantalla.escena.draw();
+
+        // Actualiza la vida
+        actualizarVida();
     }
 
     protected void crearPausa(final Stage escenaHUD){
@@ -1401,5 +1402,8 @@ public abstract class Nivel implements Screen{
             musicaPausa.pause();
     }
 
+    public void actualizarVida() {
+        barraHPAct.setWidth(anchoBarraHP * (henric.getVida() / 100));
+    }
 
 }

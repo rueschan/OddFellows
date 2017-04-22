@@ -20,7 +20,7 @@ public class Enemigo extends Objeto {
 
     private float vida;
     private float poderAtaque;
-    private float multiplicadorDano;
+    private int limiteMultiplicadorDano;
     private float VELOCIDAD;
 
     // Personaje
@@ -76,7 +76,7 @@ public class Enemigo extends Objeto {
                 vida = 45;
                 VELOCIDAD = 3;
                 poderAtaque = 5;
-                multiplicadorDano = new Random(1).nextInt(3);
+                limiteMultiplicadorDano = 3;
                 textura = new Texture("Enemigo/Jabali.png");
 
                 // Lee la textura como región
@@ -153,16 +153,37 @@ public class Enemigo extends Objeto {
     public void actualizar(TiledMap mapa) {
 
         // Revisa contacto con el jugador
-//        if (tocaJugador()) {
-//            henric.her
-//        }
-
-        switch (estadoEnemigo) {
-            case VAGANDO:
-                moverAletorio(mapa);
-                break;
-            case ATACANDO:
+        if (tocaJugador()) {
+            atacar();
+        } else {
+            switch (estadoEnemigo) {
+                case VAGANDO:
+                    moverAletorio(mapa);
+                    break;
+                case ATACANDO:
+            }
         }
+    }
+
+    private boolean tocaJugador() {
+        float izq = this.sprite.getX();
+        float der = izq + this.sprite.getWidth();
+        float henricIzq = henric.sprite.getX();
+        float henricDer = henricIzq + henric.sprite.getWidth();
+
+        // Revisa si el enemigo esta dentro de jugador
+        if ((henricIzq <= izq && izq <= henricDer)||(henricIzq <= der && der <= henricDer)) {
+            float abajo = this.sprite.getY();
+            float arriba = abajo + this.sprite.getHeight();
+            float henricAbajo = henric.sprite.getY();
+            float henricArriba = henricAbajo + henric.sprite.getHeight();
+
+            if ((henricAbajo <= abajo && abajo <= henricArriba)||(henricAbajo <= arriba && arriba <= henricArriba)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     //Movimiento del enemigo
@@ -172,7 +193,7 @@ public class Enemigo extends Objeto {
         int randomMovimientoX = new Random().nextInt(5); // Random de 0 a 4 (antes de 5)
         int randomMovimientoY = new Random().nextInt(5); // Random de 0 a 4 (antes de 5)
 
-        Gdx.app.log("Tiempo", String.valueOf(timerMovimiento));
+//        Gdx.app.log("Tiempo", String.valueOf(timerMovimiento));
         if (timerMovimiento > randomTiempoMovimiento) {
             switch (randomMovimientoX) {
                 case 0:
@@ -465,14 +486,17 @@ public class Enemigo extends Objeto {
     }
 
 
-    //Método que determinará si se hará un ataque al personaje y realizará el daño correspondiente
+    //Método que ataqua al personaje y realizará el daño correspondiente
     private void atacar(){
-
         //El daño que causará será el daño fijo que hará cada enemigo por un multiplicador dado por el nivel
+        int multiplicadorDano = new Random().nextInt(limiteMultiplicadorDano) + 1;
         float danoAJugador = poderAtaque*multiplicadorDano;
+        //Obtiene la vida del personaje
+        float vidaPersonaje = henric.getVida();
 
-        //En caso de que la vida llegue a ser cero o menor a cero
-
+        // Cambia la vida del personaje
+        henric.setVida(vidaPersonaje - danoAJugador);
+        Gdx.app.log("En enemigo", String.valueOf(multiplicadorDano));
     }
 
     private enum EstadoEnemigo {
