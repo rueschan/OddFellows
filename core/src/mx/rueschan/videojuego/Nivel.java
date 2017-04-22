@@ -10,7 +10,6 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMap;
@@ -797,7 +796,7 @@ public abstract class Nivel implements Screen{
                     fxLlave.play();
                 Llave llave;
                 return llave = new Llave(0, 0, (int) (Math.random()*10) + 1); // Valores del 1 al 10
-            case 2:
+            case 2:     //CARTA
                 if (Configuraciones.isFxOn)
                     fxCarta.play();
                 Carta carta;
@@ -808,11 +807,12 @@ public abstract class Nivel implements Screen{
                 }
                 mostrarCarta(carta);
                 return carta;
-            case 10:
+            case 10:    //MARTILLO
                 Texture texturaMartillo = new Texture("Items/martillo.png");
                 Arma martillo;
-                if (Configuraciones.isFxOn)
+                if (Configuraciones.isFxOn){
                     fxMartillo.play();
+                }
 
                 return martillo = new Arma(texturaMartillo, 0, 0, 30, "martillo", "romper");
         }
@@ -964,7 +964,6 @@ public abstract class Nivel implements Screen{
             escenaHUD.getActors().set(10, btnItem);
             escenaHUD.getActors().get(10).setName("btnItem");
             btnItem.setVisible(true);
-            //henric.setEstadoMovimiento(Personaje.EstadoMovimiento.QUIETO);
             btnItem.addListener(new ClickListener(){
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
@@ -1113,9 +1112,6 @@ public abstract class Nivel implements Screen{
         btnMusica = new ImageButton(trdBtnMusica);
         btnMusica.setPosition(2*pantalla.getANCHO()/5 - btnMusica.getWidth()/2,pantalla.getALTO()/2
                 - btnMusica.getHeight()/2);
-
-
-
 
 //        //Botón pausa en actor posicion 6
 //        escenaHUD.addActor(btnPausa);
