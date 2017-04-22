@@ -8,7 +8,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
-import com.badlogic.gdx.math.MathUtils;
 
 import java.util.Random;
 
@@ -106,7 +105,7 @@ public class Enemigo extends Objeto {
 //            case ATACAR:
                 enMovimiento = true;
                 break;
-//            case QUIETO_X:
+//            case QUIETO_X:x
 //                sprite.draw(batch); // Dibuja el sprite estático
 //                break;
         }

@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMap;
@@ -207,6 +208,8 @@ public abstract class Nivel implements Screen{
         anchoBarraHP = barraHPAct.getWidth();
         barraHPAct.setWidth(anchoBarraHP * (henric.getVida() / 100));
 
+
+
         manager = new AssetManager();
         manager.setLoader(TiledMap.class,
                 new TmxMapLoader(new InternalFileHandleResolver()));
@@ -388,7 +391,7 @@ public abstract class Nivel implements Screen{
                 henric.reset();
                 henric.vaciarInventario();
                 pantalla.resetCamara();
-                oddFellows.setScreen(new PantallaCargando(oddFellows,Niveles.MENU_PRINCIPAL));
+                oddFellows.setScreen(new MenuPrincipal(oddFellows));
             }
         });
 
@@ -597,7 +600,7 @@ public abstract class Nivel implements Screen{
     private void crearAlerta(){
         //// Asignar textura a sprite de acción
         texturaAccion = new Texture("Pantalla/Accion.png");
-        alertaAccion = new Objeto(texturaAccion, 0, 0);
+        alertaAccion = new Objeto(0, 0, texturaAccion);
         alertaAccion.sprite.setColor(1, 1, 1, 0);
     }
 
@@ -683,7 +686,7 @@ public abstract class Nivel implements Screen{
     private void crearCartas(){
         // Cartas
         Texture pathFondoCarta = new Texture("Pantalla/fondoCarta.png");
-        fondoCarta = new Objeto(pathFondoCarta, pantalla.getANCHO()/2 - pathFondoCarta.getWidth()/2, 0);
+        fondoCarta = new Objeto(pantalla.getANCHO()/2 - pathFondoCarta.getWidth()/2, 0, pathFondoCarta);
         fondoCarta.sprite.setColor(1,1,1,0);
 
         //Crear ligero cambio oscuro a la pantalla
@@ -796,7 +799,7 @@ public abstract class Nivel implements Screen{
                     fxLlave.play();
                 Llave llave;
                 return llave = new Llave(0, 0, (int) (Math.random()*10) + 1); // Valores del 1 al 10
-            case 2:     //CARTA
+            case 2:
                 if (Configuraciones.isFxOn)
                     fxCarta.play();
                 Carta carta;
@@ -807,14 +810,11 @@ public abstract class Nivel implements Screen{
                 }
                 mostrarCarta(carta);
                 return carta;
-            case 10:    //MARTILLO
-                Texture texturaMartillo = new Texture("Items/martillo.png");
+            case 10:
                 Arma martillo;
-                if (Configuraciones.isFxOn){
+                if (Configuraciones.isFxOn)
                     fxMartillo.play();
-                }
-
-                return martillo = new Arma(texturaMartillo, 0, 0, 30, "martillo", "romper");
+                return martillo = new Arma(0, 0, Arma.Tipo.MARTILLO);
         }
         return null;
     }
@@ -955,7 +955,7 @@ public abstract class Nivel implements Screen{
         if (seleccionado instanceof Arma && !isArmado) {
             isArmado = true;
             Arma arma = (Arma) seleccionado;
-            if (arma.getNombre() == "martillo") {
+            if (arma.getTipo() == Arma.Tipo.MARTILLO) {
                 Texture textura = new Texture("Personaje/HendricMartilloCorriendo.png");
                 henric.setSprite(new TextureRegion(textura).split(96, 96));
             }
@@ -964,6 +964,7 @@ public abstract class Nivel implements Screen{
             escenaHUD.getActors().set(10, btnItem);
             escenaHUD.getActors().get(10).setName("btnItem");
             btnItem.setVisible(true);
+            //henric.setEstadoMovimiento(Personaje.EstadoMovimiento.QUIETO);
             btnItem.addListener(new ClickListener(){
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
@@ -975,9 +976,10 @@ public abstract class Nivel implements Screen{
 
     private void ejecutarAccion() {
         henric.setEstadoMovimiento(Personaje.EstadoMovimiento.QUIETO_X);
+//        Gdx.app.log("ejecutarMovimiento:","wololo");
         if (seleccionado instanceof Arma) {
             Arma arma = (Arma) seleccionado;
-            if (arma.getNombre() == "martillo") {
+            if (arma.getTipo() == Arma.Tipo.MARTILLO) {
                 romper();
             }
         } else if (seleccionado instanceof Carta) {
@@ -1028,9 +1030,6 @@ public abstract class Nivel implements Screen{
     public void render(float delta) {
         pantalla.borrarPantalla();
         pantalla.escena.draw();
-
-        // Actualiza la vida
-        actualizarVida();
     }
 
     protected void crearPausa(final Stage escenaHUD){
@@ -1112,38 +1111,6 @@ public abstract class Nivel implements Screen{
         btnMusica = new ImageButton(trdBtnMusica);
         btnMusica.setPosition(2*pantalla.getANCHO()/5 - btnMusica.getWidth()/2,pantalla.getALTO()/2
                 - btnMusica.getHeight()/2);
-
-//        //Botón pausa en actor posicion 6
-//        escenaHUD.addActor(btnPausa);
-//        escenaHUD.getActors().get(5).setName("Pausa");
-//        indiceActoresAntesPausa++;
-//        indiceActoresPausa+=indiceActoresAntesPausa;
-//
-//        //Cuadro de pausa actor posicion 6
-//        escenaHUD.addActor(fondoMenuImagen);
-//        fondoMenuImagen.setVisible(false);
-//        indiceActoresPausa++;
-//
-//        //Cuadro de pausa actor posicion 7
-//        escenaHUD.addActor(cuadroPausa);
-//        cuadroPausa.setVisible(false);
-//        indiceActoresPausa++;
-//        //Cuadro de reanudar actor posicion 8
-//        escenaHUD.addActor(btnReanudar);
-//        btnReanudar.setVisible(false);
-//        indiceActoresPausa++;
-//        //Cuadro de salir actor posicion 9
-//        escenaHUD.addActor(btnSalir);
-//        btnSalir.setVisible(false);
-//        indiceActoresPausa++;
-//        //Cuadro de salir actor posicion 10
-//        escenaHUD.addActor(btnFX);
-//        btnFX.setVisible(false);
-//        indiceActoresPausa++;
-//        //Cuadro de salir actor posicion 11
-//        escenaHUD.addActor(btnMusica);
-//        btnMusica.setVisible(false);
-//        indiceActoresPausa++;
     }
 
 
@@ -1397,8 +1364,5 @@ public abstract class Nivel implements Screen{
             musicaPausa.pause();
     }
 
-    public void actualizarVida() {
-        barraHPAct.setWidth(anchoBarraHP * (henric.getVida() / 100));
-    }
 
 }

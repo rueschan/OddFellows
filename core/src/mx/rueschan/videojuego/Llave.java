@@ -12,7 +12,6 @@ public class Llave extends Objeto {
     int idPuerta;
 
     public Llave(float x, float y, int idPuerta) {
-        super();
         texturaLlave = new Texture("Items/llave.png");
         sprite = new Sprite(texturaLlave);
         sprite.setPosition(x, y);

@@ -1,6 +1,11 @@
 package mx.rueschan.videojuego;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+
+import java.util.Random;
 
 /**
  * Created by OddFellows on 17/02/2017.
@@ -9,20 +14,14 @@ import com.badlogic.gdx.graphics.Texture;
 public class Arma extends Objeto {
 
     private float dano;
-    private String nombre;
     private String special; // HABILIDAD ESPECIAL DEL ARMA (ROMPER, CORTAR, ETC)
-    private Tipo tipo;
+    private Tipo tipoArma;
+    private Texture textura;
 
-    public Arma(Texture textura, float x, float y, float dano, String nombre, String special) {
-        super(textura, x, y);
-        this.dano = dano;
-        this.nombre = nombre;
-        this.special = special;
+    public Arma( float x, float y, Tipo tipo) {
+        setTipoArma(tipo);
+        crearTipo();
         sprite.setColor(1,1,1,0);
-    }
-
-    public String getNombre() {
-        return nombre;
     }
 
     public float getDano() {
@@ -33,9 +32,31 @@ public class Arma extends Objeto {
         return special;
     }
 
-    public enum Tipo {
-        MARTILLO,
-        HACHA
+    public void setTipoArma(Tipo tipoArma) {
+        this.tipoArma = tipoArma;
     }
 
+    public Tipo getTipo(){
+        return tipoArma;
+    }
+
+    public enum Tipo {
+        MARTILLO,
+        HACHA,
+        MACHETE,
+        ANTORCHA,
+        LACOSADELOSPICOS,
+        BAT
+    }
+
+    private void crearTipo() {
+        switch (tipoArma) {
+            case MARTILLO:
+                dano = 15;
+                special = "romper";
+                textura = new Texture("Items/martillo.png");
+                sprite = new Sprite(textura);
+                break;
+        }
+    }
 }
