@@ -390,8 +390,9 @@ public abstract class Nivel implements Screen{
                 henric.pararSonido();
                 henric.reset();
                 henric.vaciarInventario();
+                henric.setVida(100);
                 pantalla.resetCamara();
-                oddFellows.setScreen(new MenuPrincipal(oddFellows));
+                oddFellows.setScreen(new PantallaCargando(oddFellows, Niveles.MENU_PRINCIPAL));
             }
         });
 
@@ -1030,6 +1031,8 @@ public abstract class Nivel implements Screen{
     public void render(float delta) {
         pantalla.borrarPantalla();
         pantalla.escena.draw();
+
+        actualizarVida();
     }
 
     protected void crearPausa(final Stage escenaHUD){
@@ -1364,5 +1367,8 @@ public abstract class Nivel implements Screen{
             musicaPausa.pause();
     }
 
+    public void actualizarVida() {
+        barraHPAct.setWidth(anchoBarraHP * (henric.getVida() / 100));
+    }
 
 }

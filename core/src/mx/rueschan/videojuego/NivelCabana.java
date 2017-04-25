@@ -79,7 +79,9 @@ public class NivelCabana extends Nivel {
     @Override
     public void render(float delta) {
 
-        super.pantalla.borrarPantalla();
+        long inicio = System.nanoTime();
+//        super.pantalla.borrarPantalla();
+        super.render(delta);
 
         // Mapa
         pantalla.batch.setProjectionMatrix(pantalla.camara.combined);
@@ -87,13 +89,15 @@ public class NivelCabana extends Nivel {
         super.renderer.render();
 
         // Elementos juego
-        super.pantalla.escena.draw();
+//        super.pantalla.escena.draw();
         pantalla.batch.begin();
         super.dibujar(pantalla.batch);
 //        super.henric.dibujar(pantalla.batch);
 //        hp.dibujar(pantalla.batch);
 //        barraHP.dibujar(pantalla.batch);
         pantalla.batch.end();
+        long fin = System.nanoTime();
+        System.out.println((fin - inicio) / 1000);  // SE CAMBIARON DOS LLAMADAS A LA CLASE "NIVEL" POR SOLO UNA. SE REDUCE EL TIEMPO DE 400 ns aprox A 300 ns aprox
 
         // HUD
         pantalla.batch.setProjectionMatrix(camaraHUD.combined);

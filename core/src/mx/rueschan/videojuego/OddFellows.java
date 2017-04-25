@@ -30,6 +30,9 @@ public class OddFellows extends Game {
     }
     public void crearMusica() {
         musicaFondo = Gdx.audio.newMusic(Gdx.files.internal("Musica/chopinNocturne.mp3"));
+        // Carga música en Asset Manager
+//        assetManager.load(pathMusicaFondo, Music.class);
+//        musicaFondo = assetManager.get(pathMusicaFondo); // AGREGADO
         musicaFondo.setLooping(true);
     }
     public void crearMusica(Music musicaFondo) {
