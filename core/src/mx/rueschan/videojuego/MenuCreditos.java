@@ -5,6 +5,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -12,6 +13,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+
+import java.util.ArrayList;
 
 /**
  * Created by Odd Fellows on 14/02/2017.
@@ -26,13 +29,18 @@ public class MenuCreditos implements Screen {
     private Texture texturaFondo;
     private Texture texturaExit;
 
+    private TextureRegionDrawable trdOscura;
+    private ImageButton imgbtnChan;
+    private ImageButton imgbtnJona;
+    private ImageButton imgbtnCamara;
+    private ImageButton imgbtnAngel;
+
 
     public MenuCreditos(OddFellows oddFellows) {
         this.oddFellows = oddFellows;
         manager = this.oddFellows.getAssetManager();
         // Obtener pantalla
         pantalla = Pantalla.getInstanciaPantalla();
-
     }
 
     @Override
@@ -40,12 +48,11 @@ public class MenuCreditos implements Screen {
         // Cuando cargan la pantalla
         cargarTexturas();
         crearObjetos();
+        crearRegionEaster();
         oddFellows.tocarMusica();
     }
 
     private void cargarTexturas() {
-        /*texturaFondo = new Texture("Pantalla/Fondo/fondoCreditos.png");
-        texturaExit = new Texture("Pantalla/btnExit.png");*/
         texturaFondo = manager.get("Pantalla/Fondo/fondoCreditos.png");
         texturaExit = manager.get("Pantalla/btnExit.png");
     }
@@ -60,6 +67,7 @@ public class MenuCreditos implements Screen {
         // Botón de Exit
         TextureRegionDrawable trdExit = new
                 TextureRegionDrawable(new TextureRegion(texturaExit));
+
         // Colocar boton de Exit
         ImageButton btnExit = new ImageButton(trdExit);
         btnExit.setPosition(10,10);
@@ -74,7 +82,6 @@ public class MenuCreditos implements Screen {
                 oddFellows.setScreen(new MenuPrincipal(oddFellows));
             }
         });
-
         Gdx.input.setCatchBackKey(true);
     }
 
@@ -88,6 +95,70 @@ public class MenuCreditos implements Screen {
             //Regresar al MenuPrincipal
             oddFellows.setScreen(new MenuPrincipal(oddFellows));
         }
+    }
+
+    public void crearRegionEaster(){
+        Configuraciones.restaurarEasterCreditos();
+        int pantAlto = (int)(pantalla.getALTO());
+        int pantAncho = (int)(pantalla.getANCHO());
+        Pixmap pixmapVerde = new Pixmap(pantAncho/8, pantAlto/5, Pixmap.Format.RGBA8888);
+        pixmapVerde.setColor( 0f, 0f, 0f, 0f );
+        pixmapVerde.fillRectangle(0,0,pantAncho,pantAlto);
+        trdOscura = new TextureRegionDrawable(new TextureRegion(new Texture(pixmapVerde)));
+        pixmapVerde.dispose();
+        //Chan
+        imgbtnChan = new ImageButton(trdOscura);
+        imgbtnChan.setPosition(180,500);
+
+        //Jona
+        imgbtnJona = new ImageButton(trdOscura);
+        imgbtnJona.setPosition(980,270);
+
+        //Camara
+        imgbtnCamara = new ImageButton(trdOscura);
+        imgbtnCamara.setPosition(pantAncho/2-180,pantAlto/2-100);
+
+        //Angel
+        imgbtnAngel = new ImageButton(trdOscura);
+        imgbtnAngel.setPosition(740,515);
+
+        imgbtnChan.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                Gdx.app.log("clicked", "***CHAN***");
+                Configuraciones.agregarEasterCreditos("M");
+                Gdx.app.log("Sumado", "***Palabra Secreta ahora:"+Configuraciones.obtenerEasterCreditos()+"***");
+            }
+        });
+        imgbtnJona.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                Gdx.app.log("clicked", "***JONA***");
+                Configuraciones.agregarEasterCreditos("Z");
+                Gdx.app.log("Sumado", "***Palabra Secreta ahora:"+Configuraciones.obtenerEasterCreditos()+"***");
+            }
+        });
+        imgbtnCamara.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                Gdx.app.log("clicked", "***CAMARA***");
+                Configuraciones.agregarEasterCreditos("O");
+                Gdx.app.log("Sumado", "***Palabra Secreta ahora:"+Configuraciones.obtenerEasterCreditos()+"***");
+            }
+        });
+        imgbtnAngel.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                Gdx.app.log("clicked", "***ANGEL***");
+                Configuraciones.agregarEasterCreditos("A");
+                Gdx.app.log("Sumado", "***Palabra Secreta ahora:"+Configuraciones.obtenerEasterCreditos()+"***");
+            }
+        });
+
+        pantalla.escena.addActor(imgbtnChan);
+        pantalla.escena.addActor(imgbtnJona);
+        pantalla.escena.addActor(imgbtnCamara);
+        pantalla.escena.addActor(imgbtnAngel);
     }
 
     @Override
@@ -104,6 +175,7 @@ public class MenuCreditos implements Screen {
     public void resume() {
         cargarTexturas();
         crearObjetos();
+        crearRegionEaster();
         oddFellows.tocarMusica();
     }
 

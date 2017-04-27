@@ -252,11 +252,13 @@ public abstract class Nivel implements Screen{
         crearBtnAccion();
         crearBtnInventario();
         crearCartas();
+        checarEaster();
         crearPausa(escenaHUD);
         crearInventario(escenaHUD);
         addActoresHUD();
         crearAccionesBotones();
         mostrarHUDInicial();
+        //wololo
 //        agregarActoresInicialesHUD();
     }
 
@@ -714,81 +716,13 @@ public abstract class Nivel implements Screen{
         btnCerrar.setVisible(false);
     }
 
-//    private void agregarActoresInicialesHUD(){
-//        escenaHUD = new Stage(vistaHUD);
-//        escenaHUD.addActor(pad);//Actor en posicion 0
-//        escenaHUD.getActors().get(0).setName("Pad");
-//        indiceActoresAntesPausa = 0;
-//        escenaHUD.addActor(btnInteraccion);//Actor en posicion 1
-//        escenaHUD.getActors().get(1).setName("Interaccion");
-//        indiceActoresAntesPausa++;
-////        escenaHUD.addActor(btnAccion);//Actor en posicion 2
-////        escenaHUD.getActors().get(2).setName("Accion");
-////        indiceActoresAntesPausa++;
-//        escenaHUD.addActor(btnInventario);//Actor en posicion 2
-//        escenaHUD.getActors().get(2).setName("Inventario");
-//        indiceActoresAntesPausa++;
-//        escenaHUD.addActor(btnCerrar);//Actor en posicion 3
-//        escenaHUD.getActors().get(3).setName("Cerrar");
-//        indiceActoresAntesPausa++;
-//        escenaHUD.addActor(btnItem);//Actor en posicion 4
-//        escenaHUD.getActors().get(4).setName("Item");
-//        indiceActoresAntesPausa++;
-//        //Anadir en lista de casos aparte
-//        actoresAparte.add(3);
-//
-//        //Boton Salir
-//        texturaEntrar = new Texture("Pantalla/entrar.png");
-//        TextureRegionDrawable trdBtnentrar = new
-//                TextureRegionDrawable(new TextureRegion(texturaEntrar));
-//        btnEntrar = new ImageButton(trdBtnentrar);
-//
-//        escenaHUD.addActor(btnEntrar);//posicion 5
-//        actoresAparte.add(5);
-//        btnEntrar.setVisible(false);
-//        btnEntrar.setPosition(pantalla.getANCHO()-btnEntrar.getWidth()-pantalla.getANCHO()*.02f,
-//                pantalla.getALTO()*.02f);
-//
-//        // Interaccion boton entrar ( CAMBIAR NIVEL )
-//        btnEntrar.addListener(new ClickListener(){
-//            @Override
-//            public void clicked(InputEvent event, float x, float y) {
-//                //Para quitar la pausa
-//                oddFellows.setScreen(new NivelBosque(oddFellows));
-//                musicaFondo.stop();
-//                //henric.pararSonido();
-//            }
-//        });
-//        //Aumentar indice por btn entrar
-//        indiceActoresAntesPausa++;
-//
-//        escenaHUD.addListener(new ClickListener() {
-//
-//            @Override
-//            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-//                if (y < pantalla.getALTO()/6 && x > pantalla.getANCHO()* 6.5/10) {
-//
-//                } else {
-//                    pad.setSize(200, 200);
-//                    pad.setPosition(x - pad.getWidth() / 2, y - pad.getHeight() / 2);
-//                    pad.setColor(1, 1, 1, 0.4f);
-//                    henric.setEstadoMovimiento(Personaje.EstadoMovimiento.QUIETO_X);
-//                    henric.setEstadoMovimientoVertical(Personaje.EstadoMovimientoVertical.QUIETO_Y);
-//                }
-//                return true;
-//            }
-//
-//            @Override
-//            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-//                pad.setColor(1,1,1,0);
-//                pad.setSize(pantalla.getANCHO()*2,pantalla.getALTO()*2);
-//                pad.setPosition(pantalla.getANCHO()/2 - pad.getWidth()/2,
-//                        pantalla.getALTO()/2 - pad.getHeight()/2);
-//                henric.setEstadoMovimiento(Personaje.EstadoMovimiento.QUIETO_X);
-//                henric.setEstadoMovimientoVertical(Personaje.EstadoMovimientoVertical.QUIETO_Y);
-//            }
-//        });
-//    }
+    //EASTER
+    private void checarEaster(){
+        if (Configuraciones.obtenerEasterCreditos().contains("MOMAZO")) {
+            Arma armaEaster = new Arma(0, 0, Arma.Tipo.MARTILLO);
+            henric.addInventario(armaEaster);
+        }
+    }
 
     private Objeto identificarItem(TiledMapTileLayer.Cell celda) {
         // ID:

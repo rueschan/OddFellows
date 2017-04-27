@@ -18,6 +18,7 @@ public class MenuSplash extends Pantalla {
     public MenuSplash(OddFellows oddFellows) {
         super();
         this.oddFellows = oddFellows;
+        Configuraciones.restaurarEasterCreditos();
     }
 
     @Override

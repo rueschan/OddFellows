@@ -12,6 +12,7 @@ import com.badlogic.gdx.Preferences;
 public class Configuraciones {
     static boolean isMusicOn = true;
     static boolean isFxOn = true;
+    static String easterCreditos ="";
 
     static void cargarEstatusSonido(){
         Preferences preferences = Gdx.app.getPreferences("sonido");
@@ -35,6 +36,25 @@ public class Configuraciones {
     private static void guardarEstatusEfectos(){
         Preferences preferences = Gdx.app.getPreferences("sonido");
         preferences.putBoolean("efectos",isFxOn);
+        preferences.flush();
+    }
+
+
+   static void agregarEasterCreditos(String agregar){
+        Preferences preferences = Gdx.app.getPreferences("easterCreditos");
+       easterCreditos += agregar;
+        preferences.putString("easterCreditos",easterCreditos);
+        preferences.flush();
+    }
+   static String obtenerEasterCreditos(){
+        Preferences preferences = Gdx.app.getPreferences("easterCreditos");
+        easterCreditos = preferences.getString("easterCreditos");
+       return easterCreditos;
+    }
+
+    static void restaurarEasterCreditos(){
+        Preferences preferences = Gdx.app.getPreferences("easterCreditos");
+        preferences.putString("easterCreditos","");
         preferences.flush();
     }
 }
