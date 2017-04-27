@@ -995,8 +995,9 @@ public abstract class Nivel implements Screen{
         if (Configuraciones.isFxOn) {
             fxMartillo.play();
         }
-        Texture textura = new Texture("Personaje/HendricMartilloAtaque.png");
-        henric.usarArma(new TextureRegion(textura).split(120, 96));
+//        Ya no se crea la textura cada vez que se usa un arma
+//        Texture textura = new Texture("Personaje/HendricMartilloAtaque.png");
+        henric.usarArma();
         if (tileInteractivo != null) {
             tileInteractivo.setTile(null);
         }

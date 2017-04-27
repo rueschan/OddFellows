@@ -3,6 +3,7 @@ package mx.rueschan.videojuego;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.graphics.FPSLogger;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -79,13 +80,13 @@ public class NivelCabana extends Nivel {
     @Override
     public void render(float delta) {
 
-        long inicio = System.nanoTime();
+//        long inicio = System.nanoTime();
 //        super.pantalla.borrarPantalla();
         super.render(delta);
 
         // Mapa
         pantalla.batch.setProjectionMatrix(pantalla.camara.combined);
-        super.renderer.setView(pantalla.camara);
+//        super.renderer.setView(pantalla.camara);
         super.renderer.render();
 
         // Elementos juego
@@ -96,9 +97,10 @@ public class NivelCabana extends Nivel {
 //        hp.dibujar(pantalla.batch);
 //        barraHP.dibujar(pantalla.batch);
         pantalla.batch.end();
-        long fin = System.nanoTime();
-        System.out.println((fin - inicio) / 1000);  // SE CAMBIARON DOS LLAMADAS A LA CLASE "NIVEL" POR SOLO UNA. SE REDUCE EL TIEMPO DE 400 ns aprox A 300 ns aprox
+//        long fin = System.nanoTime();
+//        System.out.println((fin - inicio) / 1000);  // SE CAMBIARON DOS LLAMADAS A LA CLASE "NIVEL" POR SOLO UNA. SE REDUCE EL TIEMPO DE 400 ns aprox A 300 ns aprox
 
+//        long iniMemoria = Gdx.app.getNativeHeap();
         // HUD
         pantalla.batch.setProjectionMatrix(camaraHUD.combined);
         mostrarItemSeleccionado();
@@ -107,8 +109,11 @@ public class NivelCabana extends Nivel {
         // Jugador
         henric.actualizar(mapa);
         henric.interactuar(this);
+//        long finMemoria = Gdx.app.getNativeHeap();
+//        System.out.println((finMemoria - iniMemoria));
 
-
+        FPSLogger logger = new FPSLogger();
+        logger.log();
 
         // Detectar botón físico "return", solo se activa cuando
         //&& !enInventario

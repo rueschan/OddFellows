@@ -34,8 +34,10 @@ public class Personaje extends Objeto {
 
     private Animation<TextureRegion> spriteAnimado;         // Animación caminando
     private Animation<TextureRegion> animacionPrevia;       // Animación previa
+    private Animation<TextureRegion> animacionAtaque;       // Animación ataque
     private float timerAnimacion;                           // Tiempo para cambiar frames de la animación
     private TextureRegion[][] texturaPersonaje;
+    private TextureRegion[][] trAtaque;
 
     private EstadoMovimiento estadoMovimiento = EstadoMovimiento.QUIETO_X;
     private EstadoMovimientoVertical estadoMovimientoVertical = EstadoMovimientoVertical.QUIETO_Y;
@@ -47,6 +49,7 @@ public class Personaje extends Objeto {
     private String pathFxPasos = "Sonidos/pasoMadera.mp3";
     private Sound fxAccion;
     private String pathFxAccion = "Sonidos/alerta.mp3";
+    private Texture texturaAtaque;
 
     // Estado de acción
     private boolean estatusAccion = false;
@@ -65,6 +68,10 @@ public class Personaje extends Objeto {
 
         spriteAnimado = new Animation(0.15f, texturaPersonaje[0][2], texturaPersonaje[0][1] );
         animacionPrevia = new Animation(0.15f, texturaPersonaje[0][2], texturaPersonaje[0][1] );
+        animacionAtaque = null;
+        texturaAtaque = new Texture("Personaje/HendricMartilloAtaque.png");
+        trAtaque = new TextureRegion(texturaAtaque).split(120, 96);
+        animacionAtaque = new Animation(0.1f, trAtaque[0][2], trAtaque[0][1] );
         // Animación infinita
         spriteAnimado.setPlayMode(Animation.PlayMode.LOOP);
         // Inicia el timer que contará tiempo para saber qué frame se dibuja
@@ -146,13 +153,18 @@ public class Personaje extends Objeto {
         sprite.setPosition(x, y);    // Posición inicial
     }
 
-    public void usarArma(TextureRegion[][] textureRegions) {
-        this.texturaPersonaje = textureRegions;
-        if (estadoMovimiento != EstadoMovimiento.ATACAR) {
+    public void usarArma() {
+        // SE EVITA LA CREACION DE TEXTURAS DENTRO DEL MÉTODO
+        long inicio = System.nanoTime();
+
+//        this.texturaPersonaje = trAtaque;
+//        animacionAtaque = new Animation(0.1f, texturaPersonaje[0][2], texturaPersonaje[0][1] );
+        // INTENTO DE ARREGLO A ANIMACIÓN DE GOLPEO
+        if (estadoMovimiento != EstadoMovimiento.ATACAR && spriteAnimado != animacionAtaque) {
             animacionPrevia = spriteAnimado;
         }
         estadoMovimiento = EstadoMovimiento.ATACAR;
-        spriteAnimado = new Animation(0.1f, texturaPersonaje[0][2], texturaPersonaje[0][1] );
+        spriteAnimado = animacionAtaque;
         // Animación infinita
         spriteAnimado.setPlayMode(Animation.PlayMode.REVERSED);
         // Inicia el timer que contará tiempo para saber qué frame se dibuja
@@ -160,8 +172,11 @@ public class Personaje extends Objeto {
         // Crea el sprite con el personaje quieto (idle)
         float x = sprite.getX();
         float y = sprite.getY();
-        sprite = new Sprite(texturaPersonaje[0][0]);    // QUIETO_X
+        sprite = new Sprite(trAtaque[0][0]);    // QUIETO_X
         sprite.setPosition(x, y);    // Posición inicial
+
+        long fin = System.nanoTime();
+        System.out.println((fin - inicio) / 1000);
     }
 
     public void addInventario(Objeto item) {
