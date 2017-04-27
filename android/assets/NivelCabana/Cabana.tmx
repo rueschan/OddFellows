@@ -2,6 +2,26 @@
 <map version="1.0" orientation="orthogonal" renderorder="right-down" width="20" height="12" tilewidth="64" tileheight="64" nextobjectid="1">
  <tileset firstgid="1" name="Cabana" tilewidth="64" tileheight="64" tilecount="42" columns="6">
   <image source="Cabana.png" width="384" height="448"/>
+  <tile id="4">
+   <properties>
+    <property name="lugar" type="int" value="2"/>
+   </properties>
+  </tile>
+  <tile id="5">
+   <properties>
+    <property name="lugar" type="int" value="2"/>
+   </properties>
+  </tile>
+  <tile id="6">
+   <properties>
+    <property name="lugar" type="int" value="2"/>
+   </properties>
+  </tile>
+  <tile id="7">
+   <properties>
+    <property name="lugar" type="int" value="2"/>
+   </properties>
+  </tile>
   <tile id="10">
    <properties>
     <property name="tipo" value="obstaculo"/>
@@ -203,22 +223,46 @@
   <image source="Puertas.png" width="512" height="64"/>
   <tile id="0">
    <properties>
+    <property name="lugar" type="int" value="2"/>
     <property name="tipo" value="puerta"/>
    </properties>
   </tile>
   <tile id="1">
    <properties>
+    <property name="lugar" type="int" value="2"/>
     <property name="tipo" value="puerta"/>
    </properties>
   </tile>
   <tile id="2">
    <properties>
+    <property name="lugar" type="int" value="2"/>
     <property name="tipo" value="puerta"/>
    </properties>
   </tile>
   <tile id="3">
    <properties>
+    <property name="lugar" type="int" value="2"/>
     <property name="tipo" value="puerta"/>
+   </properties>
+  </tile>
+  <tile id="4">
+   <properties>
+    <property name="lugar" type="int" value="2"/>
+   </properties>
+  </tile>
+  <tile id="5">
+   <properties>
+    <property name="lugar" type="int" value="2"/>
+   </properties>
+  </tile>
+  <tile id="6">
+   <properties>
+    <property name="lugar" type="int" value="2"/>
+   </properties>
+  </tile>
+  <tile id="7">
+   <properties>
+    <property name="lugar" type="int" value="2"/>
    </properties>
   </tile>
  </tileset>
@@ -227,6 +271,11 @@
  </tileset>
  <tileset firstgid="70" name="Window" tilewidth="64" tileheight="64" tilecount="2" columns="2">
   <image source="Window.png" width="128" height="64"/>
+  <tile id="1">
+   <properties>
+    <property name="lugar" type="int" value="2"/>
+   </properties>
+  </tile>
  </tileset>
  <tileset firstgid="72" name="llave" tilewidth="64" tileheight="64" tilecount="1" columns="1">
   <image source="../Items/llave.png" width="64" height="64"/>

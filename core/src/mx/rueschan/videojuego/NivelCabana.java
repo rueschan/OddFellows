@@ -25,6 +25,7 @@ import com.sun.org.apache.xpath.internal.operations.Bool;
 public class NivelCabana extends Nivel {
 
     private Nivel actual;
+    private static NivelCabana instancia = null;
 
     // Recursos
     private String pathMapa;
@@ -36,6 +37,13 @@ public class NivelCabana extends Nivel {
         super.oddFellows = oddFellows;
         super.pantalla = Pantalla.getInstanciaPantalla();
         actual = this;
+    }
+
+    public static NivelCabana getNivelCabana(OddFellows oddFellows) {
+        if (instancia == null) {
+            instancia = new NivelCabana(oddFellows);
+        }
+        return instancia;
     }
 
     @Override

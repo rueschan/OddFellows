@@ -17,6 +17,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 public class NivelBosque extends Nivel {
 
     private Nivel actual;
+    private static NivelBosque instancia = null;
 
     //Mapa tipo tmx del Bosque
     private String pathMapa;
@@ -27,6 +28,13 @@ public class NivelBosque extends Nivel {
         super.oddFellows = oddFellows;
         super.pantalla = Pantalla.getInstanciaPantalla();
         actual = this;
+    }
+
+    public static NivelBosque getNivelBosque(OddFellows oddFellows) {
+        if (instancia == null) {
+            instancia = new NivelBosque(oddFellows);
+        }
+        return instancia;
     }
 
     @Override

@@ -41,6 +41,7 @@ public abstract class Nivel implements Screen{
     protected OddFellows oddFellows;
     protected Pantalla pantalla;
     protected Juego juego;
+    protected static int idNvlObjetivo;
 
     // Personaje
     protected Personaje henric;
@@ -359,8 +360,9 @@ public abstract class Nivel implements Screen{
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 //Para quitar la pausa
-                oddFellows.setScreen(new NivelBosque(oddFellows));
-                musicaFondo.stop();
+                cambiarNivel(idNvlObjetivo);
+//                oddFellows.setScreen(new NivelBosque(oddFellows));
+//                musicaFondo.stop();
                 //henric.pararSonido();
             }
         });
@@ -1194,11 +1196,27 @@ public abstract class Nivel implements Screen{
         crearObjetos();
     }
 
-    protected void cambiarNivel(Nivel nvl) {
-        juego.guardarStatus();
+    protected void cambiarNivel(int nvl) {
+        Nivel nivel = detectarNivel(nvl);
+        oddFellows.setScreen(nivel);
+        musicaFondo.stop();
         // juego.cargarNivel(nvl);
         this.dispose();
 
+    }
+
+    private Nivel detectarNivel(int nvl) {
+        switch (nvl) {
+            case 1: // CABAÑA
+                return NivelCabana.getNivelCabana(oddFellows);
+            case 2: // BOSQUE
+                return NivelBosque.getNivelBosque(oddFellows);
+        }
+        return null;
+    }
+
+    public static void setNivelObjetivo(int n) {
+        idNvlObjetivo = n;
     }
 
     @Override

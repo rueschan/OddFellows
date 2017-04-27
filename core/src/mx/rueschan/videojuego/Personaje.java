@@ -38,6 +38,7 @@ public class Personaje extends Objeto {
     private float timerAnimacion;                           // Tiempo para cambiar frames de la animación
     private TextureRegion[][] texturaPersonaje;
     private TextureRegion[][] trAtaque;
+    private TextureRegion regionPruebaOrientacion;
 
     private EstadoMovimiento estadoMovimiento = EstadoMovimiento.QUIETO_X;
     private EstadoMovimientoVertical estadoMovimientoVertical = EstadoMovimientoVertical.QUIETO_Y;
@@ -188,23 +189,38 @@ public class Personaje extends Objeto {
     }
 
     // SE CORRE CADA FRAME
-    private void animar(SpriteBatch batch) {
+    private void orientarAnimacion(SpriteBatch batch) {
         timerAnimacion += Gdx.graphics.getDeltaTime();
         // Frame que se dibujará
-        TextureRegion region = spriteAnimado.getKeyFrame(timerAnimacion);
+        regionPruebaOrientacion = spriteAnimado.getKeyFrame(timerAnimacion);
         if (estadoMovimiento == EstadoMovimiento.MOV_DERECHA) {
             veDerecha = true;
-            if (!region.isFlipX()) {
-                region.flip(true,false);
-            }
+//            if (!region.isFlipX()) {
+//                region.flip(true,false);
+//            }
         }
         else if (estadoMovimiento == EstadoMovimiento.MOV_IZQUIERDA) {
             veDerecha = false;
-            if (region.isFlipX()) {
-                region.flip(true,false);
-            }
+//            if (region.isFlipX()) {
+//                region.flip(true,false);
+//            }
         }
-        batch.draw(region,sprite.getX(),sprite.getY());
+
+//        if (estadoMovimiento == EstadoMovimiento.ATACAR && veDerecha && !region.isFlipX()) {
+//            System.out.println("der");
+//            region.flip(true, false);
+//        } else if (estadoMovimiento == EstadoMovimiento.ATACAR && !veDerecha && region.isFlipX()) {
+//            System.out.println("Izq");
+//            region.flip(true, false);
+//        }
+
+        if (veDerecha && !regionPruebaOrientacion.isFlipX()) {
+            regionPruebaOrientacion.flip(true, false);
+        } else if (!veDerecha && regionPruebaOrientacion.isFlipX()) {
+            regionPruebaOrientacion.flip(true, false);
+        }
+
+        batch.draw(regionPruebaOrientacion,sprite.getX(),sprite.getY());
     }
 
     // Sonido al caminar
@@ -250,7 +266,7 @@ public class Personaje extends Objeto {
             }
             sprite.draw(batch); // Dibuja el sprite estático
         } else {
-            animar(batch);
+            orientarAnimacion(batch);
         }
     }
 
@@ -562,10 +578,37 @@ public class Personaje extends Objeto {
                 celda = capa.getCell((x / 64), (y / 64));
                 // Obtiene la salida
                 celdaSalida = capaSalidas.getCell((x / 64), (y / 64));
-                // Si hay una salida y nada la bloquea...
-                if (celdaSalida != null && celda.getTile() == null) {
-                    return celdaSalida;
+                // Si hay una salida sin necesidad de interactuar
+                if (celdaSalida != null) {
+                    // SE JUNTO EL CONSTRUCTOR DE UN ID QUE SE EJECUTABA DENTRO DE CADA IF, ASI COMO TAMBIEN SE JUNTARON LOS IF
+                    Integer id = 0;
+                    try {
+                        id = (Integer) celdaSalida.getTile().getProperties().get("lugar");
+                    } catch (ClassCastException e) {
+                        id = Integer.parseInt((String) celdaSalida.getTile().getProperties().get("lugar"));
+                    }
+                    Nivel.setNivelObjetivo(id);
+//                    System.out.println(String.valueOf(id));
+
+                    try {
+                        if (celda.getTile() == null) {
+                            return celdaSalida;
+                        }
+                    } catch (NullPointerException e) {
+                        Object tipo = (String) celdaSalida.getTile().getProperties().get("tipo");
+                        if ("entrada".equals(tipo)) {
+                            return  celdaSalida;
+                        }
+                    }
+
+
+
                 }
+
+                // Si hay una salida y nada la bloquea...
+//                if (celdaSalida != null && celda.getTile() == null) {
+//                    return celdaSalida;
+//                }
             }
         }
         return null;
