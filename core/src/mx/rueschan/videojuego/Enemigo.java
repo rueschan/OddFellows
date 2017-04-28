@@ -28,11 +28,13 @@ public class Enemigo extends Objeto {
     private Texture textura;
     private Animation<TextureRegion> spriteAnimado;         // Animación caminando
     private Animation<TextureRegion> animacionPrevia;       // Animación previa
+    private Animation<TextureRegion> animacionAtaque;       // Animación ataque
     private float timerAnimacion;                           // Tiempo para cambiar frames de la animación
     private float timerMovimiento;                          // Tiempo para decidir un nuevo movimiento
     private float randomTiempoMovimiento;                       // Tiempo limite cambiar estado de movimiento
     private TextureRegion[][] texturaEnemigo;
     private boolean veDerecha;
+    private TextureRegion regionPruebaOrientacion;
 
     private Tipo tipoEnemigo;
     private EstadoEnemigo estadoEnemigo = EstadoEnemigo.VAGANDO;
@@ -86,6 +88,7 @@ public class Enemigo extends Objeto {
 
                 spriteAnimado = new Animation(0.8f / VELOCIDAD, texturaEnemigo[0][2], texturaEnemigo[0][3] );
                 animacionPrevia = spriteAnimado;
+                animacionAtaque = new Animation(0.4f / VELOCIDAD, texturaEnemigo[0][0], texturaEnemigo[0][1]);
                 break;
         }
     }
@@ -132,20 +135,21 @@ public class Enemigo extends Objeto {
     private void animar(SpriteBatch batch) {
         timerAnimacion += Gdx.graphics.getDeltaTime();
         // Frame que se dibujará
-        TextureRegion region = spriteAnimado.getKeyFrame(timerAnimacion);
+        regionPruebaOrientacion = spriteAnimado.getKeyFrame(timerAnimacion);
         if (estadoMovimiento == EstadoMovimiento.MOV_DERECHA) {
             veDerecha = true;
-            if (!region.isFlipX()) {
-                region.flip(true,false);
-            }
         }
-        else if (estadoMovimiento == EstadoMovimiento.MOV_IZQUIERDA){
+        else if (estadoMovimiento == EstadoMovimiento.MOV_IZQUIERDA) {
             veDerecha = false;
-            if (region.isFlipX()) {
-                region.flip(true,false);
-            }
         }
-        batch.draw(region,sprite.getX(),sprite.getY());
+
+        if (veDerecha && !regionPruebaOrientacion.isFlipX()) {
+            regionPruebaOrientacion.flip(true, false);
+        } else if (!veDerecha && regionPruebaOrientacion.isFlipX()) {
+            regionPruebaOrientacion.flip(true, false);
+        }
+
+        batch.draw(regionPruebaOrientacion,sprite.getX(),sprite.getY());
     }
 
     //Actualiza las acciones del enemigo
@@ -153,31 +157,40 @@ public class Enemigo extends Objeto {
 
         // Revisa contacto con el jugador
         if (tocaJugador()) {
+            if (estadoEnemigo != EstadoEnemigo.ATACANDO && spriteAnimado != animacionAtaque) {
+                estadoEnemigo = EstadoEnemigo.ATACANDO;
+                animacionPrevia = spriteAnimado;
+                spriteAnimado = animacionAtaque;
+                // Animación infinita
+                spriteAnimado.setPlayMode(Animation.PlayMode.LOOP);
+                // Inicia el timer que contará tiempo para saber qué frame se dibuja
+                timerAnimacion = 0;
+            }
             atacar();
         } else {
-            switch (estadoEnemigo) {
-                case VAGANDO:
-                    moverAletorio(mapa);
-                    break;
-                case ATACANDO:
-            }
+            estadoEnemigo = EstadoEnemigo.VAGANDO;
+            spriteAnimado = animacionPrevia;
+            moverAletorio(mapa);
         }
     }
 
     private boolean tocaJugador() {
-        float izq = this.sprite.getX();
-        float der = izq + this.sprite.getWidth();
-        float henricIzq = henric.sprite.getX();
-        float henricDer = henricIzq + henric.sprite.getWidth();
+        final int EXTRA = 10;
+        float izq = this.sprite.getX() - EXTRA;
+        float der = izq + this.sprite.getWidth() + EXTRA;
+        float henricIzq = henric.sprite.getX() - EXTRA;
+        float henricDer = henricIzq + henric.sprite.getWidth() + EXTRA;
 
         // Revisa si el enemigo esta dentro de jugador
         if ((henricIzq <= izq && izq <= henricDer)||(henricIzq <= der && der <= henricDer)) {
-            float abajo = this.sprite.getY();
-            float arriba = abajo + this.sprite.getHeight();
-            float henricAbajo = henric.sprite.getY();
-            float henricArriba = henricAbajo + henric.sprite.getHeight();
+            float abajo = this.sprite.getY() - EXTRA;
+            float arriba = abajo + this.sprite.getHeight() + EXTRA;
+            float henricAbajo = henric.sprite.getY() - EXTRA;
+            float henricArriba = henricAbajo + henric.sprite.getHeight() + EXTRA;
 
             if ((henricAbajo <= abajo && abajo <= henricArriba)||(henricAbajo <= arriba && arriba <= henricArriba)) {
+                henric.setEstadoMovimiento(Personaje.EstadoMovimiento.QUIETO_X);
+                henric.setEstadoMovimientoVertical(Personaje.EstadoMovimientoVertical.QUIETO_Y);
                 return true;
             }
         }

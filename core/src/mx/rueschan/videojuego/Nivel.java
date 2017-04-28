@@ -1324,6 +1324,11 @@ public abstract class Nivel implements Screen{
     }
 
     public void actualizarVida() {
+        float vida = henric.getVida();
+
+        if (vida <= 0) {
+
+        }
         barraHPAct.setWidth(anchoBarraHP * (henric.getVida() / 100));
     }
 

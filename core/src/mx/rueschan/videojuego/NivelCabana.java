@@ -32,7 +32,6 @@ public class NivelCabana extends Nivel {
     private String pathMusica;
     private String pathFxPasos;
 
-
     public NivelCabana(OddFellows oddFellows) {
         super.oddFellows = oddFellows;
         super.pantalla = Pantalla.getInstanciaPantalla();
@@ -48,7 +47,6 @@ public class NivelCabana extends Nivel {
 
     @Override
     protected void cargarTexturas() {
-
         // Recursos
         pathMapa = "NivelCabana/Cabana.tmx";
         pathMusica = "Musica/ofeliasdream.mp3";

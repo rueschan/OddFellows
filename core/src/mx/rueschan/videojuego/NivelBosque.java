@@ -72,9 +72,6 @@ public class NivelBosque extends Nivel {
         henric.setFxPasos(pathFxPasos);
         crearRecursosUnicos();
 
-//        //Jugar con el color de Henric
-//        henric.sprite.setColor(.5f,.5f,.5f,1);
-
         //Creación de HUD
         super.crearElementosPantalla(pantalla);
 //        super.crearPausa(escenaHUD);
@@ -94,7 +91,7 @@ public class NivelBosque extends Nivel {
         super.render(delta);
 
         // Mapa
-        pantalla.batch.setProjectionMatrix(pantalla.camara.combined);;
+        pantalla.batch.setProjectionMatrix(pantalla.camara.combined);
         super.renderer.setView(pantalla.camara);
         super.renderer.render();
 
