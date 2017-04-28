@@ -9,3 +9,4 @@ public enum Niveles {
     NIVEL_CABANA,
     NIVEL_BOSQUE
 }
+

@@ -44,6 +44,10 @@ public class Personaje extends Objeto {
     private EstadoMovimientoVertical estadoMovimientoVertical = EstadoMovimientoVertical.QUIETO_Y;
     private boolean veDerecha;
 
+    // Lugar donde se encuentra
+    private Localizacion localizacion = Localizacion.CABANA;
+    public Destino destino;
+
     // ASSETS
     private AssetManager manager;
     private Music fxPasos;
@@ -655,6 +659,39 @@ public class Personaje extends Objeto {
         fxPasos.stop();
     }
 
+    public void setViaje() {
+        float x = 0;
+        float y = 0;
+        float ancho = Pantalla.getInstanciaPantalla().getANCHO();
+        float alto = Pantalla.getInstanciaPantalla().getALTO();
+        switch (localizacion) {
+            case BOSQUE:
+                switch (destino) {
+                    case CABANA:
+                        x = ancho / 2;
+                        y = alto / 2;
+                        localizacion = Localizacion.CABANA;
+                        break;
+                    case CLINICA:
+                        // CAMBIAR
+                        x = ancho / 2;
+                        y = alto / 2;
+                        localizacion = Localizacion.CLINICA;
+                        break;
+                }
+                break;
+            case CABANA:
+                x = 704; // X fuera de las escaleras de la cabana
+                y = 2688; // Y fuera de las escaleras de la cabana
+                localizacion = Localizacion.BOSQUE;
+                break;
+        }
+        reset();
+        sprite.setPosition(x, y);
+        Pantalla.getInstanciaPantalla().camara.position.set(sprite.getX(),
+                sprite.getY(), 0);
+    }
+
     public enum EstadoMovimiento {
         QUIETO_X,
         MOV_IZQUIERDA,
@@ -666,5 +703,24 @@ public class Personaje extends Objeto {
         MOV_ARRIBA,
         MOV_ABAJO,
         QUIETO_Y
+    }
+
+    public enum Localizacion {
+        BOSQUE,
+        CABANA,
+        CLINICA
+    }
+
+    public enum Destino {
+        BOSQUE,
+        CABANA,
+        CLINICA
+    }
+
+    public enum Viaje {
+        BOSQUE_CABANA,
+        BOSQUE_CLINICA,
+        CABANA_BOSQUE,
+        CLINICA_BOSQUE
     }
 }

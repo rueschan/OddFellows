@@ -1134,16 +1134,19 @@ public abstract class Nivel implements Screen{
         Nivel nivel = detectarNivel(nvl);
         oddFellows.setScreen(nivel);
         musicaFondo.stop();
+        henric.setViaje();
         // juego.cargarNivel(nvl);
-        this.dispose();
+//        this.dispose();
 
     }
 
     private Nivel detectarNivel(int nvl) {
         switch (nvl) {
             case 1: // CABAÑA
+                henric.destino = Personaje.Destino.CABANA;
                 return NivelCabana.getNivelCabana(oddFellows);
             case 2: // BOSQUE
+                henric.destino = Personaje.Destino.BOSQUE;
                 return NivelBosque.getNivelBosque(oddFellows);
         }
         return null;
