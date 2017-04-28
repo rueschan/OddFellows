@@ -51,6 +51,7 @@ public abstract class Nivel implements Screen{
     protected boolean isArmado = false;
 
     // Enemigo
+    protected ArrayList<Enemigo> listaEnemigos;
     protected Enemigo enemigo;
 
     // Mapa
@@ -135,9 +136,6 @@ public abstract class Nivel implements Screen{
     private TextureRegionDrawable trdBtnItem;
     public Objeto alertaAccion;
     protected Texture texturaEntrar;
-
-
-
 
     // Texturas carta e inventario
     Objeto fondoCarta;
@@ -242,6 +240,8 @@ public abstract class Nivel implements Screen{
         fxInventarioAbrir = manager.get(pathFxInventarioAbrir);
         fxInventarioCerrar = manager.get(pathFxInventarioCerrar);
 
+        // Enemigos
+        listaEnemigos = new ArrayList<Enemigo>();
         
     }
 
@@ -970,6 +970,7 @@ public abstract class Nivel implements Screen{
         pantalla.escena.draw();
 
         actualizarVida();
+        hayAtaqueAJugador();
     }
 
     protected void crearPausa(final Stage escenaHUD){
@@ -1231,11 +1232,12 @@ public abstract class Nivel implements Screen{
         enInventario= !enInventario;
 
 //        int actorHUD = escenaHUD.getActors().size-1;
-        int actorHUD = nombreActores.size()-1;
+//        int actorHUD = nombreActores.size()-1;
         Actor a;
 
+        System.out.println("Actores: " + String.valueOf(nombreActores.size()));
         if (enInventario == true){
-        for (;actorHUD >= 0; actorHUD--){
+        for (int actorHUD = nombreActores.size()-1;actorHUD >= 0; actorHUD--){
             a = escenaHUD.getActors().get(actorHUD);
             if (actoresAparecenInventario.contains(a.getName())) {
                 a.setVisible(enInventario);
@@ -1330,6 +1332,44 @@ public abstract class Nivel implements Screen{
 
         }
         barraHPAct.setWidth(anchoBarraHP * (henric.getVida() / 100));
+    }
+
+    public void hayAtaqueAJugador () {
+        final int EXTRA = 10;
+        float henricIzq = henric.sprite.getX();
+        float henricDer = henricIzq + henric.sprite.getWidth();
+        float henricAbajo = henric.sprite.getY();
+        float henricArriba = henricAbajo + henric.sprite.getHeight();
+
+        for (Enemigo enemigo : listaEnemigos) {
+            float izq = enemigo.sprite.getX() - EXTRA;
+            float der = izq + enemigo.sprite.getWidth() + (EXTRA * 2);
+            float abajo = enemigo.sprite.getY() - EXTRA;
+            float arriba = abajo + enemigo.sprite.getHeight() + (EXTRA * 2);
+
+            enemigo.setTocaJugador(false);
+            henric.setLugarEnemigo(Personaje.LugarEnemigo.NO_HAY);
+
+            if ((henricAbajo <= abajo && abajo <= henricArriba)||(henricAbajo <= arriba && arriba <= henricArriba)) {
+                if (henricIzq <= izq && izq <= henricDer) {
+                    henric.setLugarEnemigo(Personaje.LugarEnemigo.DERECHA);
+                    enemigo.setTocaJugador(true);
+                }
+                else if (henricIzq <= der && der <= henricDer) {
+                    henric.setLugarEnemigo(Personaje.LugarEnemigo.IZQUIERDA);
+                    enemigo.setTocaJugador(true);
+                }
+            } else if ((henricIzq <= izq && izq <= henricDer)||(henricIzq <= der && der <= henricDer)) {
+                if (henricAbajo <= abajo && abajo <= henricArriba) {
+                    henric.setLugarEnemigo(Personaje.LugarEnemigo.ARRIBA);
+                    enemigo.setTocaJugador(true);
+                }
+                else if (henricAbajo <= arriba && arriba <= henricArriba) {
+                    henric.setLugarEnemigo(Personaje.LugarEnemigo.ABAJO);
+                    enemigo.setTocaJugador(true);
+                }
+            }
+        }
     }
 
 }

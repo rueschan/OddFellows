@@ -24,6 +24,9 @@ public class NivelBosque extends Nivel {
     private String pathMusica;
     private String pathFxPasos;
 
+    // Enemigos
+
+
     public NivelBosque(OddFellows oddFellows) {
         super.oddFellows = oddFellows;
         super.pantalla = Pantalla.getInstanciaPantalla();
@@ -56,6 +59,7 @@ public class NivelBosque extends Nivel {
     private void crearRecursosUnicos() {
         // TEST ENEMIGO
         enemigo = new Enemigo(800, 400, Enemigo.Tipo.JABALI);
+        listaEnemigos.add(enemigo);
     }
 
     private void dibujarRecursosUnicos(SpriteBatch batch) {

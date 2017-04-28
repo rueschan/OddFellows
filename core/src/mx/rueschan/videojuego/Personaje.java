@@ -47,6 +47,7 @@ public class Personaje extends Objeto {
     // Lugar donde se encuentra
     private Localizacion localizacion = Localizacion.CABANA;
     public Destino destino;
+    private LugarEnemigo lugarEnemigo = LugarEnemigo.NO_HAY;
 
     // ASSETS
     private AssetManager manager;
@@ -692,6 +693,10 @@ public class Personaje extends Objeto {
                 sprite.getY(), 0);
     }
 
+    public void setLugarEnemigo(LugarEnemigo lugar) {
+        lugarEnemigo = lugar;
+    }
+
     public enum EstadoMovimiento {
         QUIETO_X,
         MOV_IZQUIERDA,
@@ -703,6 +708,14 @@ public class Personaje extends Objeto {
         MOV_ARRIBA,
         MOV_ABAJO,
         QUIETO_Y
+    }
+
+    public enum LugarEnemigo {
+        DERECHA,
+        IZQUIERDA,
+        ABAJO,
+        ARRIBA,
+        NO_HAY
     }
 
     public enum Localizacion {
