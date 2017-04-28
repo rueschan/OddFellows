@@ -17,7 +17,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 public class NivelBosque extends Nivel {
 
     private Nivel actual;
-    private static NivelBosque instancia = null;
+    private static NivelBosque instancia;
 
     //Mapa tipo tmx del Bosque
     private String pathMapa;

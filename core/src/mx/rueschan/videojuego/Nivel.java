@@ -281,7 +281,7 @@ public abstract class Nivel implements Screen{
 
         pad = new Touchpad(20, estilo);
         pad.setBounds(0,0,200,200);
-        pad.setSize(pantalla.getANCHO()*2, pantalla.getALTO()*2);
+        pad.setSize(pantalla.getANCHO()+pantalla.getANCHO(), pantalla.getALTO()+pantalla.getALTO());
         pad.setPosition(pantalla.getANCHO()/2 - pad.getWidth()/2,
                 pantalla.getALTO()/2 - pad.getHeight()/2);
         pad.setColor(1,1,1,0);
@@ -578,7 +578,7 @@ public abstract class Nivel implements Screen{
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                 pad.setColor(1,1,1,0);
-                pad.setSize(pantalla.getANCHO()*2,pantalla.getALTO()*2);
+                pad.setSize(pantalla.getANCHO()+pantalla.getANCHO(),pantalla.getALTO()+pantalla.getALTO());
                 pad.setPosition(pantalla.getANCHO()/2 - pad.getWidth()/2,
                         pantalla.getALTO()/2 - pad.getHeight()/2);
                 henric.setEstadoMovimiento(Personaje.EstadoMovimiento.QUIETO_X);
@@ -730,28 +730,52 @@ public abstract class Nivel implements Screen{
         // Carta: 2
         // Martillo: 10
         int prueba = Integer.parseInt(celda.getTile().getProperties().get("IDItem").toString());
-        switch (prueba){
-            case 1: //Llave
-                if (Configuraciones.isFxOn)
-                    fxLlave.play();
-                Llave llave;
-                return llave = new Llave(0, 0, (int) (Math.random()*10) + 1); // Valores del 1 al 10
-            case 2:
-                if (Configuraciones.isFxOn)
-                    fxCarta.play();
-                Carta carta;
-                if (juego.actual.getClass().equals(NivelCabana.class)) {
-                    carta = new Carta(0, 0, 1);
-                } else {
-                    carta = new Carta(0, 0, (int) (Math.random() * 10) + 1);
-                }
-                mostrarCarta(carta);
-                return carta;
-            case 10:
-                Arma martillo;
-                if (Configuraciones.isFxOn)
-                    fxMartillo.play();
-                return martillo = new Arma(0, 0, Arma.Tipo.MARTILLO);
+//        switch (prueba){
+//            case 1: //Llave
+//                if (Configuraciones.isFxOn)
+//                    fxLlave.play();
+//                Llave llave;
+//                return llave = new Llave(0, 0, (int) (Math.random()*10) + 1); // Valores del 1 al 10
+//            case 2:
+//                if (Configuraciones.isFxOn)
+//                    fxCarta.play();
+//                Carta carta;
+//                if (juego.actual.getClass().equals(NivelCabana.class)) {
+//                    carta = new Carta(0, 0, 1);
+//                } else {
+//                    carta = new Carta(0, 0, (int) (Math.random() * 10) + 1);
+//                }
+//                mostrarCarta(carta);
+//                return carta;
+//            case 10:
+//                Arma martillo;
+//                if (Configuraciones.isFxOn)
+//                    fxMartillo.play();
+//                return martillo = new Arma(0, 0, Arma.Tipo.MARTILLO);
+//        }
+//        return null;
+
+        if (prueba==1){
+            if (Configuraciones.isFxOn)
+                fxLlave.play();
+            Llave llave;
+            return llave = new Llave(0, 0, (int) (Math.random()*10) + 1); // Valores del 1 al 10
+        }else if (prueba==2){
+            if (Configuraciones.isFxOn)
+                fxCarta.play();
+            Carta carta;
+            if (juego.actual.getClass().equals(NivelCabana.class)) {
+                carta = new Carta(0, 0, 1);
+            } else {
+                carta = new Carta(0, 0, (int) (Math.random() * 10) + 1);
+            }
+            mostrarCarta(carta);
+            return carta;
+        }else if (prueba==10){
+            Arma martillo;
+            if (Configuraciones.isFxOn)
+                fxMartillo.play();
+            return martillo = new Arma(0, 0, Arma.Tipo.MARTILLO);
         }
         return null;
     }
