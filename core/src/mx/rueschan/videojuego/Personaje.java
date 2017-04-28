@@ -316,6 +316,8 @@ public class Personaje extends Objeto {
         }
     }
 
+
+    //WOLOLOLO
     public void interactuar(Nivel nivel) {
         TiledMapTileLayer.Cell celda;
 
@@ -359,6 +361,7 @@ public class Personaje extends Objeto {
             nivel.btnEntrar.setVisible(false);
         }
     }
+
 
     // Mueve el personaje a la derecha/izquierda, prueba choques con paredes
     private void moverHorizontal(TiledMap mapa) {
@@ -563,6 +566,25 @@ public class Personaje extends Objeto {
                 }
             }
         }
+        return null;
+    }
+
+    public TiledMapTileLayer.Cell buscaPuertas(TiledMap mapa){
+        TiledMapTileLayer capa = (TiledMapTileLayer) mapa.getLayers().get("Puerta");
+        TiledMapTileLayer.Cell celda;
+
+        int xPersonaje = (int) sprite.getX();
+        int yPersonaje = (int) sprite.getY();
+
+        for (int x = xPersonaje - 64; x <= xPersonaje + (64*2); x += 32) {
+            for (int y = yPersonaje - 64; y <= yPersonaje + (64*2); y += 32) {
+                celda = capa.getCell((x / 64), (y / 64));
+                if (celda != null && celda.getTile() != null) {
+                    return celda;
+                }
+            }
+        }
+
         return null;
     }
 

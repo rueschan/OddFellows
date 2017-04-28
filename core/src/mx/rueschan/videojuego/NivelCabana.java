@@ -25,7 +25,7 @@ import com.sun.org.apache.xpath.internal.operations.Bool;
 public class NivelCabana extends Nivel {
 
     private Nivel actual;
-    private static NivelCabana instancia = null;
+    private static NivelCabana instancia;
 
     // Recursos
     private String pathMapa;
