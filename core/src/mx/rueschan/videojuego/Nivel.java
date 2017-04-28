@@ -279,6 +279,7 @@ public abstract class Nivel implements Screen{
         estilo.background = skin.getDrawable("padBack");
         estilo.knob = skin.getDrawable("padKnob");
 
+        //****************************J//
         pad = new Touchpad(20, estilo);
         pad.setBounds(0,0,200,200);
         pad.setSize(pantalla.getANCHO()+pantalla.getANCHO(), pantalla.getALTO()+pantalla.getALTO());
@@ -588,10 +589,9 @@ public abstract class Nivel implements Screen{
     }
 
     private void mostrarHUDInicial(){
-        int actorHUD = escenaHUD.getActors().size-1;
         Actor a;
 
-        for (;actorHUD >= 0; actorHUD--){
+        for (int actorHUD = escenaHUD.getActors().size-1;actorHUD >= 0; actorHUD--){
             a = escenaHUD.getActors().get(actorHUD);
             if (actoresAparecenInicialmente.contains(a.getName())) {
                 a.setVisible(true);
@@ -755,6 +755,8 @@ public abstract class Nivel implements Screen{
 //        }
 //        return null;
 
+
+        //**********************************J//
         if (prueba==1){
             if (Configuraciones.isFxOn)
                 fxLlave.play();
