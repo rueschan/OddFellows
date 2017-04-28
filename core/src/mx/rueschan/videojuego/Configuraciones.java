@@ -52,7 +52,7 @@ public class Configuraciones {
        return easterCreditos;
     }
 
-    static void restaurarEasterCreditos(){
+    static void borrarEasterCreditos(){
         Preferences preferences = Gdx.app.getPreferences("easterCreditos");
         preferences.putString("easterCreditos","");
         preferences.flush();

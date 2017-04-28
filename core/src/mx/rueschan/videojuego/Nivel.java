@@ -10,7 +10,6 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMap;
@@ -101,7 +100,9 @@ public abstract class Nivel implements Screen{
     protected List<String> actoresAparecenInventario = new ArrayList<String>();
     protected List<String> actoresAparecenCarta = new ArrayList<String>();
     protected List<String> actoresAparecenInicialmente = new ArrayList<String>();
-    protected List<String> nombreActores = new ArrayList<String>();
+//    protected List<String> nombreActores = new ArrayList<String>();
+    protected boolean actoresCreados = false;
+    protected int cantidadActores = 18;
 
 
 
@@ -555,9 +556,6 @@ public abstract class Nivel implements Screen{
 //        Gdx.app.log("woloo", "18");
 
 
-        for (int i = 0; i < escenaHUD.getActors().size; i++) {
-            nombreActores.add(escenaHUD.getActors().get(i).getName());
-        }
 
         // Crea los limites de pad y botones, es decir, evita que se cree el pad sobre los botones
         escenaHUD.addListener(new ClickListener() {
@@ -721,6 +719,7 @@ public abstract class Nivel implements Screen{
         if (Configuraciones.obtenerEasterCreditos().contains("MOMAZO")) {
             Arma armaEaster = new Arma(0, 0, Arma.Tipo.MARTILLO);
             henric.addInventario(armaEaster);
+            Configuraciones.borrarEasterCreditos();
         }
     }
 
@@ -1246,7 +1245,7 @@ public abstract class Nivel implements Screen{
         }
         // Muestra los items
         mostrarInventario(inventario, !enInventario);
-
+        enInventario= !enInventario;
 //        //Posición del ultimo actor
 //        int maxActores = escenaHUD.getActors().size -1;
 //        //Posicion actual de los actores que se crean antes de pausa
@@ -1255,15 +1254,11 @@ public abstract class Nivel implements Screen{
 //        int actoresPausa = 11;
 
         //Cambia de valor el booleano enInventario
-        enInventario= !enInventario;
-
 //        int actorHUD = escenaHUD.getActors().size-1;
 //        int actorHUD = nombreActores.size()-1;
         Actor a;
-
-        System.out.println("Actores: " + String.valueOf(nombreActores.size()));
         if (enInventario == true){
-        for (int actorHUD = nombreActores.size()-1;actorHUD >= 0; actorHUD--){
+        for (int actorHUD = cantidadActores; actorHUD >= 0; actorHUD--){
             a = escenaHUD.getActors().get(actorHUD);
             if (actoresAparecenInventario.contains(a.getName())) {
                 a.setVisible(enInventario);

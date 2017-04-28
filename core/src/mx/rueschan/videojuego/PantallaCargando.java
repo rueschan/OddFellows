@@ -47,6 +47,7 @@ public class PantallaCargando extends Pantalla {
 
     // Carga los recursos de la siguiente pantalla
     private void cargarRecursosSigPantalla() {
+        //*************************+CAMARA cambio a estructuras if-else y el tiempo aumentó, no hubo mejora :'(
         manager = oddFellows.getAssetManager();
         porcentaje = 0;
         switch (siguienteNivel) {
@@ -126,6 +127,7 @@ public class PantallaCargando extends Pantalla {
 
     private void actualizarCargaRecursos() {
         if (manager.update()) { // Terminó?
+            //*************************+CAMARA cambio a estructuras if-else y el tiempo aumentó, no hubo mejora :'(
             switch (siguienteNivel) {
                 case MENU_PRINCIPAL:
                     oddFellows.setScreen(new MenuPrincipal(

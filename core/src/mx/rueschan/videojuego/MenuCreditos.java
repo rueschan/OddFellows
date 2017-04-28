@@ -4,7 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -13,8 +12,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-
-import java.util.ArrayList;
 
 /**
  * Created by Odd Fellows on 14/02/2017.
@@ -98,7 +95,7 @@ public class MenuCreditos implements Screen {
     }
 
     public void crearRegionEaster(){
-        Configuraciones.restaurarEasterCreditos();
+        Configuraciones.borrarEasterCreditos();
         int pantAlto = (int)(pantalla.getALTO());
         int pantAncho = (int)(pantalla.getANCHO());
         Pixmap pixmapVerde = new Pixmap(pantAncho/8, pantAlto/5, Pixmap.Format.RGBA8888);
