@@ -94,7 +94,7 @@ public class NivelCabana extends Nivel {
 
         // Mapa
         pantalla.batch.setProjectionMatrix(pantalla.camara.combined);
-//        super.renderer.setView(pantalla.camara);
+        super.renderer.setView(pantalla.camara);
         super.renderer.render();
 
         // Elementos juego
