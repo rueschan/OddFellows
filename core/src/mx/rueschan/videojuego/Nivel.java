@@ -51,6 +51,7 @@ public abstract class Nivel implements Screen{
     protected boolean isArmado = false;
 
     // Enemigo
+    protected ArrayList<Enemigo> listaEnemigos;
     protected Enemigo enemigo;
 
     // Mapa
@@ -135,9 +136,6 @@ public abstract class Nivel implements Screen{
     private TextureRegionDrawable trdBtnItem;
     public Objeto alertaAccion;
     protected Texture texturaEntrar;
-
-
-
 
     // Texturas carta e inventario
     Objeto fondoCarta;
@@ -242,6 +240,8 @@ public abstract class Nivel implements Screen{
         fxInventarioAbrir = manager.get(pathFxInventarioAbrir);
         fxInventarioCerrar = manager.get(pathFxInventarioCerrar);
 
+        // Enemigos
+        listaEnemigos = new ArrayList<Enemigo>();
         
     }
 
@@ -279,9 +279,10 @@ public abstract class Nivel implements Screen{
         estilo.background = skin.getDrawable("padBack");
         estilo.knob = skin.getDrawable("padKnob");
 
+        //****************************J//
         pad = new Touchpad(20, estilo);
         pad.setBounds(0,0,200,200);
-        pad.setSize(pantalla.getANCHO()*2, pantalla.getALTO()*2);
+        pad.setSize(pantalla.getANCHO()+pantalla.getANCHO(), pantalla.getALTO()+pantalla.getALTO());
         pad.setPosition(pantalla.getANCHO()/2 - pad.getWidth()/2,
                 pantalla.getALTO()/2 - pad.getHeight()/2);
         pad.setColor(1,1,1,0);
@@ -578,7 +579,7 @@ public abstract class Nivel implements Screen{
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                 pad.setColor(1,1,1,0);
-                pad.setSize(pantalla.getANCHO()*2,pantalla.getALTO()*2);
+                pad.setSize(pantalla.getANCHO()+pantalla.getANCHO(),pantalla.getALTO()+pantalla.getALTO());
                 pad.setPosition(pantalla.getANCHO()/2 - pad.getWidth()/2,
                         pantalla.getALTO()/2 - pad.getHeight()/2);
                 henric.setEstadoMovimiento(Personaje.EstadoMovimiento.QUIETO_X);
@@ -588,10 +589,9 @@ public abstract class Nivel implements Screen{
     }
 
     private void mostrarHUDInicial(){
-        int actorHUD = escenaHUD.getActors().size-1;
         Actor a;
 
-        for (;actorHUD >= 0; actorHUD--){
+        for (int actorHUD = escenaHUD.getActors().size-1;actorHUD >= 0; actorHUD--){
             a = escenaHUD.getActors().get(actorHUD);
             if (actoresAparecenInicialmente.contains(a.getName())) {
                 a.setVisible(true);
@@ -730,28 +730,54 @@ public abstract class Nivel implements Screen{
         // Carta: 2
         // Martillo: 10
         int prueba = Integer.parseInt(celda.getTile().getProperties().get("IDItem").toString());
-        switch (prueba){
-            case 1: //Llave
-                if (Configuraciones.isFxOn)
-                    fxLlave.play();
-                Llave llave;
-                return llave = new Llave(0, 0, (int) (Math.random()*10) + 1); // Valores del 1 al 10
-            case 2:
-                if (Configuraciones.isFxOn)
-                    fxCarta.play();
-                Carta carta;
-                if (juego.actual.getClass().equals(NivelCabana.class)) {
-                    carta = new Carta(0, 0, 1);
-                } else {
-                    carta = new Carta(0, 0, (int) (Math.random() * 10) + 1);
-                }
-                mostrarCarta(carta);
-                return carta;
-            case 10:
-                Arma martillo;
-                if (Configuraciones.isFxOn)
-                    fxMartillo.play();
-                return martillo = new Arma(0, 0, Arma.Tipo.MARTILLO);
+//        switch (prueba){
+//            case 1: //Llave
+//                if (Configuraciones.isFxOn)
+//                    fxLlave.play();
+//                Llave llave;
+//                return llave = new Llave(0, 0, (int) (Math.random()*10) + 1); // Valores del 1 al 10
+//            case 2:
+//                if (Configuraciones.isFxOn)
+//                    fxCarta.play();
+//                Carta carta;
+//                if (juego.actual.getClass().equals(NivelCabana.class)) {
+//                    carta = new Carta(0, 0, 1);
+//                } else {
+//                    carta = new Carta(0, 0, (int) (Math.random() * 10) + 1);
+//                }
+//                mostrarCarta(carta);
+//                return carta;
+//            case 10:
+//                Arma martillo;
+//                if (Configuraciones.isFxOn)
+//                    fxMartillo.play();
+//                return martillo = new Arma(0, 0, Arma.Tipo.MARTILLO);
+//        }
+//        return null;
+
+
+        //**********************************J//
+        if (prueba==1){
+            if (Configuraciones.isFxOn)
+                fxLlave.play();
+            Llave llave;
+            return llave = new Llave(0, 0, (int) (Math.random()*10) + 1); // Valores del 1 al 10
+        }else if (prueba==2){
+            if (Configuraciones.isFxOn)
+                fxCarta.play();
+            Carta carta;
+            if (juego.actual.getClass().equals(NivelCabana.class)) {
+                carta = new Carta(0, 0, 1);
+            } else {
+                carta = new Carta(0, 0, (int) (Math.random() * 10) + 1);
+            }
+            mostrarCarta(carta);
+            return carta;
+        }else if (prueba==10){
+            Arma martillo;
+            if (Configuraciones.isFxOn)
+                fxMartillo.play();
+            return martillo = new Arma(0, 0, Arma.Tipo.MARTILLO);
         }
         return null;
     }
@@ -970,6 +996,7 @@ public abstract class Nivel implements Screen{
         pantalla.escena.draw();
 
         actualizarVida();
+        hayAtaqueAJugador();
     }
 
     protected void crearPausa(final Stage escenaHUD){
@@ -1231,11 +1258,12 @@ public abstract class Nivel implements Screen{
         enInventario= !enInventario;
 
 //        int actorHUD = escenaHUD.getActors().size-1;
-        int actorHUD = nombreActores.size()-1;
+//        int actorHUD = nombreActores.size()-1;
         Actor a;
 
+        System.out.println("Actores: " + String.valueOf(nombreActores.size()));
         if (enInventario == true){
-        for (;actorHUD >= 0; actorHUD--){
+        for (int actorHUD = nombreActores.size()-1;actorHUD >= 0; actorHUD--){
             a = escenaHUD.getActors().get(actorHUD);
             if (actoresAparecenInventario.contains(a.getName())) {
                 a.setVisible(enInventario);
@@ -1330,6 +1358,44 @@ public abstract class Nivel implements Screen{
 
         }
         barraHPAct.setWidth(anchoBarraHP * (henric.getVida() / 100));
+    }
+
+    public void hayAtaqueAJugador () {
+        final int EXTRA = 10;
+        float henricIzq = henric.sprite.getX();
+        float henricDer = henricIzq + henric.sprite.getWidth();
+        float henricAbajo = henric.sprite.getY();
+        float henricArriba = henricAbajo + henric.sprite.getHeight();
+
+        for (Enemigo enemigo : listaEnemigos) {
+            float izq = enemigo.sprite.getX() - EXTRA;
+            float der = izq + enemigo.sprite.getWidth() + (EXTRA * 2);
+            float abajo = enemigo.sprite.getY() - EXTRA;
+            float arriba = abajo + enemigo.sprite.getHeight() + (EXTRA * 2);
+
+            enemigo.setTocaJugador(false);
+            henric.setLugarEnemigo(Personaje.LugarEnemigo.NO_HAY);
+
+            if ((henricAbajo <= abajo && abajo <= henricArriba)||(henricAbajo <= arriba && arriba <= henricArriba)) {
+                if (henricIzq <= izq && izq <= henricDer) {
+                    henric.setLugarEnemigo(Personaje.LugarEnemigo.DERECHA);
+                    enemigo.setTocaJugador(true);
+                }
+                else if (henricIzq <= der && der <= henricDer) {
+                    henric.setLugarEnemigo(Personaje.LugarEnemigo.IZQUIERDA);
+                    enemigo.setTocaJugador(true);
+                }
+            } else if ((henricIzq <= izq && izq <= henricDer)||(henricIzq <= der && der <= henricDer)) {
+                if (henricAbajo <= abajo && abajo <= henricArriba) {
+                    henric.setLugarEnemigo(Personaje.LugarEnemigo.ARRIBA);
+                    enemigo.setTocaJugador(true);
+                }
+                else if (henricAbajo <= arriba && arriba <= henricArriba) {
+                    henric.setLugarEnemigo(Personaje.LugarEnemigo.ABAJO);
+                    enemigo.setTocaJugador(true);
+                }
+            }
+        }
     }
 
 }

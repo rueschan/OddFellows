@@ -34,6 +34,7 @@ public class Enemigo extends Objeto {
     private float randomTiempoMovimiento;                       // Tiempo limite cambiar estado de movimiento
     private TextureRegion[][] texturaEnemigo;
     private boolean veDerecha;
+    private boolean tocaJugador;
     private TextureRegion regionPruebaOrientacion;
 
     private Tipo tipoEnemigo;
@@ -69,6 +70,7 @@ public class Enemigo extends Objeto {
         sprite.setPosition(x,y);    // Posición inicial
 
         veDerecha = false;
+        tocaJugador = false;
     }
 
     private void crearTipo() {
@@ -156,7 +158,7 @@ public class Enemigo extends Objeto {
     public void actualizar(TiledMap mapa) {
 
         // Revisa contacto con el jugador
-        if (tocaJugador()) {
+        if (tocaJugador) {
             if (estadoEnemigo != EstadoEnemigo.ATACANDO && spriteAnimado != animacionAtaque) {
                 estadoEnemigo = EstadoEnemigo.ATACANDO;
                 animacionPrevia = spriteAnimado;
@@ -172,30 +174,6 @@ public class Enemigo extends Objeto {
             spriteAnimado = animacionPrevia;
             moverAletorio(mapa);
         }
-    }
-
-    private boolean tocaJugador() {
-        final int EXTRA = 10;
-        float izq = this.sprite.getX() - EXTRA;
-        float der = izq + this.sprite.getWidth() + EXTRA;
-        float henricIzq = henric.sprite.getX() - EXTRA;
-        float henricDer = henricIzq + henric.sprite.getWidth() + EXTRA;
-
-        // Revisa si el enemigo esta dentro de jugador
-        if ((henricIzq <= izq && izq <= henricDer)||(henricIzq <= der && der <= henricDer)) {
-            float abajo = this.sprite.getY() - EXTRA;
-            float arriba = abajo + this.sprite.getHeight() + EXTRA;
-            float henricAbajo = henric.sprite.getY() - EXTRA;
-            float henricArriba = henricAbajo + henric.sprite.getHeight() + EXTRA;
-
-            if ((henricAbajo <= abajo && abajo <= henricArriba)||(henricAbajo <= arriba && arriba <= henricArriba)) {
-                henric.setEstadoMovimiento(Personaje.EstadoMovimiento.QUIETO_X);
-                henric.setEstadoMovimientoVertical(Personaje.EstadoMovimientoVertical.QUIETO_Y);
-                return true;
-            }
-        }
-
-        return false;
     }
 
     //Movimiento del enemigo
@@ -423,6 +401,10 @@ public class Enemigo extends Objeto {
         }
     }
 
+    public void setTocaJugador(boolean tocaJugador) {
+        this.tocaJugador = tocaJugador;
+    }
+
     //Método que se acercará al personaje más no indicará como atacar
     private void perseguir(Personaje jugador) {
 
@@ -508,7 +490,6 @@ public class Enemigo extends Objeto {
 
         // Cambia la vida del personaje
         henric.setVida(vidaPersonaje - danoAJugador);
-        Gdx.app.log("En enemigo", String.valueOf(multiplicadorDano));
     }
 
     private enum EstadoEnemigo {

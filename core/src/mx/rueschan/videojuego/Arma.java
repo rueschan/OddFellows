@@ -50,13 +50,20 @@ public class Arma extends Objeto {
     }
 
     private void crearTipo() {
-        switch (tipoArma) {
-            case MARTILLO:
-                dano = 15;
-                special = "romper";
-                textura = new Texture("Items/martillo.png");
-                sprite = new Sprite(textura);
-                break;
+//        switch (tipoArma) {
+//            case MARTILLO:
+//                dano = 15;
+//                special = "romper";
+//                textura = new Texture("Items/martillo.png");
+//                sprite = new Sprite(textura);
+//                break;
+//        }
+        //Tipo
+        if (tipoArma==Tipo.MARTILLO){//************************J//
+            dano = 15;
+            special = "romper";
+            textura = new Texture("Items/martillo.png");
+            sprite = new Sprite(textura);
         }
     }
 }

@@ -47,6 +47,7 @@ public class Personaje extends Objeto {
     // Lugar donde se encuentra
     private Localizacion localizacion = Localizacion.CABANA;
     public Destino destino;
+    private LugarEnemigo lugarEnemigo = LugarEnemigo.NO_HAY;
 
     // ASSETS
     private AssetManager manager;
@@ -316,6 +317,8 @@ public class Personaje extends Objeto {
         }
     }
 
+
+    //WOLOLOLO
     public void interactuar(Nivel nivel) {
         TiledMapTileLayer.Cell celda;
 
@@ -359,6 +362,7 @@ public class Personaje extends Objeto {
             nivel.btnEntrar.setVisible(false);
         }
     }
+
 
     // Mueve el personaje a la derecha/izquierda, prueba choques con paredes
     private void moverHorizontal(TiledMap mapa) {
@@ -566,6 +570,25 @@ public class Personaje extends Objeto {
         return null;
     }
 
+    public TiledMapTileLayer.Cell buscaPuertas(TiledMap mapa){
+        TiledMapTileLayer capa = (TiledMapTileLayer) mapa.getLayers().get("Puerta");
+        TiledMapTileLayer.Cell celda;
+
+        int xPersonaje = (int) sprite.getX();
+        int yPersonaje = (int) sprite.getY();
+
+        for (int x = xPersonaje - 64; x <= xPersonaje + (64*2); x += 32) {
+            for (int y = yPersonaje - 64; y <= yPersonaje + (64*2); y += 32) {
+                celda = capa.getCell((x / 64), (y / 64));
+                if (celda != null && celda.getTile() != null) {
+                    return celda;
+                }
+            }
+        }
+
+        return null;
+    }
+
     public TiledMapTileLayer.Cell buscaSalida(TiledMap mapa) {
 
         TiledMapTileLayer capa = (TiledMapTileLayer) mapa.getLayers().get("Interactivos");
@@ -692,6 +715,10 @@ public class Personaje extends Objeto {
                 sprite.getY(), 0);
     }
 
+    public void setLugarEnemigo(LugarEnemigo lugar) {
+        lugarEnemigo = lugar;
+    }
+
     public enum EstadoMovimiento {
         QUIETO_X,
         MOV_IZQUIERDA,
@@ -703,6 +730,14 @@ public class Personaje extends Objeto {
         MOV_ARRIBA,
         MOV_ABAJO,
         QUIETO_Y
+    }
+
+    public enum LugarEnemigo {
+        DERECHA,
+        IZQUIERDA,
+        ABAJO,
+        ARRIBA,
+        NO_HAY
     }
 
     public enum Localizacion {
