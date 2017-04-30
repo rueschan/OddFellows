@@ -1,6 +1,9 @@
 package mx.rueschan.videojuego;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -42,6 +45,10 @@ public class Enemigo extends Objeto {
     private EstadoMovimiento estadoMovimiento = EstadoMovimiento.QUIETO_X;
     private EstadoMovimientoVertical estadoMovimientoVertical = EstadoMovimientoVertical.QUIETO_Y;
 
+    private static AssetManager manager = Nivel.getManager();
+    private Music fxAtaque;
+    private Sound fxMuriendo;
+
     public Enemigo(float x, float y, Tipo tipo) {
 
         // Encuentra la instancia de henric
@@ -80,7 +87,10 @@ public class Enemigo extends Objeto {
                 VELOCIDAD = 3;
                 poderAtaque = 5;
                 limiteMultiplicadorDano = 3;
-                textura = new Texture("Enemigo/Jabali.png");
+                //textura = new Texture("Enemigo/Jabali.png");
+                textura = manager.get("Enemigo/Jabali.png");
+                fxAtaque = manager.get("Enemigo/jabaliAtaque.mp3");
+                fxMuriendo = manager.get("Enemigo/jabaliMuriendo.mp3");
 
                 // Lee la textura como región
                 TextureRegion texturaCompleta = new TextureRegion(textura);
@@ -490,7 +500,11 @@ public class Enemigo extends Objeto {
         float vidaPersonaje = henric.getVida();
 
         // Cambia la vida del personaje
+        if(Configuraciones.isFxOn){
+            fxAtaque.play();
+        }
         henric.setVida(vidaPersonaje - danoAJugador);
+        //fxAtaque.pause();
     }
 
     public void herir(int dano) {
@@ -498,6 +512,8 @@ public class Enemigo extends Objeto {
         System.out.println("Hiriendo");
 
         if (vida <= 0) {
+            fxAtaque.stop();
+            fxMuriendo.play();
             estadoEnemigo = EstadoEnemigo.MUERTO;
         }
     }

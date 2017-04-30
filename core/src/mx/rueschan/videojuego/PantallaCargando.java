@@ -79,7 +79,6 @@ public class PantallaCargando extends Pantalla {
         manager.load("Sonidos/zipperCerrar.mp3", Sound.class);
         manager.load("Sonidos/alerta.mp3",Sound.class);
 
-
         // Vida
         manager.load("Pantalla/HP.png",Texture.class);
         manager.load("Pantalla/BarraHP.png",Texture.class);
@@ -91,7 +90,6 @@ public class PantallaCargando extends Pantalla {
         manager.load("Pad/padBack.png",Texture.class);
         manager.load("Pad/padKnob.png",Texture.class);
 
-
         manager.load("Pantalla/Accion.png",Texture.class);
         manager.load("Pantalla/BotonInteraccion.png",Texture.class);
         manager.load("Pantalla/entrar.png",Texture.class);
@@ -102,7 +100,6 @@ public class PantallaCargando extends Pantalla {
         manager.load("Personaje/HendricMartilloCorriendo.png",Texture.class);
         manager.load("Pantalla/Fondo/fondoPausa.png",Texture.class);
 
-
         //Crear texturas
         manager.load("Pantalla/BotonPausa64.png",Texture.class);
         manager.load("Pantalla/Tabla.png",Texture.class);
@@ -112,6 +109,11 @@ public class PantallaCargando extends Pantalla {
 
         manager.load("Pantalla/fondoInventario.png",Texture.class);
         manager.load("Pantalla/btnSalirInventario.png",Texture.class);
+        // GAME OVER
+        manager.load("Musica/moonlight.mp3",Music.class);
+        manager.load("Pantalla/Fondo/fondoGameOver.png",Texture.class);
+        manager.load("Pantalla/Vacio.png",Texture.class);
+        manager.load("Pantalla/btnExit.png",Texture.class);
 
     }
     private void cargarRecursosNivelBosque() {
@@ -119,6 +121,12 @@ public class PantallaCargando extends Pantalla {
         manager.load("NivelBosque/bosque.tmx",TiledMap.class);
         manager.load("Musica/lostInForest.mp3",Music.class);
         manager.load("Sonidos/pasoBosque.mp3",Music.class);
+
+        //JABALI
+        manager.load("Enemigo/Jabali.png",Texture.class);
+        manager.load("Enemigo/jabaliAtaque.mp3",Music.class);
+        manager.load("Enemigo/jabaliMuriendo.mp3",Sound.class);
+
 
     }
 
@@ -223,5 +231,10 @@ public class PantallaCargando extends Pantalla {
     @Override
     public void dispose() {
         texturaCargando.dispose();
+    }
+
+    @Override
+    public void resize(int width, int height) {
+        super.resize(width,height);
     }
 }

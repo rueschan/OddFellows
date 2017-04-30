@@ -1458,6 +1458,35 @@ public abstract class Nivel implements Screen{
     }
 
     private void gameOver() {
+        Gdx.app.log("Nivel actualizarVida","***MUERTO*** nivel "+idNvlObjetivo);
+        musicaFondo.stop();
+
+        henric.reset();
+        //henric.vaciarInventario();
+        //henric.setVida(100);
+        pantalla.resetCamara();
+        //henric.setViaje();
+        henric.pararSonido();
+        henric.setEstadoMovimiento(Personaje.EstadoMovimiento.QUIETO_X);
+        henric.setEstadoMovimientoVertical(Personaje.EstadoMovimientoVertical.QUIETO_Y);
+        descargarManager(idNvlObjetivo);
+        henric.pararSonido();
+        switch(idNvlObjetivo){
+            case 1:     //Estoy en el bosque
+                henric.destino = Personaje.Destino.BOSQUE;
+                henric.pararSonido();
+
+                Gdx.app.log("Nivel actualizarVida","me mori en el bosque "+idNvlObjetivo);
+                oddFellows.setScreen(new MenuGameOver(oddFellows,Niveles.NIVEL_BOSQUE));
+                henric.setVida(100);
+
+                //henric.setViaje();
+                break;
+                /*case 2:     // Estoy en la cabaña  caso imposible
+                    henric.destino = Personaje.Destino.CABANA;
+                    oddFellows.setScreen(new PantallaCargando(oddFellows,Niveles.NIVEL_CABANA));
+                    break;*/
+        }
 
     }
 

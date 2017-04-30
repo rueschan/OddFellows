@@ -48,6 +48,7 @@ public class Personaje extends Objeto {
     private EstadoMovimiento estadoMovimiento = EstadoMovimiento.QUIETO_X;
     private EstadoMovimientoVertical estadoMovimientoVertical = EstadoMovimientoVertical.QUIETO_Y;
     private boolean veDerecha;
+    private boolean estaVivo;
 
     // Lugar donde se encuentra
     private Localizacion localizacion = Localizacion.CABANA;
@@ -69,6 +70,7 @@ public class Personaje extends Objeto {
     // Recibe una imagen con varios frames (ver marioSprite.png)
     public Personaje(Texture textura, float x, float y) {
         Pantalla pantalla = Pantalla.getInstanciaPantalla();
+        estaVivo = true;
 
         // Crea inventario
         inventario = new ArrayList<Objeto>(10);
@@ -260,10 +262,10 @@ public class Personaje extends Objeto {
     // Sonido al caminar
     public void darPaso() {
         if (estadoMovimiento == EstadoMovimiento.QUIETO_X && estadoMovimientoVertical == EstadoMovimientoVertical.QUIETO_Y
-                || estadoMovimiento == EstadoMovimiento.ATACAR) {
+              || estadoMovimiento == EstadoMovimiento.ATACAR) {
             fxPasos.pause();
         } else {
-            if (Configuraciones.isFxOn) {
+            if (Configuraciones.isFxOn && estaVivo) {
                 fxPasos.play();
             }
         }
@@ -716,6 +718,12 @@ public class Personaje extends Objeto {
 
     public void setVida(float cambio){
         vida = cambio;
+        if (vida<=0){
+            estaVivo = false;
+        }
+        else{
+            estaVivo = true;
+        }
     }
 
     // Accesor de estadoMovimiento

@@ -35,6 +35,7 @@ public class MenuPrincipal implements Screen {
         manager = this.oddFellows.getAssetManager();
         // Obtener pantalla
         pantalla = Pantalla.getInstanciaPantalla();
+        pantalla.resetCamara();
 
         Music musicaMenus = manager.get("Musica/chopinNocturne.mp3");
         this.oddFellows.crearMusica(musicaMenus);
