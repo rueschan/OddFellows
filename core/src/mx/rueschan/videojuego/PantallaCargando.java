@@ -70,7 +70,6 @@ public class PantallaCargando extends Pantalla {
         Gdx.app.log("cargarManager Nivel","cargando");
 
         //Elementos del nivel
-
         manager.load("Musica/giantwyrm.mp3",Music.class);
         manager.load("Sonidos/levantarLlave.mp3", Sound.class);
         manager.load("Sonidos/levantarPapel.mp3", Sound.class);
@@ -86,6 +85,9 @@ public class PantallaCargando extends Pantalla {
         //Texturas de Henric
         manager.load("Personaje/Henric.png",Texture.class);
         manager.load("Personaje/HendricMartilloAtaque.png",Texture.class);
+
+        // Texturas enemigos
+        cargaEnemigos();
 
         manager.load("Pad/padBack.png",Texture.class);
         manager.load("Pad/padKnob.png",Texture.class);
@@ -121,13 +123,6 @@ public class PantallaCargando extends Pantalla {
         manager.load("NivelBosque/bosque.tmx",TiledMap.class);
         manager.load("Musica/lostInForest.mp3",Music.class);
         manager.load("Sonidos/pasoBosque.mp3",Music.class);
-
-        //JABALI
-        manager.load("Enemigo/Jabali.png",Texture.class);
-        manager.load("Enemigo/jabaliAtaque.mp3",Music.class);
-        manager.load("Enemigo/jabaliMuriendo.mp3",Sound.class);
-
-
     }
 
     private void cargarRecursosNivelCabana() {
@@ -164,6 +159,18 @@ public class PantallaCargando extends Pantalla {
         //TEXTURA BOTON EXIT
         manager.load("Pantalla/btnExit.png",Texture.class);
 
+    }
+
+    private void cargaEnemigos() {
+        // Texturas de enemigos
+        manager.load("Enemigo/Jabali.png", Texture.class);
+        manager.load("Enemigo/Oso.png", Texture.class);
+        manager.load("Enemigo/Mutante.png", Texture.class);
+        manager.load("Enemigo/MutanteDos.png", Texture.class);
+
+        // Sonidos enemigos
+        manager.load("Enemigo/JabaliAtaque.mp3",Music.class);
+        manager.load("Enemigo/JabaliMuerte.mp3",Sound.class);
     }
 
     @Override

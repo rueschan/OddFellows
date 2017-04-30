@@ -55,7 +55,7 @@ public class Personaje extends Objeto {
     public Destino destino;
 
     // ASSETS
-    private static AssetManager manager = Nivel.getManager();;
+    private static AssetManager manager = Nivel.getManager();
     private Music fxPasos;
     private String pathFxPasos = "Sonidos/pasoMadera.mp3";
     private Sound fxAccion;
@@ -199,9 +199,13 @@ public class Personaje extends Objeto {
         sprite = new Sprite(trAtaque[0][0]);    // QUIETO_X
         sprite.setPosition(x, y);    // Posición inicial
 
-        System.out.println(enemigoCercano);
         if (enemigoCercano != null) {
-            enemigoCercano.herir(dano);
+            if (enemigoCercano.getEstadoEnemigo() != Enemigo.EstadoEnemigo.MUERTO) {
+                enemigoCercano.herir(dano);
+            } else {
+                enemigoCercano = null;
+            }
+
         }
 
 //        long fin = System.nanoTime();

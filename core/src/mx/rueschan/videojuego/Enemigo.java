@@ -28,7 +28,6 @@ public class Enemigo extends Objeto {
     // Personaje
     private Personaje henric;
 
-    private Texture textura;
     private Animation<TextureRegion> spriteAnimado;         // Animación caminando
     private Animation<TextureRegion> animacionPrevia;       // Animación previa
     private Animation<TextureRegion> animacionAtaque;       // Animación ataque
@@ -45,7 +44,9 @@ public class Enemigo extends Objeto {
     private EstadoMovimiento estadoMovimiento = EstadoMovimiento.QUIETO_X;
     private EstadoMovimientoVertical estadoMovimientoVertical = EstadoMovimientoVertical.QUIETO_Y;
 
+    // Assets
     private static AssetManager manager = Nivel.getManager();
+    private Texture textura;
     private Music fxAtaque;
     private Sound fxMuriendo;
 
@@ -87,10 +88,11 @@ public class Enemigo extends Objeto {
                 VELOCIDAD = 3;
                 poderAtaque = 5;
                 limiteMultiplicadorDano = 3;
-                //textura = new Texture("Enemigo/Jabali.png");
+
+                // Assets
                 textura = manager.get("Enemigo/Jabali.png");
-                fxAtaque = manager.get("Enemigo/jabaliAtaque.mp3");
-                fxMuriendo = manager.get("Enemigo/jabaliMuriendo.mp3");
+                fxAtaque = manager.get("Enemigo/JabaliAtaque.mp3");
+                fxMuriendo = manager.get("Enemigo/JabaliMuerte.mp3");
 
                 // Lee la textura como región
                 TextureRegion texturaCompleta = new TextureRegion(textura);
@@ -509,12 +511,11 @@ public class Enemigo extends Objeto {
 
     public void herir(int dano) {
         this.vida -= dano;
-        System.out.println("Hiriendo");
 
         if (vida <= 0) {
+            estadoEnemigo = EstadoEnemigo.MUERTO;
             fxAtaque.stop();
             fxMuriendo.play();
-            estadoEnemigo = EstadoEnemigo.MUERTO;
         }
     }
 
