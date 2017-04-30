@@ -20,9 +20,9 @@ public class NivelBosque extends Nivel {
     private static NivelBosque instancia;
 
     //Mapa tipo tmx del Bosque
-    private String pathMapa;
-    private String pathMusica;
-    private String pathFxPasos;
+    private final String pathMapa = "NivelBosque/bosque.tmx";
+    private final String pathMusica = "Musica/lostInForest.mp3";
+    private final String pathFxPasos = "Sonidos/pasoBosque.mp3";
 
     // Enemigos
 
@@ -40,12 +40,12 @@ public class NivelBosque extends Nivel {
         return instancia;
     }
 
-    @Override
+   @Override
     protected void cargarTexturas() {
         //Textura de los diferentes elementos que componen el nivel
-        pathMapa = "NivelBosque/bosque.tmx";
+       /* pathMapa = "NivelBosque/bosque.tmx";
         pathMusica = "Musica/lostInForest.mp3";
-        pathFxPasos = "Sonidos/pasoBosque.mp3";
+        pathFxPasos = "Sonidos/pasoBosque.mp3";*/
     }
 
     @Override
@@ -68,7 +68,7 @@ public class NivelBosque extends Nivel {
 
     @Override
     public void show() {
-        cargarTexturas();
+       // cargarTexturas();
 
         // Crear mapa
         super.crearRecursos(pantalla, pathMapa, pathMusica);

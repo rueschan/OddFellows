@@ -2,6 +2,7 @@ package mx.rueschan.videojuego;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.FPSLogger;
 import com.badlogic.gdx.graphics.Pixmap;
@@ -28,14 +29,20 @@ public class NivelCabana extends Nivel {
     private static NivelCabana instancia;
 
     // Recursos
-    private String pathMapa;
-    private String pathMusica;
-    private String pathFxPasos;
+    private final String pathMapa = "NivelCabana/Cabana.tmx";
+    private final String pathMusica = "Musica/ofeliasdream.mp3";
+    private final String pathFxPasos = "Sonidos/pasoMadera.mp3";
+//
+//
+
+    private AssetManager manager;
+
 
     public NivelCabana(OddFellows oddFellows) {
         super.oddFellows = oddFellows;
         super.pantalla = Pantalla.getInstanciaPantalla();
         actual = this;
+        manager = super.oddFellows.getAssetManager();
     }
 
     public static NivelCabana getNivelCabana(OddFellows oddFellows) {
@@ -48,9 +55,9 @@ public class NivelCabana extends Nivel {
     @Override
     protected void cargarTexturas() {
         // Recursos
-        pathMapa = "NivelCabana/Cabana.tmx";
-        pathMusica = "Musica/ofeliasdream.mp3";
-        pathFxPasos = "Sonidos/pasoMadera.mp3";
+//        pathMapa = "NivelCabana/Cabana.tmx";
+//        pathMusica = "Musica/ofeliasdream.mp3";
+//        pathFxPasos = "Sonidos/pasoMadera.mp3";
     }
 
     @Override

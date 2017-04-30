@@ -37,7 +37,7 @@ import java.util.List;
  */
 public abstract class Nivel implements Screen{
 
-    protected OddFellows oddFellows;
+    protected static OddFellows oddFellows;
     protected Pantalla pantalla;
     protected Juego juego;
     protected static int idNvlObjetivo;
@@ -104,8 +104,6 @@ public abstract class Nivel implements Screen{
     protected boolean actoresCreados = false;
     protected int cantidadActores = 18;
 
-
-
     //Pausa
     protected Texture regionPausa;
     protected Texture regionOscura;
@@ -144,21 +142,21 @@ public abstract class Nivel implements Screen{
     private Texto txt;
 
     //Manejador de assets
-    protected static AssetManager manager;
+    protected AssetManager manager;
 
     protected Music musicaFondo;
     protected Music musicaPausa;
-    protected String pathMusicaPausa = "Musica/giantwyrm.mp3";
+    protected final String pathMusicaPausa = "Musica/giantwyrm.mp3";
     protected Sound fxLlave;
-    protected String pathFxLlave = "Sonidos/levantarLlave.mp3";
+    protected final String pathFxLlave = "Sonidos/levantarLlave.mp3";
     protected Sound fxCarta;
-    protected String pathFxCarta = "Sonidos/levantarPapel.mp3";
+    protected final String pathFxCarta = "Sonidos/levantarPapel.mp3";
     protected Sound fxMartillo;
-    protected String pathFxMartillo = "Sonidos/levantarMartillo.mp3";
+    protected final String pathFxMartillo = "Sonidos/levantarMartillo.mp3";
     private Sound fxInventarioAbrir;
-    private String pathFxInventarioAbrir = "Sonidos/zipperAbrir.mp3";
+    private final String pathFxInventarioAbrir = "Sonidos/zipperAbrir.mp3";
     private Sound fxInventarioCerrar;
-    private String pathFxInventarioCerrar = "Sonidos/zipperCerrar.mp3";
+    private final String pathFxInventarioCerrar = "Sonidos/zipperCerrar.mp3";
 
     @Override
     public void show() {
@@ -168,10 +166,11 @@ public abstract class Nivel implements Screen{
     }
 
     public static AssetManager getManager() {
-        if (manager != null) {
+        /*if (manager != null) {
             return manager;
         }
-        return new AssetManager();
+        return new AssetManager();*/
+        return (oddFellows.getAssetManager());
     }
 
     protected void cargarJuego(){
@@ -183,6 +182,7 @@ public abstract class Nivel implements Screen{
     protected abstract void cargarTexturas();
 
     protected void crearRecursos(Pantalla pantalla, String nombreMapa, String nombreMusicaFondo) {
+        this.manager = oddFellows.getAssetManager();
         // Henric
         henric = Personaje.getInstanciaPersonaje();
 //        texturaHenric = new Texture("Personaje/Henric.png");
@@ -193,8 +193,10 @@ public abstract class Nivel implements Screen{
         txt.hacerMensajes(new Color(0,0,0,1), "");
 
         // Vida
-        texturaHP = new Texture("Pantalla/HP.png");
-        texturaBarraHP = new Texture("Pantalla/BarraHP.png");
+        //texturaHP = new Texture("Pantalla/HP.png");
+        //texturaBarraHP = new Texture("Pantalla/BarraHP.png");
+        texturaHP = manager.get("Pantalla/HP.png");
+        texturaBarraHP = manager.get("Pantalla/BarraHP.png");
 //        hp = new Objeto(texturaHP, 10, pantalla.getALTO() - 10 - texturaHP.getHeight());
 //        barraHP = new Objeto(texturaBarraHP, 10, pantalla.getALTO() - 10 - texturaHP.getHeight());
 
@@ -210,20 +212,19 @@ public abstract class Nivel implements Screen{
 
 
 
-        manager = new AssetManager();
-        manager.setLoader(TiledMap.class,
-                new TmxMapLoader(new InternalFileHandleResolver()));
-        manager.load(nombreMapa, TiledMap.class);
-        manager.load(nombreMusicaFondo,Music.class);
-        manager.load(pathMusicaPausa,Music.class);
+        //manager = new AssetManager();
+        //manager.setLoader(TiledMap.class,
+        //        new TmxMapLoader(new InternalFileHandleResolver()));
+        //manager.load(nombreMapa, TiledMap.class);
+        //manager.load(nombreMusicaFondo,Music.class);
+        /*manager.load(pathMusicaPausa,Music.class);
         manager.load(pathFxLlave, Sound.class);
         manager.load(pathFxCarta, Sound.class);
         manager.load(pathFxMartillo, Sound.class);
         manager.load(pathFxInventarioAbrir, Sound.class);
-        manager.load(pathFxInventarioCerrar, Sound.class);
+        manager.load(pathFxInventarioCerrar, Sound.class);*/
 
-        manager.finishLoading();    // Carga los recursos
-
+        //manager.finishLoading();    // Carga los recursos
         mapa = manager.get(nombreMapa);
 
         pantalla.batch = new SpriteBatch();
@@ -243,7 +244,7 @@ public abstract class Nivel implements Screen{
 
         // Enemigos
         listaEnemigos = new ArrayList<Enemigo>();
-        
+
     }
 
     protected void crearElementosPantalla(final Pantalla pantalla){
@@ -273,8 +274,13 @@ public abstract class Nivel implements Screen{
         // HUD
             // PAD
         Skin skin = new Skin();
+        //skin.add("padBack", new Texture("Pad/padBack.png"));
+        //skin.add("padKnob", new Texture("Pad/padKnob.png"));
+        Texture textura = manager.get("Pad/padBack.png");
         skin.add("padBack", new Texture("Pad/padBack.png"));
+        textura = manager.get("Pad/padKnob.png");
         skin.add("padKnob", new Texture("Pad/padKnob.png"));
+
 
         final Touchpad.TouchpadStyle estilo = new Touchpad.TouchpadStyle();
         estilo.background = skin.getDrawable("padBack");
@@ -398,7 +404,10 @@ public abstract class Nivel implements Screen{
                 henric.vaciarInventario();
                 henric.setVida(100);
                 pantalla.resetCamara();
+                //manager.clear(); DEBERÍA FUNCIONAR PERO NO CARGA LA TEXTURA DE HENRIC NORMAL NI LA ALERTA
                 oddFellows.setScreen(new PantallaCargando(oddFellows, Niveles.MENU_PRINCIPAL));
+
+
             }
         });
 
@@ -602,14 +611,16 @@ public abstract class Nivel implements Screen{
 
     private void crearAlerta(){
         //// Asignar textura a sprite de acción
-        texturaAccion = new Texture("Pantalla/Accion.png");
+        //texturaAccion = new Texture("Pantalla/Accion.png");
+        texturaAccion = manager.get("Pantalla/Accion.png");
         alertaAccion = new Objeto(0, 0, texturaAccion);
         alertaAccion.sprite.setColor(1, 1, 1, 0);
     }
 
     private void crearBtnInteraccion(){
         //// Asignar textura al boton de interación
-        texturaInteraccion = new Texture("Pantalla/BotonInteraccion.png");
+        //texturaInteraccion = new Texture("Pantalla/BotonInteraccion.png");
+        texturaInteraccion = manager.get("Pantalla/BotonInteraccion.png");
         TextureRegionDrawable trdBtnInteraccion = new
                 TextureRegionDrawable(new TextureRegion(texturaInteraccion));
 
@@ -620,7 +631,8 @@ public abstract class Nivel implements Screen{
         btnInteraccion.setColor(1,1,1,0.4f);
 
         //Boton Salir
-        texturaEntrar = new Texture("Pantalla/entrar.png");
+        //texturaEntrar = new Texture("Pantalla/entrar.png");
+        texturaEntrar = manager.get("Pantalla/entrar.png");
         TextureRegionDrawable trdBtnentrar = new
                 TextureRegionDrawable(new TextureRegion(texturaEntrar));
         btnEntrar = new ImageButton(trdBtnentrar);
@@ -634,7 +646,8 @@ public abstract class Nivel implements Screen{
 
     private void crearBtnAccion(){
         //// Asignar textura al boton de acción
-        texturaAccion = new Texture("Pantalla/baseItems.png");
+        // texturaAccion = new Texture("Pantalla/baseItems.png");
+        texturaAccion = manager.get("Pantalla/baseItems.png");
 //        fondoAccion = new Objeto(texturaAccion, pantalla.getANCHO()-texturaAccion.getWidth()-pantalla.getANCHO()*.14f,
 //                pantalla.getALTO()*.02f);
 
@@ -675,7 +688,8 @@ public abstract class Nivel implements Screen{
     private void crearBtnInventario(){
 
         //// Asignar textura al boton de inventario
-        texturaInventario = new Texture("Pantalla/inventario.png");
+        // texturaInventario = new Texture("Pantalla/inventario.png");
+        texturaInventario = manager.get("Pantalla/inventario.png");
         TextureRegionDrawable trdBtnInventario = new
                 TextureRegionDrawable(new TextureRegion(texturaInventario));
 
@@ -688,7 +702,8 @@ public abstract class Nivel implements Screen{
 
     private void crearCartas(){
         // Cartas
-        Texture pathFondoCarta = new Texture("Pantalla/fondoCarta.png");
+        //Texture pathFondoCarta = new Texture("Pantalla/fondoCarta.png");
+        Texture pathFondoCarta = manager.get("Pantalla/fondoCarta.png");
         fondoCarta = new Objeto(pantalla.getANCHO()/2 - pathFondoCarta.getWidth()/2, 0, pathFondoCarta);
         fondoCarta.sprite.setColor(1,1,1,0);
 
@@ -703,7 +718,8 @@ public abstract class Nivel implements Screen{
 //        oscuroPausa.setVisible(false);
 
         //// Asignar textura al boton de cerrar carta
-        texturaCerrar = new Texture("Pantalla/cerrar.png");
+        //texturaCerrar = new Texture("Pantalla/cerrar.png");
+        texturaCerrar = manager.get("Pantalla/cerrar.png");
         TextureRegionDrawable trdBtnCerrar = new
                 TextureRegionDrawable(new TextureRegion(texturaCerrar));
 
@@ -878,7 +894,8 @@ public abstract class Nivel implements Screen{
                         isArmado = false;
                         seleccionado = item;
                         enInventario = irInventario(enInventario, escenaHUD);
-                        Texture textura = new Texture("Personaje/Henric.png");
+                        //Texture textura = new Texture("Personaje/Henric.png");
+                        Texture textura = manager.get("Personaje/Henric.png");
                         henric.setSprite(new TextureRegion(textura).split(96, 96));
                     }
                 });
@@ -918,7 +935,8 @@ public abstract class Nivel implements Screen{
             isArmado = true;
             Arma arma = (Arma) seleccionado;
             if (arma.getTipo() == Arma.Tipo.MARTILLO) {
-                Texture textura = new Texture("Personaje/HendricMartilloCorriendo.png");
+                //Texture textura = new Texture("Personaje/HendricMartilloCorriendo.png");
+                Texture textura = manager.get("Personaje/HendricMartilloCorriendo.png");
                 henric.setSprite(new TextureRegion(textura).split(96, 96));
             }
         }
@@ -938,7 +956,6 @@ public abstract class Nivel implements Screen{
 
     private void ejecutarAccion() {
         henric.setEstadoMovimiento(Personaje.EstadoMovimiento.QUIETO_X);
-//        Gdx.app.log("ejecutarMovimiento:","wololo");
         if (seleccionado instanceof Arma) {
             Arma arma = (Arma) seleccionado;
             if (arma.getTipo() == Arma.Tipo.MARTILLO) {
@@ -1016,7 +1033,8 @@ public abstract class Nivel implements Screen{
         cuadroPausa.setPosition(0.275f*pantalla.getANCHO(), 0.1f*pantalla.getALTO());
 
         //Crear Fondo de pantalla de pausa
-        fondoMenu = new Texture("Pantalla/Fondo/fondoPausa.png");
+        //fondoMenu = new Texture("Pantalla/Fondo/fondoPausa.png");
+        fondoMenu = manager.get("Pantalla/Fondo/fondoPausa.png");
         fondoMenuImagen = new Image(fondoMenu);
         fondoMenuImagen.setPosition(0,0);
 
@@ -1032,11 +1050,16 @@ public abstract class Nivel implements Screen{
         */
 
         //Crear texturas
-        texturaBotonPausa = new Texture("Pantalla/BotonPausa64.png");
+        /*texturaBotonPausa = new Texture("Pantalla/BotonPausa64.png");
         texturaBotonReanudar = new Texture("Pantalla/Tabla.png");
         texturaBotonSalir = new Texture("Pantalla/Tabla.png");
         texturaMusica = new Texture("Pantalla/Audio.png");
-        texturaFX = new Texture("Pantalla/ecualizador.png");
+        texturaFX = new Texture("Pantalla/ecualizador.png");*/
+        texturaBotonPausa = manager.get("Pantalla/BotonPausa64.png");
+        texturaBotonReanudar = manager.get("Pantalla/Tabla.png");
+        texturaBotonSalir = manager.get("Pantalla/Tabla.png");
+        texturaMusica = manager.get("Pantalla/Audio.png");
+        texturaFX = manager.get("Pantalla/ecualizador.png");
 
         //Crear boton Pausa
         TextureRegionDrawable trdBtnPausa = new
@@ -1086,7 +1109,8 @@ public abstract class Nivel implements Screen{
         enInventario=false;
 
         //Textura de cuadro de pausa
-        regionInventario = new Texture( "Pantalla/fondoInventario.png" );
+        //regionInventario = new Texture( "Pantalla/fondoInventario.png" );
+        regionInventario = manager.get("Pantalla/fondoInventario.png");
         cuadroInventario = new Image(regionInventario);
         cuadroInventario.setPosition(pantalla.getANCHO()/2 - regionInventario.getWidth()/2, 0.15f*pantalla.getALTO());
 
@@ -1103,7 +1127,8 @@ public abstract class Nivel implements Screen{
 //        Pixmap pixmapRegresar = new Pixmap((int)(pantalla.getANCHO()*0.4f), (int)(pantalla.getALTO()*0.1f), Pixmap.Format.RGBA8888 ); // 512 x 128
 //        pixmapRegresar.setColor( 0.6f, 0.2f, 0.8f, 0.85f );
 //        pixmapRegresar.fillRectangle(0,0,(int)pantalla.getANCHO(),(int)pantalla.getALTO());
-        regionRegresarInventario = new Texture( "Pantalla/btnSalirInventario.png" );
+        //regionRegresarInventario = new Texture( "Pantalla/btnSalirInventario.png" );
+        regionRegresarInventario = manager.get("Pantalla/btnSalirInventario.png");
 //        pixmapRegresar.dispose();
         regresarInventario = new Image(regionRegresarInventario);
         regresarInventario.setPosition(.3f*pantalla.getANCHO(),.05f*pantalla.getALTO());
@@ -1157,26 +1182,100 @@ public abstract class Nivel implements Screen{
     }
 
     protected void cambiarNivel(int nvl) {
-        Nivel nivel = detectarNivel(nvl);
-        oddFellows.setScreen(nivel);
-        musicaFondo.stop();
-        henric.setViaje();
-        // juego.cargarNivel(nvl);
-//        this.dispose();
-
-    }
-
-    private Nivel detectarNivel(int nvl) {
+        //Nivel nivel = detectarNivel(nvl);
+        //oddFellows.setScreen(nivel);
+        //descargarManager(nvl);
         switch (nvl) {
             case 1: // CABAÑA
                 henric.destino = Personaje.Destino.CABANA;
-                return NivelCabana.getNivelCabana(oddFellows);
+                Gdx.app.log("Cambiar Nivel"," "+"voy a la cabaña "+nvl);
+                oddFellows.setScreen(new PantallaCargando(oddFellows,Niveles.NIVEL_CABANA));
+                break;
             case 2: // BOSQUE
                 henric.destino = Personaje.Destino.BOSQUE;
-                return NivelBosque.getNivelBosque(oddFellows);
+                Gdx.app.log("Cambiar Nivel"," "+"voy al bosque "+nvl);
+                oddFellows.setScreen(new PantallaCargando(oddFellows,Niveles.NIVEL_BOSQUE));
+                break;
         }
-        return null;
+        musicaFondo.stop();
+        henric.setViaje();
+        descargarManager(nvl);
+        // juego.cargarNivel(nvl);
+//        this.dispose();
     }
+
+    private void descargarManager(int nvl) {
+        Gdx.app.log("descargarManager Nivel","descargando");
+        switch (nvl) {
+            case 1: // VOY PARA LA CABAÑA
+                Gdx.app.log("descargarManager Bosque","nvl "+nvl);
+                manager.unload("NivelBosque/bosque.tmx");
+                manager.unload("Musica/lostInForest.mp3");
+                manager.unload("Sonidos/pasoBosque.mp3");
+                break;
+            case 2: // VOY PARA EL BOSQUE CABAÑA
+                Gdx.app.log("descargarManager Cabana","nvl "+nvl);
+                manager.unload("NivelCabana/Cabana.tmx");
+                manager.unload("Musica/ofeliasdream.mp3");
+                manager.unload("Sonidos/pasoMadera.mp3");
+                break;
+        }
+    }
+    private void descargarManager() {
+        Gdx.app.log("descargarManager Nivel","descargando");
+
+        manager.unload("Musica/giantwyrm.mp3");
+        manager.unload("Sonidos/levantarLlave.mp3");
+        manager.unload("Sonidos/levantarPapel.mp3");
+        manager.unload("Sonidos/levantarMartillo.mp3");
+        manager.unload("Sonidos/zipperAbrir.mp3");
+        manager.unload("Sonidos/zipperCerrar.mp3");
+        manager.unload("Sonidos/alerta.mp3");
+
+        // Vida
+        manager.unload("Pantalla/HP.png");
+        manager.unload("Pantalla/BarraHP.png");
+
+        //Texturas de Henric
+        manager.unload("Personaje/Henric.png");
+        manager.unload("Personaje/HendricMartilloAtaque.png");
+
+        manager.unload("Pad/padBack.png");
+        manager.unload("Pad/padKnob.png");
+
+        manager.unload("Pantalla/Accion.png");
+        manager.unload("Pantalla/BotonInteraccion.png");
+        manager.unload("Pantalla/entrar.png");
+        manager.unload("Pantalla/baseItems.png");
+        manager.unload("Pantalla/inventario.png");
+        manager.unload("Pantalla/fondoCarta.png");
+        manager.unload("Pantalla/cerrar.png");
+        manager.unload("Personaje/HendricMartilloCorriendo.png");
+        manager.unload("Pantalla/Fondo/fondoPausa.png");
+
+        //Crear texturas
+        manager.unload("Pantalla/BotonPausa64.png");
+        manager.unload("Pantalla/Tabla.png");
+        manager.unload("Pantalla/Tabla.png");
+        manager.unload("Pantalla/Audio.png");
+        manager.unload("Pantalla/ecualizador.png");
+
+        manager.unload("Pantalla/fondoInventario.png");
+        manager.unload("Pantalla/btnSalirInventario.png");
+        manager.finishLoading();
+    }
+
+    /*private void detectarNivel(int nvl) {
+        switch (nvl) {
+            case 1: // CABAÑA
+                henric.destino = Personaje.Destino.CABANA;
+               // return NivelCabana.getNivelCabana(oddFellows);
+            case 2: // BOSQUE
+                henric.destino = Personaje.Destino.BOSQUE;
+               // return NivelBosque.getNivelBosque(oddFellows);
+        }
+        //return null;
+    }*/
 
     public static void setNivelObjetivo(int n) {
         idNvlObjetivo = n;

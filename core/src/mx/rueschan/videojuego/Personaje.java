@@ -50,12 +50,14 @@ public class Personaje extends Objeto {
     private LugarEnemigo lugarEnemigo = LugarEnemigo.NO_HAY;
 
     // ASSETS
-    private AssetManager manager;
+    private static AssetManager manager = Nivel.getManager();;
     private Music fxPasos;
     private String pathFxPasos = "Sonidos/pasoMadera.mp3";
     private Sound fxAccion;
-    private String pathFxAccion = "Sonidos/alerta.mp3";
+    private final String pathFxAccion = "Sonidos/alerta.mp3";
     private Texture texturaAtaque;
+    private String pathTexturaHenricAtaqueMartillo = "Personaje/HendricMartilloAtaque.png";
+    private String pathTexturaHenric = "Personaje/Henric.png";
 
     // Estado de acción
     private boolean estatusAccion = false;
@@ -75,7 +77,10 @@ public class Personaje extends Objeto {
         spriteAnimado = new Animation(0.15f, texturaPersonaje[0][2], texturaPersonaje[0][1] );
         animacionPrevia = new Animation(0.15f, texturaPersonaje[0][2], texturaPersonaje[0][1] );
         animacionAtaque = null;
-        texturaAtaque = new Texture("Personaje/HendricMartilloAtaque.png");
+
+        manager = Nivel.getManager();
+        //texturaAtaque = new Texture("Personaje/HendricMartilloAtaque.png");
+        texturaAtaque = manager.get(pathTexturaHenricAtaqueMartillo);
         trAtaque = new TextureRegion(texturaAtaque).split(120, 96);
         animacionAtaque = new Animation(0.1f, trAtaque[0][2], trAtaque[0][1] );
         // Animación infinita
@@ -88,14 +93,14 @@ public class Personaje extends Objeto {
         veDerecha = false; // El sprite esta viendo a la izquierda
 
         // ASSET MANAGER
-        manager = Nivel.getManager();
-        manager.load(pathFxPasos, Music.class);
-        manager.load(pathFxAccion, Sound.class);
-        manager.finishLoading();    // Carga los recursos
+        //manager = Nivel.getManager();
+        //manager.load(pathFxPasos, Music.class);
+        //manager.load(pathFxAccion, Sound.class);
+        //manager.finishLoading();    // Carga los recursos
 
-        fxPasos = manager.get(pathFxPasos);
-        fxPasos.setLooping(true);
-        fxPasos.pause();
+        //fxPasos = manager.get(pathFxPasos);
+        //fxPasos.setLooping(true);
+        //fxPasos.pause();
         fxAccion = manager.get(pathFxAccion);
 
 //        camaraX = pantalla.camara.position.x;
@@ -106,13 +111,18 @@ public class Personaje extends Objeto {
     public static Personaje getInstanciaPersonaje() {
         if (instancia == null) {
             Pantalla pantalla = Pantalla.getInstanciaPantalla();
-            Texture texturaHenric = new Texture("Personaje/Henric.png");
+            //Texture texturaHenric = new Texture("Personaje/Henric.png");
+            //Gdx.app.log("Personaje getInstanciaPersonaje"," "+manager.toString());
+            Texture texturaHenric = manager.get("Personaje/Henric.png");
             instancia = new Personaje(texturaHenric, pantalla.getANCHO()/2, pantalla.getALTO()/2);
         }
         return instancia;
     }
 
-    public void reset() {TextureRegion texturaCompleta = new TextureRegion(new Texture("Personaje/Henric.png"));
+    public void reset() {
+        //TextureRegion texturaCompleta = new TextureRegion(new Texture("Personaje/Henric.png"));
+        Texture texturaHenric = manager.get("Personaje/Henric.png");
+        TextureRegion texturaCompleta = new TextureRegion(texturaHenric);
         // La divide en 4 frames de 32x64 (ver marioSprite.png)
         texturaPersonaje = texturaCompleta.split(96,96);
         // Crea la animación con tiempo de 0.15 segundos entre frames.
@@ -135,9 +145,9 @@ public class Personaje extends Objeto {
     }
 
     public void setFxPasos(String nuevoFx) {
-        manager.unload(pathFxPasos);
-        manager.load(nuevoFx, Music.class);
-        manager.finishLoadingAsset(nuevoFx);
+        //manager.unload(pathFxPasos);
+        //manager.load(nuevoFx, Music.class);
+        //manager.finishLoadingAsset(nuevoFx);
         fxPasos = manager.get(nuevoFx);
         fxPasos.setLooping(true);
         fxPasos.pause();
@@ -161,7 +171,7 @@ public class Personaje extends Objeto {
 
     public void usarArma() {
         // SE EVITA LA CREACION DE TEXTURAS DENTRO DEL MÉTODO
-        long inicio = System.nanoTime();
+        //long inicio = System.nanoTime();
 
 //        this.texturaPersonaje = trAtaque;
 //        animacionAtaque = new Animation(0.1f, texturaPersonaje[0][2], texturaPersonaje[0][1] );
@@ -181,8 +191,8 @@ public class Personaje extends Objeto {
         sprite = new Sprite(trAtaque[0][0]);    // QUIETO_X
         sprite.setPosition(x, y);    // Posición inicial
 
-        long fin = System.nanoTime();
-        System.out.println((fin - inicio) / 1000);
+        //long fin = System.nanoTime();
+        //System.out.println((fin - inicio) / 1000);
     }
 
     public void addInventario(Objeto item) {
