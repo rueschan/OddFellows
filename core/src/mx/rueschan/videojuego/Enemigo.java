@@ -157,8 +157,9 @@ public class Enemigo extends Objeto {
     //Actualiza las acciones del enemigo
     public void actualizar(TiledMap mapa) {
 
-        // Revisa contacto con el jugador
-        if (tocaJugador) {
+        if (estadoEnemigo == EstadoEnemigo.MUERTO) {
+            morir();
+        } else if (tocaJugador) {
             if (estadoEnemigo != EstadoEnemigo.ATACANDO && spriteAnimado != animacionAtaque) {
                 estadoEnemigo = EstadoEnemigo.ATACANDO;
                 animacionPrevia = spriteAnimado;
@@ -484,7 +485,7 @@ public class Enemigo extends Objeto {
     private void atacar(){
         //El daño que causará será el daño fijo que hará cada enemigo por un multiplicador dado por el nivel
         int multiplicadorDano = new Random().nextInt(limiteMultiplicadorDano) + 1;
-        float danoAJugador = poderAtaque*multiplicadorDano;
+        float danoAJugador = poderAtaque*multiplicadorDano / 100;
         //Obtiene la vida del personaje
         float vidaPersonaje = henric.getVida();
 
@@ -492,7 +493,25 @@ public class Enemigo extends Objeto {
         henric.setVida(vidaPersonaje - danoAJugador);
     }
 
-    private enum EstadoEnemigo {
+    public void herir(int dano) {
+        this.vida -= dano;
+        System.out.println("Hiriendo");
+
+        if (vida <= 0) {
+            estadoEnemigo = EstadoEnemigo.MUERTO;
+        }
+    }
+
+    public void morir() {
+        sprite.setColor(1,1,1,0);
+        sprite.setPosition(-10, 0);
+    }
+
+    public EstadoEnemigo getEstadoEnemigo() {
+        return estadoEnemigo;
+    }
+
+    public enum EstadoEnemigo {
         PERSEGUIENDO,
         ATACANDO,
         VAGANDO,

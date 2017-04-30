@@ -13,7 +13,7 @@ import java.util.Random;
 
 public class Arma extends Objeto {
 
-    private float dano;
+    private int dano;
     private String special; // HABILIDAD ESPECIAL DEL ARMA (ROMPER, CORTAR, ETC)
     private Tipo tipoArma;
     private Texture textura;
@@ -24,7 +24,7 @@ public class Arma extends Objeto {
         sprite.setColor(1,1,1,0);
     }
 
-    public float getDano() {
+    public int getDano() {
         return dano;
     }
 

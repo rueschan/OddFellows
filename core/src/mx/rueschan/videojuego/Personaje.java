@@ -13,8 +13,10 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.maps.Map;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import com.badlogic.gdx.math.Rectangle;
 
 import java.util.ArrayList;
 
@@ -29,8 +31,11 @@ public class Personaje extends Objeto {
 //    private float camaraY = 0;
 
     private float vida = 100;
+    private int dano = 0;
 
+    // Elementos interactuables
     private ArrayList<Objeto> inventario;
+    private Enemigo enemigoCercano;
 
     private Animation<TextureRegion> spriteAnimado;         // Animación caminando
     private Animation<TextureRegion> animacionPrevia;       // Animación previa
@@ -47,7 +52,6 @@ public class Personaje extends Objeto {
     // Lugar donde se encuentra
     private Localizacion localizacion = Localizacion.CABANA;
     public Destino destino;
-    private LugarEnemigo lugarEnemigo = LugarEnemigo.NO_HAY;
 
     // ASSETS
     private static AssetManager manager = Nivel.getManager();;
@@ -91,6 +95,7 @@ public class Personaje extends Objeto {
         sprite = new Sprite(texturaPersonaje[0][0]);    // QUIETO_X
         sprite.setPosition(x,y);    // Posición inicial
         veDerecha = false; // El sprite esta viendo a la izquierda
+        enemigoCercano = null; // Inicia en null porque no hay enemigos cerca (próximos)
 
         // ASSET MANAGER
         //manager = Nivel.getManager();
@@ -138,6 +143,7 @@ public class Personaje extends Objeto {
         sprite.setPosition(Pantalla.getInstanciaPantalla().getANCHO()/2,
                 Pantalla.getInstanciaPantalla().getALTO()/2);    // Posición inicial
         veDerecha = false; // El sprite esta viendo a la izquierda
+        enemigoCercano = null; // Inicia en null porque no hay enemigos cerca (próximos)
     }
 
     public void vaciarInventario() {
@@ -170,8 +176,8 @@ public class Personaje extends Objeto {
     }
 
     public void usarArma() {
-        // SE EVITA LA CREACION DE TEXTURAS DENTRO DEL MÉTODO
-        //long inicio = System.nanoTime();
+        // SE EVITA LA CREACION DE TEXTURAS DENTRO DEL MÉTODO ***R
+//        long inicio = System.nanoTime();
 
 //        this.texturaPersonaje = trAtaque;
 //        animacionAtaque = new Animation(0.1f, texturaPersonaje[0][2], texturaPersonaje[0][1] );
@@ -191,8 +197,21 @@ public class Personaje extends Objeto {
         sprite = new Sprite(trAtaque[0][0]);    // QUIETO_X
         sprite.setPosition(x, y);    // Posición inicial
 
-        //long fin = System.nanoTime();
-        //System.out.println((fin - inicio) / 1000);
+        System.out.println(enemigoCercano);
+        if (enemigoCercano != null) {
+            enemigoCercano.herir(dano);
+        }
+
+//        long fin = System.nanoTime();
+//        System.out.println((fin - inicio) / 1000);
+    }
+
+    public void setDano(int dano) {
+        this.dano = dano;
+    }
+
+    public int getDano() {
+        return dano;
     }
 
     public void addInventario(Objeto item) {
@@ -296,7 +315,7 @@ public class Personaje extends Objeto {
     }
 
     // Actualiza el sprite, de acuerdo al estadoMovimiento y estadoSalto
-    public void actualizar(TiledMap mapa) {
+    private void actualizar(TiledMap mapa) {
         switch (estadoMovimiento) {
             case MOV_DERECHA:
             case MOV_IZQUIERDA:
@@ -329,7 +348,7 @@ public class Personaje extends Objeto {
 
 
     //WOLOLOLO
-    public void interactuar(Nivel nivel) {
+    private void interactuar(Nivel nivel) {
         TiledMapTileLayer.Cell celda;
 
         celda = buscaItems(nivel.mapa);
@@ -409,13 +428,17 @@ public class Personaje extends Objeto {
                     celdaDerechaCentro = null;  // Puede pasar
                 }
             }
-            if ( celdaDerechaAbajo == null && celdaDerechaArriba == null && celdaDerechaCentro == null) {
+            if ( celdaDerechaAbajo == null && celdaDerechaArriba == null &&
+                    celdaDerechaCentro == null) {
                 // Ejecutar movimiento horizontal
                 nuevaX += velocidadX;
-                // Prueba que no salga del mundo por la derecha
-                if (nuevaX <= (mapa.getProperties().get("width", Integer.class) * 64) - sprite.getWidth()) {
-                    sprite.setX(nuevaX);
+                // Revisa si hay colisión con enemigo
+                if (!colisionaEnemigo(enemigoCercano, nuevaX, 'x')) {
+                    // Prueba que no salga del mundo por la derecha
+                    if (nuevaX <= (mapa.getProperties().get("width", Integer.class) * 64) - sprite.getWidth()) {
+                        sprite.setX(nuevaX);
 //                    camaraX += velocidadX;
+                    }
                 }
             }
         }
@@ -447,12 +470,16 @@ public class Personaje extends Objeto {
                     celdaIzquierdaCentro = null;  // Puede pasar
                 }
             }
-            if ( celdaIzquierdaAbajo == null && celdaIzquierdaArriba == null && celdaIzquierdaCentro == null) {
+            if ( celdaIzquierdaAbajo == null && celdaIzquierdaArriba == null &&
+                    celdaIzquierdaCentro == null) {
                 // Prueba que no salga del mundo por la izquierda
                 nuevaX += velocidadX;
-                if (nuevaX >= 0) {
-                    sprite.setX(nuevaX);
+                // Revisa si hay colisión con enemigo
+                if (!colisionaEnemigo(enemigoCercano, nuevaX, 'x')) {
+                    if (nuevaX >= 0) {
+                        sprite.setX(nuevaX);
 //                    camaraX += velocidadX;
+                    }
                 }
             }
         }
@@ -493,13 +520,17 @@ public class Personaje extends Objeto {
                     celdaArribaCentro = null;  // Puede pasar
                 }
             }
-            if ( celdaArribaIzq == null && celdaArribaDer == null && celdaArribaCentro == null) {
+            if ( celdaArribaIzq == null && celdaArribaDer == null &&
+                    celdaArribaCentro == null) {
                 // Ejecutar movimiento horizontal
                 nuevaY += velocidadY;
-                // Prueba que no salga del mundo por la arriba
-                if (nuevaY <= (mapa.getProperties().get("height", Integer.class) * 64) - sprite.getHeight()) {
-                    sprite.setY(nuevaY);
+                // Revisa si hay colisión con enemigo
+                if (!colisionaEnemigo(enemigoCercano, nuevaY, 'y')) {
+                    // Prueba que no salga del mundo por la arriba
+                    if (nuevaY <= (mapa.getProperties().get("height", Integer.class) * 64) - sprite.getHeight()) {
+                        sprite.setY(nuevaY);
 //                    camaraY += velocidadY;
+                    }
                 }
             }
         }
@@ -531,15 +562,44 @@ public class Personaje extends Objeto {
                     celdaAbajoCentro = null;  // Puede pasar
                 }
             }
-            if ( celdaAbajoIzq == null && celdaAbajoDer == null && celdaAbajoCentro == null) {
+            if ( celdaAbajoIzq == null && celdaAbajoDer == null &&
+                    celdaAbajoCentro == null) {
                 // Prueba que no salga del mundo por la izquierda
                 nuevaY += velocidadY;
-                if (nuevaY >= 0) {
-                    sprite.setY(nuevaY);
+                // Revisa si hay colisión con enemigo
+                if (!colisionaEnemigo(enemigoCercano, nuevaY, 'y')) {
+                    if (nuevaY >= 0) {
+                        sprite.setY(nuevaY);
 //                    camaraY += velocidadY;
+                    }
                 }
             }
         }
+    }
+
+    public void setEnemigoCercano(Enemigo enemigo) {
+        enemigoCercano = enemigo;
+    }
+
+    public boolean colisionaEnemigo(Enemigo enemigo, float diferencia, char orientacion) {
+        Rectangle rect = sprite.getBoundingRectangle();
+        int xRect = (int) rect.getX();
+        int yRect = (int) rect.getY();
+
+        if (enemigo != null) {
+            Rectangle rectEnemigo = enemigo.sprite.getBoundingRectangle();
+
+            if (orientacion == 'x') {
+                rect.setPosition(diferencia, yRect);
+            } else if (orientacion == 'y') {
+                rect.setPosition(xRect, diferencia);
+            }
+
+            if (rect.overlaps(rectEnemigo)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public TiledMapTileLayer.Cell buscaItems(TiledMap mapa) {
@@ -625,7 +685,6 @@ public class Personaje extends Objeto {
                         id = Integer.parseInt((String) celdaSalida.getTile().getProperties().get("lugar"));
                     }
                     Nivel.setNivelObjetivo(id);
-//                    System.out.println(String.valueOf(id));
 
                     try {
                         if (celda.getTile() == null) {
@@ -666,6 +725,9 @@ public class Personaje extends Objeto {
 
     // Modificador de estadoMovimiento
     public void setEstadoMovimiento(EstadoMovimiento estadoMovimiento) {
+        if (this.estadoMovimiento == EstadoMovimiento.ATACAR) {
+            spriteAnimado = animacionPrevia;
+        }
         this.estadoMovimiento = estadoMovimiento;
     }
 
@@ -725,8 +787,17 @@ public class Personaje extends Objeto {
                 sprite.getY(), 0);
     }
 
-    public void setLugarEnemigo(LugarEnemigo lugar) {
-        lugarEnemigo = lugar;
+//    public void setLugarEnemigo(LugarEnemigo lugar) {
+//        lugarEnemigo = lugar;
+//    }
+
+//    public LugarEnemigo getLugarEnemigo() {
+//        return lugarEnemigo;
+//    }
+
+    public void render(TiledMap mapa, Nivel nivel) {
+        actualizar(mapa);
+        interactuar(nivel);
     }
 
     public enum EstadoMovimiento {
@@ -740,14 +811,6 @@ public class Personaje extends Objeto {
         MOV_ARRIBA,
         MOV_ABAJO,
         QUIETO_Y
-    }
-
-    public enum LugarEnemigo {
-        DERECHA,
-        IZQUIERDA,
-        ABAJO,
-        ARRIBA,
-        NO_HAY
     }
 
     public enum Localizacion {

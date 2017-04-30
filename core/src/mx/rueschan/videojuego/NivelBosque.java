@@ -115,8 +115,7 @@ public class NivelBosque extends Nivel {
         escenaHUD.draw();
 
         // Jugador
-        henric.actualizar(mapa);
-        henric.interactuar(this);
+        henric.render(mapa, this);
 
         // Enemigos
         enemigo.actualizar(mapa);

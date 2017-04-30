@@ -111,6 +111,7 @@ public class NivelCabana extends Nivel {
 //        barraHP.dibujar(pantalla.batch);
         pantalla.batch.end();
 //        long fin = System.nanoTime();
+        // *** R
 //        System.out.println((fin - inicio) / 1000);  // SE CAMBIARON DOS LLAMADAS A LA CLASE "NIVEL" POR SOLO UNA. SE REDUCE EL TIEMPO DE 400 ns aprox A 300 ns aprox
 
 //        long iniMemoria = Gdx.app.getNativeHeap();
@@ -120,8 +121,7 @@ public class NivelCabana extends Nivel {
         escenaHUD.draw();
 
         // Jugador
-        henric.actualizar(mapa);
-        henric.interactuar(this);
+        henric.render(mapa, this);
 //        long finMemoria = Gdx.app.getNativeHeap();
 //        System.out.println((finMemoria - iniMemoria));
 

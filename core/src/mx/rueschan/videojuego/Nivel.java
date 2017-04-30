@@ -16,6 +16,7 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -958,6 +959,7 @@ public abstract class Nivel implements Screen{
         henric.setEstadoMovimiento(Personaje.EstadoMovimiento.QUIETO_X);
         if (seleccionado instanceof Arma) {
             Arma arma = (Arma) seleccionado;
+            henric.setDano(arma.getDano());
             if (arma.getTipo() == Arma.Tipo.MARTILLO) {
                 romper();
             }
@@ -1356,6 +1358,7 @@ public abstract class Nivel implements Screen{
 //        int actorHUD = escenaHUD.getActors().size-1;
 //        int actorHUD = nombreActores.size()-1;
         Actor a;
+
         if (enInventario == true){
         for (int actorHUD = cantidadActores; actorHUD >= 0; actorHUD--){
             a = escenaHUD.getActors().get(actorHUD);
@@ -1449,47 +1452,112 @@ public abstract class Nivel implements Screen{
         float vida = henric.getVida();
 
         if (vida <= 0) {
-
+            gameOver();
         }
         barraHPAct.setWidth(anchoBarraHP * (henric.getVida() / 100));
     }
 
+    private void gameOver() {
+
+    }
+
     public void hayAtaqueAJugador () {
         final int EXTRA = 10;
-        float henricIzq = henric.sprite.getX();
-        float henricDer = henricIzq + henric.sprite.getWidth();
-        float henricAbajo = henric.sprite.getY();
-        float henricArriba = henricAbajo + henric.sprite.getHeight();
+
+        Rectangle rectHenric = henric.sprite.getBoundingRectangle();
+        int rectWidth = (int) rectHenric.getWidth();
+        int rectHeight = (int) rectHenric.getHeight();
+        Rectangle rectEnemigo;
 
         for (Enemigo enemigo : listaEnemigos) {
-            float izq = enemigo.sprite.getX() - EXTRA;
-            float der = izq + enemigo.sprite.getWidth() + (EXTRA * 2);
-            float abajo = enemigo.sprite.getY() - EXTRA;
-            float arriba = abajo + enemigo.sprite.getHeight() + (EXTRA * 2);
+            if (enemigo != null) {
 
-            enemigo.setTocaJugador(false);
-            henric.setLugarEnemigo(Personaje.LugarEnemigo.NO_HAY);
+                if (enemigo.getEstadoEnemigo() == Enemigo.EstadoEnemigo.MUERTO) {
+                    enemigo = null;
+                    continue;
+                }
 
-            if ((henricAbajo <= abajo && abajo <= henricArriba)||(henricAbajo <= arriba && arriba <= henricArriba)) {
-                if (henricIzq <= izq && izq <= henricDer) {
-                    henric.setLugarEnemigo(Personaje.LugarEnemigo.DERECHA);
+                rectEnemigo = enemigo.sprite.getBoundingRectangle();
+
+                // Asigna valor a las variables que se veran afectadas en el método
+                enemigo.setTocaJugador(false);
+
+                // Revisa si está arriba, abajo, a la derecha o a la izqierda (respectivamente)
+                if (rectHenric.setSize(rectWidth + EXTRA, rectHeight + EXTRA).overlaps(rectEnemigo)) {
                     enemigo.setTocaJugador(true);
-                }
-                else if (henricIzq <= der && der <= henricDer) {
-                    henric.setLugarEnemigo(Personaje.LugarEnemigo.IZQUIERDA);
-                    enemigo.setTocaJugador(true);
-                }
-            } else if ((henricIzq <= izq && izq <= henricDer)||(henricIzq <= der && der <= henricDer)) {
-                if (henricAbajo <= abajo && abajo <= henricArriba) {
-                    henric.setLugarEnemigo(Personaje.LugarEnemigo.ARRIBA);
-                    enemigo.setTocaJugador(true);
-                }
-                else if (henricAbajo <= arriba && arriba <= henricArriba) {
-                    henric.setLugarEnemigo(Personaje.LugarEnemigo.ABAJO);
-                    enemigo.setTocaJugador(true);
+                    henric.setEnemigoCercano(enemigo);
+                    break;
+
+                } else {
+                    // Asigna valor a las variables que se veran afectadas en el método
+                    enemigo.setTocaJugador(false);
+                    henric.setEnemigoCercano(null);
                 }
             }
         }
     }
+
+//    public void hayAtaqueAJugador () {
+//        final int EXTRA = 0;
+//
+//        int henricIzq = (int) henric.sprite.getX();
+//        int henricDer = (int) (henricIzq + henric.sprite.getWidth());
+//        int henricAbajo = (int) henric.sprite.getY();
+//        int henricArriba = (int) (henricAbajo + henric.sprite.getHeight());
+//
+//        int izq;
+//        int der;
+//        int abajo;
+//        int arriba;
+//
+//        boolean alineadoY;
+//        boolean alineadoX;
+//
+//        for (Enemigo enemigo : listaEnemigos) {
+//            // Asigna valor a las variables
+//            izq = (int) (enemigo.sprite.getX());                                    // - EXTRA
+//            der = (int) (izq + enemigo.sprite.getWidth());                          // + EXTRA
+//            abajo = (int) (enemigo.sprite.getY());                                  // - EXTRA
+//            arriba = (int) (abajo + enemigo.sprite.getHeight());                    // + EXTRA
+//            // Se guardan valores de variables (booleanas) que se usaran muchas veces
+//            alineadoY = (henricIzq <= der && izq <= henricDer);
+//            alineadoX = (henricAbajo <= arriba && abajo <= henricArriba);
+//
+//            // Asigna valor a las variables que se veran afectadas en el método
+//            enemigo.setTocaJugador(false);
+//            henric.setLugarEnemigo(Personaje.LugarEnemigo.NO_HAY);
+//
+//            // Revisa si está arriba, abajo, a la derecha o a la izqierda (respectivamente)
+//            if (henricAbajo < arriba + EXTRA && arriba + EXTRA < henricArriba && alineadoY) {
+//                henric.setLugarEnemigo(Personaje.LugarEnemigo.ABAJO);
+//                enemigo.setTocaJugador(true);
+//                henric.setEnemigoCercano(enemigo);
+////                System.out.println("Abajo");
+//                break;
+//
+//            } else if (henricAbajo < abajo - EXTRA && abajo - EXTRA < henricArriba && alineadoY) {
+//                henric.setLugarEnemigo(Personaje.LugarEnemigo.ARRIBA);
+//                enemigo.setTocaJugador(true);
+//                henric.setEnemigoCercano(enemigo);
+////                System.out.println("Arriba");
+//                break;
+//
+//            } else if (henricIzq < der + EXTRA && der + EXTRA < henricDer && alineadoX) {
+//                henric.setLugarEnemigo(Personaje.LugarEnemigo.IZQUIERDA);
+//                enemigo.setTocaJugador(true);
+//                henric.setEnemigoCercano(enemigo);
+////                System.out.println("Izq");
+//                break;
+//
+//            } else if (henricIzq < izq - EXTRA && izq - EXTRA < henricDer && alineadoX) {
+//                henric.setLugarEnemigo(Personaje.LugarEnemigo.DERECHA);
+//                enemigo.setTocaJugador(true);
+//                henric.setEnemigoCercano(enemigo);
+////                System.out.println("Der");
+//                break;
+//
+//            }
+//        }
+//    }
 
 }
