@@ -642,6 +642,10 @@ public class Personaje extends Objeto {
 //                }
 //            }
 //        }
+//
+//        for (TiledMapTileLayer.Cell cell : cellArrayList) {
+//            cell.setTile(null);
+//        }
 
         int xPersonaje = (int) sprite.getX();
         int yPersonaje = (int) sprite.getY();
