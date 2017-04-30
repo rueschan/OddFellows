@@ -18,6 +18,7 @@ public class NivelBosque extends Nivel {
 
     private Nivel actual;
     private static NivelBosque instancia;
+    private static EstadoMapa estadoMapa = EstadoMapa.NO_CARGADO;
 
     //Mapa tipo tmx del Bosque
     private final String pathMapa = "NivelBosque/bosque.tmx";
@@ -72,6 +73,7 @@ public class NivelBosque extends Nivel {
 
         // Crear mapa
         super.crearRecursos(pantalla, pathMapa, pathMusica);
+        estadoMapa = EstadoMapa.CARGADO;
 //        henric.reset();
         henric.setFxPasos(pathFxPasos);
         crearRecursosUnicos();
@@ -133,6 +135,10 @@ public class NivelBosque extends Nivel {
 
         }
         escribirMenuPausa(pausado);
+    }
+
+    public static EstadoMapa getEstadoMapa() {
+        return estadoMapa;
     }
 
     @Override

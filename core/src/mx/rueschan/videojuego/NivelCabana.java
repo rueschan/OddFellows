@@ -3,22 +3,7 @@ package mx.rueschan.videojuego;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.FPSLogger;
-import com.badlogic.gdx.graphics.Pixmap;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-import com.badlogic.gdx.utils.viewport.Viewport;
-import com.sun.org.apache.xpath.internal.operations.Bool;
 
 /**
  * Created by OddFellows on 14/02/2017.
@@ -27,6 +12,7 @@ public class NivelCabana extends Nivel {
 
     private Nivel actual;
     private static NivelCabana instancia;
+    private static EstadoMapa estadoMapa = EstadoMapa.NO_CARGADO;
 
     // Recursos
     private final String pathMapa = "NivelCabana/Cabana.tmx";
@@ -75,6 +61,7 @@ public class NivelCabana extends Nivel {
 
         // Crear mapa
         super.crearRecursos(pantalla, pathMapa, pathMusica);
+        estadoMapa = EstadoMapa.CARGADO;
         henric.setFxPasos(pathFxPasos);
 
         //Creación de HUD
@@ -143,6 +130,10 @@ public class NivelCabana extends Nivel {
         escribirMenuPausa(pausado);
     }
 
+    public static EstadoMapa getEstadoMapa() {
+        return estadoMapa;
+    }
+
     @Override
     public void pause() {
 
@@ -156,5 +147,4 @@ public class NivelCabana extends Nivel {
     @Override
     public void dispose() {
     }
-
 }

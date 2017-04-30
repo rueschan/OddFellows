@@ -1187,6 +1187,7 @@ public abstract class Nivel implements Screen{
         //Nivel nivel = detectarNivel(nvl);
         //oddFellows.setScreen(nivel);
         //descargarManager(nvl);
+
         switch (nvl) {
             case 1: // CABAÑA
                 henric.destino = Personaje.Destino.CABANA;
@@ -1202,6 +1203,7 @@ public abstract class Nivel implements Screen{
         musicaFondo.stop();
         henric.setViaje();
         descargarManager(nvl);
+        listaEnemigos.clear();
         // juego.cargarNivel(nvl);
 //        this.dispose();
     }
@@ -1211,13 +1213,13 @@ public abstract class Nivel implements Screen{
         switch (nvl) {
             case 1: // VOY PARA LA CABAÑA
                 Gdx.app.log("descargarManager Bosque","nvl "+nvl);
-                manager.unload("NivelBosque/bosque.tmx");
+//                manager.unload("NivelBosque/bosque.tmx");
                 manager.unload("Musica/lostInForest.mp3");
                 manager.unload("Sonidos/pasoBosque.mp3");
                 break;
             case 2: // VOY PARA EL BOSQUE CABAÑA
                 Gdx.app.log("descargarManager Cabana","nvl "+nvl);
-                manager.unload("NivelCabana/Cabana.tmx");
+//                manager.unload("NivelCabana/Cabana.tmx");
                 manager.unload("Musica/ofeliasdream.mp3");
                 manager.unload("Sonidos/pasoMadera.mp3");
                 break;
@@ -1524,6 +1526,11 @@ public abstract class Nivel implements Screen{
                 }
             }
         }
+    }
+
+    public static enum EstadoMapa {
+        CARGADO,
+        NO_CARGADO
     }
 
 }

@@ -89,6 +89,9 @@ public class PantallaCargando extends Pantalla {
         // Texturas enemigos
         cargaEnemigos();
 
+        // Mapas
+        cargarMapas();
+
         manager.load("Pad/padBack.png",Texture.class);
         manager.load("Pad/padKnob.png",Texture.class);
 
@@ -120,7 +123,6 @@ public class PantallaCargando extends Pantalla {
     }
     private void cargarRecursosNivelBosque() {
         cargarRecursosNivel();
-        manager.load("NivelBosque/bosque.tmx",TiledMap.class);
         manager.load("Musica/lostInForest.mp3",Music.class);
         manager.load("Sonidos/pasoBosque.mp3",Music.class);
     }
@@ -128,7 +130,6 @@ public class PantallaCargando extends Pantalla {
     private void cargarRecursosNivelCabana() {
         cargarRecursosNivel();
         Gdx.app.log("cargarManager Cabana","cargando");
-        manager.load("NivelCabana/Cabana.tmx",TiledMap.class);
         manager.load("Musica/ofeliasdream.mp3",Music.class);
         manager.load("Sonidos/pasoMadera.mp3", Music.class);
         manager.load("Sonidos/alerta.mp3",Sound.class);
@@ -159,6 +160,16 @@ public class PantallaCargando extends Pantalla {
         //TEXTURA BOTON EXIT
         manager.load("Pantalla/btnExit.png",Texture.class);
 
+    }
+
+    // Para que los mapas mantengan el estado en el que se dejarón
+    private void cargarMapas() {
+        if (NivelCabana.getEstadoMapa() == Nivel.EstadoMapa.NO_CARGADO) {
+            manager.load("NivelCabana/Cabana.tmx", TiledMap.class);
+        }
+        if (NivelBosque.getEstadoMapa() == Nivel.EstadoMapa.NO_CARGADO) {
+            manager.load("NivelBosque/bosque.tmx", TiledMap.class);
+        }
     }
 
     private void cargaEnemigos() {
