@@ -69,25 +69,25 @@ public class PantallaCargando extends Pantalla {
     private void cargarRecursosNivel() {
         Gdx.app.log("cargarManager Nivel","cargando");
 
-        //Elementos del nivel
-        manager.load("Musica/giantwyrm.mp3",Music.class);
+        //Elementos del nivel y sonidos
+        manager.load("Musica/giantwyrm.mp3", Music.class);
         manager.load("Sonidos/levantarLlave.mp3", Sound.class);
         manager.load("Sonidos/levantarPapel.mp3", Sound.class);
         manager.load("Sonidos/levantarMartillo.mp3", Sound.class);
         manager.load("Sonidos/zipperAbrir.mp3", Sound.class);
         manager.load("Sonidos/zipperCerrar.mp3", Sound.class);
-        manager.load("Sonidos/alerta.mp3",Sound.class);
+        manager.load("Sonidos/alerta.mp3", Sound.class);
+        manager.load("Sonidos/ataque.mp3", Sound.class);
 
         // Vida
-        manager.load("Pantalla/HP.png",Texture.class);
-        manager.load("Pantalla/BarraHP.png",Texture.class);
+        manager.load("Pantalla/HP.png", Texture.class);
+        manager.load("Pantalla/BarraHP.png", Texture.class);
 
-        //Texturas de Henric
-        manager.load("Personaje/Henric.png",Texture.class);
-        manager.load("Personaje/HendricMartilloAtaque.png",Texture.class);
+        // Henric
+        cargarHenric();
 
         // Texturas enemigos
-        cargaEnemigos();
+        cargarEnemigos();
 
         // Mapas
         cargarMapas();
@@ -172,7 +172,13 @@ public class PantallaCargando extends Pantalla {
         }
     }
 
-    private void cargaEnemigos() {
+    private void cargarHenric() {
+        //Texturas de Henric
+        manager.load("Personaje/Henric.png",Texture.class);
+        manager.load("Personaje/HendricMartilloAtaque.png",Texture.class);
+    }
+
+    private void cargarEnemigos() {
         // Texturas de enemigos
         manager.load("Enemigo/Jabali.png", Texture.class);
         manager.load("Enemigo/Oso.png", Texture.class);

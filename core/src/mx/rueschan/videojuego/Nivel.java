@@ -3,7 +3,6 @@ package mx.rueschan.videojuego;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
@@ -14,7 +13,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
-import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -147,18 +145,12 @@ public abstract class Nivel implements Screen{
 
     protected Music musicaFondo;
     protected Music musicaPausa;
-    protected final String pathMusicaPausa = "Musica/giantwyrm.mp3";
     protected Sound fxLlave;
-    protected final String pathFxLlave = "Sonidos/levantarLlave.mp3";
     protected Sound fxCarta;
-    protected final String pathFxCarta = "Sonidos/levantarPapel.mp3";
     protected Sound fxMartillo;
-    protected final String pathFxMartillo = "Sonidos/levantarMartillo.mp3";
+    protected Sound fxAtaque;
     private Sound fxInventarioAbrir;
-    private final String pathFxInventarioAbrir = "Sonidos/zipperAbrir.mp3";
     private Sound fxInventarioCerrar;
-    private final String pathFxInventarioCerrar = "Sonidos/zipperCerrar.mp3";
-
     @Override
     public void show() {
         cargarTexturas();
@@ -237,11 +229,12 @@ public abstract class Nivel implements Screen{
             musicaFondo.play();
 
         // Sonidos generales
-        fxLlave = manager.get(pathFxLlave);
-        fxCarta = manager.get(pathFxCarta);
-        fxMartillo = manager.get(pathFxMartillo);
-        fxInventarioAbrir = manager.get(pathFxInventarioAbrir);
-        fxInventarioCerrar = manager.get(pathFxInventarioCerrar);
+        fxLlave = manager.get("Sonidos/levantarLlave.mp3");
+        fxCarta = manager.get("Sonidos/levantarPapel.mp3");
+        fxMartillo = manager.get("Sonidos/levantarMartillo.mp3");
+        fxAtaque = manager.get("Sonidos/ataque.mp3");
+        fxInventarioAbrir = manager.get("Sonidos/zipperAbrir.mp3");
+        fxInventarioCerrar = manager.get("Sonidos/zipperCerrar.mp3");
 
         // Enemigos
         listaEnemigos = new ArrayList<Enemigo>();
@@ -961,7 +954,7 @@ public abstract class Nivel implements Screen{
             Arma arma = (Arma) seleccionado;
             henric.setDano(arma.getDano());
             if (arma.getTipo() == Arma.Tipo.MARTILLO) {
-                romper();
+                golpear();
             }
         } else if (seleccionado instanceof Carta) {
             Carta carta = (Carta) seleccionado;
@@ -971,9 +964,13 @@ public abstract class Nivel implements Screen{
         }
     }
 
-    private void romper() {
+    private void golpear() {
         if (Configuraciones.isFxOn) {
-            fxMartillo.play();
+            if (!hayAtaqueAJugador()) {
+                fxMartillo.play();
+            } else {
+                fxAtaque.play();
+            }
         }
 //        Ya no se crea la textura cada vez que se usa un arma
 //        Texture textura = new Texture("Personaje/HendricMartilloAtaque.png");
@@ -1020,7 +1017,7 @@ public abstract class Nivel implements Screen{
     protected void crearPausa(final Stage escenaHUD){
 
         pausado=false;
-        musicaPausa = manager.get(pathMusicaPausa);
+        musicaPausa = manager.get("Musica/giantwyrm.mp3");
         musicaPausa.setLooping(true);
 
         //Textura de cuadro de pausa
@@ -1492,19 +1489,23 @@ public abstract class Nivel implements Screen{
 
     }
 
-    public void hayAtaqueAJugador () {
+    public boolean hayAtaqueAJugador () {
         final int EXTRA = 10;
+        int posMuerto = -1;
+        boolean hayEnemigo = false;
 
         Rectangle rectHenric = henric.sprite.getBoundingRectangle();
         int rectWidth = (int) rectHenric.getWidth();
         int rectHeight = (int) rectHenric.getHeight();
         Rectangle rectEnemigo;
 
+        henric.setEnemigoCercano(null);
         for (Enemigo enemigo : listaEnemigos) {
             if (enemigo != null) {
 
                 if (enemigo.getEstadoEnemigo() == Enemigo.EstadoEnemigo.MUERTO) {
                     enemigo = null;
+                    posMuerto = listaEnemigos.indexOf(enemigo);
                     continue;
                 }
 
@@ -1517,15 +1518,19 @@ public abstract class Nivel implements Screen{
                 if (rectHenric.setSize(rectWidth + EXTRA, rectHeight + EXTRA).overlaps(rectEnemigo)) {
                     enemigo.setTocaJugador(true);
                     henric.setEnemigoCercano(enemigo);
+                    hayEnemigo = true;
                     break;
-
-                } else {
-                    // Asigna valor a las variables que se veran afectadas en el método
-                    enemigo.setTocaJugador(false);
-                    henric.setEnemigoCercano(null);
                 }
             }
         }
+        if (posMuerto != -1) {
+            listaEnemigos.remove(posMuerto);
+        }
+        if (hayEnemigo) {
+            return true;
+        }
+
+        return false;
     }
 
     public static enum EstadoMapa {

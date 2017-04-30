@@ -57,12 +57,12 @@ public class Personaje extends Objeto {
     // ASSETS
     private static AssetManager manager = Nivel.getManager();
     private Music fxPasos;
-    private String pathFxPasos = "Sonidos/pasoMadera.mp3";
+//    private String pathFxPasos = "Sonidos/pasoMadera.mp3";
     private Sound fxAccion;
-    private final String pathFxAccion = "Sonidos/alerta.mp3";
+//    private final String pathFxAccion = "Sonidos/alerta.mp3";
     private Texture texturaAtaque;
-    private String pathTexturaHenricAtaqueMartillo = "Personaje/HendricMartilloAtaque.png";
-    private String pathTexturaHenric = "Personaje/Henric.png";
+//    private String pathTexturaHenricAtaqueMartillo = "Personaje/HendricMartilloAtaque.png";
+//    private String pathTexturaHenric = "Personaje/Henric.png";
 
     // Estado de acción
     private boolean estatusAccion = false;
@@ -86,7 +86,7 @@ public class Personaje extends Objeto {
 
         manager = Nivel.getManager();
         //texturaAtaque = new Texture("Personaje/HendricMartilloAtaque.png");
-        texturaAtaque = manager.get(pathTexturaHenricAtaqueMartillo);
+        texturaAtaque = manager.get("Personaje/HendricMartilloAtaque.png");
         trAtaque = new TextureRegion(texturaAtaque).split(120, 96);
         animacionAtaque = new Animation(0.1f, trAtaque[0][2], trAtaque[0][1] );
         // Animación infinita
@@ -108,7 +108,7 @@ public class Personaje extends Objeto {
         //fxPasos = manager.get(pathFxPasos);
         //fxPasos.setLooping(true);
         //fxPasos.pause();
-        fxAccion = manager.get(pathFxAccion);
+        fxAccion = manager.get("Sonidos/alerta.mp3");
 
 //        camaraX = pantalla.camara.position.x;
 //        camaraY = pantalla.camara.position.y;
@@ -160,7 +160,7 @@ public class Personaje extends Objeto {
         fxPasos.setLooping(true);
         fxPasos.pause();
 
-        pathFxPasos = nuevoFx;
+//        pathFxPasos = nuevoFx;
     }
 
     public void setSprite(TextureRegion[][] texturaPersonaje) {
@@ -631,6 +631,17 @@ public class Personaje extends Objeto {
 
         TiledMapTileLayer capa = (TiledMapTileLayer) mapa.getLayers().get("Interactivos");
         TiledMapTileLayer.Cell celda;
+
+//        ArrayList<TiledMapTileLayer.Cell> cellArrayList = new ArrayList<TiledMapTileLayer.Cell>();
+//        for (int i = 0; i < capa.getHeight(); i += 64) {
+//            for (int j = 0; j < capa.getWidth(); j += 64) {
+//                celda = capa.getCell((i / 64), (j / 64));
+//
+//                if (celda.getTile().getProperties().get("idPuerta") == "1") {
+//                    cellArrayList.add(celda);
+//                }
+//            }
+//        }
 
         int xPersonaje = (int) sprite.getX();
         int yPersonaje = (int) sprite.getY();
