@@ -65,7 +65,8 @@ public class Personaje extends Objeto {
 //    private String pathTexturaHenric = "Personaje/Henric.png";
 
     // Estado de acción
-    private boolean estatusAccion = false;
+    private boolean estatusInteraccion = false;
+    private boolean estatusPuerta = false;
 
     // Recibe una imagen con varios frames (ver marioSprite.png)
     public Personaje(Texture textura, float x, float y) {
@@ -357,6 +358,7 @@ public class Personaje extends Objeto {
     private void interactuar(Nivel nivel) {
         TiledMapTileLayer.Cell celda;
 
+        //ITEMS
         celda = buscaItems(nivel.mapa);
         if (celda != null) {
             nivel.btnInteraccion.setColor(1,1,1,1);
@@ -368,27 +370,51 @@ public class Personaje extends Objeto {
             nivel.tileObjetivo = null;
         }
 
+        //INTERACTIVOS
         celda = buscaInteractivos(nivel.mapa);
         if (celda != null) {
             nivel.alertaAccion.sprite.setPosition(sprite.getX(), sprite.getY() + 100);
             nivel.alertaAccion.sprite.setColor(1,1,1,1);
 //            nivel.btnAccion.setDisabled(false);
             nivel.tileInteractivo = celda;
-            if (!estatusAccion) {
+            if (!estatusInteraccion) {
                 if (Configuraciones.isFxOn)
                     fxAccion.play(0.5f);
-                estatusAccion = true;
+                estatusInteraccion = true;
             }
         } else {
             nivel.alertaAccion.sprite.setPosition(0, 0);
             nivel.alertaAccion.sprite.setColor(1,1,1,0);
 //            nivel.btnAccion.setDisabled(true);
             nivel.tileInteractivo = null;
-            estatusAccion = false;
+            estatusInteraccion = false;
         }
 
-        celda = buscaSalida(nivel.mapa);
+        //ABRIR PUERTA
+        celda = buscaPuertas(nivel.mapa);
+        if (celda != null) {
+            nivel.alertaAccion.sprite.setPosition(sprite.getX(), sprite.getY() + 100);
+            nivel.alertaAccion.sprite.setColor(1,1,1,1);
+//            nivel.btnAccion.setDisabled(false);
+            nivel.tilePuerta = celda;
+            if (!estatusPuerta) {
+                if (Configuraciones.isFxOn)
+                    fxAccion.play(0.5f);
+                estatusPuerta = true;
+            }} else {
+
+//            //PRUEBA
+//            nivel.alertaAccion.sprite.setPosition(0, 0);
+//            nivel.alertaAccion.sprite.setColor(1,1,1,0);
+//            nivel.btnAccion.setDisabled(true);
+            nivel.tilePuerta = null;
+            estatusPuerta = false;
+        }
+
+
         //Aparte de checar la celda, checa que no esté en otra interfaz
+        //Interactivos
+        celda = buscaSalida(nivel.mapa, "Interactivos");
         if (celda != null && !nivel.pausado && !nivel.enInventario && !nivel.enCarta) {
             nivel.btnEntrar.setDisabled(false);
             nivel.btnEntrar.setVisible(true);
@@ -396,6 +422,16 @@ public class Personaje extends Objeto {
             nivel.btnEntrar.setDisabled(true);
             nivel.btnEntrar.setVisible(false);
         }
+        if (celda==null){
+        //Puerta
+        celda = buscaSalida(nivel.mapa, "Puerta");
+        if (celda != null && !nivel.pausado && !nivel.enInventario && !nivel.enCarta) {
+            nivel.btnEntrar.setDisabled(false);
+            nivel.btnEntrar.setVisible(true);
+        } else {
+            nivel.btnEntrar.setDisabled(true);
+            nivel.btnEntrar.setVisible(false);
+        }}
     }
 
 
@@ -662,6 +698,7 @@ public class Personaje extends Objeto {
     }
 
     public TiledMapTileLayer.Cell buscaPuertas(TiledMap mapa){
+
         TiledMapTileLayer capa = (TiledMapTileLayer) mapa.getLayers().get("Puerta");
         TiledMapTileLayer.Cell celda;
 
@@ -680,9 +717,9 @@ public class Personaje extends Objeto {
         return null;
     }
 
-    public TiledMapTileLayer.Cell buscaSalida(TiledMap mapa) {
+    public TiledMapTileLayer.Cell buscaSalida(TiledMap mapa, String capaDeseada) {
 
-        TiledMapTileLayer capa = (TiledMapTileLayer) mapa.getLayers().get("Interactivos");
+        TiledMapTileLayer capa = (TiledMapTileLayer) mapa.getLayers().get(capaDeseada);
         TiledMapTileLayer capaSalidas = (TiledMapTileLayer) mapa.getLayers().get("Salidas");
         TiledMapTileLayer.Cell celda;
         TiledMapTileLayer.Cell celdaSalida;

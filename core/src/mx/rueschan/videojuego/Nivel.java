@@ -11,6 +11,7 @@ import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
@@ -57,6 +58,7 @@ public abstract class Nivel implements Screen{
     protected TiledMap mapa;
     protected TiledMapTileLayer.Cell tileObjetivo;
     protected TiledMapTileLayer.Cell tileInteractivo;
+    protected TiledMapTileLayer.Cell tilePuerta;
 
     // Texturas HUD
     protected Texture texturaBotonPausa;
@@ -771,7 +773,7 @@ public abstract class Nivel implements Screen{
             if (Configuraciones.isFxOn)
                 fxLlave.play();
             Llave llave;
-            return llave = new Llave(0, 0, (int) (Math.random() * 10) + 1); // Valores del 1 al 10
+            return llave = new Llave(0, 0, (int) (Math.random() * 3) + 1); // Valores del 1 al 10
         } else if (prueba.equals("carta")) {
             if (Configuraciones.isFxOn)
                 fxCarta.play();
@@ -801,8 +803,9 @@ public abstract class Nivel implements Screen{
 //        fondoAccion.sprite.setColor(1,1,1,0);
         btnItem.setColor(1,1,1,0);
 
-        if (Configuraciones.isFxOn)
+        if (Configuraciones.isFxOn){
             fxCarta.play();
+        }
 
         txt.cambiarMensaje(carta.getTexto());
 
@@ -841,27 +844,7 @@ public abstract class Nivel implements Screen{
             fxCarta.play();
         txt.cambiarMensaje("");
 
-        //Se le resta uno por ser el tamano y no la posición, se le resta otro para no contar con el botón de pausa
-        int actorHUD = escenaHUD.getActors().size-1;
-        Actor a;
-
         mostrarHUDInicial();
-//        for (;actorHUD >= 0; actorHUD--){
-//            a = escenaHUD.getActors().get(actorHUD);
-//            if (a.getName() != "Cerrar" && !isPausa) {
-//                escenaHUD.getActors().get(actorHUD).setVisible(true);
-//
-//                escenaHUD.getActors().set(10, btnItem);
-//            } else if (a.getName() == "Cerrar"){
-//                a.setVisible(false);
-//                isPausa = false;
-//            } else {
-//                a.setVisible(false);
-//            }
-//            if (a.getName() == "Pausa") {
-//                a.setVisible(true);
-//            }
-//        }
     }
 
     private void mostrarInventario(ArrayList<Objeto> inventario, boolean inInventario) {
@@ -964,8 +947,47 @@ public abstract class Nivel implements Screen{
             mostrarCarta(carta);
         } else if (seleccionado instanceof  Llave) {
             Llave llave = (Llave) seleccionado;
+            abrirPuerta(llave);
         }
     }
+
+    private void abrirPuerta(Llave llave) {
+        if (Configuraciones.isFxOn){
+            //Sonido de llave
+        }
+        if (tilePuerta != null){
+            Integer id = 0;
+            try {
+                id = (Integer) tilePuerta.getTile().getProperties().get("valorLlave");
+            } catch (ClassCastException e) {
+                id = Integer.parseInt((String) tilePuerta.getTile().getProperties().get("valorLlave"));
+            }
+            if (id==llave.getIdPuerta()) {
+                tilePuerta.setTile(null);
+            }
+        }
+    }
+
+//    private void abrirPuerta() {
+//        if (tilePuerta != null) {
+//            TiledMapTileLayer capa = (TiledMapTileLayer) mapa.getLayers().get("Puerta");
+//            TiledMapTileLayer.Cell celda;
+//
+//            ArrayList<TiledMapTileLayer.Cell> cellArrayList = new ArrayList<TiledMapTileLayer.Cell>();
+//            for (int i = 0; i < capa.getHeight(); i += 64) {
+//                for (int j = 0; j < capa.getWidth(); j += 64) {
+//                    celda = capa.getCell((i / 64), (j / 64));
+//                    Gdx.app.log("ArrayCelda",cellArrayList.toString());
+//                        cellArrayList.add(celda);
+//                        //woLOLOLOLOLO
+//                        Gdx.app.log("ArrayCelda",cellArrayList.toString());
+//                }
+//            }
+//            for (TiledMapTileLayer.Cell celdaFor : cellArrayList) {
+//                celdaFor.setTile(null);
+//            }
+//        }
+//    }
 
     private void golpear() {
         if (Configuraciones.isFxOn) {
