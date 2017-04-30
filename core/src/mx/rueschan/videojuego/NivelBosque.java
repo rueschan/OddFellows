@@ -16,7 +16,6 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
 public class NivelBosque extends Nivel {
 
-    private Nivel actual;
     private static NivelBosque instancia;
     private static EstadoMapa estadoMapa = EstadoMapa.NO_CARGADO;
 
@@ -31,7 +30,7 @@ public class NivelBosque extends Nivel {
     public NivelBosque(OddFellows oddFellows) {
         super.oddFellows = oddFellows;
         super.pantalla = Pantalla.getInstanciaPantalla();
-        actual = this;
+        Juego.actual = this;
     }
 
     public static NivelBosque getNivelBosque(OddFellows oddFellows) {
@@ -41,13 +40,13 @@ public class NivelBosque extends Nivel {
         return instancia;
     }
 
-   @Override
-    protected void cargarTexturas() {
-        //Textura de los diferentes elementos que componen el nivel
-       /* pathMapa = "NivelBosque/bosque.tmx";
-        pathMusica = "Musica/lostInForest.mp3";
-        pathFxPasos = "Sonidos/pasoBosque.mp3";*/
-    }
+//   @Override
+//    protected void cargarTexturas() {
+//        //Textura de los diferentes elementos que componen el nivel
+//       /* pathMapa = "NivelBosque/bosque.tmx";
+//        pathMusica = "Musica/lostInForest.mp3";
+//        pathFxPasos = "Sonidos/pasoBosque.mp3";*/
+//    }
 
     @Override
     protected void crearObjetos() {
@@ -69,6 +68,7 @@ public class NivelBosque extends Nivel {
 
     @Override
     public void show() {
+        juego.actual = this;
        // cargarTexturas();
 
         // Crear mapa

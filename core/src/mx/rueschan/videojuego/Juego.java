@@ -14,7 +14,7 @@ public class Juego {
     private Nivel cabana;
     private Nivel bosque;
     private Nivel[] niveles = {cabana, bosque};
-    public Nivel actual;
+    public static Nivel actual;
 
     // Memoria del juego
     private File memoria;

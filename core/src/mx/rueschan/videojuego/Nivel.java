@@ -151,9 +151,10 @@ public abstract class Nivel implements Screen{
     protected Sound fxAtaque;
     private Sound fxInventarioAbrir;
     private Sound fxInventarioCerrar;
+
     @Override
     public void show() {
-        cargarTexturas();
+//        cargarTexturas();
         crearObjetos();
         cargarJuego();
     }
@@ -172,7 +173,7 @@ public abstract class Nivel implements Screen{
 
     protected abstract void crearObjetos();
 
-    protected abstract void cargarTexturas();
+//    protected abstract void cargarTexturas();
 
     protected void crearRecursos(Pantalla pantalla, String nombreMapa, String nombreMusicaFondo) {
         this.manager = oddFellows.getAssetManager();
@@ -738,14 +739,14 @@ public abstract class Nivel implements Screen{
         // Llaves: 1
         // Carta: 2
         // Martillo: 10
-        int prueba = Integer.parseInt(celda.getTile().getProperties().get("IDItem").toString());
+        String prueba = (String) celda.getTile().getProperties().get("item");
 //        switch (prueba){
-//            case 1: //Llave
+//            case "llave": //Llave
 //                if (Configuraciones.isFxOn)
 //                    fxLlave.play();
 //                Llave llave;
 //                return llave = new Llave(0, 0, (int) (Math.random()*10) + 1); // Valores del 1 al 10
-//            case 2:
+//            case "carta":
 //                if (Configuraciones.isFxOn)
 //                    fxCarta.play();
 //                Carta carta;
@@ -756,7 +757,7 @@ public abstract class Nivel implements Screen{
 //                }
 //                mostrarCarta(carta);
 //                return carta;
-//            case 10:
+//            case "martillo":
 //                Arma martillo;
 //                if (Configuraciones.isFxOn)
 //                    fxMartillo.play();
@@ -766,12 +767,12 @@ public abstract class Nivel implements Screen{
 
 
         //**********************************J//
-        if (prueba==1){
+        if (prueba.equals("llave")) {
             if (Configuraciones.isFxOn)
                 fxLlave.play();
             Llave llave;
-            return llave = new Llave(0, 0, (int) (Math.random()*10) + 1); // Valores del 1 al 10
-        }else if (prueba==2){
+            return llave = new Llave(0, 0, (int) (Math.random() * 10) + 1); // Valores del 1 al 10
+        } else if (prueba.equals("carta")) {
             if (Configuraciones.isFxOn)
                 fxCarta.play();
             Carta carta;
@@ -782,7 +783,9 @@ public abstract class Nivel implements Screen{
             }
             mostrarCarta(carta);
             return carta;
-        }else if (prueba==10){
+        } else if (prueba.equals("medkit")) {
+            return new Medkit();
+        } else if (prueba.equals("martillo")) {
             Arma martillo;
             if (Configuraciones.isFxOn)
                 fxMartillo.play();
@@ -1176,7 +1179,7 @@ public abstract class Nivel implements Screen{
 
     @Override
     public void resume() {
-        cargarTexturas();
+//        cargarTexturas();
         crearObjetos();
     }
 

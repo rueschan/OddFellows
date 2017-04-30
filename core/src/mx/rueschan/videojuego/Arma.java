@@ -62,7 +62,7 @@ public class Arma extends Objeto {
         if (tipoArma==Tipo.MARTILLO){//************************J//
             dano = 15;
             special = "romper";
-            textura = new Texture("Items/martillo.png");
+            textura = new Texture("Items/Martillo.png");
             sprite = new Sprite(textura);
         }
     }

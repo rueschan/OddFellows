@@ -10,7 +10,6 @@ import com.badlogic.gdx.graphics.FPSLogger;
  */
 public class NivelCabana extends Nivel {
 
-    private Nivel actual;
     private static NivelCabana instancia;
     private static EstadoMapa estadoMapa = EstadoMapa.NO_CARGADO;
 
@@ -27,8 +26,8 @@ public class NivelCabana extends Nivel {
     public NivelCabana(OddFellows oddFellows) {
         super.oddFellows = oddFellows;
         super.pantalla = Pantalla.getInstanciaPantalla();
-        actual = this;
         manager = super.oddFellows.getAssetManager();
+        Juego.actual = this;
     }
 
     public static NivelCabana getNivelCabana(OddFellows oddFellows) {
@@ -38,13 +37,13 @@ public class NivelCabana extends Nivel {
         return instancia;
     }
 
-    @Override
-    protected void cargarTexturas() {
-        // Recursos
-//        pathMapa = "NivelCabana/Cabana.tmx";
-//        pathMusica = "Musica/ofeliasdream.mp3";
-//        pathFxPasos = "Sonidos/pasoMadera.mp3";
-    }
+//    @Override
+//    protected void cargarTexturas() {
+//        // Recursos
+////        pathMapa = "NivelCabana/Cabana.tmx";
+////        pathMusica = "Musica/ofeliasdream.mp3";
+////        pathFxPasos = "Sonidos/pasoMadera.mp3";
+//    }
 
     @Override
     protected void crearObjetos() {
@@ -57,7 +56,7 @@ public class NivelCabana extends Nivel {
 
     @Override
     public void show() {
-        cargarTexturas();
+//        cargarTexturas();
 
         // Crear mapa
         super.crearRecursos(pantalla, pathMapa, pathMusica);
