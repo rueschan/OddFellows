@@ -151,6 +151,7 @@ public abstract class Nivel implements Screen{
     protected Sound fxCarta;
     protected Sound fxMartillo;
     protected Sound fxAtaque;
+    protected Sound fxLevantar;
     private Sound fxInventarioAbrir;
     private Sound fxInventarioCerrar;
     protected Sound fxLlaveAbrir;
@@ -242,6 +243,7 @@ public abstract class Nivel implements Screen{
         fxInventarioCerrar = manager.get("Sonidos/zipperCerrar.mp3");
         fxLlaveAbrir = manager.get("Sonidos/abrirPuerta.mp3");
         fxLlaveFallar = manager.get("Sonidos/accionarCerrojo.mp3");
+        fxLevantar = manager.get("Sonidos/pickup.mp3");
 
         // Enemigos
         listaEnemigos = new ArrayList<Enemigo>();
@@ -399,13 +401,14 @@ public abstract class Nivel implements Screen{
                 Gdx.input.setInputProcessor(pantalla.escena);
                 musicaPausa.stop();
                 oddFellows.crearMusica();
-                juego.actual = null;
+                Juego.actual = null;
                 henric.pararSonido();
                 henric.reset();
                 henric.vaciarInventario();
                 henric.setVida(100);
                 pantalla.resetCamara();
-                //manager.clear(); DEBERÍA FUNCIONAR PERO NO CARGA LA TEXTURA DE HENRIC NORMAL NI LA ALERTA
+//                manager.clear(); //DEBERÍA FUNCIONAR PERO NO CARGA LA TEXTURA DE HENRIC NORMAL NI LA ALERTA
+                borrarMapas();
                 oddFellows.setScreen(new PantallaCargando(oddFellows, Niveles.MENU_PRINCIPAL));
 
 
@@ -426,6 +429,11 @@ public abstract class Nivel implements Screen{
                 tocarMusica();
             }
         });
+    }
+
+    private void borrarMapas() {
+        NivelCabana.reset();
+        NivelBosque.reset();
     }
 
     private void addActoresHUD() {
@@ -734,8 +742,7 @@ public abstract class Nivel implements Screen{
     //EASTER
     private void checarEaster(){
         if (Configuraciones.obtenerEasterCreditos().contains("MOMAZO")) {
-            Arma armaEaster = new Arma(0, 0, Arma.Tipo.MARTILLO);
-            henric.addInventario(armaEaster);
+            henric.addInventario(new Arma(Arma.Tipo.TRIDENTE));
             Configuraciones.borrarEasterCreditos();
         }
     }
@@ -778,6 +785,7 @@ public abstract class Nivel implements Screen{
                 fxLlave.play();
             Llave llave;
             return llave = new Llave(0, 0, (int) (Math.random() * 3) + 1); // Valores del 1 al 10
+
         } else if (prueba.equals("carta")) {
             if (Configuraciones.isFxOn)
                 fxCarta.play();
@@ -789,15 +797,30 @@ public abstract class Nivel implements Screen{
             }
             mostrarCarta(carta);
             return carta;
+
         } else if (prueba.equals("medkit")) {
+            reproducirAudioRecoger();
             return new Medkit();
+
         } else if (prueba.equals("martillo")) {
-            Arma martillo;
-            if (Configuraciones.isFxOn)
-                fxMartillo.play();
-            return martillo = new Arma(0, 0, Arma.Tipo.MARTILLO);
+            reproducirAudioRecoger();
+            return new Arma(Arma.Tipo.MARTILLO);
+
+        } else if (prueba.equals("machete")) {
+            reproducirAudioRecoger();
+            return new Arma(Arma.Tipo.MACHETE);
+
+        } else if (prueba.equals("bate")) {
+            reproducirAudioRecoger();
+            return new Arma(Arma.Tipo.BATE);
         }
         return null;
+    }
+
+    private void reproducirAudioRecoger() {
+        if (Configuraciones.isFxOn) {
+            fxLevantar.play();
+        }
     }
 
     private void mostrarCarta(Carta carta) {
@@ -918,19 +941,19 @@ public abstract class Nivel implements Screen{
         if (seleccionado instanceof Arma && !isArmado) {
             isArmado = true;
             Arma arma = (Arma) seleccionado;
-            if (arma.getTipo() == Arma.Tipo.MARTILLO) {
-                //Texture textura = new Texture("Personaje/HendricMartilloCorriendo.png");
-                Texture textura = manager.get("Personaje/HendricMartilloCorriendo.png");
-                henric.setSprite(new TextureRegion(textura).split(96, 96));
-            }
+
+            Texture textura = manager.get("Personaje/HendricMartilloCorriendo.png");
+            henric.setSprite(new TextureRegion(textura).split(96, 96));
         }
         if (seleccionado instanceof Llave && !isArmado) {
             isArmado = true;
             Llave llave = (Llave) seleccionado;
-                Texture textura = manager.get("Personaje/HendricLlave.png");
-                henric.setSprite(new TextureRegion(textura).split(96, 96));
+
+            Texture textura = manager.get("Personaje/HendricLlave.png");
+            henric.setSprite(new TextureRegion(textura).split(96, 96));
 
         }
+
         if (!enInventario && !pausado && !enCarta) {
             escenaHUD.getActors().set(10, btnItem);
             escenaHUD.getActors().get(10).setName("btnItem");
@@ -950,15 +973,16 @@ public abstract class Nivel implements Screen{
         if (seleccionado instanceof Arma) {
             Arma arma = (Arma) seleccionado;
             henric.setDano(arma.getDano());
-            if (arma.getTipo() == Arma.Tipo.MARTILLO) {
-                golpear();
-            }
+            golpear();
+
         } else if (seleccionado instanceof Carta) {
             Carta carta = (Carta) seleccionado;
             mostrarCarta(carta);
+
         } else if (seleccionado instanceof  Llave) {
             Llave llave = (Llave) seleccionado;
             abrirPuerta(llave);
+
         }
     }
 

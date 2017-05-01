@@ -80,6 +80,7 @@ public class PantallaCargando extends Pantalla {
         manager.load("Sonidos/ataque.mp3", Sound.class);
         manager.load("Sonidos/abrirPuerta.mp3", Sound.class);
         manager.load("Sonidos/accionarCerrojo.mp3", Sound.class);
+        manager.load("Sonidos/pickup.mp3", Sound.class);
 
         // Vida
         manager.load("Pantalla/HP.png", Texture.class);
@@ -178,8 +179,8 @@ public class PantallaCargando extends Pantalla {
 
     private void cargarHenric() {
         //Texturas de Henric
-        manager.load("Personaje/Henric.png",Texture.class);
-        manager.load("Personaje/HendricMartilloAtaque.png",Texture.class);
+        manager.load("Personaje/Henric.png", Texture.class);
+        manager.load("Personaje/HendricMartilloAtaque.png", Texture.class);
     }
 
     private void cargarEnemigos() {

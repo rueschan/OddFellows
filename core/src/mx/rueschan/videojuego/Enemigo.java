@@ -515,7 +515,9 @@ public class Enemigo extends Objeto {
         if (vida <= 0) {
             estadoEnemigo = EstadoEnemigo.MUERTO;
             fxAtaque.stop();
-            fxMuriendo.play();
+            if(Configuraciones.isFxOn){
+                fxMuriendo.play();
+            }
         }
     }
 

@@ -128,6 +128,8 @@ public class Personaje extends Objeto {
     }
 
     public void reset() {
+        estaVivo = true;
+
         //TextureRegion texturaCompleta = new TextureRegion(new Texture("Personaje/Henric.png"));
         Texture texturaHenric = manager.get("Personaje/Henric.png");
         TextureRegion texturaCompleta = new TextureRegion(texturaHenric);
@@ -147,6 +149,8 @@ public class Personaje extends Objeto {
                 Pantalla.getInstanciaPantalla().getALTO()/2);    // Posición inicial
         veDerecha = false; // El sprite esta viendo a la izquierda
         enemigoCercano = null; // Inicia en null porque no hay enemigos cerca (próximos)
+
+        fxAccion = manager.get("Sonidos/alerta.mp3");
     }
 
     public void vaciarInventario() {

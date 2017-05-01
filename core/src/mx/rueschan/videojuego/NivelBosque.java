@@ -155,4 +155,9 @@ public class NivelBosque extends Nivel {
     public void dispose() {
 
     }
+
+    public static void reset() {
+        estadoMapa = EstadoMapa.NO_CARGADO;
+        getManager().unload("NivelBosque/bosque.tmx");
+    }
 }

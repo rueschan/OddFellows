@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.FPSLogger;
+import com.badlogic.gdx.maps.tiled.TiledMap;
 
 /**
  * Created by OddFellows on 14/02/2017.
@@ -145,5 +146,10 @@ public class NivelCabana extends Nivel {
 
     @Override
     public void dispose() {
+    }
+
+    public static void reset() {
+        estadoMapa = EstadoMapa.NO_CARGADO;
+        getManager().unload("NivelCabana/Cabana.tmx");
     }
 }

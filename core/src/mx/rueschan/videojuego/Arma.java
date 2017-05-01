@@ -18,7 +18,7 @@ public class Arma extends Objeto {
     private Tipo tipoArma;
     private Texture textura;
 
-    public Arma( float x, float y, Tipo tipo) {
+    public Arma(Tipo tipo) {
         setTipoArma(tipo);
         crearTipo();
         sprite.setColor(1,1,1,0);
@@ -40,30 +40,43 @@ public class Arma extends Objeto {
         return tipoArma;
     }
 
+    private void crearTipo() {
+        switch (tipoArma) {
+            case MARTILLO:
+                dano = 15;
+                special = "romper";
+                textura = new Texture("Items/martillo.png");
+                sprite = new Sprite(textura);
+                break;
+            case MACHETE:
+                dano = 25;
+                special = "cortar";
+                textura = new Texture("Items/machete.png");
+                sprite = new Sprite(textura);
+                break;
+            case TRIDENTE:
+                dano = 100;
+                special = "dios";   // Hace todo porque YOLO
+                textura = new Texture("Items/tridente.png");
+                sprite = new Sprite(textura);
+                break;
+        }
+        //Tipo
+//        if (tipoArma==Tipo.MARTILLO){//************************J//
+//            dano = 15;
+//            special = "romper";
+//            textura = new Texture("Items/Martillo.png");
+//            sprite = new Sprite(textura);
+//        }
+    }
+
     public enum Tipo {
         MARTILLO,
         HACHA,
         MACHETE,
         ANTORCHA,
         LACOSADELOSPICOS,
-        BAT
-    }
-
-    private void crearTipo() {
-//        switch (tipoArma) {
-//            case MARTILLO:
-//                dano = 15;
-//                special = "romper";
-//                textura = new Texture("Items/martillo.png");
-//                sprite = new Sprite(textura);
-//                break;
-//        }
-        //Tipo
-        if (tipoArma==Tipo.MARTILLO){//************************J//
-            dano = 15;
-            special = "romper";
-            textura = new Texture("Items/Martillo.png");
-            sprite = new Sprite(textura);
-        }
+        BATE,
+        TRIDENTE
     }
 }
