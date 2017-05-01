@@ -153,6 +153,8 @@ public abstract class Nivel implements Screen{
     protected Sound fxAtaque;
     private Sound fxInventarioAbrir;
     private Sound fxInventarioCerrar;
+    protected Sound fxLlaveAbrir;
+    protected Sound fxLlaveFallar;
 
     @Override
     public void show() {
@@ -238,6 +240,8 @@ public abstract class Nivel implements Screen{
         fxAtaque = manager.get("Sonidos/ataque.mp3");
         fxInventarioAbrir = manager.get("Sonidos/zipperAbrir.mp3");
         fxInventarioCerrar = manager.get("Sonidos/zipperCerrar.mp3");
+        fxLlaveAbrir = manager.get("Sonidos/abrirPuerta.mp3");
+        fxLlaveFallar = manager.get("Sonidos/accionarCerrojo.mp3");
 
         // Enemigos
         listaEnemigos = new ArrayList<Enemigo>();
@@ -952,9 +956,7 @@ public abstract class Nivel implements Screen{
     }
 
     private void abrirPuerta(Llave llave) {
-        if (Configuraciones.isFxOn){
-            //Sonido de llave
-        }
+
         if (tilePuerta != null){
             Integer id = 0;
             try {
@@ -964,6 +966,13 @@ public abstract class Nivel implements Screen{
             }
             if (id==llave.getIdPuerta()) {
                 tilePuerta.setTile(null);
+                if (Configuraciones.isFxOn){
+                    fxLlaveAbrir.play();
+                }
+            }else{
+                if (Configuraciones.isFxOn){
+                    fxLlaveFallar.play();
+                }
             }
         }
     }
