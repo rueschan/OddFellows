@@ -431,7 +431,7 @@ public abstract class Nivel implements Screen{
         });
     }
 
-    private void borrarMapas() {
+    public static void borrarMapas() {
         NivelCabana.reset();
         NivelBosque.reset();
     }
@@ -1067,7 +1067,20 @@ public abstract class Nivel implements Screen{
 //        fondoAccion.dibujar(batch);
         txt.escribir(batch, fondoCarta.sprite.getX() + 80,
                 pantalla.getCamaraY() + fondoCarta.sprite.getHeight() - 60);
+        dibujarEnemigos(batch);
 
+    }
+
+    private void dibujarEnemigos(SpriteBatch batch) {
+        for (Enemigo enemigo : listaEnemigos) {
+            enemigo.dibujar(batch);
+        }
+    }
+
+    protected void renderEnemigos(TiledMap mapa) {
+        for (Enemigo enemigo : listaEnemigos) {
+            enemigo.actualizar(mapa);
+        }
     }
 
     @Override

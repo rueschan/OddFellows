@@ -60,10 +60,10 @@ public class NivelBosque extends Nivel {
         // TEST ENEMIGO
         enemigo = new Enemigo(800, 400, Enemigo.Tipo.JABALI);
         listaEnemigos.add(enemigo);
-    }
-
-    private void dibujarRecursosUnicos(SpriteBatch batch) {
-        enemigo.dibujar(batch);
+        enemigo = new Enemigo(1920, 2240, Enemigo.Tipo.DUPLO);
+        listaEnemigos.add(enemigo);
+        enemigo = new Enemigo(2452, 2688, Enemigo.Tipo.OSO);
+        listaEnemigos.add(enemigo);
     }
 
     @Override
@@ -105,7 +105,6 @@ public class NivelBosque extends Nivel {
 //        super.pantalla.escena.draw();
         pantalla.batch.begin();
         super.dibujar(pantalla.batch);
-        dibujarRecursosUnicos(pantalla.batch);
 //        super.henric.dibujar(pantalla.batch);
 //        hp.dibujar(pantalla.batch);
 //        barraHP.dibujar(pantalla.batch);
@@ -120,7 +119,7 @@ public class NivelBosque extends Nivel {
         henric.render(mapa, this);
 
         // Enemigos
-        enemigo.actualizar(mapa);
+        renderEnemigos(mapa);
 
         // Detectar botón físico "return", solo se activa cuando
         //&& !enInventario

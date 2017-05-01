@@ -108,12 +108,13 @@ public class MenuGameOver implements Screen {
                 Gdx.app.log("clicked", "***Salir***");
                 //manager.clear();
                 musicaMuerto.stop();
-                //juego.actual = null;
-                //henric.pararSonido();
-                //henric.reset();
-                //henric.vaciarInventario();
-                //henric.setVida(100);
+                Juego.actual = null;
+                henric.pararSonido();
+                henric.reset();
+                henric.vaciarInventario();
+                henric.setVida(100);
                 pantalla.resetCamara();
+                Nivel.borrarMapas();
                 oddFellows.setScreen(new PantallaCargando(oddFellows,Niveles.MENU_PRINCIPAL));
                 //musicaMuerto.stop();
                 //pantalla.resetCamara();

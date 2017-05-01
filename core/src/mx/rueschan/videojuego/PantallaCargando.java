@@ -187,8 +187,8 @@ public class PantallaCargando extends Pantalla {
         // Texturas de enemigos
         manager.load("Enemigo/Jabali.png", Texture.class);
         manager.load("Enemigo/Oso.png", Texture.class);
-        manager.load("Enemigo/Mutante.png", Texture.class);
-        manager.load("Enemigo/MutanteDos.png", Texture.class);
+        manager.load("Enemigo/Mutis.png", Texture.class);
+        manager.load("Enemigo/Duplo.png", Texture.class);
 
         // Sonidos enemigos
         manager.load("Enemigo/JabaliAtaque.mp3",Music.class);
