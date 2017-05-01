@@ -924,6 +924,13 @@ public abstract class Nivel implements Screen{
                 henric.setSprite(new TextureRegion(textura).split(96, 96));
             }
         }
+        if (seleccionado instanceof Llave && !isArmado) {
+            isArmado = true;
+            Llave llave = (Llave) seleccionado;
+                Texture textura = manager.get("Personaje/HendricLlave.png");
+                henric.setSprite(new TextureRegion(textura).split(96, 96));
+
+        }
         if (!enInventario && !pausado && !enCarta) {
             escenaHUD.getActors().set(10, btnItem);
             escenaHUD.getActors().get(10).setName("btnItem");
@@ -1286,6 +1293,7 @@ public abstract class Nivel implements Screen{
         manager.unload("Pantalla/fondoCarta.png");
         manager.unload("Pantalla/cerrar.png");
         manager.unload("Personaje/HendricMartilloCorriendo.png");
+        manager.unload("Personaje/HendricLlave.png");
         manager.unload("Pantalla/Fondo/fondoPausa.png");
 
         //Crear texturas

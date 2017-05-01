@@ -105,7 +105,9 @@ public class PantallaCargando extends Pantalla {
         manager.load("Pantalla/fondoCarta.png",Texture.class);
         manager.load("Pantalla/cerrar.png",Texture.class);
         manager.load("Personaje/HendricMartilloCorriendo.png",Texture.class);
+        manager.load("Personaje/HendricLlave.png",Texture.class);
         manager.load("Pantalla/Fondo/fondoPausa.png",Texture.class);
+
 
         //Crear texturas
         manager.load("Pantalla/BotonPausa64.png",Texture.class);
