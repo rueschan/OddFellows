@@ -19,6 +19,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -49,6 +50,7 @@ public abstract class Nivel implements Screen{
     protected Texture texturaHenric;
     protected ArrayList<Objeto> inventario = new ArrayList<Objeto>();
     protected Objeto seleccionado;
+    protected ImageButton btnItemSeleccionado = null;
     protected boolean isArmado = false;
 
     // Enemigo
@@ -799,7 +801,7 @@ public abstract class Nivel implements Screen{
                 Collections.shuffle(Carta.idCartas);
                 System.out.println(Carta.idCartas.toString());
                 int id = Carta.idCartas.remove(0);
-                carta = new Carta(0, 0, id);
+                carta = new Carta(0, 0, id);     // LeerCarta
             }
             mostrarCarta(carta);
             return carta;
@@ -897,7 +899,7 @@ public abstract class Nivel implements Screen{
                 TextureRegionDrawable trdBtnItemInv = new
                         TextureRegionDrawable(new TextureRegion(item.sprite.getTexture()));
                 // Colocar botón item
-                ImageButton btnItemInv = new ImageButton(trdBtnItemInv);
+                final ImageButton btnItemInv = new ImageButton(trdBtnItemInv);
                 btnItemInv.setPosition(x - btnItemInv.getWidth()/2, y);
 
                 // Interaccion boton item
@@ -907,6 +909,7 @@ public abstract class Nivel implements Screen{
                         isArmado = false;
                         seleccionado = item;
                         enInventario = irInventario(enInventario, escenaHUD);
+                        btnItemSeleccionado = btnItemInv;
                         //Texture textura = new Texture("Personaje/Henric.png");
                         Texture textura = manager.get("Personaje/Henric.png");
                         henric.setSprite(new TextureRegion(textura).split(96, 96));
@@ -992,6 +995,9 @@ public abstract class Nivel implements Screen{
         } else if(seleccionado instanceof  Medkit) {
             Medkit medkit = (Medkit) seleccionado;
             recuperarVida(medkit);
+            inventario.remove(seleccionado);
+            seleccionado = null;
+
         }
     }
 
