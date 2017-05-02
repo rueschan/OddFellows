@@ -188,9 +188,9 @@ public class PantallaCargando extends Pantalla {
 
     private void cargarArmas() {
         manager.load("Items/martillo.png", Texture.class);
-        manager.load("Items/machete.png", Texture.class);
+        manager.load("Items/Machete.png", Texture.class);
         manager.load("Items/tridente.png", Texture.class);
-        manager.load("Items/bate.png", Texture.class);
+        manager.load("Items/Bate.png", Texture.class);
     }
 
     private void cargarEnemigos() {

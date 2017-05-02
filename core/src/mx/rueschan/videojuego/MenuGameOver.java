@@ -40,8 +40,8 @@ public class MenuGameOver implements Screen {
         //pantalla = Pantalla.getInstanciaPantalla();
         //pantalla.resetCamara();
         pantalla = new Pantalla();
-
         this.nivelActual = nivelActual;
+        this.henric = Personaje.getInstanciaPersonaje();
     }
 
     @Override
