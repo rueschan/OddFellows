@@ -13,8 +13,10 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.maps.Map;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import com.badlogic.gdx.math.Rectangle;
 
 import java.util.ArrayList;
 
@@ -29,8 +31,11 @@ public class Personaje extends Objeto {
 //    private float camaraY = 0;
 
     private float vida = 100;
+    private int dano = 0;
 
+    // Elementos interactuables
     private ArrayList<Objeto> inventario;
+    private Enemigo enemigoCercano;
 
     private Animation<TextureRegion> spriteAnimado;         // Animación caminando
     private Animation<TextureRegion> animacionPrevia;       // Animación previa
@@ -43,26 +48,30 @@ public class Personaje extends Objeto {
     private EstadoMovimiento estadoMovimiento = EstadoMovimiento.QUIETO_X;
     private EstadoMovimientoVertical estadoMovimientoVertical = EstadoMovimientoVertical.QUIETO_Y;
     private boolean veDerecha;
+    private boolean estaVivo;
 
     // Lugar donde se encuentra
     private Localizacion localizacion = Localizacion.CABANA;
     public Destino destino;
-    private LugarEnemigo lugarEnemigo = LugarEnemigo.NO_HAY;
 
     // ASSETS
-    private AssetManager manager;
+    private static AssetManager manager = Nivel.getManager();
     private Music fxPasos;
-    private String pathFxPasos = "Sonidos/pasoMadera.mp3";
+//    private String pathFxPasos = "Sonidos/pasoMadera.mp3";
     private Sound fxAccion;
-    private String pathFxAccion = "Sonidos/alerta.mp3";
+//    private final String pathFxAccion = "Sonidos/alerta.mp3";
     private Texture texturaAtaque;
+//    private String pathTexturaHenricAtaqueMartillo = "Personaje/HendricMartilloAtaque.png";
+//    private String pathTexturaHenric = "Personaje/Henric.png";
 
     // Estado de acción
-    private boolean estatusAccion = false;
+    private boolean estatusInteraccion = false;
+    private boolean estatusPuerta = false;
 
     // Recibe una imagen con varios frames (ver marioSprite.png)
     public Personaje(Texture textura, float x, float y) {
         Pantalla pantalla = Pantalla.getInstanciaPantalla();
+        estaVivo = true;
 
         // Crea inventario
         inventario = new ArrayList<Objeto>(10);
@@ -75,7 +84,10 @@ public class Personaje extends Objeto {
         spriteAnimado = new Animation(0.15f, texturaPersonaje[0][2], texturaPersonaje[0][1] );
         animacionPrevia = new Animation(0.15f, texturaPersonaje[0][2], texturaPersonaje[0][1] );
         animacionAtaque = null;
-        texturaAtaque = new Texture("Personaje/HendricMartilloAtaque.png");
+
+        manager = Nivel.getManager();
+        //texturaAtaque = new Texture("Personaje/HendricMartilloAtaque.png");
+        texturaAtaque = manager.get("Personaje/HendricMartilloAtaque.png");
         trAtaque = new TextureRegion(texturaAtaque).split(120, 96);
         animacionAtaque = new Animation(0.1f, trAtaque[0][2], trAtaque[0][1] );
         // Animación infinita
@@ -86,17 +98,18 @@ public class Personaje extends Objeto {
         sprite = new Sprite(texturaPersonaje[0][0]);    // QUIETO_X
         sprite.setPosition(x,y);    // Posición inicial
         veDerecha = false; // El sprite esta viendo a la izquierda
+        enemigoCercano = null; // Inicia en null porque no hay enemigos cerca (próximos)
 
         // ASSET MANAGER
-        manager = Nivel.getManager();
-        manager.load(pathFxPasos, Music.class);
-        manager.load(pathFxAccion, Sound.class);
-        manager.finishLoading();    // Carga los recursos
+        //manager = Nivel.getManager();
+        //manager.load(pathFxPasos, Music.class);
+        //manager.load(pathFxAccion, Sound.class);
+        //manager.finishLoading();    // Carga los recursos
 
-        fxPasos = manager.get(pathFxPasos);
-        fxPasos.setLooping(true);
-        fxPasos.pause();
-        fxAccion = manager.get(pathFxAccion);
+        //fxPasos = manager.get(pathFxPasos);
+        //fxPasos.setLooping(true);
+        //fxPasos.pause();
+        fxAccion = manager.get("Sonidos/alerta.mp3");
 
 //        camaraX = pantalla.camara.position.x;
 //        camaraY = pantalla.camara.position.y;
@@ -106,13 +119,20 @@ public class Personaje extends Objeto {
     public static Personaje getInstanciaPersonaje() {
         if (instancia == null) {
             Pantalla pantalla = Pantalla.getInstanciaPantalla();
-            Texture texturaHenric = new Texture("Personaje/Henric.png");
+            //Texture texturaHenric = new Texture("Personaje/Henric.png");
+            //Gdx.app.log("Personaje getInstanciaPersonaje"," "+manager.toString());
+            Texture texturaHenric = manager.get("Personaje/Henric.png");
             instancia = new Personaje(texturaHenric, pantalla.getANCHO()/2, pantalla.getALTO()/2);
         }
         return instancia;
     }
 
-    public void reset() {TextureRegion texturaCompleta = new TextureRegion(new Texture("Personaje/Henric.png"));
+    public void reset() {
+        estaVivo = true;
+
+        //TextureRegion texturaCompleta = new TextureRegion(new Texture("Personaje/Henric.png"));
+        Texture texturaHenric = manager.get("Personaje/Henric.png");
+        TextureRegion texturaCompleta = new TextureRegion(texturaHenric);
         // La divide en 4 frames de 32x64 (ver marioSprite.png)
         texturaPersonaje = texturaCompleta.split(96,96);
         // Crea la animación con tiempo de 0.15 segundos entre frames.
@@ -128,6 +148,9 @@ public class Personaje extends Objeto {
         sprite.setPosition(Pantalla.getInstanciaPantalla().getANCHO()/2,
                 Pantalla.getInstanciaPantalla().getALTO()/2);    // Posición inicial
         veDerecha = false; // El sprite esta viendo a la izquierda
+        enemigoCercano = null; // Inicia en null porque no hay enemigos cerca (próximos)
+
+        fxAccion = manager.get("Sonidos/alerta.mp3");
     }
 
     public void vaciarInventario() {
@@ -135,14 +158,14 @@ public class Personaje extends Objeto {
     }
 
     public void setFxPasos(String nuevoFx) {
-        manager.unload(pathFxPasos);
-        manager.load(nuevoFx, Music.class);
-        manager.finishLoadingAsset(nuevoFx);
+        //manager.unload(pathFxPasos);
+        //manager.load(nuevoFx, Music.class);
+        //manager.finishLoadingAsset(nuevoFx);
         fxPasos = manager.get(nuevoFx);
         fxPasos.setLooping(true);
         fxPasos.pause();
 
-        pathFxPasos = nuevoFx;
+//        pathFxPasos = nuevoFx;
     }
 
     public void setSprite(TextureRegion[][] texturaPersonaje) {
@@ -160,8 +183,8 @@ public class Personaje extends Objeto {
     }
 
     public void usarArma() {
-        // SE EVITA LA CREACION DE TEXTURAS DENTRO DEL MÉTODO
-        long inicio = System.nanoTime();
+        // SE EVITA LA CREACION DE TEXTURAS DENTRO DEL MÉTODO ***R
+//        long inicio = System.nanoTime();
 
 //        this.texturaPersonaje = trAtaque;
 //        animacionAtaque = new Animation(0.1f, texturaPersonaje[0][2], texturaPersonaje[0][1] );
@@ -181,8 +204,25 @@ public class Personaje extends Objeto {
         sprite = new Sprite(trAtaque[0][0]);    // QUIETO_X
         sprite.setPosition(x, y);    // Posición inicial
 
-        long fin = System.nanoTime();
-        System.out.println((fin - inicio) / 1000);
+        if (enemigoCercano != null) {
+            if (enemigoCercano.getEstadoEnemigo() != Enemigo.EstadoEnemigo.MUERTO) {
+                enemigoCercano.herir(dano);
+            } else {
+                enemigoCercano = null;
+            }
+
+        }
+
+//        long fin = System.nanoTime();
+//        System.out.println((fin - inicio) / 1000);
+    }
+
+    public void setDano(int dano) {
+        this.dano = dano;
+    }
+
+    public int getDano() {
+        return dano;
     }
 
     public void addInventario(Objeto item) {
@@ -231,10 +271,10 @@ public class Personaje extends Objeto {
     // Sonido al caminar
     public void darPaso() {
         if (estadoMovimiento == EstadoMovimiento.QUIETO_X && estadoMovimientoVertical == EstadoMovimientoVertical.QUIETO_Y
-                || estadoMovimiento == EstadoMovimiento.ATACAR) {
+              || estadoMovimiento == EstadoMovimiento.ATACAR) {
             fxPasos.pause();
         } else {
-            if (Configuraciones.isFxOn) {
+            if (Configuraciones.isFxOn && estaVivo) {
                 fxPasos.play();
             }
         }
@@ -286,7 +326,7 @@ public class Personaje extends Objeto {
     }
 
     // Actualiza el sprite, de acuerdo al estadoMovimiento y estadoSalto
-    public void actualizar(TiledMap mapa) {
+    private void actualizar(TiledMap mapa) {
         switch (estadoMovimiento) {
             case MOV_DERECHA:
             case MOV_IZQUIERDA:
@@ -319,9 +359,10 @@ public class Personaje extends Objeto {
 
 
     //WOLOLOLO
-    public void interactuar(Nivel nivel) {
+    private void interactuar(Nivel nivel) {
         TiledMapTileLayer.Cell celda;
 
+        //ITEMS
         celda = buscaItems(nivel.mapa);
         if (celda != null) {
             nivel.btnInteraccion.setColor(1,1,1,1);
@@ -333,27 +374,51 @@ public class Personaje extends Objeto {
             nivel.tileObjetivo = null;
         }
 
+        //INTERACTIVOS
         celda = buscaInteractivos(nivel.mapa);
         if (celda != null) {
             nivel.alertaAccion.sprite.setPosition(sprite.getX(), sprite.getY() + 100);
             nivel.alertaAccion.sprite.setColor(1,1,1,1);
 //            nivel.btnAccion.setDisabled(false);
             nivel.tileInteractivo = celda;
-            if (!estatusAccion) {
+            if (!estatusInteraccion) {
                 if (Configuraciones.isFxOn)
                     fxAccion.play(0.5f);
-                estatusAccion = true;
+                estatusInteraccion = true;
             }
         } else {
             nivel.alertaAccion.sprite.setPosition(0, 0);
             nivel.alertaAccion.sprite.setColor(1,1,1,0);
 //            nivel.btnAccion.setDisabled(true);
             nivel.tileInteractivo = null;
-            estatusAccion = false;
+            estatusInteraccion = false;
         }
 
-        celda = buscaSalida(nivel.mapa);
+        //ABRIR PUERTA
+        celda = buscaPuertas(nivel.mapa);
+        if (celda != null) {
+            nivel.alertaAccion.sprite.setPosition(sprite.getX(), sprite.getY() + 100);
+            nivel.alertaAccion.sprite.setColor(1,1,1,1);
+//            nivel.btnAccion.setDisabled(false);
+            nivel.tilePuerta = celda;
+            if (!estatusPuerta) {
+                if (Configuraciones.isFxOn)
+                    fxAccion.play(0.5f);
+                estatusPuerta = true;
+            }} else {
+
+//            //PRUEBA
+//            nivel.alertaAccion.sprite.setPosition(0, 0);
+//            nivel.alertaAccion.sprite.setColor(1,1,1,0);
+//            nivel.btnAccion.setDisabled(true);
+            nivel.tilePuerta = null;
+            estatusPuerta = false;
+        }
+
+
         //Aparte de checar la celda, checa que no esté en otra interfaz
+        //Interactivos
+        celda = buscaSalida(nivel.mapa, "Interactivos");
         if (celda != null && !nivel.pausado && !nivel.enInventario && !nivel.enCarta) {
             nivel.btnEntrar.setDisabled(false);
             nivel.btnEntrar.setVisible(true);
@@ -361,6 +426,16 @@ public class Personaje extends Objeto {
             nivel.btnEntrar.setDisabled(true);
             nivel.btnEntrar.setVisible(false);
         }
+        if (celda==null){
+        //Puerta
+        celda = buscaSalida(nivel.mapa, "Puerta");
+        if (celda != null && !nivel.pausado && !nivel.enInventario && !nivel.enCarta) {
+            nivel.btnEntrar.setDisabled(false);
+            nivel.btnEntrar.setVisible(true);
+        } else {
+            nivel.btnEntrar.setDisabled(true);
+            nivel.btnEntrar.setVisible(false);
+        }}
     }
 
 
@@ -399,13 +474,17 @@ public class Personaje extends Objeto {
                     celdaDerechaCentro = null;  // Puede pasar
                 }
             }
-            if ( celdaDerechaAbajo == null && celdaDerechaArriba == null && celdaDerechaCentro == null) {
+            if ( celdaDerechaAbajo == null && celdaDerechaArriba == null &&
+                    celdaDerechaCentro == null) {
                 // Ejecutar movimiento horizontal
                 nuevaX += velocidadX;
-                // Prueba que no salga del mundo por la derecha
-                if (nuevaX <= (mapa.getProperties().get("width", Integer.class) * 64) - sprite.getWidth()) {
-                    sprite.setX(nuevaX);
+                // Revisa si hay colisión con enemigo
+                if (!colisionaEnemigo(enemigoCercano, nuevaX, 'x')) {
+                    // Prueba que no salga del mundo por la derecha
+                    if (nuevaX <= (mapa.getProperties().get("width", Integer.class) * 64) - sprite.getWidth()) {
+                        sprite.setX(nuevaX);
 //                    camaraX += velocidadX;
+                    }
                 }
             }
         }
@@ -437,12 +516,16 @@ public class Personaje extends Objeto {
                     celdaIzquierdaCentro = null;  // Puede pasar
                 }
             }
-            if ( celdaIzquierdaAbajo == null && celdaIzquierdaArriba == null && celdaIzquierdaCentro == null) {
+            if ( celdaIzquierdaAbajo == null && celdaIzquierdaArriba == null &&
+                    celdaIzquierdaCentro == null) {
                 // Prueba que no salga del mundo por la izquierda
                 nuevaX += velocidadX;
-                if (nuevaX >= 0) {
-                    sprite.setX(nuevaX);
+                // Revisa si hay colisión con enemigo
+                if (!colisionaEnemigo(enemigoCercano, nuevaX, 'x')) {
+                    if (nuevaX >= 0) {
+                        sprite.setX(nuevaX);
 //                    camaraX += velocidadX;
+                    }
                 }
             }
         }
@@ -483,13 +566,17 @@ public class Personaje extends Objeto {
                     celdaArribaCentro = null;  // Puede pasar
                 }
             }
-            if ( celdaArribaIzq == null && celdaArribaDer == null && celdaArribaCentro == null) {
+            if ( celdaArribaIzq == null && celdaArribaDer == null &&
+                    celdaArribaCentro == null) {
                 // Ejecutar movimiento horizontal
                 nuevaY += velocidadY;
-                // Prueba que no salga del mundo por la arriba
-                if (nuevaY <= (mapa.getProperties().get("height", Integer.class) * 64) - sprite.getHeight()) {
-                    sprite.setY(nuevaY);
+                // Revisa si hay colisión con enemigo
+                if (!colisionaEnemigo(enemigoCercano, nuevaY, 'y')) {
+                    // Prueba que no salga del mundo por la arriba
+                    if (nuevaY <= (mapa.getProperties().get("height", Integer.class) * 64) - sprite.getHeight()) {
+                        sprite.setY(nuevaY);
 //                    camaraY += velocidadY;
+                    }
                 }
             }
         }
@@ -521,15 +608,44 @@ public class Personaje extends Objeto {
                     celdaAbajoCentro = null;  // Puede pasar
                 }
             }
-            if ( celdaAbajoIzq == null && celdaAbajoDer == null && celdaAbajoCentro == null) {
+            if ( celdaAbajoIzq == null && celdaAbajoDer == null &&
+                    celdaAbajoCentro == null) {
                 // Prueba que no salga del mundo por la izquierda
                 nuevaY += velocidadY;
-                if (nuevaY >= 0) {
-                    sprite.setY(nuevaY);
+                // Revisa si hay colisión con enemigo
+                if (!colisionaEnemigo(enemigoCercano, nuevaY, 'y')) {
+                    if (nuevaY >= 0) {
+                        sprite.setY(nuevaY);
 //                    camaraY += velocidadY;
+                    }
                 }
             }
         }
+    }
+
+    public void setEnemigoCercano(Enemigo enemigo) {
+        enemigoCercano = enemigo;
+    }
+
+    public boolean colisionaEnemigo(Enemigo enemigo, float diferencia, char orientacion) {
+        Rectangle rect = sprite.getBoundingRectangle();
+        int xRect = (int) rect.getX();
+        int yRect = (int) rect.getY();
+
+        if (enemigo != null) {
+            Rectangle rectEnemigo = enemigo.sprite.getBoundingRectangle();
+
+            if (orientacion == 'x') {
+                rect.setPosition(diferencia, yRect);
+            } else if (orientacion == 'y') {
+                rect.setPosition(xRect, diferencia);
+            }
+
+            if (rect.overlaps(rectEnemigo)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public TiledMapTileLayer.Cell buscaItems(TiledMap mapa) {
@@ -556,6 +672,21 @@ public class Personaje extends Objeto {
         TiledMapTileLayer capa = (TiledMapTileLayer) mapa.getLayers().get("Interactivos");
         TiledMapTileLayer.Cell celda;
 
+//        ArrayList<TiledMapTileLayer.Cell> cellArrayList = new ArrayList<TiledMapTileLayer.Cell>();
+//        for (int i = 0; i < capa.getHeight(); i += 64) {
+//            for (int j = 0; j < capa.getWidth(); j += 64) {
+//                celda = capa.getCell((i / 64), (j / 64));
+//
+//                if (celda.getTile().getProperties().get("idPuerta") == "1") {
+//                    cellArrayList.add(celda);
+//                }
+//            }
+//        }
+//
+//        for (TiledMapTileLayer.Cell cell : cellArrayList) {
+//            cell.setTile(null);
+//        }
+
         int xPersonaje = (int) sprite.getX();
         int yPersonaje = (int) sprite.getY();
 
@@ -571,6 +702,7 @@ public class Personaje extends Objeto {
     }
 
     public TiledMapTileLayer.Cell buscaPuertas(TiledMap mapa){
+
         TiledMapTileLayer capa = (TiledMapTileLayer) mapa.getLayers().get("Puerta");
         TiledMapTileLayer.Cell celda;
 
@@ -589,9 +721,9 @@ public class Personaje extends Objeto {
         return null;
     }
 
-    public TiledMapTileLayer.Cell buscaSalida(TiledMap mapa) {
+    public TiledMapTileLayer.Cell buscaSalida(TiledMap mapa, String capaDeseada) {
 
-        TiledMapTileLayer capa = (TiledMapTileLayer) mapa.getLayers().get("Interactivos");
+        TiledMapTileLayer capa = (TiledMapTileLayer) mapa.getLayers().get(capaDeseada);
         TiledMapTileLayer capaSalidas = (TiledMapTileLayer) mapa.getLayers().get("Salidas");
         TiledMapTileLayer.Cell celda;
         TiledMapTileLayer.Cell celdaSalida;
@@ -615,7 +747,6 @@ public class Personaje extends Objeto {
                         id = Integer.parseInt((String) celdaSalida.getTile().getProperties().get("lugar"));
                     }
                     Nivel.setNivelObjetivo(id);
-//                    System.out.println(String.valueOf(id));
 
                     try {
                         if (celda.getTile() == null) {
@@ -647,6 +778,12 @@ public class Personaje extends Objeto {
 
     public void setVida(float cambio){
         vida = cambio;
+        if (vida<=0){
+            estaVivo = false;
+        }
+        else{
+            estaVivo = true;
+        }
     }
 
     // Accesor de estadoMovimiento
@@ -656,6 +793,9 @@ public class Personaje extends Objeto {
 
     // Modificador de estadoMovimiento
     public void setEstadoMovimiento(EstadoMovimiento estadoMovimiento) {
+        if (this.estadoMovimiento == EstadoMovimiento.ATACAR) {
+            spriteAnimado = animacionPrevia;
+        }
         this.estadoMovimiento = estadoMovimiento;
     }
 
@@ -715,8 +855,17 @@ public class Personaje extends Objeto {
                 sprite.getY(), 0);
     }
 
-    public void setLugarEnemigo(LugarEnemigo lugar) {
-        lugarEnemigo = lugar;
+//    public void setLugarEnemigo(LugarEnemigo lugar) {
+//        lugarEnemigo = lugar;
+//    }
+
+//    public LugarEnemigo getLugarEnemigo() {
+//        return lugarEnemigo;
+//    }
+
+    public void render(TiledMap mapa, Nivel nivel) {
+        actualizar(mapa);
+        interactuar(nivel);
     }
 
     public enum EstadoMovimiento {
@@ -730,14 +879,6 @@ public class Personaje extends Objeto {
         MOV_ARRIBA,
         MOV_ABAJO,
         QUIETO_Y
-    }
-
-    public enum LugarEnemigo {
-        DERECHA,
-        IZQUIERDA,
-        ABAJO,
-        ARRIBA,
-        NO_HAY
     }
 
     public enum Localizacion {

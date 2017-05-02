@@ -14,7 +14,7 @@ public class Juego {
     private Nivel cabana;
     private Nivel bosque;
     private Nivel[] niveles = {cabana, bosque};
-    public Nivel actual;
+    public static Nivel actual;
 
     // Memoria del juego
     private File memoria;
@@ -37,7 +37,7 @@ public class Juego {
     public void iniciarJuego() {
         // Crea e inicia el juego
         actual = new NivelCabana(oddFellows);
-        oddFellows.setScreen(actual);
+        oddFellows.setScreen(new PantallaCargando(oddFellows,Niveles.NIVEL_CABANA));
     }
 
     private void iniciarNivel() {

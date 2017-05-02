@@ -3,20 +3,19 @@ package mx.rueschan.videojuego;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
-import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -38,7 +37,7 @@ import java.util.List;
  */
 public abstract class Nivel implements Screen{
 
-    protected OddFellows oddFellows;
+    protected static OddFellows oddFellows;
     protected Pantalla pantalla;
     protected Juego juego;
     protected static int idNvlObjetivo;
@@ -59,6 +58,7 @@ public abstract class Nivel implements Screen{
     protected TiledMap mapa;
     protected TiledMapTileLayer.Cell tileObjetivo;
     protected TiledMapTileLayer.Cell tileInteractivo;
+    protected TiledMapTileLayer.Cell tilePuerta;
 
     // Texturas HUD
     protected Texture texturaBotonPausa;
@@ -101,9 +101,9 @@ public abstract class Nivel implements Screen{
     protected List<String> actoresAparecenInventario = new ArrayList<String>();
     protected List<String> actoresAparecenCarta = new ArrayList<String>();
     protected List<String> actoresAparecenInicialmente = new ArrayList<String>();
-    protected List<String> nombreActores = new ArrayList<String>();
-
-
+//    protected List<String> nombreActores = new ArrayList<String>();
+    protected boolean actoresCreados = false;
+    protected int cantidadActores = 18;
 
     //Pausa
     protected Texture regionPausa;
@@ -143,34 +143,33 @@ public abstract class Nivel implements Screen{
     private Texto txt;
 
     //Manejador de assets
-    protected static AssetManager manager;
+    protected AssetManager manager;
 
     protected Music musicaFondo;
     protected Music musicaPausa;
-    protected String pathMusicaPausa = "Musica/giantwyrm.mp3";
     protected Sound fxLlave;
-    protected String pathFxLlave = "Sonidos/levantarLlave.mp3";
     protected Sound fxCarta;
-    protected String pathFxCarta = "Sonidos/levantarPapel.mp3";
     protected Sound fxMartillo;
-    protected String pathFxMartillo = "Sonidos/levantarMartillo.mp3";
+    protected Sound fxAtaque;
+    protected Sound fxLevantar;
     private Sound fxInventarioAbrir;
-    private String pathFxInventarioAbrir = "Sonidos/zipperAbrir.mp3";
     private Sound fxInventarioCerrar;
-    private String pathFxInventarioCerrar = "Sonidos/zipperCerrar.mp3";
+    protected Sound fxLlaveAbrir;
+    protected Sound fxLlaveFallar;
 
     @Override
     public void show() {
-        cargarTexturas();
+//        cargarTexturas();
         crearObjetos();
         cargarJuego();
     }
 
     public static AssetManager getManager() {
-        if (manager != null) {
+        /*if (manager != null) {
             return manager;
         }
-        return new AssetManager();
+        return new AssetManager();*/
+        return (oddFellows.getAssetManager());
     }
 
     protected void cargarJuego(){
@@ -179,9 +178,10 @@ public abstract class Nivel implements Screen{
 
     protected abstract void crearObjetos();
 
-    protected abstract void cargarTexturas();
+//    protected abstract void cargarTexturas();
 
     protected void crearRecursos(Pantalla pantalla, String nombreMapa, String nombreMusicaFondo) {
+        this.manager = oddFellows.getAssetManager();
         // Henric
         henric = Personaje.getInstanciaPersonaje();
 //        texturaHenric = new Texture("Personaje/Henric.png");
@@ -192,8 +192,10 @@ public abstract class Nivel implements Screen{
         txt.hacerMensajes(new Color(0,0,0,1), "");
 
         // Vida
-        texturaHP = new Texture("Pantalla/HP.png");
-        texturaBarraHP = new Texture("Pantalla/BarraHP.png");
+        //texturaHP = new Texture("Pantalla/HP.png");
+        //texturaBarraHP = new Texture("Pantalla/BarraHP.png");
+        texturaHP = manager.get("Pantalla/HP.png");
+        texturaBarraHP = manager.get("Pantalla/BarraHP.png");
 //        hp = new Objeto(texturaHP, 10, pantalla.getALTO() - 10 - texturaHP.getHeight());
 //        barraHP = new Objeto(texturaBarraHP, 10, pantalla.getALTO() - 10 - texturaHP.getHeight());
 
@@ -209,20 +211,19 @@ public abstract class Nivel implements Screen{
 
 
 
-        manager = new AssetManager();
-        manager.setLoader(TiledMap.class,
-                new TmxMapLoader(new InternalFileHandleResolver()));
-        manager.load(nombreMapa, TiledMap.class);
-        manager.load(nombreMusicaFondo,Music.class);
-        manager.load(pathMusicaPausa,Music.class);
+        //manager = new AssetManager();
+        //manager.setLoader(TiledMap.class,
+        //        new TmxMapLoader(new InternalFileHandleResolver()));
+        //manager.load(nombreMapa, TiledMap.class);
+        //manager.load(nombreMusicaFondo,Music.class);
+        /*manager.load(pathMusicaPausa,Music.class);
         manager.load(pathFxLlave, Sound.class);
         manager.load(pathFxCarta, Sound.class);
         manager.load(pathFxMartillo, Sound.class);
         manager.load(pathFxInventarioAbrir, Sound.class);
-        manager.load(pathFxInventarioCerrar, Sound.class);
+        manager.load(pathFxInventarioCerrar, Sound.class);*/
 
-        manager.finishLoading();    // Carga los recursos
-
+        //manager.finishLoading();    // Carga los recursos
         mapa = manager.get(nombreMapa);
 
         pantalla.batch = new SpriteBatch();
@@ -234,15 +235,19 @@ public abstract class Nivel implements Screen{
             musicaFondo.play();
 
         // Sonidos generales
-        fxLlave = manager.get(pathFxLlave);
-        fxCarta = manager.get(pathFxCarta);
-        fxMartillo = manager.get(pathFxMartillo);
-        fxInventarioAbrir = manager.get(pathFxInventarioAbrir);
-        fxInventarioCerrar = manager.get(pathFxInventarioCerrar);
+        fxLlave = manager.get("Sonidos/levantarLlave.mp3");
+        fxCarta = manager.get("Sonidos/levantarPapel.mp3");
+        fxMartillo = manager.get("Sonidos/levantarMartillo.mp3");
+        fxAtaque = manager.get("Sonidos/ataque.mp3");
+        fxInventarioAbrir = manager.get("Sonidos/zipperAbrir.mp3");
+        fxInventarioCerrar = manager.get("Sonidos/zipperCerrar.mp3");
+        fxLlaveAbrir = manager.get("Sonidos/abrirPuerta.mp3");
+        fxLlaveFallar = manager.get("Sonidos/accionarCerrojo.mp3");
+        fxLevantar = manager.get("Sonidos/pickup.mp3");
 
         // Enemigos
         listaEnemigos = new ArrayList<Enemigo>();
-        
+
     }
 
     protected void crearElementosPantalla(final Pantalla pantalla){
@@ -272,8 +277,13 @@ public abstract class Nivel implements Screen{
         // HUD
             // PAD
         Skin skin = new Skin();
+        //skin.add("padBack", new Texture("Pad/padBack.png"));
+        //skin.add("padKnob", new Texture("Pad/padKnob.png"));
+        Texture textura = manager.get("Pad/padBack.png");
         skin.add("padBack", new Texture("Pad/padBack.png"));
+        textura = manager.get("Pad/padKnob.png");
         skin.add("padKnob", new Texture("Pad/padKnob.png"));
+
 
         final Touchpad.TouchpadStyle estilo = new Touchpad.TouchpadStyle();
         estilo.background = skin.getDrawable("padBack");
@@ -390,14 +400,19 @@ public abstract class Nivel implements Screen{
             public void clicked(InputEvent event, float x, float y) {
                 Gdx.input.setInputProcessor(pantalla.escena);
                 musicaPausa.stop();
+                musicaFondo.stop();
                 oddFellows.crearMusica();
-                juego.actual = null;
+                Juego.actual = null;
                 henric.pararSonido();
                 henric.reset();
                 henric.vaciarInventario();
                 henric.setVida(100);
                 pantalla.resetCamara();
+//                manager.clear(); //DEBERÍA FUNCIONAR PERO NO CARGA LA TEXTURA DE HENRIC NORMAL NI LA ALERTA
+                borrarMapas();
                 oddFellows.setScreen(new PantallaCargando(oddFellows, Niveles.MENU_PRINCIPAL));
+
+
             }
         });
 
@@ -415,6 +430,11 @@ public abstract class Nivel implements Screen{
                 tocarMusica();
             }
         });
+    }
+
+    public static void borrarMapas() {
+        NivelCabana.reset();
+        NivelBosque.reset();
     }
 
     private void addActoresHUD() {
@@ -555,9 +575,6 @@ public abstract class Nivel implements Screen{
 //        Gdx.app.log("woloo", "18");
 
 
-        for (int i = 0; i < escenaHUD.getActors().size; i++) {
-            nombreActores.add(escenaHUD.getActors().get(i).getName());
-        }
 
         // Crea los limites de pad y botones, es decir, evita que se cree el pad sobre los botones
         escenaHUD.addListener(new ClickListener() {
@@ -604,14 +621,16 @@ public abstract class Nivel implements Screen{
 
     private void crearAlerta(){
         //// Asignar textura a sprite de acción
-        texturaAccion = new Texture("Pantalla/Accion.png");
+        //texturaAccion = new Texture("Pantalla/Accion.png");
+        texturaAccion = manager.get("Pantalla/Accion.png");
         alertaAccion = new Objeto(0, 0, texturaAccion);
         alertaAccion.sprite.setColor(1, 1, 1, 0);
     }
 
     private void crearBtnInteraccion(){
         //// Asignar textura al boton de interación
-        texturaInteraccion = new Texture("Pantalla/BotonInteraccion.png");
+        //texturaInteraccion = new Texture("Pantalla/BotonInteraccion.png");
+        texturaInteraccion = manager.get("Pantalla/BotonInteraccion.png");
         TextureRegionDrawable trdBtnInteraccion = new
                 TextureRegionDrawable(new TextureRegion(texturaInteraccion));
 
@@ -622,7 +641,8 @@ public abstract class Nivel implements Screen{
         btnInteraccion.setColor(1,1,1,0.4f);
 
         //Boton Salir
-        texturaEntrar = new Texture("Pantalla/entrar.png");
+        //texturaEntrar = new Texture("Pantalla/entrar.png");
+        texturaEntrar = manager.get("Pantalla/entrar.png");
         TextureRegionDrawable trdBtnentrar = new
                 TextureRegionDrawable(new TextureRegion(texturaEntrar));
         btnEntrar = new ImageButton(trdBtnentrar);
@@ -636,7 +656,8 @@ public abstract class Nivel implements Screen{
 
     private void crearBtnAccion(){
         //// Asignar textura al boton de acción
-        texturaAccion = new Texture("Pantalla/baseItems.png");
+        // texturaAccion = new Texture("Pantalla/baseItems.png");
+        texturaAccion = manager.get("Pantalla/baseItems.png");
 //        fondoAccion = new Objeto(texturaAccion, pantalla.getANCHO()-texturaAccion.getWidth()-pantalla.getANCHO()*.14f,
 //                pantalla.getALTO()*.02f);
 
@@ -677,7 +698,8 @@ public abstract class Nivel implements Screen{
     private void crearBtnInventario(){
 
         //// Asignar textura al boton de inventario
-        texturaInventario = new Texture("Pantalla/inventario.png");
+        // texturaInventario = new Texture("Pantalla/inventario.png");
+        texturaInventario = manager.get("Pantalla/inventario.png");
         TextureRegionDrawable trdBtnInventario = new
                 TextureRegionDrawable(new TextureRegion(texturaInventario));
 
@@ -690,7 +712,8 @@ public abstract class Nivel implements Screen{
 
     private void crearCartas(){
         // Cartas
-        Texture pathFondoCarta = new Texture("Pantalla/fondoCarta.png");
+        //Texture pathFondoCarta = new Texture("Pantalla/fondoCarta.png");
+        Texture pathFondoCarta = manager.get("Pantalla/fondoCarta.png");
         fondoCarta = new Objeto(pantalla.getANCHO()/2 - pathFondoCarta.getWidth()/2, 0, pathFondoCarta);
         fondoCarta.sprite.setColor(1,1,1,0);
 
@@ -705,7 +728,8 @@ public abstract class Nivel implements Screen{
 //        oscuroPausa.setVisible(false);
 
         //// Asignar textura al boton de cerrar carta
-        texturaCerrar = new Texture("Pantalla/cerrar.png");
+        //texturaCerrar = new Texture("Pantalla/cerrar.png");
+        texturaCerrar = manager.get("Pantalla/cerrar.png");
         TextureRegionDrawable trdBtnCerrar = new
                 TextureRegionDrawable(new TextureRegion(texturaCerrar));
 
@@ -719,8 +743,8 @@ public abstract class Nivel implements Screen{
     //EASTER
     private void checarEaster(){
         if (Configuraciones.obtenerEasterCreditos().contains("MOMAZO")) {
-            Arma armaEaster = new Arma(0, 0, Arma.Tipo.MARTILLO);
-            henric.addInventario(armaEaster);
+            henric.addInventario(new Arma(Arma.Tipo.TRIDENTE));
+            Configuraciones.borrarEasterCreditos();
         }
     }
 
@@ -729,14 +753,14 @@ public abstract class Nivel implements Screen{
         // Llaves: 1
         // Carta: 2
         // Martillo: 10
-        int prueba = Integer.parseInt(celda.getTile().getProperties().get("IDItem").toString());
+        String prueba = (String) celda.getTile().getProperties().get("item");
 //        switch (prueba){
-//            case 1: //Llave
+//            case "llave": //Llave
 //                if (Configuraciones.isFxOn)
 //                    fxLlave.play();
 //                Llave llave;
 //                return llave = new Llave(0, 0, (int) (Math.random()*10) + 1); // Valores del 1 al 10
-//            case 2:
+//            case "carta":
 //                if (Configuraciones.isFxOn)
 //                    fxCarta.play();
 //                Carta carta;
@@ -747,7 +771,7 @@ public abstract class Nivel implements Screen{
 //                }
 //                mostrarCarta(carta);
 //                return carta;
-//            case 10:
+//            case "martillo":
 //                Arma martillo;
 //                if (Configuraciones.isFxOn)
 //                    fxMartillo.play();
@@ -757,12 +781,13 @@ public abstract class Nivel implements Screen{
 
 
         //**********************************J//
-        if (prueba==1){
+        if (prueba.equals("llave")) {
             if (Configuraciones.isFxOn)
                 fxLlave.play();
             Llave llave;
-            return llave = new Llave(0, 0, (int) (Math.random()*10) + 1); // Valores del 1 al 10
-        }else if (prueba==2){
+            return llave = new Llave(0, 0, (int) (Math.random() * 3) + 1); // Valores del 1 al 10
+
+        } else if (prueba.equals("carta")) {
             if (Configuraciones.isFxOn)
                 fxCarta.play();
             Carta carta;
@@ -773,13 +798,30 @@ public abstract class Nivel implements Screen{
             }
             mostrarCarta(carta);
             return carta;
-        }else if (prueba==10){
-            Arma martillo;
-            if (Configuraciones.isFxOn)
-                fxMartillo.play();
-            return martillo = new Arma(0, 0, Arma.Tipo.MARTILLO);
+
+        } else if (prueba.equals("medkit")) {
+            reproducirAudioRecoger();
+            return new Medkit();
+
+        } else if (prueba.equals("martillo")) {
+            reproducirAudioRecoger();
+            return new Arma(Arma.Tipo.MARTILLO);
+
+        } else if (prueba.equals("machete")) {
+            reproducirAudioRecoger();
+            return new Arma(Arma.Tipo.MACHETE);
+
+        } else if (prueba.equals("bate")) {
+            reproducirAudioRecoger();
+            return new Arma(Arma.Tipo.BATE);
         }
         return null;
+    }
+
+    private void reproducirAudioRecoger() {
+        if (Configuraciones.isFxOn) {
+            fxLevantar.play();
+        }
     }
 
     private void mostrarCarta(Carta carta) {
@@ -789,8 +831,9 @@ public abstract class Nivel implements Screen{
 //        fondoAccion.sprite.setColor(1,1,1,0);
         btnItem.setColor(1,1,1,0);
 
-        if (Configuraciones.isFxOn)
+        if (Configuraciones.isFxOn){
             fxCarta.play();
+        }
 
         txt.cambiarMensaje(carta.getTexto());
 
@@ -829,27 +872,7 @@ public abstract class Nivel implements Screen{
             fxCarta.play();
         txt.cambiarMensaje("");
 
-        //Se le resta uno por ser el tamano y no la posición, se le resta otro para no contar con el botón de pausa
-        int actorHUD = escenaHUD.getActors().size-1;
-        Actor a;
-
         mostrarHUDInicial();
-//        for (;actorHUD >= 0; actorHUD--){
-//            a = escenaHUD.getActors().get(actorHUD);
-//            if (a.getName() != "Cerrar" && !isPausa) {
-//                escenaHUD.getActors().get(actorHUD).setVisible(true);
-//
-//                escenaHUD.getActors().set(10, btnItem);
-//            } else if (a.getName() == "Cerrar"){
-//                a.setVisible(false);
-//                isPausa = false;
-//            } else {
-//                a.setVisible(false);
-//            }
-//            if (a.getName() == "Pausa") {
-//                a.setVisible(true);
-//            }
-//        }
     }
 
     private void mostrarInventario(ArrayList<Objeto> inventario, boolean inInventario) {
@@ -879,7 +902,8 @@ public abstract class Nivel implements Screen{
                         isArmado = false;
                         seleccionado = item;
                         enInventario = irInventario(enInventario, escenaHUD);
-                        Texture textura = new Texture("Personaje/Henric.png");
+                        //Texture textura = new Texture("Personaje/Henric.png");
+                        Texture textura = manager.get("Personaje/Henric.png");
                         henric.setSprite(new TextureRegion(textura).split(96, 96));
                     }
                 });
@@ -918,11 +942,19 @@ public abstract class Nivel implements Screen{
         if (seleccionado instanceof Arma && !isArmado) {
             isArmado = true;
             Arma arma = (Arma) seleccionado;
-            if (arma.getTipo() == Arma.Tipo.MARTILLO) {
-                Texture textura = new Texture("Personaje/HendricMartilloCorriendo.png");
-                henric.setSprite(new TextureRegion(textura).split(96, 96));
-            }
+
+            Texture textura = manager.get("Personaje/HendricMartilloCorriendo.png");
+            henric.setSprite(new TextureRegion(textura).split(96, 96));
         }
+        if (seleccionado instanceof Llave && !isArmado) {
+            isArmado = true;
+            Llave llave = (Llave) seleccionado;
+
+            Texture textura = manager.get("Personaje/HendricLlave.png");
+            henric.setSprite(new TextureRegion(textura).split(96, 96));
+
+        }
+
         if (!enInventario && !pausado && !enCarta) {
             escenaHUD.getActors().set(10, btnItem);
             escenaHUD.getActors().get(10).setName("btnItem");
@@ -939,23 +971,72 @@ public abstract class Nivel implements Screen{
 
     private void ejecutarAccion() {
         henric.setEstadoMovimiento(Personaje.EstadoMovimiento.QUIETO_X);
-//        Gdx.app.log("ejecutarMovimiento:","wololo");
         if (seleccionado instanceof Arma) {
             Arma arma = (Arma) seleccionado;
-            if (arma.getTipo() == Arma.Tipo.MARTILLO) {
-                romper();
-            }
+            henric.setDano(arma.getDano());
+            golpear();
+
         } else if (seleccionado instanceof Carta) {
             Carta carta = (Carta) seleccionado;
             mostrarCarta(carta);
+
         } else if (seleccionado instanceof  Llave) {
             Llave llave = (Llave) seleccionado;
+            abrirPuerta(llave);
+
         }
     }
 
-    private void romper() {
+    private void abrirPuerta(Llave llave) {
+
+        if (tilePuerta != null){
+            Integer id = 0;
+            try {
+                id = (Integer) tilePuerta.getTile().getProperties().get("valorLlave");
+            } catch (ClassCastException e) {
+                id = Integer.parseInt((String) tilePuerta.getTile().getProperties().get("valorLlave"));
+            }
+            if (id==llave.getIdPuerta()) {
+                tilePuerta.setTile(null);
+                if (Configuraciones.isFxOn){
+                    fxLlaveAbrir.play();
+                }
+            }else{
+                if (Configuraciones.isFxOn){
+                    fxLlaveFallar.play();
+                }
+            }
+        }
+    }
+
+//    private void abrirPuerta() {
+//        if (tilePuerta != null) {
+//            TiledMapTileLayer capa = (TiledMapTileLayer) mapa.getLayers().get("Puerta");
+//            TiledMapTileLayer.Cell celda;
+//
+//            ArrayList<TiledMapTileLayer.Cell> cellArrayList = new ArrayList<TiledMapTileLayer.Cell>();
+//            for (int i = 0; i < capa.getHeight(); i += 64) {
+//                for (int j = 0; j < capa.getWidth(); j += 64) {
+//                    celda = capa.getCell((i / 64), (j / 64));
+//                    Gdx.app.log("ArrayCelda",cellArrayList.toString());
+//                        cellArrayList.add(celda);
+//                        //woLOLOLOLOLO
+//                        Gdx.app.log("ArrayCelda",cellArrayList.toString());
+//                }
+//            }
+//            for (TiledMapTileLayer.Cell celdaFor : cellArrayList) {
+//                celdaFor.setTile(null);
+//            }
+//        }
+//    }
+
+    private void golpear() {
         if (Configuraciones.isFxOn) {
-            fxMartillo.play();
+            if (!hayAtaqueAJugador()) {
+                fxMartillo.play();
+            } else {
+                fxAtaque.play();
+            }
         }
 //        Ya no se crea la textura cada vez que se usa un arma
 //        Texture textura = new Texture("Personaje/HendricMartilloAtaque.png");
@@ -987,7 +1068,20 @@ public abstract class Nivel implements Screen{
 //        fondoAccion.dibujar(batch);
         txt.escribir(batch, fondoCarta.sprite.getX() + 80,
                 pantalla.getCamaraY() + fondoCarta.sprite.getHeight() - 60);
+        dibujarEnemigos(batch);
 
+    }
+
+    private void dibujarEnemigos(SpriteBatch batch) {
+        for (Enemigo enemigo : listaEnemigos) {
+            enemigo.dibujar(batch);
+        }
+    }
+
+    protected void renderEnemigos(TiledMap mapa) {
+        for (Enemigo enemigo : listaEnemigos) {
+            enemigo.actualizar(mapa);
+        }
     }
 
     @Override
@@ -1002,7 +1096,7 @@ public abstract class Nivel implements Screen{
     protected void crearPausa(final Stage escenaHUD){
 
         pausado=false;
-        musicaPausa = manager.get(pathMusicaPausa);
+        musicaPausa = manager.get("Musica/giantwyrm.mp3");
         musicaPausa.setLooping(true);
 
         //Textura de cuadro de pausa
@@ -1017,7 +1111,8 @@ public abstract class Nivel implements Screen{
         cuadroPausa.setPosition(0.275f*pantalla.getANCHO(), 0.1f*pantalla.getALTO());
 
         //Crear Fondo de pantalla de pausa
-        fondoMenu = new Texture("Pantalla/Fondo/fondoPausa.png");
+        //fondoMenu = new Texture("Pantalla/Fondo/fondoPausa.png");
+        fondoMenu = manager.get("Pantalla/Fondo/fondoPausa.png");
         fondoMenuImagen = new Image(fondoMenu);
         fondoMenuImagen.setPosition(0,0);
 
@@ -1033,11 +1128,16 @@ public abstract class Nivel implements Screen{
         */
 
         //Crear texturas
-        texturaBotonPausa = new Texture("Pantalla/BotonPausa64.png");
+        /*texturaBotonPausa = new Texture("Pantalla/BotonPausa64.png");
         texturaBotonReanudar = new Texture("Pantalla/Tabla.png");
         texturaBotonSalir = new Texture("Pantalla/Tabla.png");
         texturaMusica = new Texture("Pantalla/Audio.png");
-        texturaFX = new Texture("Pantalla/ecualizador.png");
+        texturaFX = new Texture("Pantalla/ecualizador.png");*/
+        texturaBotonPausa = manager.get("Pantalla/BotonPausa64.png");
+        texturaBotonReanudar = manager.get("Pantalla/Tabla.png");
+        texturaBotonSalir = manager.get("Pantalla/Tabla.png");
+        texturaMusica = manager.get("Pantalla/Audio.png");
+        texturaFX = manager.get("Pantalla/ecualizador.png");
 
         //Crear boton Pausa
         TextureRegionDrawable trdBtnPausa = new
@@ -1087,7 +1187,8 @@ public abstract class Nivel implements Screen{
         enInventario=false;
 
         //Textura de cuadro de pausa
-        regionInventario = new Texture( "Pantalla/fondoInventario.png" );
+        //regionInventario = new Texture( "Pantalla/fondoInventario.png" );
+        regionInventario = manager.get("Pantalla/fondoInventario.png");
         cuadroInventario = new Image(regionInventario);
         cuadroInventario.setPosition(pantalla.getANCHO()/2 - regionInventario.getWidth()/2, 0.15f*pantalla.getALTO());
 
@@ -1104,7 +1205,8 @@ public abstract class Nivel implements Screen{
 //        Pixmap pixmapRegresar = new Pixmap((int)(pantalla.getANCHO()*0.4f), (int)(pantalla.getALTO()*0.1f), Pixmap.Format.RGBA8888 ); // 512 x 128
 //        pixmapRegresar.setColor( 0.6f, 0.2f, 0.8f, 0.85f );
 //        pixmapRegresar.fillRectangle(0,0,(int)pantalla.getANCHO(),(int)pantalla.getALTO());
-        regionRegresarInventario = new Texture( "Pantalla/btnSalirInventario.png" );
+        //regionRegresarInventario = new Texture( "Pantalla/btnSalirInventario.png" );
+        regionRegresarInventario = manager.get("Pantalla/btnSalirInventario.png");
 //        pixmapRegresar.dispose();
         regresarInventario = new Image(regionRegresarInventario);
         regresarInventario.setPosition(.3f*pantalla.getANCHO(),.05f*pantalla.getALTO());
@@ -1153,31 +1255,108 @@ public abstract class Nivel implements Screen{
 
     @Override
     public void resume() {
-        cargarTexturas();
+//        cargarTexturas();
         crearObjetos();
     }
 
     protected void cambiarNivel(int nvl) {
-        Nivel nivel = detectarNivel(nvl);
-        oddFellows.setScreen(nivel);
-        musicaFondo.stop();
-        henric.setViaje();
-        // juego.cargarNivel(nvl);
-//        this.dispose();
+        //Nivel nivel = detectarNivel(nvl);
+        //oddFellows.setScreen(nivel);
+        //descargarManager(nvl);
 
-    }
-
-    private Nivel detectarNivel(int nvl) {
         switch (nvl) {
             case 1: // CABAÑA
                 henric.destino = Personaje.Destino.CABANA;
-                return NivelCabana.getNivelCabana(oddFellows);
+                Gdx.app.log("Cambiar Nivel"," "+"voy a la cabaña "+nvl);
+                oddFellows.setScreen(new PantallaCargando(oddFellows,Niveles.NIVEL_CABANA));
+                break;
             case 2: // BOSQUE
                 henric.destino = Personaje.Destino.BOSQUE;
-                return NivelBosque.getNivelBosque(oddFellows);
+                Gdx.app.log("Cambiar Nivel"," "+"voy al bosque "+nvl);
+                oddFellows.setScreen(new PantallaCargando(oddFellows,Niveles.NIVEL_BOSQUE));
+                break;
         }
-        return null;
+        musicaFondo.stop();
+        henric.setViaje();
+        descargarManager(nvl);
+        listaEnemigos.clear();
+        // juego.cargarNivel(nvl);
+//        this.dispose();
     }
+
+    private void descargarManager(int nvl) {
+        Gdx.app.log("descargarManager Nivel","descargando");
+        switch (nvl) {
+            case 1: // VOY PARA LA CABAÑA
+                Gdx.app.log("descargarManager Bosque","nvl "+nvl);
+//                manager.unload("NivelBosque/bosque.tmx");
+                manager.unload("Musica/lostInForest.mp3");
+                manager.unload("Sonidos/pasoBosque.mp3");
+                break;
+            case 2: // VOY PARA EL BOSQUE CABAÑA
+                Gdx.app.log("descargarManager Cabana","nvl "+nvl);
+//                manager.unload("NivelCabana/Cabana.tmx");
+                manager.unload("Musica/ofeliasdream.mp3");
+                manager.unload("Sonidos/pasoMadera.mp3");
+                break;
+        }
+    }
+    private void descargarManager() {
+        Gdx.app.log("descargarManager Nivel","descargando");
+
+        manager.unload("Musica/giantwyrm.mp3");
+        manager.unload("Sonidos/levantarLlave.mp3");
+        manager.unload("Sonidos/levantarPapel.mp3");
+        manager.unload("Sonidos/levantarMartillo.mp3");
+        manager.unload("Sonidos/zipperAbrir.mp3");
+        manager.unload("Sonidos/zipperCerrar.mp3");
+        manager.unload("Sonidos/alerta.mp3");
+
+        // Vida
+        manager.unload("Pantalla/HP.png");
+        manager.unload("Pantalla/BarraHP.png");
+
+        //Texturas de Henric
+        manager.unload("Personaje/Henric.png");
+        manager.unload("Personaje/HendricMartilloAtaque.png");
+
+        manager.unload("Pad/padBack.png");
+        manager.unload("Pad/padKnob.png");
+
+        manager.unload("Pantalla/Accion.png");
+        manager.unload("Pantalla/BotonInteraccion.png");
+        manager.unload("Pantalla/entrar.png");
+        manager.unload("Pantalla/baseItems.png");
+        manager.unload("Pantalla/inventario.png");
+        manager.unload("Pantalla/fondoCarta.png");
+        manager.unload("Pantalla/cerrar.png");
+        manager.unload("Personaje/HendricMartilloCorriendo.png");
+        manager.unload("Personaje/HendricLlave.png");
+        manager.unload("Pantalla/Fondo/fondoPausa.png");
+
+        //Crear texturas
+        manager.unload("Pantalla/BotonPausa64.png");
+        manager.unload("Pantalla/Tabla.png");
+        manager.unload("Pantalla/Tabla.png");
+        manager.unload("Pantalla/Audio.png");
+        manager.unload("Pantalla/ecualizador.png");
+
+        manager.unload("Pantalla/fondoInventario.png");
+        manager.unload("Pantalla/btnSalirInventario.png");
+        manager.finishLoading();
+    }
+
+    /*private void detectarNivel(int nvl) {
+        switch (nvl) {
+            case 1: // CABAÑA
+                henric.destino = Personaje.Destino.CABANA;
+               // return NivelCabana.getNivelCabana(oddFellows);
+            case 2: // BOSQUE
+                henric.destino = Personaje.Destino.BOSQUE;
+               // return NivelBosque.getNivelBosque(oddFellows);
+        }
+        //return null;
+    }*/
 
     public static void setNivelObjetivo(int n) {
         idNvlObjetivo = n;
@@ -1246,7 +1425,7 @@ public abstract class Nivel implements Screen{
         }
         // Muestra los items
         mostrarInventario(inventario, !enInventario);
-
+        enInventario= !enInventario;
 //        //Posición del ultimo actor
 //        int maxActores = escenaHUD.getActors().size -1;
 //        //Posicion actual de los actores que se crean antes de pausa
@@ -1255,15 +1434,12 @@ public abstract class Nivel implements Screen{
 //        int actoresPausa = 11;
 
         //Cambia de valor el booleano enInventario
-        enInventario= !enInventario;
-
 //        int actorHUD = escenaHUD.getActors().size-1;
 //        int actorHUD = nombreActores.size()-1;
         Actor a;
 
-        System.out.println("Actores: " + String.valueOf(nombreActores.size()));
         if (enInventario == true){
-        for (int actorHUD = nombreActores.size()-1;actorHUD >= 0; actorHUD--){
+        for (int actorHUD = cantidadActores; actorHUD >= 0; actorHUD--){
             a = escenaHUD.getActors().get(actorHUD);
             if (actoresAparecenInventario.contains(a.getName())) {
                 a.setVisible(enInventario);
@@ -1355,47 +1531,91 @@ public abstract class Nivel implements Screen{
         float vida = henric.getVida();
 
         if (vida <= 0) {
-
+            gameOver();
         }
         barraHPAct.setWidth(anchoBarraHP * (henric.getVida() / 100));
     }
 
-    public void hayAtaqueAJugador () {
+    private void gameOver() {
+        Gdx.app.log("Nivel actualizarVida","***MUERTO*** nivel "+idNvlObjetivo);
+        musicaFondo.stop();
+
+        henric.reset();
+        //henric.vaciarInventario();
+        //henric.setVida(100);
+        pantalla.resetCamara();
+        //henric.setViaje();
+        henric.pararSonido();
+        henric.setEstadoMovimiento(Personaje.EstadoMovimiento.QUIETO_X);
+        henric.setEstadoMovimientoVertical(Personaje.EstadoMovimientoVertical.QUIETO_Y);
+        descargarManager(idNvlObjetivo);
+        henric.pararSonido();
+        switch(idNvlObjetivo){
+            case 1:     //Estoy en el bosque
+                henric.destino = Personaje.Destino.BOSQUE;
+                henric.pararSonido();
+
+                Gdx.app.log("Nivel actualizarVida","me mori en el bosque "+idNvlObjetivo);
+                oddFellows.setScreen(new MenuGameOver(oddFellows,Niveles.NIVEL_BOSQUE));
+                henric.setVida(100);
+
+                //henric.setViaje();
+                break;
+                /*case 2:     // Estoy en la cabaña  caso imposible
+                    henric.destino = Personaje.Destino.CABANA;
+                    oddFellows.setScreen(new PantallaCargando(oddFellows,Niveles.NIVEL_CABANA));
+                    break;*/
+        }
+
+    }
+
+    public boolean hayAtaqueAJugador () {
         final int EXTRA = 10;
-        float henricIzq = henric.sprite.getX();
-        float henricDer = henricIzq + henric.sprite.getWidth();
-        float henricAbajo = henric.sprite.getY();
-        float henricArriba = henricAbajo + henric.sprite.getHeight();
+        int posMuerto = -1;
+        boolean hayEnemigo = false;
 
+        Rectangle rectHenric = henric.sprite.getBoundingRectangle();
+        int rectWidth = (int) rectHenric.getWidth();
+        int rectHeight = (int) rectHenric.getHeight();
+        Rectangle rectEnemigo;
+
+        henric.setEnemigoCercano(null);
         for (Enemigo enemigo : listaEnemigos) {
-            float izq = enemigo.sprite.getX() - EXTRA;
-            float der = izq + enemigo.sprite.getWidth() + (EXTRA * 2);
-            float abajo = enemigo.sprite.getY() - EXTRA;
-            float arriba = abajo + enemigo.sprite.getHeight() + (EXTRA * 2);
+            if (enemigo != null) {
 
-            enemigo.setTocaJugador(false);
-            henric.setLugarEnemigo(Personaje.LugarEnemigo.NO_HAY);
+                if (enemigo.getEstadoEnemigo() == Enemigo.EstadoEnemigo.MUERTO) {
+                    enemigo = null;
+                    posMuerto = listaEnemigos.indexOf(enemigo);
+                    continue;
+                }
 
-            if ((henricAbajo <= abajo && abajo <= henricArriba)||(henricAbajo <= arriba && arriba <= henricArriba)) {
-                if (henricIzq <= izq && izq <= henricDer) {
-                    henric.setLugarEnemigo(Personaje.LugarEnemigo.DERECHA);
+                rectEnemigo = enemigo.sprite.getBoundingRectangle();
+
+                // Asigna valor a las variables que se veran afectadas en el método
+                enemigo.setTocaJugador(false);
+
+                // Revisa si está arriba, abajo, a la derecha o a la izqierda (respectivamente)
+                if (rectHenric.setSize(rectWidth + EXTRA, rectHeight + EXTRA).overlaps(rectEnemigo)) {
                     enemigo.setTocaJugador(true);
-                }
-                else if (henricIzq <= der && der <= henricDer) {
-                    henric.setLugarEnemigo(Personaje.LugarEnemigo.IZQUIERDA);
-                    enemigo.setTocaJugador(true);
-                }
-            } else if ((henricIzq <= izq && izq <= henricDer)||(henricIzq <= der && der <= henricDer)) {
-                if (henricAbajo <= abajo && abajo <= henricArriba) {
-                    henric.setLugarEnemigo(Personaje.LugarEnemigo.ARRIBA);
-                    enemigo.setTocaJugador(true);
-                }
-                else if (henricAbajo <= arriba && arriba <= henricArriba) {
-                    henric.setLugarEnemigo(Personaje.LugarEnemigo.ABAJO);
-                    enemigo.setTocaJugador(true);
+                    henric.setEnemigoCercano(enemigo);
+                    hayEnemigo = true;
+                    break;
                 }
             }
         }
+        if (posMuerto != -1) {
+            listaEnemigos.remove(posMuerto);
+        }
+        if (hayEnemigo) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public static enum EstadoMapa {
+        CARGADO,
+        NO_CARGADO
     }
 
 }

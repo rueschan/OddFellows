@@ -10,7 +10,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 public class Carta extends Objeto {
     private int idContenido;
     private String contenido;
-    private Texture texturaCarta = new Texture("Items/carta.png");
+    private Texture texturaCarta = new Texture("Items/Carta.png");
 
     public Carta(float x, float y, int idContenido) {
         super();

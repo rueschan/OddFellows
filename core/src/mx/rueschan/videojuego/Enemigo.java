@@ -1,6 +1,9 @@
 package mx.rueschan.videojuego;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -21,11 +24,12 @@ public class Enemigo extends Objeto {
     private float poderAtaque;
     private int limiteMultiplicadorDano;
     private float VELOCIDAD;
+    private int REACCION;                                   // Limite superior del random para moverAleatorio() (minimo: 3, maximo: 5)
 
     // Personaje
     private Personaje henric;
 
-    private Texture textura;
+    private TextureRegion texturaCompleta;                  // Textura completa
     private Animation<TextureRegion> spriteAnimado;         // Animación caminando
     private Animation<TextureRegion> animacionPrevia;       // Animación previa
     private Animation<TextureRegion> animacionAtaque;       // Animación ataque
@@ -41,6 +45,12 @@ public class Enemigo extends Objeto {
     private EstadoEnemigo estadoEnemigo = EstadoEnemigo.VAGANDO;
     private EstadoMovimiento estadoMovimiento = EstadoMovimiento.QUIETO_X;
     private EstadoMovimientoVertical estadoMovimientoVertical = EstadoMovimientoVertical.QUIETO_Y;
+
+    // Assets
+    private static AssetManager manager = Nivel.getManager();
+    private Texture textura;
+    private Music fxAtaque;
+    private Sound fxMuriendo;
 
     public Enemigo(float x, float y, Tipo tipo) {
 
@@ -78,12 +88,17 @@ public class Enemigo extends Objeto {
             case JABALI:
                 vida = 45;
                 VELOCIDAD = 3;
-                poderAtaque = 5;
+                REACCION = 5;
+                poderAtaque = 8;
                 limiteMultiplicadorDano = 3;
-                textura = new Texture("Enemigo/Jabali.png");
+
+                // Assets
+                textura = manager.get("Enemigo/Jabali.png");
+                fxAtaque = manager.get("Enemigo/JabaliAtaque.mp3");
+                fxMuriendo = manager.get("Enemigo/JabaliMuerte.mp3");
 
                 // Lee la textura como región
-                TextureRegion texturaCompleta = new TextureRegion(textura);
+                texturaCompleta = new TextureRegion(textura);
                 // La divide en 4 frames de 32x64 (ver marioSprite.png)
                 texturaEnemigo = texturaCompleta.split(96,96);
                 // Crea la animación con tiempo de 0.15 segundos entre frames.
@@ -91,6 +106,51 @@ public class Enemigo extends Objeto {
                 spriteAnimado = new Animation(0.8f / VELOCIDAD, texturaEnemigo[0][2], texturaEnemigo[0][3] );
                 animacionPrevia = spriteAnimado;
                 animacionAtaque = new Animation(0.4f / VELOCIDAD, texturaEnemigo[0][0], texturaEnemigo[0][1]);
+                break;
+
+            case DUPLO:
+                vida = 120;
+                VELOCIDAD = 6;
+                REACCION = 3;
+                poderAtaque = 10;
+                limiteMultiplicadorDano = 4;
+
+                // Assets
+                textura = manager.get("Enemigo/Duplo.png");
+                fxAtaque = manager.get("Enemigo/JabaliAtaque.mp3");
+                fxMuriendo = manager.get("Enemigo/JabaliMuerte.mp3");
+
+                // Lee la textura como región
+                texturaCompleta = new TextureRegion(textura);
+                // La divide en 4 frames de 32x64 (ver marioSprite.png)
+                texturaEnemigo = texturaCompleta.split(96,96);
+                // Crea la animación con tiempo de 0.15 segundos entre frames.
+
+                spriteAnimado = new Animation(0.8f / VELOCIDAD, texturaEnemigo[0][0], texturaEnemigo[0][1], texturaEnemigo[0][2] );
+                animacionPrevia = spriteAnimado;
+                animacionAtaque = new Animation(0.4f / VELOCIDAD, texturaEnemigo[0][3], texturaEnemigo[0][4], texturaEnemigo[0][5]);
+                break;
+            case OSO:
+                vida = 150;
+                VELOCIDAD = 3;
+                REACCION = 4;
+                poderAtaque = 20;
+                limiteMultiplicadorDano = 2;
+
+                // Assets
+                textura = manager.get("Enemigo/Oso.png");
+                fxAtaque = manager.get("Enemigo/JabaliAtaque.mp3");
+                fxMuriendo = manager.get("Enemigo/JabaliMuerte.mp3");
+
+                // Lee la textura como región
+                texturaCompleta = new TextureRegion(textura);
+                // La divide en 4 frames de 32x64 (ver marioSprite.png)
+                texturaEnemigo = texturaCompleta.split(96,96);
+                // Crea la animación con tiempo de 0.15 segundos entre frames.
+
+                spriteAnimado = new Animation(0.8f / VELOCIDAD, texturaEnemigo[0][2], texturaEnemigo[0][3], texturaEnemigo[0][1] );
+                animacionPrevia = spriteAnimado;
+                animacionAtaque = new Animation(0.4f / VELOCIDAD, texturaEnemigo[0][0], texturaEnemigo[0][4]);
                 break;
         }
     }
@@ -157,8 +217,10 @@ public class Enemigo extends Objeto {
     //Actualiza las acciones del enemigo
     public void actualizar(TiledMap mapa) {
 
-        // Revisa contacto con el jugador
-        if (tocaJugador) {
+        if (estadoEnemigo == EstadoEnemigo.MUERTO) {
+            morir();
+
+        } else if (tocaJugador) {
             if (estadoEnemigo != EstadoEnemigo.ATACANDO && spriteAnimado != animacionAtaque) {
                 estadoEnemigo = EstadoEnemigo.ATACANDO;
                 animacionPrevia = spriteAnimado;
@@ -169,6 +231,7 @@ public class Enemigo extends Objeto {
                 timerAnimacion = 0;
             }
             atacar();
+
         } else {
             estadoEnemigo = EstadoEnemigo.VAGANDO;
             spriteAnimado = animacionPrevia;
@@ -180,8 +243,8 @@ public class Enemigo extends Objeto {
     private void moverAletorio(TiledMap mapa) {
         timerMovimiento += Gdx.graphics.getDeltaTime();
 
-        int randomMovimientoX = new Random().nextInt(5); // Random de 0 a 4 (antes de 5)
-        int randomMovimientoY = new Random().nextInt(5); // Random de 0 a 4 (antes de 5)
+        int randomMovimientoX = new Random().nextInt(REACCION + 1); // Random de 0 a REACCION
+        int randomMovimientoY = new Random().nextInt(REACCION + 1); // Random de 0 a REACCION
 
 //        Gdx.app.log("Tiempo", String.valueOf(timerMovimiento));
         if (timerMovimiento > randomTiempoMovimiento) {
@@ -190,12 +253,13 @@ public class Enemigo extends Objeto {
                     estadoMovimiento = EstadoMovimiento.MOV_IZQUIERDA;
                     break;
                 case 1:
+                    estadoMovimiento = EstadoMovimiento.MOV_DERECHA;
+                    break;
                 case 2:
                 case 3:
-                    estadoMovimiento = EstadoMovimiento.QUIETO_X;
-                    break;
                 case 4:
-                    estadoMovimiento = EstadoMovimiento.MOV_DERECHA;
+                case 5:
+                    estadoMovimiento = EstadoMovimiento.QUIETO_X;
                     break;
             }
 
@@ -204,12 +268,13 @@ public class Enemigo extends Objeto {
                     estadoMovimientoVertical = EstadoMovimientoVertical.MOV_ABAJO;
                     break;
                 case 1:
+                    estadoMovimientoVertical = EstadoMovimientoVertical.MOV_ARRIBA;
+                    break;
                 case 2:
                 case 3:
-                    estadoMovimientoVertical = EstadoMovimientoVertical.QUIETO_Y;
-                    break;
                 case 4:
-                    estadoMovimientoVertical = EstadoMovimientoVertical.MOV_ARRIBA;
+                case 5:
+                    estadoMovimientoVertical = EstadoMovimientoVertical.QUIETO_Y;
                     break;
             }
             timerMovimiento = 0;
@@ -484,15 +549,43 @@ public class Enemigo extends Objeto {
     private void atacar(){
         //El daño que causará será el daño fijo que hará cada enemigo por un multiplicador dado por el nivel
         int multiplicadorDano = new Random().nextInt(limiteMultiplicadorDano) + 1;
-        float danoAJugador = poderAtaque*multiplicadorDano;
+        float danoAJugador = poderAtaque*multiplicadorDano / 100;
         //Obtiene la vida del personaje
         float vidaPersonaje = henric.getVida();
 
         // Cambia la vida del personaje
+        if(Configuraciones.isFxOn){
+            fxAtaque.play();
+        }
         henric.setVida(vidaPersonaje - danoAJugador);
+        //fxAtaque.pause();
     }
 
-    private enum EstadoEnemigo {
+    public void herir(int dano) {
+        this.vida -= dano;
+
+        if (vida <= 0) {
+            estadoEnemigo = EstadoEnemigo.MUERTO;
+            fxAtaque.stop();
+            if(Configuraciones.isFxOn){
+                fxMuriendo.play();
+            }
+        }
+    }
+
+    public void morir() {
+        estadoMovimiento = EstadoMovimiento.QUIETO_X;
+        estadoMovimientoVertical = EstadoMovimientoVertical.QUIETO_Y;
+        sprite.setColor(1,1,1,0);
+        sprite.setPosition(-100, -100);
+//        sprite = null;
+    }
+
+    public EstadoEnemigo getEstadoEnemigo() {
+        return estadoEnemigo;
+    }
+
+    public enum EstadoEnemigo {
         PERSEGUIENDO,
         ATACANDO,
         VAGANDO,

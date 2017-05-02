@@ -16,13 +16,13 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
 public class NivelBosque extends Nivel {
 
-    private Nivel actual;
     private static NivelBosque instancia;
+    private static EstadoMapa estadoMapa = EstadoMapa.NO_CARGADO;
 
     //Mapa tipo tmx del Bosque
-    private String pathMapa;
-    private String pathMusica;
-    private String pathFxPasos;
+    private final String pathMapa = "NivelBosque/bosque.tmx";
+    private final String pathMusica = "Musica/lostInForest.mp3";
+    private final String pathFxPasos = "Sonidos/pasoBosque.mp3";
 
     // Enemigos
 
@@ -30,7 +30,7 @@ public class NivelBosque extends Nivel {
     public NivelBosque(OddFellows oddFellows) {
         super.oddFellows = oddFellows;
         super.pantalla = Pantalla.getInstanciaPantalla();
-        actual = this;
+        Juego.actual = this;
     }
 
     public static NivelBosque getNivelBosque(OddFellows oddFellows) {
@@ -40,13 +40,13 @@ public class NivelBosque extends Nivel {
         return instancia;
     }
 
-    @Override
-    protected void cargarTexturas() {
-        //Textura de los diferentes elementos que componen el nivel
-        pathMapa = "NivelBosque/bosque.tmx";
-        pathMusica = "Musica/lostInForest.mp3";
-        pathFxPasos = "Sonidos/pasoBosque.mp3";
-    }
+//   @Override
+//    protected void cargarTexturas() {
+//        //Textura de los diferentes elementos que componen el nivel
+//       /* pathMapa = "NivelBosque/bosque.tmx";
+//        pathMusica = "Musica/lostInForest.mp3";
+//        pathFxPasos = "Sonidos/pasoBosque.mp3";*/
+//    }
 
     @Override
     protected void crearObjetos() {
@@ -60,18 +60,20 @@ public class NivelBosque extends Nivel {
         // TEST ENEMIGO
         enemigo = new Enemigo(800, 400, Enemigo.Tipo.JABALI);
         listaEnemigos.add(enemigo);
-    }
-
-    private void dibujarRecursosUnicos(SpriteBatch batch) {
-        enemigo.dibujar(batch);
+        enemigo = new Enemigo(1920, 2240, Enemigo.Tipo.DUPLO);
+        listaEnemigos.add(enemigo);
+        enemigo = new Enemigo(2452, 2688, Enemigo.Tipo.OSO);
+        listaEnemigos.add(enemigo);
     }
 
     @Override
     public void show() {
-        cargarTexturas();
+        juego.actual = this;
+       // cargarTexturas();
 
         // Crear mapa
         super.crearRecursos(pantalla, pathMapa, pathMusica);
+        estadoMapa = EstadoMapa.CARGADO;
 //        henric.reset();
         henric.setFxPasos(pathFxPasos);
         crearRecursosUnicos();
@@ -103,7 +105,6 @@ public class NivelBosque extends Nivel {
 //        super.pantalla.escena.draw();
         pantalla.batch.begin();
         super.dibujar(pantalla.batch);
-        dibujarRecursosUnicos(pantalla.batch);
 //        super.henric.dibujar(pantalla.batch);
 //        hp.dibujar(pantalla.batch);
 //        barraHP.dibujar(pantalla.batch);
@@ -115,11 +116,10 @@ public class NivelBosque extends Nivel {
         escenaHUD.draw();
 
         // Jugador
-        henric.actualizar(mapa);
-        henric.interactuar(this);
+        henric.render(mapa, this);
 
         // Enemigos
-        enemigo.actualizar(mapa);
+        renderEnemigos(mapa);
 
         // Detectar botón físico "return", solo se activa cuando
         //&& !enInventario
@@ -136,6 +136,10 @@ public class NivelBosque extends Nivel {
         escribirMenuPausa(pausado);
     }
 
+    public static EstadoMapa getEstadoMapa() {
+        return estadoMapa;
+    }
+
     @Override
     public void pause() {
 
@@ -149,5 +153,10 @@ public class NivelBosque extends Nivel {
     @Override
     public void dispose() {
 
+    }
+
+    public static void reset() {
+        estadoMapa = EstadoMapa.NO_CARGADO;
+        getManager().unload("NivelBosque/bosque.tmx");
     }
 }

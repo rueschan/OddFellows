@@ -307,6 +307,16 @@
    </properties>
   </tile>
  </tileset>
+ <tileset firstgid="75" name="Puerta" tilewidth="128" tileheight="128" tilecount="1" columns="1">
+  <image source="puertaUno.png" width="128" height="128"/>
+  <tile id="0">
+   <properties>
+    <property name="lugar" type="int" value="2"/>
+    <property name="tipo" value="puerta"/>
+    <property name="valorLlave" type="int" value="1"/>
+   </properties>
+  </tile>
+ </tileset>
  <layer name="Cabana" width="20" height="12">
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -373,8 +383,8 @@
  </layer>
  <layer name="Interactivos" width="20" height="12">
   <data encoding="csv">
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,54,56,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,53,55,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -389,8 +399,8 @@
  </layer>
  <layer name="Puerta" width="20" height="12">
   <data encoding="csv">
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,54,56,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,53,55,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,75,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,

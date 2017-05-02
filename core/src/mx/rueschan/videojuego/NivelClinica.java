@@ -4,51 +4,40 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.FPSLogger;
-import com.badlogic.gdx.maps.tiled.TiledMap;
 
 /**
- * Created by OddFellows on 14/02/2017.
+ * Created by OddFellows on 01/05/2017.
  */
-public class NivelCabana extends Nivel {
 
-    private static NivelCabana instancia;
+public class NivelClinica extends Nivel {
+
+    //Nivel
+    private static NivelClinica instancia;
     private static EstadoMapa estadoMapa = EstadoMapa.NO_CARGADO;
 
     // Recursos
-    private final String pathMapa = "NivelCabana/Cabana.tmx";
+    private final String pathMapa = "NivelClinica/Hospital.tmx";
     private final String pathMusica = "Musica/ofeliasdream.mp3";
     private final String pathFxPasos = "Sonidos/pasoMadera.mp3";
-//
-//
 
     private AssetManager manager;
 
-
-    public NivelCabana(OddFellows oddFellows) {
+    public NivelClinica(OddFellows oddFellows) {
         super.oddFellows = oddFellows;
         super.pantalla = Pantalla.getInstanciaPantalla();
         manager = super.oddFellows.getAssetManager();
         Juego.actual = this;
     }
 
-    public static NivelCabana getNivelCabana(OddFellows oddFellows) {
+    public static NivelClinica getNivelClinica(OddFellows oddFellows) {
         if (instancia == null) {
-            instancia = new NivelCabana(oddFellows);
+            instancia = new NivelClinica(oddFellows);
         }
         return instancia;
     }
 
-//    @Override
-//    protected void cargarTexturas() {
-//        // Recursos
-////        pathMapa = "NivelCabana/Cabana.tmx";
-////        pathMusica = "Musica/ofeliasdream.mp3";
-////        pathFxPasos = "Sonidos/pasoMadera.mp3";
-//    }
-
     @Override
     protected void crearObjetos() {
-
         // Limpia escena de pantalla anterior
         pantalla.escena.clear();
         //Pad
@@ -57,8 +46,6 @@ public class NivelCabana extends Nivel {
 
     @Override
     public void show() {
-//        cargarTexturas();
-
         // Crear mapa
         super.crearRecursos(pantalla, pathMapa, pathMusica);
         estadoMapa = EstadoMapa.CARGADO;
@@ -66,22 +53,17 @@ public class NivelCabana extends Nivel {
 
         //Creación de HUD
         super.crearElementosPantalla(pantalla);
-//        super.crearPausa(escenaHUD);
-//        super.crearInventario(escenaHUD);
 
         // Objetos
         crearObjetos();
         cargarJuego();
 
         Gdx.input.setInputProcessor(super.escenaHUD);
-
     }
 
     @Override
     public void render(float delta) {
 
-//        long inicio = System.nanoTime();
-//        super.pantalla.borrarPantalla();
         super.render(delta);
 
         // Mapa
@@ -90,18 +72,9 @@ public class NivelCabana extends Nivel {
         super.renderer.render();
 
         // Elementos juego
-//        super.pantalla.escena.draw();
         pantalla.batch.begin();
         super.dibujar(pantalla.batch);
-//        super.henric.dibujar(pantalla.batch);
-//        hp.dibujar(pantalla.batch);
-//        barraHP.dibujar(pantalla.batch);
         pantalla.batch.end();
-//        long fin = System.nanoTime();
-        // *** R
-//        System.out.println((fin - inicio) / 1000);  // SE CAMBIARON DOS LLAMADAS A LA CLASE "NIVEL" POR SOLO UNA. SE REDUCE EL TIEMPO DE 400 ns aprox A 300 ns aprox
-
-//        long iniMemoria = Gdx.app.getNativeHeap();
         // HUD
         pantalla.batch.setProjectionMatrix(camaraHUD.combined);
         mostrarItemSeleccionado();
@@ -109,8 +82,6 @@ public class NivelCabana extends Nivel {
 
         // Jugador
         henric.render(mapa, this);
-//        long finMemoria = Gdx.app.getNativeHeap();
-//        System.out.println((finMemoria - iniMemoria));
 
         FPSLogger logger = new FPSLogger();
         logger.log();
@@ -119,13 +90,12 @@ public class NivelCabana extends Nivel {
         //&& !enInventario
         if (Gdx.input.isKeyJustPressed(Input.Keys.BACK)) {
             if(enInventario) {
-                enInventario = irInventario(enInventario, NivelCabana.super.escenaHUD);
+                enInventario = irInventario(enInventario, NivelClinica.super.escenaHUD);
             }
-             else {
+            else {
                 //Abrir MenuPausa
-                pausado = pausar(pausado, NivelCabana.super.escenaHUD);
+                pausado = pausar(pausado, NivelClinica.super.escenaHUD);
             }
-
         }
         escribirMenuPausa(pausado);
     }
@@ -146,10 +116,11 @@ public class NivelCabana extends Nivel {
 
     @Override
     public void dispose() {
+
     }
 
     public static void reset() {
         estadoMapa = EstadoMapa.NO_CARGADO;
-        getManager().unload("NivelCabana/Cabana.tmx");
+        getManager().unload("NivelClinica/Hospital.tmx");
     }
 }
