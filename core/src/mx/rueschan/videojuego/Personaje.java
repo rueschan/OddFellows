@@ -777,7 +777,11 @@ public class Personaje extends Objeto {
     }
 
     public void setVida(float cambio){
-        vida = cambio;
+        if(cambio>=100){
+            vida = 100;
+        }else {
+            vida = cambio;
+        }
         if (vida<=0){
             estaVivo = false;
         }

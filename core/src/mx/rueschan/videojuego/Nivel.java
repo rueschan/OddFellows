@@ -984,7 +984,16 @@ public abstract class Nivel implements Screen{
             Llave llave = (Llave) seleccionado;
             abrirPuerta(llave);
 
+        } else if(seleccionado instanceof  Medkit) {
+            Medkit medkit = (Medkit) seleccionado;
+            recuperarVida(medkit);
         }
+    }
+
+    private void recuperarVida(Medkit medkit) {
+        float vidaHenric = henric.getVida();
+        float vidaAcumulada = vidaHenric+medkit.getVIDA();
+        henric.setVida(vidaAcumulada);
     }
 
     private void abrirPuerta(Llave llave) {
