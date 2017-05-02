@@ -37,6 +37,8 @@ public class Juego {
     public void iniciarJuego() {
         // Crea e inicia el juego
         actual = new NivelCabana(oddFellows);
+        Carta.llenarIdCartas();
+        System.out.println(Carta.idCartas.toString());
         oddFellows.setScreen(new PantallaCargando(oddFellows,Niveles.NIVEL_CABANA));
     }
 

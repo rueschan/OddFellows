@@ -13,7 +13,7 @@ public class Medkit extends Objeto {
     private Texture textura;
 
     public Medkit() {
-        textura = new Texture("Items/Medkit.png");
+        textura = new Texture("Items/medkit.png");
         sprite = new Sprite(textura);
     }
 }

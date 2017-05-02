@@ -1,5 +1,6 @@
 package mx.rueschan.videojuego;
 
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -41,23 +42,30 @@ public class Arma extends Objeto {
     }
 
     private void crearTipo() {
+        AssetManager manager = Nivel.getManager();
         switch (tipoArma) {
             case MARTILLO:
                 dano = 15;
                 special = "romper";
-                textura = new Texture("Items/martillo.png");
+                textura = manager.get("Items/martillo.png");
                 sprite = new Sprite(textura);
                 break;
             case MACHETE:
                 dano = 25;
                 special = "cortar";
-                textura = new Texture("Items/machete.png");
+                textura = manager.get("Items/machete.png");
                 sprite = new Sprite(textura);
                 break;
             case TRIDENTE:
                 dano = 100;
                 special = "dios";   // Hace todo porque YOLO
-                textura = new Texture("Items/tridente.png");
+                textura = manager.get("Items/tridente.png");
+                sprite = new Sprite(textura);
+                break;
+            case BATE:
+                dano = 40;
+                special = "desangrar";
+                textura = manager.get("Items/bate.png");
                 sprite = new Sprite(textura);
                 break;
         }

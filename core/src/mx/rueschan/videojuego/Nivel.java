@@ -30,6 +30,8 @@ import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -791,9 +793,12 @@ public abstract class Nivel implements Screen{
                 fxCarta.play();
             Carta carta;
             if (juego.actual.getClass().equals(NivelCabana.class)) {
-                carta = new Carta(0, 0, 1);
+                carta = new Carta(0, 0, 0);
             } else {
-                carta = new Carta(0, 0, (int) (Math.random() * 10) + 1);
+                Collections.shuffle(Carta.idCartas);
+                System.out.println(Carta.idCartas.toString());
+                int id = Carta.idCartas.remove(0);
+                carta = new Carta(0, 0, id);
             }
             mostrarCarta(carta);
             return carta;

@@ -93,9 +93,9 @@ public class Enemigo extends Objeto {
                 limiteMultiplicadorDano = 3;
 
                 // Assets
-                textura = manager.get("Enemigo/Jabali.png");
-                fxAtaque = manager.get("Enemigo/JabaliAtaque.mp3");
-                fxMuriendo = manager.get("Enemigo/JabaliMuerte.mp3");
+                textura = manager.get("Enemigo/jabali.png");
+                fxAtaque = manager.get("Enemigo/jabaliAtaque.mp3");
+                fxMuriendo = manager.get("Enemigo/jabaliMuerte.mp3");
 
                 // Lee la textura como región
                 texturaCompleta = new TextureRegion(textura);
@@ -116,9 +116,9 @@ public class Enemigo extends Objeto {
                 limiteMultiplicadorDano = 4;
 
                 // Assets
-                textura = manager.get("Enemigo/Duplo.png");
-                fxAtaque = manager.get("Enemigo/JabaliAtaque.mp3");
-                fxMuriendo = manager.get("Enemigo/JabaliMuerte.mp3");
+                textura = manager.get("Enemigo/duplo.png");
+                fxAtaque = manager.get("Enemigo/jabaliAtaque.mp3");
+                fxMuriendo = manager.get("Enemigo/jabaliMuerte.mp3");
 
                 // Lee la textura como región
                 texturaCompleta = new TextureRegion(textura);
@@ -138,9 +138,9 @@ public class Enemigo extends Objeto {
                 limiteMultiplicadorDano = 2;
 
                 // Assets
-                textura = manager.get("Enemigo/Oso.png");
-                fxAtaque = manager.get("Enemigo/JabaliAtaque.mp3");
-                fxMuriendo = manager.get("Enemigo/JabaliMuerte.mp3");
+                textura = manager.get("Enemigo/oso.png");
+                fxAtaque = manager.get("Enemigo/jabaliAtaque.mp3");
+                fxMuriendo = manager.get("Enemigo/jabaliMuerte.mp3");
 
                 // Lee la textura como región
                 texturaCompleta = new TextureRegion(textura);

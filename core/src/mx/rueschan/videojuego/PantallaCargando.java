@@ -92,6 +92,9 @@ public class PantallaCargando extends Pantalla {
         // Texturas enemigos
         cargarEnemigos();
 
+        // Armas
+        cargarArmas();
+
         // Mapas
         cargarMapas();
 
@@ -183,16 +186,23 @@ public class PantallaCargando extends Pantalla {
         manager.load("Personaje/HendricMartilloAtaque.png", Texture.class);
     }
 
+    private void cargarArmas() {
+        manager.load("Items/martillo.png", Texture.class);
+        manager.load("Items/machete.png", Texture.class);
+        manager.load("Items/tridente.png", Texture.class);
+        manager.load("Items/bate.png", Texture.class);
+    }
+
     private void cargarEnemigos() {
         // Texturas de enemigos
-        manager.load("Enemigo/Jabali.png", Texture.class);
-        manager.load("Enemigo/Oso.png", Texture.class);
-        manager.load("Enemigo/Mutis.png", Texture.class);
-        manager.load("Enemigo/Duplo.png", Texture.class);
+        manager.load("Enemigo/jabali.png", Texture.class);
+        manager.load("Enemigo/oso.png", Texture.class);
+        manager.load("Enemigo/mutis.png", Texture.class);
+        manager.load("Enemigo/duplo.png", Texture.class);
 
         // Sonidos enemigos
-        manager.load("Enemigo/JabaliAtaque.mp3",Music.class);
-        manager.load("Enemigo/JabaliMuerte.mp3",Sound.class);
+        manager.load("Enemigo/jabaliAtaque.mp3",Music.class);
+        manager.load("Enemigo/jabaliMuerte.mp3",Sound.class);
     }
 
     @Override
