@@ -16,4 +16,7 @@ public class Medkit extends Objeto {
         textura = new Texture("Items/medkit.png");
         sprite = new Sprite(textura);
     }
+    public int getVIDA() {
+        return VIDA;
+    }
 }
