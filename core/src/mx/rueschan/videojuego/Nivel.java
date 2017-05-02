@@ -915,7 +915,7 @@ public abstract class Nivel implements Screen{
 
                 x += despX;
                 if (x >= ((pantalla.getANCHO()/2 - regionInventario.getWidth()/2 + regionInventario.getWidth()*0.18f)
-                        + despX*5)) {
+                        + despX*4)) {
                     x = (pantalla.getANCHO()/2 - regionInventario.getWidth()/2 + regionInventario.getWidth()*0.18f);
                     y -= despY;
                 }
@@ -999,6 +999,7 @@ public abstract class Nivel implements Screen{
         float vidaHenric = henric.getVida();
         float vidaAcumulada = vidaHenric+medkit.getVIDA();
         henric.setVida(vidaAcumulada);
+        //henric.eliminarElementoActual(medkit);
     }
 
     private void abrirPuerta(Llave llave) {

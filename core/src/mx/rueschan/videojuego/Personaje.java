@@ -157,6 +157,12 @@ public class Personaje extends Objeto {
         inventario.clear();
     }
 
+    public void eliminarElementoActual(Objeto objeto){
+        inventario.remove(inventario.indexOf(objeto));
+    }
+
+
+
     public void setFxPasos(String nuevoFx) {
         //manager.unload(pathFxPasos);
         //manager.load(nuevoFx, Music.class);
