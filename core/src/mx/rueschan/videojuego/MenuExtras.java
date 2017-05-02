@@ -4,7 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -79,13 +78,13 @@ public class MenuExtras implements Screen {
     public void render(float delta) {
         pantalla.borrarPantalla();
         pantalla.escena.draw();
-
         // Detectar botón físico "return"
         if (Gdx.input.isKeyJustPressed(Input.Keys.BACK)){
             //Regresar al MenuPrincipal
             oddFellows.setScreen(new MenuPrincipal(oddFellows));
         }
     }
+
 
     @Override
     public void resize(int width, int height) {

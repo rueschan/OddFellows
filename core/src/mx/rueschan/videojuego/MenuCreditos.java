@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -32,6 +33,9 @@ public class MenuCreditos implements Screen {
     private ImageButton imgbtnCamara;
     private ImageButton imgbtnAngel;
 
+    private Texto materia;
+    private Texto campus;
+
 
     public MenuCreditos(OddFellows oddFellows) {
         this.oddFellows = oddFellows;
@@ -47,6 +51,11 @@ public class MenuCreditos implements Screen {
         crearObjetos();
         crearRegionEaster();
         oddFellows.tocarMusica();
+
+        materia = new Texto();
+        materia.cambiarTamano(2f);
+        campus = new Texto();
+        campus.cambiarTamano(2.3f);
     }
 
     private void cargarTexturas() {
@@ -87,11 +96,18 @@ public class MenuCreditos implements Screen {
         pantalla.borrarPantalla();
         pantalla.escena.draw();
 
+        escribirEnPantalla();
         // Detectar botón físico "return"
         if (Gdx.input.isKeyJustPressed(Input.Keys.BACK)){
             //Regresar al MenuPrincipal
             oddFellows.setScreen(new MenuPrincipal(oddFellows));
         }
+    }
+    private void escribirEnPantalla() {
+        pantalla.batch.begin();
+        materia.mostrarMensajes(pantalla.batch, Color.BLACK,"Proyecto de desarrollo de videojuegos",1*pantalla.getANCHO()/2,7*pantalla.getALTO()/8+80);
+        campus.mostrarMensajes(pantalla.batch,Color.BLACK,"Campus Estado de Mexico",1*pantalla.getANCHO()/2+20,1*pantalla.getALTO()/8);
+        pantalla.batch.end();
     }
 
     public void crearRegionEaster(){

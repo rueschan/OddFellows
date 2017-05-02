@@ -400,6 +400,7 @@ public abstract class Nivel implements Screen{
             public void clicked(InputEvent event, float x, float y) {
                 Gdx.input.setInputProcessor(pantalla.escena);
                 musicaPausa.stop();
+                musicaFondo.stop();
                 oddFellows.crearMusica();
                 Juego.actual = null;
                 henric.pararSonido();
