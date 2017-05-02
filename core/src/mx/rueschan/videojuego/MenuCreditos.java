@@ -35,6 +35,8 @@ public class MenuCreditos implements Screen {
 
     private Texto materia;
     private Texto campus;
+    private Texto correo;
+
 
 
     public MenuCreditos(OddFellows oddFellows) {
@@ -56,6 +58,8 @@ public class MenuCreditos implements Screen {
         materia.cambiarTamano(2f);
         campus = new Texto();
         campus.cambiarTamano(2.3f);
+        correo = new Texto();
+        correo.cambiarTamano(.8f);
     }
 
     private void cargarTexturas() {
@@ -107,6 +111,7 @@ public class MenuCreditos implements Screen {
         pantalla.batch.begin();
         materia.mostrarMensajes(pantalla.batch, Color.BLACK,"Proyecto de desarrollo de videojuegos",1*pantalla.getANCHO()/2,7*pantalla.getALTO()/8+80);
         campus.mostrarMensajes(pantalla.batch,Color.BLACK,"Campus Estado de Mexico",1*pantalla.getANCHO()/2+20,1*pantalla.getALTO()/8);
+        correo.mostrarMensajes(pantalla.batch,Color.BLACK,"A01370909@itesm.mx\nA01377844@itesm.mx\nA01370880@itesm.mx\nA01376132@itesm.mx",1*pantalla.getANCHO()/2+450,4*pantalla.getALTO()/5);
         pantalla.batch.end();
     }
 

@@ -109,7 +109,7 @@ public class MenuGameOver implements Screen {
                 //manager.clear();
                 musicaMuerto.stop();
                 Juego.actual = null;
-                henric.pararSonido();
+                //henric.pararSonido();
                 henric.reset();
                 henric.vaciarInventario();
                 henric.setVida(100);
