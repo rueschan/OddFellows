@@ -433,6 +433,10 @@ public abstract class Nivel implements Screen{
         });
     }
 
+    public void crearEnemigo(int x, int y, Enemigo.Tipo tipo) {
+        listaEnemigos.add(new Enemigo(x, y, tipo));
+    }
+
     public static void borrarMapas() {
         NivelCabana.reset();
         NivelBosque.reset();
