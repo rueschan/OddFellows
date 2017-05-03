@@ -24,7 +24,7 @@ public class Enemigo extends Objeto {
     private float poderAtaque;
     private int limiteMultiplicadorDano;
     private float VELOCIDAD;
-    private int REACCION;                                   // Limite superior del random para moverAleatorio() (minimo: 3, maximo: 5)
+    private int REACCION;                                   // Limite superior del random para moverAleatorio() (rápido: 3, lento: 5)
 
     // Personaje
     private Personaje henric;
@@ -151,6 +151,28 @@ public class Enemigo extends Objeto {
                 spriteAnimado = new Animation(0.8f / VELOCIDAD, texturaEnemigo[0][2], texturaEnemigo[0][3], texturaEnemigo[0][1] );
                 animacionPrevia = spriteAnimado;
                 animacionAtaque = new Animation(0.4f / VELOCIDAD, texturaEnemigo[0][0], texturaEnemigo[0][4]);
+                break;
+            case LOBO:
+                vida = 60;
+                VELOCIDAD = 4;
+                REACCION = 3;
+                poderAtaque = 30;
+                limiteMultiplicadorDano = 3;
+
+                // Assets
+                textura = manager.get("Enemigo/lobo.png");
+                fxAtaque = manager.get("Enemigo/jabaliAtaque.mp3");
+                fxMuriendo = manager.get("Enemigo/jabaliMuerte.mp3");
+
+                // Lee la textura como región
+                texturaCompleta = new TextureRegion(textura);
+                // La divide en 4 frames de 32x64 (ver marioSprite.png)
+                texturaEnemigo = texturaCompleta.split(96,96);
+                // Crea la animación con tiempo de 0.15 segundos entre frames.
+
+                spriteAnimado = new Animation(0.8f / VELOCIDAD, texturaEnemigo[0][1], texturaEnemigo[0][2]);
+                animacionPrevia = spriteAnimado;
+                animacionAtaque = new Animation(0.4f / VELOCIDAD, texturaEnemigo[0][0], texturaEnemigo[0][3]);
                 break;
         }
     }

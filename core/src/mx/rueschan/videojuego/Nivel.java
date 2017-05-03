@@ -334,6 +334,11 @@ public abstract class Nivel implements Screen{
         });
     }
 
+    protected void crearEnemigo(int x, int y, Enemigo.Tipo tipo) {
+        enemigo = new Enemigo(x, y, tipo);
+        listaEnemigos.add(enemigo);
+    }
+
     private void crearAccionesBotones() {
         btnInteraccion.addListener(new ClickListener(){
             @Override

@@ -58,12 +58,14 @@ public class NivelBosque extends Nivel {
 
     private void crearRecursosUnicos() {
         // TEST ENEMIGO
-        enemigo = new Enemigo(800, 400, Enemigo.Tipo.JABALI);
-        listaEnemigos.add(enemigo);
-        enemigo = new Enemigo(1920, 2240, Enemigo.Tipo.DUPLO);
-        listaEnemigos.add(enemigo);
-        enemigo = new Enemigo(2452, 2688, Enemigo.Tipo.OSO);
-        listaEnemigos.add(enemigo);
+        crearEnemigo(800, 400, Enemigo.Tipo.JABALI);
+        crearEnemigo(1408, 2752, Enemigo.Tipo.JABALI);
+        crearEnemigo(1920, 2240, Enemigo.Tipo.DUPLO);
+        crearEnemigo(3648, 2240, Enemigo.Tipo.DUPLO);
+        crearEnemigo(2452, 2688, Enemigo.Tipo.OSO);
+        crearEnemigo(448, 1600, Enemigo.Tipo.OSO);
+        crearEnemigo(4544, 1536, Enemigo.Tipo.OSO);
+        crearEnemigo(2816, 1792, Enemigo.Tipo.LOBO);
     }
 
     @Override
