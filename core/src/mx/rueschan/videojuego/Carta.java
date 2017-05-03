@@ -57,11 +57,11 @@ public class Carta extends Objeto {
                 // MENCIONA QUE LAS LLAVES PUEDEN NO FUNCIONAR (CABAÑA)
                 return "My beloved Henric:\n" +
                         "\n" +
-                        "I've lost the keys you gave me,\n" +
-                        "they all look the same. \n" +
+                        "I've mixed the keys you gave\n" +
+                        "me, they all look the same. \n" +
                         "\n" +
-                        "Sometimes the keys seem to work \n" +
-                        "properly, but not always...\n" +
+                        "Sometimes the keys seem to\n" +
+                        "work properly, but not always...\n" +
                         "\n" +
                         "\n" +
                         "Please don't get mad!\n"+

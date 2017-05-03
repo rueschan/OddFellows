@@ -9,7 +9,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 
 public class Medkit extends Objeto {
 
-    private final int VIDA = 20;
+    private final int VIDA = 25;
     private Texture textura;
 
     public Medkit() {
