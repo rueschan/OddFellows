@@ -108,7 +108,14 @@ public class PantallaCargando extends Pantalla {
         manager.load("Pantalla/inventario.png",Texture.class);
         manager.load("Pantalla/fondoCarta.png",Texture.class);
         manager.load("Pantalla/cerrar.png",Texture.class);
+
+        //Personaje Corriendo
         manager.load("Personaje/HendricMartilloCorriendo.png",Texture.class);
+        manager.load("Personaje/HenricCorriendoBate.png",Texture.class);
+        manager.load("Personaje/HenricCorriendoAntorcha.png",Texture.class);
+        manager.load("Personaje/HenricCorriendoBarredor.png",Texture.class);
+        manager.load("Personaje/HenricLanzaCorriendo.png",Texture.class);
+        manager.load("Personaje/HenricMacheteCorriendo.png",Texture.class);
         manager.load("Personaje/HendricLlave.png",Texture.class);
         manager.load("Pantalla/Fondo/fondoPausa.png",Texture.class);
 
@@ -184,6 +191,12 @@ public class PantallaCargando extends Pantalla {
         //Texturas de Henric
         manager.load("Personaje/Henric.png", Texture.class);
         manager.load("Personaje/HendricMartilloAtaque.png", Texture.class);
+        manager.load("Personaje/HenricBateAtaque.png", Texture.class);
+        manager.load("Personaje/HenricAntorchaAtaque.png", Texture.class);
+        manager.load("Personaje/HenricBarredorAtaque.png", Texture.class);
+        manager.load("Personaje/HenricLanzaAtaque.png", Texture.class);
+        manager.load("Personaje/HenricMacheteAtaque.png", Texture.class);
+
     }
 
     private void cargarArmas() {
@@ -191,6 +204,8 @@ public class PantallaCargando extends Pantalla {
         manager.load("Items/Machete.png", Texture.class);
         manager.load("Items/tridente.png", Texture.class);
         manager.load("Items/Bate.png", Texture.class);
+        manager.load("Items/Antorcha.png", Texture.class);
+        manager.load("Items/Barredor.png", Texture.class);
     }
 
     private void cargarEnemigos() {
