@@ -143,6 +143,7 @@ public abstract class Nivel implements Screen{
     Objeto fondoCarta;
     private Texture texturaCerrar;
     private Texto txt;
+    private boolean cartaCabanaAgregada = false;
 
     //Manejador de assets
     protected AssetManager manager;
@@ -798,7 +799,12 @@ public abstract class Nivel implements Screen{
                 fxCarta.play();
             Carta carta;
             if (juego.actual.getClass().equals(NivelCabana.class)) {
-                carta = new Carta(0, 0, 0);
+                if (!cartaCabanaAgregada) {
+                    carta = new Carta(0, 0, 0);
+                    cartaCabanaAgregada = !cartaCabanaAgregada;
+                } else{
+                    carta = new Carta(0,0,1);
+                }
             } else {
                 Collections.shuffle(Carta.idCartas);
                 System.out.println(Carta.idCartas.toString());

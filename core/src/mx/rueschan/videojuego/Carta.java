@@ -18,7 +18,7 @@ public class Carta extends Objeto {
 
     public static void llenarIdCartas() {
         idCartas = new ArrayList<Integer>();
-        for (int i = 1; i <= 10; i++) {
+        for (int i = 2; i <= 10; i++) {
             idCartas.add(i);
         }
     }
@@ -54,6 +54,23 @@ public class Carta extends Objeto {
                         "With love, your sister. XOXOX\n";
         ////            |< TAMAÑO MAXIMO DE LA CARTA >|
             case 1:
+                // MENCIONA QUE LAS LLAVES PUEDEN NO FUNCIONAR (CABAÑA)
+                return "My beloved Henric:\n" +
+                        "\n" +
+                        "I've lost the keys you gave me,\n" +
+                        "they all look the same. \n" +
+                        "\n" +
+                        "Sometimes the keys seem to work \n" +
+                        "properly, but not always...\n" +
+                        "\n" +
+                        "\n" +
+                        "Please don't get mad!\n"+
+                        "\n" +
+                        "\n" +
+                        "\n" +
+                        "Love you, your wife!\n";
+            ////            |< TAMAÑO MAXIMO DE LA CARTA >|
+            case 2:
                 // CARTA DE DIVORCIO
                 return "Catrusa, Romain \n" +
                         "November 3th, 1972\n" +
@@ -73,7 +90,7 @@ public class Carta extends Objeto {
                         "I trust you.\n" +
                         "Mrs. Anna Blaga\n";
         ////            |< TAMAÑO MAXIMO DE LA CARTA >|
-            case 2:
+            case 3:
                 // MEDICINA PERDIDA
                 return "Catrusa, Romain \n" +
                         "September 26th, 1972\n" +
@@ -88,7 +105,7 @@ public class Carta extends Objeto {
                         "help! I’m feeling better.\n" +
                         "Mrs. Anna Blaga\n";
         ////            |< TAMAÑO MAXIMO DE LA CARTA >|
-            case 3:
+            case 4:
                 // REPORTE POLICIA
                 return "Catrusa Police Department\n" +
                         "\n" +
@@ -105,7 +122,7 @@ public class Carta extends Objeto {
                         "it is due to the increase in\n" +
                         "the population of wild animals\n" +
                         "in the area.\n";
-            case 4:
+            case 5:
                 // LISTA
             case 11:
                 // IMAGEN DE HENRIC Y SU ESPOSA (CON NOMBRES)
