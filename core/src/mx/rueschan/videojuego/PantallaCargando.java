@@ -231,6 +231,14 @@ public class PantallaCargando extends Pantalla {
         // Sonidos enemigos
         manager.load("Enemigo/jabaliAtaque.mp3",Music.class);
         manager.load("Enemigo/jabaliMuerte.mp3",Sound.class);
+        manager.load("Enemigo/duploAtaque.mp3",Music.class);
+        manager.load("Enemigo/duploMuerte.mp3",Sound.class);
+        manager.load("Enemigo/loboAtaque.mp3",Music.class);
+        manager.load("Enemigo/loboMuerte.mp3",Sound.class);
+        manager.load("Enemigo/mutisAtaque.mp3",Music.class);
+        manager.load("Enemigo/mutisMuerte.mp3",Sound.class);
+        manager.load("Enemigo/osoAtaque.mp3",Music.class);
+        manager.load("Enemigo/osoMuerte.mp3",Sound.class);
     }
 
     @Override

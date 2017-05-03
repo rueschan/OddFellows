@@ -117,8 +117,8 @@ public class Enemigo extends Objeto {
 
                 // Assets
                 textura = manager.get("Enemigo/duplo.png");
-                fxAtaque = manager.get("Enemigo/jabaliAtaque.mp3");
-                fxMuriendo = manager.get("Enemigo/jabaliMuerte.mp3");
+                fxAtaque = manager.get("Enemigo/duploAtaque.mp3");
+                fxMuriendo = manager.get("Enemigo/duploMuerte.mp3");
 
                 // Lee la textura como región
                 texturaCompleta = new TextureRegion(textura);
@@ -139,8 +139,8 @@ public class Enemigo extends Objeto {
 
                 // Assets
                 textura = manager.get("Enemigo/oso.png");
-                fxAtaque = manager.get("Enemigo/jabaliAtaque.mp3");
-                fxMuriendo = manager.get("Enemigo/jabaliMuerte.mp3");
+                fxAtaque = manager.get("Enemigo/osoAtaque.mp3");
+                fxMuriendo = manager.get("Enemigo/osoMuerte.mp3");
 
                 // Lee la textura como región
                 texturaCompleta = new TextureRegion(textura);
@@ -161,8 +161,8 @@ public class Enemigo extends Objeto {
 
                 // Assets
                 textura = manager.get("Enemigo/lobo.png");
-                fxAtaque = manager.get("Enemigo/jabaliAtaque.mp3");
-                fxMuriendo = manager.get("Enemigo/jabaliMuerte.mp3");
+                fxAtaque = manager.get("Enemigo/loboAtaque.mp3");
+                fxMuriendo = manager.get("Enemigo/loboMuerte.mp3");
 
                 // Lee la textura como región
                 texturaCompleta = new TextureRegion(textura);
