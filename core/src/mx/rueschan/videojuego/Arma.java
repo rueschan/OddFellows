@@ -80,10 +80,9 @@ public class Arma extends Objeto {
 
     public enum Tipo {
         MARTILLO,
-        HACHA,
+        BARREDOR,
         MACHETE,
         ANTORCHA,
-        LACOSADELOSPICOS,
         BATE,
         TRIDENTE
     }

@@ -11,7 +11,6 @@ import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
@@ -19,7 +18,6 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -31,7 +29,6 @@ import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -830,6 +827,46 @@ public abstract class Nivel implements Screen{
         return null;
     }
 
+    private void cambiarAnimacionHenric() {
+        Texture animacion = null;
+        Texture animacionAtaque = null;
+        if (seleccionado instanceof Arma) {
+            Arma arma = (Arma) seleccionado;
+            switch (arma.getTipo()) {
+                case MARTILLO:
+                    animacion = manager.get("Personaje/HendricMartilloCorriendo.png");
+                    animacionAtaque = manager.get("Personaje/HendricMartilloAtaque.png");
+                    break;
+                case BATE:
+                    animacion = manager.get("Personaje/henricCorriendoBate.png");
+                    animacionAtaque = manager.get("Personaje/henricBateAtaque.png");
+                    break;
+                case ANTORCHA:
+                    animacion = manager.get("Personaje/henricCorriendoAntorcha.png");
+                    animacionAtaque = manager.get("Personaje/henricAntorchaAtaque.png");
+                    break;
+                case MACHETE:
+                    animacion = manager.get("Personaje/henricMacheteCorriendo.png");
+                    animacionAtaque = manager.get("Personaje/henricMacheteAtaque.png");
+                    break;
+                case TRIDENTE:
+                    animacion = manager.get("Personaje/henricLanzaCorriendo.png");
+                    animacionAtaque = manager.get("Personaje/henricLanzaAtaque.png");
+                    break;
+                case BARREDOR:
+                    animacion = manager.get("Personaje/henricCorriendoBarredor.png");
+                    animacionAtaque = manager.get("Personaje/henricBarredorAtaque.png");
+                    break;
+                default:
+                    animacion = null;
+                    animacionAtaque = null;
+                    break;
+            }
+            henric.setAnimacionStandar(animacion);
+            henric.setAnimacionAtaque(animacionAtaque);
+        }
+    }
+
     private void reproducirAudioRecoger() {
         if (Configuraciones.isFxOn) {
             fxLevantar.play();
@@ -954,15 +991,11 @@ public abstract class Nivel implements Screen{
 
         if (seleccionado instanceof Arma && !isArmado) {
             isArmado = true;
-            Arma arma = (Arma) seleccionado;
+            cambiarAnimacionHenric();
 
-            Texture textura = manager.get("Personaje/HendricMartilloCorriendo.png");
-            henric.setSprite(new TextureRegion(textura).split(96, 96));
         }
         if (seleccionado instanceof Llave && !isArmado) {
             isArmado = true;
-            Llave llave = (Llave) seleccionado;
-
             Texture textura = manager.get("Personaje/HendricLlave.png");
             henric.setSprite(new TextureRegion(textura).split(96, 96));
 

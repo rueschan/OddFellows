@@ -161,7 +161,20 @@ public class Personaje extends Objeto {
         inventario.remove(inventario.indexOf(objeto));
     }
 
+    public void setAnimacionAtaque(Texture textura) {
+        trAtaque = new TextureRegion(textura).split(120, 96);
+        animacionAtaque = new Animation(0.1f, trAtaque[0][2], trAtaque[0][1] );
+    }
 
+    public void setAnimacionStandar(Texture texture) {
+        TextureRegion texturaCompleta = new TextureRegion(texture);
+        // La divide en 4 frames de 32x64 (ver marioSprite.png)
+        texturaPersonaje = texturaCompleta.split(96,96);
+        // Crea la animación con tiempo de 0.15 segundos entre frames.
+
+        spriteAnimado = new Animation(0.15f, texturaPersonaje[0][2], texturaPersonaje[0][1] );
+        animacionPrevia = new Animation(0.15f, texturaPersonaje[0][2], texturaPersonaje[0][1] );
+    }
 
     public void setFxPasos(String nuevoFx) {
         //manager.unload(pathFxPasos);
