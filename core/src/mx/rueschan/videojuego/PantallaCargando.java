@@ -108,8 +108,6 @@ public class PantallaCargando extends Pantalla {
         manager.load("Pantalla/inventario.png",Texture.class);
         manager.load("Pantalla/fondoCarta.png",Texture.class);
         manager.load("Pantalla/cerrar.png",Texture.class);
-        manager.load("Personaje/HendricMartilloCorriendo.png",Texture.class);
-        manager.load("Personaje/HendricLlave.png",Texture.class);
         manager.load("Pantalla/Fondo/fondoPausa.png",Texture.class);
 
 
@@ -181,9 +179,25 @@ public class PantallaCargando extends Pantalla {
     }
 
     private void cargarHenric() {
-        //Texturas de Henric
+        // Texturas de Henric
         manager.load("Personaje/Henric.png", Texture.class);
+        manager.load("Personaje/HendricLlave.png",Texture.class);
+
+        // Ataques
         manager.load("Personaje/HendricMartilloAtaque.png", Texture.class);
+        manager.load("Personaje/henricBateAtaque.png", Texture.class);
+        manager.load("Personaje/henricAntorchaAtaque.png", Texture.class);
+        manager.load("Personaje/henricBarredorAtaque.png", Texture.class);
+        manager.load("Personaje/henricLanzaAtaque.png", Texture.class);
+        manager.load("Personaje/henricMacheteAtaque.png", Texture.class);
+
+        // Movimiento
+        manager.load("Personaje/HendricMartilloCorriendo.png",Texture.class);
+        manager.load("Personaje/henricCorriendoBate.png",Texture.class);
+        manager.load("Personaje/henricCorriendoAntorcha.png",Texture.class);
+        manager.load("Personaje/henricCorriendoBarredor.png",Texture.class);
+        manager.load("Personaje/henricLanzaCorriendo.png",Texture.class);
+        manager.load("Personaje/henricMacheteCorriendo.png",Texture.class);
     }
 
     private void cargarArmas() {

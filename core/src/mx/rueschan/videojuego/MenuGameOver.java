@@ -129,11 +129,12 @@ public class MenuGameOver implements Screen {
                 musicaMuerto.stop();
                 //juego.actual = null;
                 //henric.pararSonido();
-                //henric.reset();
+                henric.reset();
+                henric.setLocalizacion(Personaje.Localizacion.CABANA);
                 //henric.vaciarInventario();
-                //henric.setVida(100);
+                henric.setVida(75);
                 pantalla.resetCamara();
-                oddFellows.setScreen(new PantallaCargando(oddFellows,nivelActual));
+                oddFellows.setScreen(new PantallaCargando(oddFellows, Niveles.NIVEL_CABANA));
                 musicaMuerto.stop();
                 //pantalla.resetCamara();
 
