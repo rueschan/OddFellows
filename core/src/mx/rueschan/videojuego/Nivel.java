@@ -25,6 +25,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Touchpad;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
@@ -1320,7 +1321,7 @@ public abstract class Nivel implements Screen{
     protected void cambiarNivel(int nvl) {
         //Nivel nivel = detectarNivel(nvl);
         //oddFellows.setScreen(nivel);
-        //descargarManager(nvl);
+        descargarManager();
 
         switch (nvl) {
             case 1: // CABAÑA
@@ -1333,11 +1334,16 @@ public abstract class Nivel implements Screen{
                 Gdx.app.log("Cambiar Nivel"," "+"voy al bosque "+nvl);
                 oddFellows.setScreen(new PantallaCargando(oddFellows,Niveles.NIVEL_BOSQUE));
                 break;
+            case 3: // CEMENTERIO
+                henric.destino = Personaje.Destino.CEMENTERIO;
+                Gdx.app.log("Cambiar Nivel"," "+"voy al cementerio "+nvl);
+                oddFellows.setScreen(new PantallaCargando(oddFellows,Niveles.NIVEL_CEMENTERIO));
+                break;
         }
         musicaFondo.stop();
         henric.setViaje();
-        descargarManager(nvl);
         listaEnemigos.clear();
+//        descargarManager(nvl);
         // juego.cargarNivel(nvl);
 //        this.dispose();
     }
@@ -1351,70 +1357,101 @@ public abstract class Nivel implements Screen{
                 manager.unload("Musica/lostInForest.mp3");
                 manager.unload("Sonidos/pasoBosque.mp3");
                 break;
-            case 2: // VOY PARA EL BOSQUE CABAÑA
+            case 2: // VOY PARA EL BOSQUE
                 Gdx.app.log("descargarManager Cabana","nvl "+nvl);
+//                manager.unload("NivelCabana/Cabana.tmx");
+                manager.unload("Musica/ofeliasdream.mp3");
+                manager.unload("Sonidos/pasoMadera.mp3");
+                break;
+            case 3: // VOY AL BOSQUE DE CEMENTERIO
+                Gdx.app.log("descargarManager Cementerio","nvl "+nvl);
 //                manager.unload("NivelCabana/Cabana.tmx");
                 manager.unload("Musica/ofeliasdream.mp3");
                 manager.unload("Sonidos/pasoMadera.mp3");
                 break;
         }
     }
+
     private void descargarManager() {
-        Gdx.app.log("descargarManager Nivel","descargando");
-
-        manager.unload("Musica/giantwyrm.mp3");
-        manager.unload("Sonidos/levantarLlave.mp3");
-        manager.unload("Sonidos/levantarPapel.mp3");
-        manager.unload("Sonidos/levantarMartillo.mp3");
-        manager.unload("Sonidos/zipperAbrir.mp3");
-        manager.unload("Sonidos/zipperCerrar.mp3");
-        manager.unload("Sonidos/alerta.mp3");
-
-        // Vida
-        manager.unload("Pantalla/HP.png");
-        manager.unload("Pantalla/BarraHP.png");
-
-        //Texturas de Henric
-        manager.unload("Personaje/Henric.png");
-        manager.unload("Personaje/HendricMartilloAtaque.png");
-
-        manager.unload("Pad/padBack.png");
-        manager.unload("Pad/padKnob.png");
-
-        manager.unload("Pantalla/Accion.png");
-        manager.unload("Pantalla/BotonInteraccion.png");
-        manager.unload("Pantalla/entrar.png");
-        manager.unload("Pantalla/baseItems.png");
-        manager.unload("Pantalla/inventario.png");
-        manager.unload("Pantalla/fondoCarta.png");
-        manager.unload("Pantalla/cerrar.png");
-        manager.unload("Personaje/HendricMartilloCorriendo.png");
-        manager.unload("Personaje/HendricLlave.png");
-        manager.unload("Pantalla/Fondo/fondoPausa.png");
-
-        //Crear texturas
-        manager.unload("Pantalla/BotonPausa64.png");
-        manager.unload("Pantalla/Tabla.png");
-        manager.unload("Pantalla/Tabla.png");
-        manager.unload("Pantalla/Audio.png");
-        manager.unload("Pantalla/ecualizador.png");
-
-        manager.unload("Pantalla/fondoInventario.png");
-        manager.unload("Pantalla/btnSalirInventario.png");
-        manager.finishLoading();
+        // DESCARGA LOS ASSETS DE MAPAS
+        try {
+            manager.unload("Musica/lostInForest.mp3");
+            manager.unload("Sonidos/pasoBosque.mp3");
+        } catch (GdxRuntimeException e) {
+            Gdx.app.log("Assets No Encontrados", e.getMessage());
+        }
+        try {
+            manager.unload("Musica/ofeliasdream.mp3");
+            manager.unload("Sonidos/pasoMadera.mp3");
+            manager.unload("Sonidos/alerta.mp3");
+        } catch (GdxRuntimeException e) {
+            Gdx.app.log("Assets No Encontrados", e.getMessage());
+        }
+        try {
+            manager.unload("Musica/ofeliasdream.mp3");
+            manager.unload("Sonidos/pasoMadera.mp3");
+            manager.unload("Sonidos/alerta.mp3");
+        } catch (GdxRuntimeException e) {
+            Gdx.app.log("Assets No Encontrados", e.getMessage());
+        }
     }
 
-    /*private void detectarNivel(int nvl) {
-        switch (nvl) {
-            case 1: // CABAÑA
-                henric.destino = Personaje.Destino.CABANA;
-               // return NivelCabana.getNivelCabana(oddFellows);
-            case 2: // BOSQUE
-                henric.destino = Personaje.Destino.BOSQUE;
-               // return NivelBosque.getNivelBosque(oddFellows);
-        }
-        //return null;
-    }*/
+//    private void descargarManager() {
+//        Gdx.app.log("descargarManager Nivel","descargando");
+//
+//        manager.unload("Musica/giantwyrm.mp3");
+//        manager.unload("Sonidos/levantarLlave.mp3");
+//        manager.unload("Sonidos/levantarPapel.mp3");
+//        manager.unload("Sonidos/levantarMartillo.mp3");
+//        manager.unload("Sonidos/zipperAbrir.mp3");
+//        manager.unload("Sonidos/zipperCerrar.mp3");
+//        manager.unload("Sonidos/alerta.mp3");
+//
+//        // Vida
+//        manager.unload("Pantalla/HP.png");
+//        manager.unload("Pantalla/BarraHP.png");
+//
+//        //Texturas de Henric
+//        manager.unload("Personaje/Henric.png");
+//        manager.unload("Personaje/HendricMartilloAtaque.png");
+//
+//        manager.unload("Pad/padBack.png");
+//        manager.unload("Pad/padKnob.png");
+//
+//        manager.unload("Pantalla/Accion.png");
+//        manager.unload("Pantalla/BotonInteraccion.png");
+//        manager.unload("Pantalla/entrar.png");
+//        manager.unload("Pantalla/baseItems.png");
+//        manager.unload("Pantalla/inventario.png");
+//        manager.unload("Pantalla/fondoCarta.png");
+//        manager.unload("Pantalla/cerrar.png");
+//        manager.unload("Personaje/HendricMartilloCorriendo.png");
+//        manager.unload("Personaje/HendricLlave.png");
+//        manager.unload("Pantalla/Fondo/fondoPausa.png");
+//
+//        //Crear texturas
+//        manager.unload("Pantalla/BotonPausa64.png");
+//        manager.unload("Pantalla/Tabla.png");
+//        manager.unload("Pantalla/Tabla.png");
+//        manager.unload("Pantalla/Audio.png");
+//        manager.unload("Pantalla/ecualizador.png");
+//
+//        manager.unload("Pantalla/fondoInventario.png");
+//        manager.unload("Pantalla/btnSalirInventario.png");
+//        manager.finishLoading();
+//    }
+//
+//    /*private void detectarNivel(int nvl) {
+//        switch (nvl) {
+//            case 1: // CABAÑA
+//                henric.destino = Personaje.Destino.CABANA;
+//               // return NivelCabana.getNivelCabana(oddFellows);
+//            case 2: // BOSQUE
+//                henric.destino = Personaje.Destino.BOSQUE;
+//               // return NivelBosque.getNivelBosque(oddFellows);
+//        }
+//        //return null;
+//    }*/
 
     public static void setNivelObjetivo(int n) {
         idNvlObjetivo = n;
@@ -1606,7 +1643,7 @@ public abstract class Nivel implements Screen{
         henric.pararSonido();
         henric.setEstadoMovimiento(Personaje.EstadoMovimiento.QUIETO_X);
         henric.setEstadoMovimientoVertical(Personaje.EstadoMovimientoVertical.QUIETO_Y);
-        descargarManager(idNvlObjetivo);
+        descargarManager();
         henric.pararSonido();
         switch(idNvlObjetivo){
             case 1:     //Estoy en el bosque

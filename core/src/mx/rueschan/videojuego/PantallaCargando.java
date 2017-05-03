@@ -62,6 +62,8 @@ public class PantallaCargando extends Pantalla {
             case NIVEL_BOSQUE:
                 cargarRecursosNivelBosque();
                 break;
+            case NIVEL_CEMENTERIO:
+                cargarRecursosNivelCementerio();
         }
     }
 
@@ -141,6 +143,12 @@ public class PantallaCargando extends Pantalla {
         manager.load("Sonidos/alerta.mp3",Sound.class);
     }
 
+    private void cargarRecursosNivelCementerio() {
+        cargarRecursosNivel();
+        manager.load("Musica/lostInForest.mp3",Music.class);
+        manager.load("Sonidos/pasoBosque.mp3",Music.class);
+    }
+
     private void cargarRecursosMenuPrincipal() {
         Gdx.app.log("cargarManager Menu","cargando");
         manager.load("Musica/chopinNocturne.mp3", Music.class);
@@ -175,6 +183,9 @@ public class PantallaCargando extends Pantalla {
         }
         if (NivelBosque.getEstadoMapa() == Nivel.EstadoMapa.NO_CARGADO) {
             manager.load("NivelBosque/bosque.tmx", TiledMap.class);
+        }
+        if (NivelCementerio.getEstadoMapa() == Nivel.EstadoMapa.NO_CARGADO) {
+            manager.load("NivelCementerio/cementerio.tmx", TiledMap.class);
         }
     }
 
@@ -253,7 +264,7 @@ public class PantallaCargando extends Pantalla {
             switch (siguienteNivel) {
                 case MENU_PRINCIPAL:
                     oddFellows.setScreen(new MenuPrincipal(
-                    oddFellows));   // 100% de carga
+                            oddFellows));   // 100% de carga
                     break;
 
                 case NIVEL_CABANA:
@@ -261,13 +272,19 @@ public class PantallaCargando extends Pantalla {
                     //Gdx.app.log("cargarManager Cabana TextHenric"," "+manager.isLoaded("Personaje/Henric.png"));
                     //Gdx.app.log("cargarManager Cabana Campana"," "+manager.isLoaded("Sonidos/alerta.mp3"));
                     oddFellows.setScreen(new NivelCabana(
-                    oddFellows));   // 100% de carga
+                            oddFellows));   // 100% de carga
                     break;
 
                 case NIVEL_BOSQUE:
                     Gdx.app.log("Pantalla Cargando","cambio a NivelBosque");
                     oddFellows.setScreen(new NivelBosque(
-                    oddFellows));
+                            oddFellows));
+                    break;
+
+                case NIVEL_CEMENTERIO:
+                    Gdx.app.log("Pantalla Cargando","cambio a NivelCementerio");
+                    oddFellows.setScreen(new NivelCementerio(
+                            oddFellows));
                     break;
             }
         }

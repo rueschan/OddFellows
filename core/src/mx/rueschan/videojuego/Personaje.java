@@ -876,11 +876,21 @@ public class Personaje extends Objeto {
                         y = alto / 2;
                         localizacion = Localizacion.CLINICA;
                         break;
+                    case CEMENTERIO:
+                        x = 640;
+                        y = 256;
+                        localizacion =  Localizacion.CEMENTERIO;
+                        break;
                 }
                 break;
             case CABANA:
                 x = 704; // X fuera de las escaleras de la cabana
                 y = 2688; // Y fuera de las escaleras de la cabana
+                localizacion = Localizacion.BOSQUE;
+                break;
+            case CEMENTERIO:
+                x = 4096;
+                y = 3008;
                 localizacion = Localizacion.BOSQUE;
                 break;
         }
@@ -919,13 +929,15 @@ public class Personaje extends Objeto {
     public enum Localizacion {
         BOSQUE,
         CABANA,
-        CLINICA
+        CLINICA,
+        CEMENTERIO
     }
 
     public enum Destino {
         BOSQUE,
         CABANA,
-        CLINICA
+        CLINICA,
+        CEMENTERIO
     }
 
     public enum Viaje {
