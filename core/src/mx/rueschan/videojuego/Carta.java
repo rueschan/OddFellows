@@ -33,7 +33,7 @@ public class Carta extends Objeto {
 
     private String elegigContenido() {
         switch (idContenido) {
-        ////            |< TAMAÑO MAXIMO DE LA CARTA >|
+            ////        |< TAMAÑO MAXIMO DE LA CARTA >|
             case 0:
                 // CARTA DE INTRODUCCIÓN (CABAÑA)
                 return "Dear Idlen:\n" +
@@ -52,22 +52,63 @@ public class Carta extends Objeto {
                         "\n" +
                         "See you soon! We are coming!\n" +
                         "With love, your sister. XOXOX\n";
-            case 2:
+        ////            |< TAMAÑO MAXIMO DE LA CARTA >|
+            case 1:
                 // CARTA DE DIVORCIO
-                return "\tCătrușa, Romain \n" +
-                        "\tNovember 3th, 1972\n" +
-                        "Mr. Antonescu:\n" +
-                        "Henric has been behaving stranger\n" +
-                        "and stranger. Please arrange\n" +
-                        "our divorce documents as soon as\n" +
-                        "possible. I am afraid!\n" +
+                return "Catrusa, Romain \n" +
+                        "November 3th, 1972\n" +
                         "\n" +
-                        "Please answer to my parents address.\n" +
-                        "I don’t want Henric to get angrier.\n" +
+                        "Mr. Antonescu:\n" +
+                        "Henric has been behaving\n" +
+                        "stranger and stranger. Please\n" +
+                        "arrange our divorce documents\n" +
+                        "as soon as possible. I am\n" +
+                        "afraid!\n" +
+                        "\n" +
+                        "Please answer to my parents\n" +
+                        "address. I don’t want Henric\n" +
+                        "to get angrier.\n" +
                         "\n" +
                         "Thank you for your services.\n" +
                         "I trust you.\n" +
                         "Mrs. Anna Blaga\n";
+        ////            |< TAMAÑO MAXIMO DE LA CARTA >|
+            case 2:
+                // MEDICINA PERDIDA
+                return "Catrusa, Romain \n" +
+                        "September 26th, 1972\n" +
+                        "\n" +
+                        "Dr. Comănesco:\n" +
+                        "I never got the medicines you\n" +
+                        "send me with Henric. Maybe he\n" +
+                        "took them for the clinic.\n" +
+                        "That’s selfish from him.\n" +
+                        "\n" +
+                        "Anyway, thank you for your\n" +
+                        "help! I’m feeling better.\n" +
+                        "Mrs. Anna Blaga\n";
+        ////            |< TAMAÑO MAXIMO DE LA CARTA >|
+            case 3:
+                // REPORTE POLICIA
+                return "Catrusa Police Department\n" +
+                        "\n" +
+                        "Officer: Gabor Dobrescu\n" +
+                        "Date: October 15th, 1972\n" +
+                        "Case: 31032321\n" +
+                        "\n" +
+                        "Description: Missing people\n" +
+                        "near old clinic. Visitors of\n" +
+                        "the local graveyard report\n" +
+                        "weird noises coming from the\n" +
+                        "forest and recent activity in\n" +
+                        "the abandoned clinic. I suspect\n" +
+                        "it is due to the increase in\n" +
+                        "the population of wild animals\n" +
+                        "in the area.\n";
+            case 4:
+                // LISTA
+            case 11:
+                // IMAGEN DE HENRIC Y SU ESPOSA (CON NOMBRES)
         }
 
         return "";
