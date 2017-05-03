@@ -838,7 +838,8 @@ public abstract class Nivel implements Screen{
             reproducirAudioRecoger();
             return new Arma(Arma.Tipo.ANTORCHA);
 
-        }else if (prueba.equals("tridente")) {
+        }
+        else if (prueba.equals("tridente")) {
             reproducirAudioRecoger();
             return new Arma(Arma.Tipo.TRIDENTE);
 
