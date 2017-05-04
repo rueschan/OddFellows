@@ -799,6 +799,11 @@ public abstract class Nivel implements Screen{
             Llave llave;
             return llave = new Llave(0, 0, (int) (Math.random() * 3) + 1); // Valores del 1 al 10
 
+        } else if (prueba.equals("llaveUnica")) {
+            if (Configuraciones.isFxOn)
+                fxLlave.play();
+            return new Llave(0, 0, 10);
+
         } else if (prueba.equals("carta")) {
             if (Configuraciones.isFxOn)
                 fxCarta.play();
