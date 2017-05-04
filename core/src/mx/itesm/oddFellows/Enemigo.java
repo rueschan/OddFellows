@@ -274,7 +274,9 @@ public class Enemigo extends Objeto {
                 // Inicia el timer que contará tiempo para saber qué frame se dibuja
                 timerAnimacion = 0;
             }
-            atacar();
+            if (!Nivel.pausado&&!Nivel.enCarta&&!Nivel.enInventario) {
+                atacar();
+            }
 
         } else {
             estadoEnemigo = EstadoEnemigo.VAGANDO;

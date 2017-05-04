@@ -111,10 +111,10 @@ public abstract class Nivel implements Screen{
     protected Texture regionPausa;
     protected Texture regionOscura;
     protected Texture fondoMenu;
-    protected Boolean pausado;
+    protected static Boolean pausado;
 
     //En carta
-    protected Boolean enCarta = false;
+    protected static Boolean enCarta = false;
 
         //Textura en Menu Pausa
     protected Texture texturaBotonReanudar;
@@ -123,7 +123,7 @@ public abstract class Nivel implements Screen{
     protected Texture texturaFX;
 
     //Inventario
-    protected Boolean enInventario;
+    protected static Boolean enInventario;
 
         //Textura en Inventario
     protected Texture regionInventario;
@@ -1708,7 +1708,15 @@ public abstract class Nivel implements Screen{
                 //henric.setViaje();
                 break;
         }
+    }
 
+    public boolean puedeAtacarEnemigo(){
+        if(!pausado&&!enCarta&&!enInventario){
+            return true;
+        }
+        else{
+            return false;
+        }
     }
 
     public boolean hayAtaqueAJugador () {
@@ -1759,5 +1767,4 @@ public abstract class Nivel implements Screen{
         CARGADO,
         NO_CARGADO
     }
-
 }
