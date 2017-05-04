@@ -124,8 +124,35 @@ public class Carta extends Objeto {
                         "it is due to the increase in\n" +
                         "the population of wild animals\n" +
                         "in the area.\n";
+        ////            |< TAMAÑO MAXIMO DE LA CARTA >|
             case 5:
-                // LISTA
+                // HELP ME!
+                return "hElp mE!!\n" +
+                        "\n" +
+                        "AnyoNE WhO rEadS this!\n" +
+                        "\n" +
+                        "All oF mY fRIEndS haVe bEen\n" +
+                        " kiDNapEd bY a MAn!\n" +
+                        "\n" +
+                        "I don’t KnOW WhEre tO hIde.\n" +
+                        "DAngeR iS everywh...\n";
+        ////            |< TAMAÑO MAXIMO DE LA CARTA >|
+            case 6:
+                // (Run!)
+                return "\n" +
+                        "\n" +
+                        "Fugi! Fugi! Fugi! Fugi! Fugi!\n" +
+                        "Fugi! Fugi! Fugi! Fugi! Fugi!\n" +
+                        "Fugi! Fugi! Fugi! Fugi! Fugi!\n" +
+                        "Fugi! Fugi! Fugi! Fugi! Fugi!\n" +
+                        "Fugi! Fugi! Fugi! Fugi! Fugi!\n" +
+                        "Fugi! Fugi! Fugi! Fugi! Fugi!\n" +
+                        "Fugi! Fugi! Fugi! Fugi! Fugi!\n" +
+                        "Fugi! Fugi! Fugi! Fugi! Fugi!\n" +
+                        "Fugi! Fugi! Fugi! Fugi! Fugi!\n" +
+                        "Fugi! Fugi! Fugi! Fugi! Fugi!\n" +
+                        "Fugi! Fugi! Fugi! Fugi! Fugi!\n" +
+                        "Fugi! Fugi! Fugi!";
             case 11:
                 // IMAGEN DE HENRIC Y SU ESPOSA (CON NOMBRES)
         }

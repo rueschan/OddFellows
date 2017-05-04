@@ -1093,12 +1093,19 @@ public abstract class Nivel implements Screen{
                 if (Configuraciones.isFxOn){
                     fxLlaveAbrir.play();
                 }
+                usarLlave();
             }else{
                 if (Configuraciones.isFxOn){
                     fxLlaveFallar.play();
                 }
             }
         }
+    }
+
+    private void usarLlave() {
+        inventario.remove(seleccionado);
+        seleccionado = null;
+        henric.setAnimacionStandar(manager.get("Personaje/Henric.png", Texture.class));
     }
 
 //    private void abrirPuerta() {
