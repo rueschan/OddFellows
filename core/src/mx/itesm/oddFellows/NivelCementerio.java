@@ -2,6 +2,7 @@ package mx.itesm.oddFellows;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.maps.tiled.TiledMap;
 
 /**
  * Created by Odd Fellows on 03/05/2017.

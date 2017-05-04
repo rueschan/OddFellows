@@ -189,18 +189,32 @@ public class PantallaCargando extends Pantalla {
 
     // Para que los mapas mantengan el estado en el que se dejarón
     private void cargarMapas() {
-        if (NivelCabana.getEstadoMapa() == Nivel.EstadoMapa.NO_CARGADO) {
+
+        if (!manager.isLoaded("NivelCabana/Cabana.tmx")) {
             manager.load("NivelCabana/Cabana.tmx", TiledMap.class);
         }
-        if (NivelBosque.getEstadoMapa() == Nivel.EstadoMapa.NO_CARGADO) {
+        if (!manager.isLoaded("NivelBosque/bosque.tmx")) {
             manager.load("NivelBosque/bosque.tmx", TiledMap.class);
         }
-        if (NivelCementerio.getEstadoMapa() == Nivel.EstadoMapa.NO_CARGADO) {
+        if (!manager.isLoaded("NivelCementerio/cementerio.tmx")) {
             manager.load("NivelCementerio/cementerio.tmx", TiledMap.class);
         }
-        if (NivelClinica.getEstadoMapa() == Nivel.EstadoMapa.NO_CARGADO){
-            manager.load("NivelClinica/Clinica.tmx",TiledMap.class);
+        if (!manager.isLoaded("NivelClinica/Clinica.tmx")) {
+            manager.load("NivelClinica/Clinica.tmx", TiledMap.class);
         }
+//        if (NivelCabana.getEstadoMapa() == Nivel.EstadoMapa.NO_CARGADO) {
+//            manager.load("NivelCabana/Cabana.tmx", TiledMap.class);
+//        }
+//        if (NivelBosque.getEstadoMapa() == Nivel.EstadoMapa.NO_CARGADO) {
+//            System.out.println("CARGAR BOSQUE");
+//            manager.load("NivelBosque/bosque.tmx", TiledMap.class);
+//        }
+//        if (NivelCementerio.getEstadoMapa() == Nivel.EstadoMapa.NO_CARGADO) {
+//            manager.load("NivelCementerio/cementerio.tmx", TiledMap.class);
+//        }
+//        if (NivelClinica.getEstadoMapa() == Nivel.EstadoMapa.NO_CARGADO){
+//            manager.load("NivelClinica/Clinica.tmx",TiledMap.class);
+//        }
     }
 
     private void cargarHenric() {
