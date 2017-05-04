@@ -8,6 +8,7 @@ public enum Niveles {
     MENU_PRINCIPAL,
     NIVEL_CABANA,
     NIVEL_BOSQUE,
-    NIVEL_CEMENTERIO
+    NIVEL_CEMENTERIO,
+    NIVEL_CLINICA
 }
 

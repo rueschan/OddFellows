@@ -1365,6 +1365,12 @@ public abstract class Nivel implements Screen{
                 Gdx.app.log("Cambiar Nivel"," "+"voy al cementerio "+nvl);
                 oddFellows.setScreen(new PantallaCargando(oddFellows,Niveles.NIVEL_CEMENTERIO));
                 break;
+            case 4: // CLINICA
+                henric.destino = Personaje.Destino.CLINICA;
+                Gdx.app.log("Cambiar Nivel"," "+"voy al hospital "+nvl);
+                oddFellows.setScreen(new PantallaCargando(oddFellows,Niveles.NIVEL_CLINICA));
+                break;
+
         }
         musicaFondo.stop();
         henric.setViaje();
@@ -1403,13 +1409,6 @@ public abstract class Nivel implements Screen{
         try {
             manager.unload("Musica/lostInForest.mp3");
             manager.unload("Sonidos/pasoBosque.mp3");
-        } catch (GdxRuntimeException e) {
-            Gdx.app.log("Assets No Encontrados", e.getMessage());
-        }
-        try {
-            manager.unload("Musica/ofeliasdream.mp3");
-            manager.unload("Sonidos/pasoMadera.mp3");
-            manager.unload("Sonidos/alerta.mp3");
         } catch (GdxRuntimeException e) {
             Gdx.app.log("Assets No Encontrados", e.getMessage());
         }

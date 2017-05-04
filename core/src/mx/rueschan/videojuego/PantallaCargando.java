@@ -64,6 +64,10 @@ public class PantallaCargando extends Pantalla {
                 break;
             case NIVEL_CEMENTERIO:
                 cargarRecursosNivelCementerio();
+                break;
+            case NIVEL_CLINICA:
+                cargarRecursosNivelClinica();
+                break;
         }
     }
 
@@ -150,6 +154,12 @@ public class PantallaCargando extends Pantalla {
         manager.load("Sonidos/pasoBosque.mp3",Music.class);
     }
 
+    private void cargarRecursosNivelClinica() {
+        cargarRecursosNivel();
+        manager.load("Musica/ofeliasdream.mp3",Music.class);
+        manager.load("Sonidos/pasosClinica.mp3", Music.class);
+    }
+
     private void cargarRecursosMenuPrincipal() {
         Gdx.app.log("cargarManager Menu","cargando");
         manager.load("Musica/chopinNocturne.mp3", Music.class);
@@ -187,6 +197,9 @@ public class PantallaCargando extends Pantalla {
         }
         if (NivelCementerio.getEstadoMapa() == Nivel.EstadoMapa.NO_CARGADO) {
             manager.load("NivelCementerio/cementerio.tmx", TiledMap.class);
+        }
+        if (NivelClinica.getEstadoMapa() == Nivel.EstadoMapa.NO_CARGADO) {
+            manager.load("NivelHospital/Hospital.tmx", TiledMap.class);
         }
     }
 
@@ -293,6 +306,11 @@ public class PantallaCargando extends Pantalla {
                 case NIVEL_CEMENTERIO:
                     Gdx.app.log("Pantalla Cargando","cambio a NivelCementerio");
                     oddFellows.setScreen(new NivelCementerio(
+                            oddFellows));
+                    break;
+                case NIVEL_CLINICA:
+                    Gdx.app.log("Pantalla Cargando","cambio a NivelClinica");
+                    oddFellows.setScreen(new NivelClinica(
                             oddFellows));
                     break;
             }

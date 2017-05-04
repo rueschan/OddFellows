@@ -871,9 +871,8 @@ public class Personaje extends Objeto {
                         localizacion = Localizacion.CABANA;
                         break;
                     case CLINICA:
-                        // CAMBIAR
-                        x = ancho / 2;
-                        y = alto / 2;
+                        x = 2880;
+                        y = 2560;
                         localizacion = Localizacion.CLINICA;
                         break;
                     case CEMENTERIO:
@@ -881,6 +880,7 @@ public class Personaje extends Objeto {
                         y = 256;
                         localizacion =  Localizacion.CEMENTERIO;
                         break;
+
                 }
                 break;
             case CABANA:
@@ -891,6 +891,11 @@ public class Personaje extends Objeto {
             case CEMENTERIO:
                 x = 4096;
                 y = 3008;
+                localizacion = Localizacion.BOSQUE;
+                break;
+            case CLINICA:
+                x = 640;
+                y = 320;
                 localizacion = Localizacion.BOSQUE;
                 break;
         }
