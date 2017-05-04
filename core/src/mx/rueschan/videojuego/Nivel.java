@@ -445,6 +445,8 @@ public abstract class Nivel implements Screen{
     public static void borrarMapas() {
         NivelCabana.reset();
         NivelBosque.reset();
+        NivelCementerio.reset();
+        NivelClinica.reset();
     }
 
     private void addActoresHUD() {

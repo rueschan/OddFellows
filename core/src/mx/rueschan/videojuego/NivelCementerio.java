@@ -49,14 +49,20 @@ public class NivelCementerio extends Nivel {
 
     private void crearRecursosUnicos() {
         // TEST ENEMIGO
-        crearEnemigo(800, 400, Enemigo.Tipo.JABALI);
-        crearEnemigo(1408, 2752, Enemigo.Tipo.JABALI);
-        crearEnemigo(1920, 2240, Enemigo.Tipo.DUPLO);
-        crearEnemigo(3648, 2240, Enemigo.Tipo.DUPLO);
-        crearEnemigo(2452, 2688, Enemigo.Tipo.OSO);
-        crearEnemigo(448, 1600, Enemigo.Tipo.OSO);
-        crearEnemigo(4544, 1536, Enemigo.Tipo.OSO);
-        crearEnemigo(2816, 1792, Enemigo.Tipo.LOBO);
+        //Dentro del cementerio
+        crearEnemigo(320, 1408, Enemigo.Tipo.DUPLO);
+        crearEnemigo(1152, 1152, Enemigo.Tipo.DUPLO);
+        crearEnemigo(704, 1024, Enemigo.Tipo.MUTIS);
+        crearEnemigo(1152, 1472, Enemigo.Tipo.MUTIS);
+
+        //Fuera del cementerio
+        crearEnemigo(1038, 448, Enemigo.Tipo.JABALI);
+        crearEnemigo(1664, 576, Enemigo.Tipo.LOBO);
+        crearEnemigo(2432, 256, Enemigo.Tipo.OSO);
+        crearEnemigo(3008, 384, Enemigo.Tipo.JABALI);
+        crearEnemigo(3136, 1472, Enemigo.Tipo.LOBO);
+        crearEnemigo(4224, 1536, Enemigo.Tipo.OSO);
+        crearEnemigo(4800, 896, Enemigo.Tipo.LOBO);
     }
 
     @Override
