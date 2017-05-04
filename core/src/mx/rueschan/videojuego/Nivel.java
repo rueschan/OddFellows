@@ -1349,7 +1349,7 @@ public abstract class Nivel implements Screen{
     protected void cambiarNivel(int nvl) {
         //Nivel nivel = detectarNivel(nvl);
         //oddFellows.setScreen(nivel);
-        descargarManager();
+        //descargarManager();
 
         switch (nvl) {
             case 1: // CABAÑA
