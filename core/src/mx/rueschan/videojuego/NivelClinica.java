@@ -48,12 +48,12 @@ public class NivelClinica extends Nivel {
         // Enemigos
         crearEnemigo(384, 3456, Enemigo.Tipo.DUPLO);
         crearEnemigo(768, 3264, Enemigo.Tipo.MUTIS);
-        crearEnemigo(1216, 3648, Enemigo.Tipo.LOBO);
-        crearEnemigo(448, 2560, Enemigo.Tipo.JABALI);
-        crearEnemigo(1664, 2560, Enemigo.Tipo.JABALI);
+        crearEnemigo(1216, 3648, Enemigo.Tipo.DUPLO);
+        crearEnemigo(448, 2560, Enemigo.Tipo.MUTIS);
+        crearEnemigo(1664, 2560, Enemigo.Tipo.DUPLO);
         crearEnemigo(320, 1728, Enemigo.Tipo.DUPLO);
         crearEnemigo(320, 448, Enemigo.Tipo.MUTIS);
-        crearEnemigo(1216, 768, Enemigo.Tipo.LOBO);
+        crearEnemigo(1216, 768, Enemigo.Tipo.DUPLO);
         crearEnemigo(2624, 704, Enemigo.Tipo.MUTIS);
         crearEnemigo(2752, 704, Enemigo.Tipo.MUTIS);
     }

@@ -178,7 +178,7 @@ public class Enemigo extends Objeto {
                 vida = 200;
                 VELOCIDAD = 2;
                 REACCION = 3;
-                poderAtaque = 25;
+                poderAtaque = 20;
                 limiteMultiplicadorDano = 3;
 
                 // Assets

@@ -79,7 +79,7 @@
   </tile>
   <tile id="27">
    <properties>
-    <property name="tipo" value="puerta"/>
+    <property name="tipo" value="obstaculo"/>
     <property name="valorLlave" value="3"/>
    </properties>
   </tile>
@@ -103,7 +103,7 @@
   </tile>
   <tile id="31">
    <properties>
-    <property name="tipo" value="puerta"/>
+    <property name="tipo" value="obstaculo"/>
     <property name="valorLlave" value="3"/>
    </properties>
   </tile>
@@ -127,7 +127,7 @@
   </tile>
   <tile id="35">
    <properties>
-    <property name="tipo" value="puerta"/>
+    <property name="tipo" value="obstaculo"/>
     <property name="valorLlave" value="3"/>
    </properties>
   </tile>
