@@ -120,6 +120,8 @@ public class NivelCabana extends Nivel {
         if (Gdx.input.isKeyJustPressed(Input.Keys.BACK)) {
             if(enInventario) {
                 enInventario = irInventario(enInventario, NivelCabana.super.escenaHUD);
+            }else if(enCarta){
+                cerrarCarta();
             }
              else {
                 //Abrir MenuPausa

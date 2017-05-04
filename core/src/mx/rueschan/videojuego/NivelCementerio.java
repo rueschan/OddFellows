@@ -125,6 +125,8 @@ public class NivelCementerio extends Nivel {
         if (Gdx.input.isKeyJustPressed(Input.Keys.BACK)) {
             if(enInventario) {
                 enInventario = irInventario(enInventario, NivelCementerio.super.escenaHUD);
+            }else if(enCarta){
+                cerrarCarta();
             }
             else {
                 //Abrir MenuPausa

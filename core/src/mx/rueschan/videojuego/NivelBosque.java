@@ -128,6 +128,8 @@ public class NivelBosque extends Nivel {
         if (Gdx.input.isKeyJustPressed(Input.Keys.BACK)) {
             if(enInventario) {
                 enInventario = irInventario(enInventario, NivelBosque.super.escenaHUD);
+            }else if(enCarta){
+                cerrarCarta();
             }
             else {
                 //Abrir MenuPausa

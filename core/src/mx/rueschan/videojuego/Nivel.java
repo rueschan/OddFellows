@@ -936,7 +936,7 @@ public abstract class Nivel implements Screen{
 //        }
     }
 
-    private void cerrarCarta() {
+    protected void cerrarCarta() {
         enCarta = false;
 
         fondoCarta.sprite.setColor(1,1,1,0);

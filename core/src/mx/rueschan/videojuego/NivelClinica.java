@@ -113,6 +113,8 @@ public class NivelClinica extends Nivel {
         if (Gdx.input.isKeyJustPressed(Input.Keys.BACK)) {
             if(enInventario) {
                 enInventario = irInventario(enInventario, NivelClinica.super.escenaHUD);
+            }else if(enCarta){
+                cerrarCarta();
             }
             else {
                 //Abrir MenuPausa
