@@ -48,27 +48,35 @@ public class Arma extends Objeto {
                 dano = 15;
                 special = "romper";
                 textura = manager.get("Items/martillo.png");
-                sprite = new Sprite(textura);
                 break;
             case MACHETE:
                 dano = 25;
                 special = "cortar";
                 textura = manager.get("Items/Machete.png");
-                sprite = new Sprite(textura);
                 break;
             case TRIDENTE:
                 dano = 100;
                 special = "dios";   // Hace todo porque YOLO
                 textura = manager.get("Items/tridente.png");
-                sprite = new Sprite(textura);
                 break;
             case BATE:
                 dano = 40;
                 special = "desangrar";
                 textura = manager.get("Items/Bate.png");
-                sprite = new Sprite(textura);
                 break;
+            case ANTORCHA:
+                dano = 55;
+                special = "quemar";
+                textura = manager.get("Items/Antorcha.png");
+                break;
+            case BARREDOR:
+                dano = 45;
+                special = "campechanear";
+                textura = manager.get("Items/Barredor.png");
         }
+        sprite = new Sprite(textura);
+
+
         //Tipo
 //        if (tipoArma==Tipo.MARTILLO){//************************J//
 //            dano = 15;
