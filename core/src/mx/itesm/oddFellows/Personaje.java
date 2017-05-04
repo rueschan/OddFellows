@@ -469,11 +469,15 @@ public class Personaje extends Objeto {
     }
 
 
+
+
+
     // Mueve el personaje a la derecha/izquierda, prueba choques con paredes
     private void moverHorizontal(TiledMap mapa) {
 //        Pantalla pantalla = Pantalla.getInstanciaPantalla();
         // Obtiene la primer capa del mapa (en este caso es la única)
         TiledMapTileLayer capa = (TiledMapTileLayer) mapa.getLayers().get("Limites");
+        TiledMapTileLayer capaPuerta = (TiledMapTileLayer) mapa.getLayers().get("Puerta");
         // Ejecutar movimiento horizontal
         float nuevaX = sprite.getX();
         // ¿Quiere ir a la Derecha?
@@ -482,30 +486,67 @@ public class Personaje extends Objeto {
             int x = (int) ((sprite.getX() + 96) / 64);   // Convierte coordenadas del mundo en coordenadas del mapa
             int y = (int) ((sprite.getY() + 10) / 64);
             TiledMapTileLayer.Cell celdaDerechaAbajo = capa.getCell(x, y);
+            TiledMapTileLayer.Cell celdaDerechaAbajoPuerta = capaPuerta.getCell(x, y);
             y = (int) ((sprite.getY() + 86) / 64);
             TiledMapTileLayer.Cell celdaDerechaArriba = capa.getCell(x, y);
+            TiledMapTileLayer.Cell celdaDerechaArribaPuerta = capaPuerta.getCell(x, y);
             y = (int) ((sprite.getY() + 48) / 64);
             TiledMapTileLayer.Cell celdaDerechaCentro = capa.getCell(x, y);
+            TiledMapTileLayer.Cell celdaDerechaCentroPuerta = capaPuerta.getCell(x, y);
             if (celdaDerechaAbajo != null) {
-                Object tipo = (String) celdaDerechaAbajo.getTile().getProperties().get("tipo");
-                if (!"obstaculo".equals(tipo)) {
-                    celdaDerechaAbajo = null;  // Puede pasar
+                try{
+                    Object tipo = (String) celdaDerechaAbajo.getTile().getProperties().get("tipo");
+                    if (!"obstaculo".equals(tipo)) {
+                        celdaDerechaAbajo = null;  // Puede pasar
+                    }}catch (NullPointerException e){
+
+                }
+            } if(celdaDerechaAbajoPuerta != null){
+                try{
+                    Object tipoPuerta = (String) celdaDerechaAbajoPuerta.getTile().getProperties().get("tipo");
+                    if (!"puerta".equals(tipoPuerta)) {
+                        celdaDerechaAbajo = null;  // Puede pasar
+                    }}catch (NullPointerException e){
+
                 }
             }
             if (celdaDerechaArriba != null) {
-                Object tipo = (String) celdaDerechaArriba.getTile().getProperties().get("tipo");
-                if (!"obstaculo".equals(tipo)) {
-                    celdaDerechaArriba = null;  // Puede pasar
+                try{
+                    Object tipo = (String) celdaDerechaArriba.getTile().getProperties().get("tipo");
+                    if (!"obstaculo".equals(tipo)) {
+                        celdaDerechaArriba = null;  // Puede pasar
+                    }}catch (NullPointerException e){
+
+                }
+            } if(celdaDerechaArribaPuerta != null){
+                try{
+                    Object tipoPuerta = (String) celdaDerechaArribaPuerta.getTile().getProperties().get("tipo");
+                    if (!"puerta".equals(tipoPuerta)) {
+                        celdaDerechaArriba = null;  // Puede pasar
+                    }}catch (NullPointerException e){
+
                 }
             }
             if (celdaDerechaCentro != null) {
-                Object tipo = (String) celdaDerechaCentro.getTile().getProperties().get("tipo");
-                if (!"obstaculo".equals(tipo)) {
-                    celdaDerechaCentro = null;  // Puede pasar
+                try{
+                    Object tipo = (String) celdaDerechaCentro.getTile().getProperties().get("tipo");
+                    if (!"obstaculo".equals(tipo)) {
+                        celdaDerechaCentro = null;  // Puede pasar
+                    }}catch (NullPointerException e){
+
+                }
+            } if(celdaDerechaCentroPuerta != null){
+                try{
+                    Object tipoPuerta = (String) celdaDerechaCentroPuerta.getTile().getProperties().get("tipo");
+                    if (!"puerta".equals(tipoPuerta)) {
+                        celdaDerechaCentro = null;  // Puede pasar
+                    }}catch (NullPointerException e){
+
                 }
             }
             if ( celdaDerechaAbajo == null && celdaDerechaArriba == null &&
-                    celdaDerechaCentro == null) {
+                    celdaDerechaCentro == null && celdaDerechaAbajoPuerta == null && celdaDerechaArribaPuerta == null &&
+                    celdaDerechaCentroPuerta == null ) {
                 // Ejecutar movimiento horizontal
                 nuevaX += velocidadX;
                 // Revisa si hay colisión con enemigo
@@ -524,30 +565,67 @@ public class Personaje extends Objeto {
             int y = (int) ((sprite.getY() + 10) / 64);
             // Obtiene el bloque del lado izquierdo. Asigna null si puede pasar.
             TiledMapTileLayer.Cell celdaIzquierdaAbajo = capa.getCell(xIzq, y);
+            TiledMapTileLayer.Cell celdaIzquierdaAbajoPuerta = capaPuerta.getCell(xIzq, y);
             y = (int) ((sprite.getY() + 86) / 64);
             TiledMapTileLayer.Cell celdaIzquierdaArriba = capa.getCell(xIzq, y);
+            TiledMapTileLayer.Cell celdaIzquierdaArribaPuerta = capaPuerta.getCell(xIzq, y);
             y = (int) ((sprite.getY() + 48) / 64);
             TiledMapTileLayer.Cell celdaIzquierdaCentro = capa.getCell(xIzq, y);
+            TiledMapTileLayer.Cell celdaIzquierdaCentroPuerta = capaPuerta.getCell(xIzq, y);
             if (celdaIzquierdaAbajo != null) {
-                Object tipo = (String) celdaIzquierdaAbajo.getTile().getProperties().get("tipo");
-                if (!"obstaculo".equals(tipo)) {
-                    celdaIzquierdaAbajo = null;  // Puede pasar
+                try{
+                    Object tipo = (String) celdaIzquierdaAbajo.getTile().getProperties().get("tipo");
+                    if (!"obstaculo".equals(tipo)) {
+                        celdaIzquierdaAbajo = null;  // Puede pasar
+                    }}catch (NullPointerException e){
+
+                }
+            } if(celdaIzquierdaAbajoPuerta != null){
+                try{
+                    Object tipoPuerta = (String) celdaIzquierdaAbajoPuerta.getTile().getProperties().get("tipo");
+                    if (!"puerta".equals(tipoPuerta)) {
+                        celdaIzquierdaAbajo = null;  // Puede pasar
+                    }}catch (NullPointerException e){
+
                 }
             }
             if (celdaIzquierdaArriba != null) {
-                Object tipo = (String) celdaIzquierdaArriba.getTile().getProperties().get("tipo");
-                if (!"obstaculo".equals(tipo)) {
-                    celdaIzquierdaArriba = null;  // Puede pasar
+                try {
+                    Object tipo = (String) celdaIzquierdaArriba.getTile().getProperties().get("tipo");
+                    if (!"obstaculo".equals(tipo)) {
+                        celdaIzquierdaArriba = null;  // Puede pasar
+                    }}catch (NullPointerException e){
+
+                }
+            } if(celdaIzquierdaArribaPuerta != null){
+                try{
+                    Object tipoPuerta = (String) celdaIzquierdaArribaPuerta.getTile().getProperties().get("tipo");
+                    if (!"puerta".equals(tipoPuerta)) {
+                        celdaIzquierdaArriba = null;  // Puede pasar
+                    }}catch (NullPointerException e){
+
                 }
             }
             if (celdaIzquierdaCentro != null) {
-                Object tipo = (String) celdaIzquierdaCentro.getTile().getProperties().get("tipo");
-                if (!"obstaculo".equals(tipo)) {
-                    celdaIzquierdaCentro = null;  // Puede pasar
+                try{
+                    Object tipo = (String) celdaIzquierdaCentro.getTile().getProperties().get("tipo");
+                    if (!"obstaculo".equals(tipo)) {
+                        celdaIzquierdaCentro = null;  // Puede pasar
+                    }}catch (NullPointerException e){
+
+                }
+            } if(celdaIzquierdaCentroPuerta != null){
+                try{
+                    Object tipoPuerta = (String) celdaIzquierdaCentroPuerta.getTile().getProperties().get("tipo");
+                    if (!"puerta".equals(tipoPuerta)) {
+                        celdaIzquierdaCentro = null;  // Puede pasar
+                    }}catch (NullPointerException e){
+
                 }
             }
             if ( celdaIzquierdaAbajo == null && celdaIzquierdaArriba == null &&
-                    celdaIzquierdaCentro == null) {
+                    celdaIzquierdaCentro == null&& celdaIzquierdaAbajoPuerta == null && celdaIzquierdaArribaPuerta == null &&
+                    celdaIzquierdaCentroPuerta == null) {
                 // Prueba que no salga del mundo por la izquierda
                 nuevaX += velocidadX;
                 // Revisa si hay colisión con enemigo
@@ -566,6 +644,7 @@ public class Personaje extends Objeto {
 //        Pantalla pantalla = Pantalla.getInstanciaPantalla();
         // Obtiene la primer capa del mapa (en este caso es la única)
         TiledMapTileLayer capa = (TiledMapTileLayer) mapa.getLayers().get("Limites");
+        TiledMapTileLayer capaPuerta = (TiledMapTileLayer) mapa.getLayers().get("Puerta");
         // Ejecutar movimiento horizontal
         float nuevaY = sprite.getY();
         // ¿Quiere ir a la Derecha?
@@ -574,30 +653,69 @@ public class Personaje extends Objeto {
             int x = (int) ((sprite.getX() + 10) / 64);   // Convierte coordenadas del mundo en coordenadas del mapa
             int y = (int) ((sprite.getY() + 96) / 64);
             TiledMapTileLayer.Cell celdaArribaIzq = capa.getCell(x, y);
+            TiledMapTileLayer.Cell celdaArribaIzqPuerta = capaPuerta.getCell(x, y);
             x = (int) ((sprite.getX() + 86) / 64);
             TiledMapTileLayer.Cell celdaArribaDer = capa.getCell(x, y);
+            TiledMapTileLayer.Cell celdaArribaDerPuerta = capaPuerta.getCell(x, y);
             x = (int) ((sprite.getX() + 48) / 64);
             TiledMapTileLayer.Cell celdaArribaCentro = capa.getCell(x, y);
+            TiledMapTileLayer.Cell celdaArribaCentroPuerta = capaPuerta.getCell(x, y);
             if (celdaArribaIzq != null) {
-                Object tipo = (String) celdaArribaIzq.getTile().getProperties().get("tipo");
-                if (!"obstaculo".equals(tipo)) {
-                    celdaArribaIzq = null;  // Puede pasar
+                try {
+                    Object tipo = (String) celdaArribaIzq.getTile().getProperties().get("tipo");
+                    if (!"obstaculo".equals(tipo)) {
+                        celdaArribaIzq = null;  // Puede pasar
+                    }
+                }catch (NullPointerException e){
+//                    Gdx.app.log("celdaArribaIzq", e.toString());
+                }
+            }if(celdaArribaIzqPuerta != null){
+                try {
+                    Object tipoPuerta = (String) celdaArribaIzqPuerta.getTile().getProperties().get("tipo");
+                    if (!"puerta".equals(tipoPuerta)) {
+                        celdaArribaIzq = null;  // Puede pasar
+                    }
+                }catch (NullPointerException e){
+//                    Gdx.app.log("celdaArribaIzqPuerta", e.toString());
                 }
             }
             if (celdaArribaDer != null) {
-                Object tipo = (String) celdaArribaDer.getTile().getProperties().get("tipo");
-                if (!"obstaculo".equals(tipo)) {
-                    celdaArribaDer = null;  // Puede pasar
+                try{
+                    Object tipo = (String) celdaArribaDer.getTile().getProperties().get("tipo");
+                    if (!"obstaculo".equals(tipo)) {
+                        celdaArribaDer = null;  // Puede pasar
+                    }}catch (NullPointerException e){
+//                    Gdx.app.log("celdaArribaDer",e.toString());
+                }
+            } if(celdaArribaDerPuerta != null){
+                try{
+                    Object tipoPuerta = (String) celdaArribaDerPuerta.getTile().getProperties().get("tipo");
+                    if (!"puerta".equals(tipoPuerta)) {
+                        celdaArribaDer = null;  // Puede pasar
+                    }}catch (NullPointerException e){
+//                    Gdx.app.log("celdaArribaDerPuerta",e.toString());
                 }
             }
             if (celdaArribaCentro != null) {
-                Object tipo = (String) celdaArribaCentro.getTile().getProperties().get("tipo");
-                if (!"obstaculo".equals(tipo)) {
-                    celdaArribaCentro = null;  // Puede pasar
+                try{
+                    Object tipo = (String) celdaArribaCentro.getTile().getProperties().get("tipo");
+                    if (!"obstaculo".equals(tipo)) {
+                        celdaArribaCentro = null;  // Puede pasar
+                    }}catch (NullPointerException e){
+//                    Gdx.app.log("celdaArribaCentro",e.toString());
+                }
+            } if(celdaArribaCentroPuerta != null){
+                try{
+                    Object tipoPuerta = (String) celdaArribaCentroPuerta.getTile().getProperties().get("tipo");
+                    if (!"puerta".equals(tipoPuerta)) {
+                        celdaArribaCentro = null;  // Puede pasar
+                    }}catch (NullPointerException e){
+//                    Gdx.app.log("celdaArribaCentroPuerta",e.toString());
                 }
             }
             if ( celdaArribaIzq == null && celdaArribaDer == null &&
-                    celdaArribaCentro == null) {
+                    celdaArribaCentro == null && celdaArribaIzqPuerta == null && celdaArribaDerPuerta == null &&
+                    celdaArribaCentroPuerta == null) {
                 // Ejecutar movimiento horizontal
                 nuevaY += velocidadY;
                 // Revisa si hay colisión con enemigo
@@ -616,30 +734,67 @@ public class Personaje extends Objeto {
             int yAbajo = (int) (sprite.getY() / 64);
             // Obtiene el bloque del lado izquierdo. Asigna null si puede pasar.
             TiledMapTileLayer.Cell celdaAbajoIzq = capa.getCell(x, yAbajo);
+            TiledMapTileLayer.Cell celdaAbajoIzqPuerta = capaPuerta.getCell(x, yAbajo);
             x = (int) ((sprite.getX() +86) / 64);
             TiledMapTileLayer.Cell celdaAbajoDer = capa.getCell(x, yAbajo);
+            TiledMapTileLayer.Cell celdaAbajoDerPuerta = capaPuerta.getCell(x, yAbajo);
             x = (int) ((sprite.getX() + 48) / 64);
             TiledMapTileLayer.Cell celdaAbajoCentro = capa.getCell(x, yAbajo);
+            TiledMapTileLayer.Cell celdaAbajoCentroPuerta = capaPuerta.getCell(x, yAbajo);
             if (celdaAbajoIzq != null) {
-                Object tipo = (String) celdaAbajoIzq.getTile().getProperties().get("tipo");
-                if (!"obstaculo".equals(tipo)) {
-                    celdaAbajoIzq = null;  // Puede pasar
+                try{
+                    Object tipo = (String) celdaAbajoIzq.getTile().getProperties().get("tipo");
+                    if (!"obstaculo".equals(tipo)) {
+                        celdaAbajoIzq = null;  // Puede pasar
+                    }}catch (NullPointerException e){
+//                    Gdx.app.log("celdaAbajoIzq",e.toString());
+                }
+            } if (celdaAbajoIzqPuerta != null) {
+                try{
+                    Object tipo = (String) celdaAbajoIzqPuerta.getTile().getProperties().get("tipo");
+                    if (!"puerta".equals(tipo)) {
+                        celdaAbajoIzq = null;  // Puede pasar
+                    }}catch (NullPointerException e){
+//                    Gdx.app.log("celdaAbajoIzqPuerta",e.toString());
                 }
             }
             if (celdaAbajoDer != null) {
-                Object tipo = (String) celdaAbajoDer.getTile().getProperties().get("tipo");
-                if (!"obstaculo".equals(tipo)) {
-                    celdaAbajoDer = null;  // Puede pasar
+                try{
+                    Object tipo = (String) celdaAbajoDer.getTile().getProperties().get("tipo");
+                    if (!"obstaculo".equals(tipo)) {
+                        celdaAbajoDer = null;  // Puede pasar
+                    }}catch (NullPointerException e){
+//                    Gdx.app.log("celdaAbajoDer",e.toString());
+                }
+            } if (celdaAbajoDerPuerta != null) {
+                try{
+                    Object tipo = (String) celdaAbajoDerPuerta.getTile().getProperties().get("tipo");
+                    if (!"puerta".equals(tipo)) {
+                        celdaAbajoDer = null;  // Puede pasar
+                    }}catch (NullPointerException e){
+//                    Gdx.app.log("celdaAbajoDerPuerta",e.toString());
                 }
             }
             if (celdaAbajoCentro != null) {
-                Object tipo = (String) celdaAbajoCentro.getTile().getProperties().get("tipo");
-                if (!"obstaculo".equals(tipo)) {
-                    celdaAbajoCentro = null;  // Puede pasar
+                try{
+                    Object tipo = (String) celdaAbajoCentro.getTile().getProperties().get("tipo");
+                    if (!"obstaculo".equals(tipo)) {
+                        celdaAbajoCentro = null;  // Puede pasar
+                    }}catch (NullPointerException e){
+//                    Gdx.app.log("celdaAbajoCentro",e.toString());
+                }
+            } if (celdaAbajoCentroPuerta != null) {
+                try{
+                    Object tipo = (String) celdaAbajoCentroPuerta.getTile().getProperties().get("tipo");
+                    if (!"puerta".equals(tipo)) {
+                        celdaAbajoCentro = null;  // Puede pasar
+                    }}catch (NullPointerException e){
+//                    Gdx.app.log("celdaAbajoCentroPuerta",e.toString());
                 }
             }
             if ( celdaAbajoIzq == null && celdaAbajoDer == null &&
-                    celdaAbajoCentro == null) {
+                    celdaAbajoCentro == null && celdaAbajoIzqPuerta == null && celdaAbajoDerPuerta == null &&
+                    celdaAbajoCentroPuerta == null) {
                 // Prueba que no salga del mundo por la izquierda
                 nuevaY += velocidadY;
                 // Revisa si hay colisión con enemigo
