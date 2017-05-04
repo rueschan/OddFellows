@@ -121,6 +121,6 @@ public class NivelClinica extends Nivel {
 
     public static void reset() {
         estadoMapa = EstadoMapa.NO_CARGADO;
-        getManager().unload("NivelClinica/Hospital.tmx");
+        getManager().unload("NivelClinica/Clinica.tmx");
     }
 }
