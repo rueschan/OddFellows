@@ -1687,6 +1687,26 @@ public abstract class Nivel implements Screen{
                     henric.destino = Personaje.Destino.CABANA;
                     oddFellows.setScreen(new PantallaCargando(oddFellows,Niveles.NIVEL_CABANA));
                     break;*/
+            case 3:     //Estoy en el cementerio
+                henric.destino = Personaje.Destino.CEMENTERIO;
+                henric.pararSonido();
+
+                Gdx.app.log("Nivel actualizarVida","me mori en el cementerio "+idNvlObjetivo);
+                oddFellows.setScreen(new MenuGameOver(oddFellows,Niveles.NIVEL_CEMENTERIO));
+                henric.setVida(100);
+
+                //henric.setViaje();
+                break;
+            case 4:     //Estoy en la clinica
+                henric.destino = Personaje.Destino.CLINICA;
+                henric.pararSonido();
+
+                Gdx.app.log("Nivel actualizarVida","me mori en la clinica "+idNvlObjetivo);
+                oddFellows.setScreen(new MenuGameOver(oddFellows,Niveles.NIVEL_CLINICA));
+                henric.setVida(100);
+
+                //henric.setViaje();
+                break;
         }
 
     }
