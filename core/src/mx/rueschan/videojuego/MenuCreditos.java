@@ -33,12 +33,6 @@ public class MenuCreditos implements Screen {
     private ImageButton imgbtnCamara;
     private ImageButton imgbtnAngel;
 
-    private Texto materia;
-    private Texto campus;
-    private Texto correo;
-
-
-
     public MenuCreditos(OddFellows oddFellows) {
         this.oddFellows = oddFellows;
         manager = this.oddFellows.getAssetManager();
@@ -53,13 +47,6 @@ public class MenuCreditos implements Screen {
         crearObjetos();
         crearRegionEaster();
         oddFellows.tocarMusica();
-
-        materia = new Texto();
-        materia.cambiarTamano(2f);
-        campus = new Texto();
-        campus.cambiarTamano(2f);
-        correo = new Texto();
-        correo.cambiarTamano(.8f);
     }
 
     private void cargarTexturas() {
@@ -100,7 +87,7 @@ public class MenuCreditos implements Screen {
         pantalla.borrarPantalla();
         pantalla.escena.draw();
 
-        escribirEnPantalla();
+        //escribirEnPantalla();
         // Detectar botón físico "return"
         if (Gdx.input.isKeyJustPressed(Input.Keys.BACK)){
             //Regresar al MenuPrincipal
@@ -109,10 +96,6 @@ public class MenuCreditos implements Screen {
     }
     private void escribirEnPantalla() {
         pantalla.batch.begin();
-        materia.mostrarMensajes(pantalla.batch, Color.BLACK,"Proyecto de desarrollo de videojuegos",1*pantalla.getANCHO()/2,7*pantalla.getALTO()/8+80);
-        campus.mostrarMensajes(pantalla.batch,Color.BLACK,"Campus Estado de Mexico",1*pantalla.getANCHO()/2+20,1*pantalla.getALTO()/8);
-        correo.mostrarMensajes(pantalla.batch,Color.BLUE,"A01370909@itesm.mx\n\nA01377844@itesm.mx\n\nA01370880@itesm.mx\n\nA01376132@itesm.mx",1*pantalla.getANCHO()/2+450,9*pantalla.getALTO()/10-40);
-
         pantalla.batch.end();
     }
 
