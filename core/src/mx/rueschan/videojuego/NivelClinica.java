@@ -16,8 +16,8 @@ public class NivelClinica extends Nivel {
     private static EstadoMapa estadoMapa = EstadoMapa.NO_CARGADO;
 
     // Recursos
-    private final String pathMapa = "NivelHospital/Hospital.tmx";
-    private final String pathMusica = "Musica/ofeliasdream.mp3";
+    private final String pathMapa = "NivelClinica/Clinica.tmx";
+    private final String pathMusica = "Musica/firstNight.mp3";
     private final String pathFxPasos = "Sonidos/pasosClinica.mp3";
 
     private AssetManager manager;
@@ -121,6 +121,6 @@ public class NivelClinica extends Nivel {
 
     public static void reset() {
         estadoMapa = EstadoMapa.NO_CARGADO;
-        getManager().unload("NivelHospital/Hospital.tmx");
+        getManager().unload("NivelClinica/Hospital.tmx");
     }
 }

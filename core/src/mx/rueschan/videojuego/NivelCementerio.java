@@ -4,7 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 
 /**
- * Created by Rubén Escalante on 03/05/2017.
+ * Created by Odd Fellows on 03/05/2017.
  */
 
 public class NivelCementerio extends Nivel {
@@ -14,12 +14,10 @@ public class NivelCementerio extends Nivel {
 
     //Mapa tipo tmx del Bosque
     private final String pathMapa = "NivelCementerio/cementerio.tmx";
-    private final String pathMusica = "Musica/lostInForest.mp3";
+    private final String pathMusica = "Musica/controlledChaos.mp3";
     private final String pathFxPasos = "Sonidos/pasoBosque.mp3";
 
     // Enemigos
-
-
     public NivelCementerio(OddFellows oddFellows) {
         super.oddFellows = oddFellows;
         super.pantalla = Pantalla.getInstanciaPantalla();

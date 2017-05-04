@@ -150,13 +150,13 @@ public class PantallaCargando extends Pantalla {
 
     private void cargarRecursosNivelCementerio() {
         cargarRecursosNivel();
-        manager.load("Musica/lostInForest.mp3",Music.class);
+        manager.load("Musica/controlledChaos.mp3",Music.class);
         manager.load("Sonidos/pasoBosque.mp3",Music.class);
     }
 
     private void cargarRecursosNivelClinica() {
         cargarRecursosNivel();
-        manager.load("Musica/ofeliasdream.mp3",Music.class);
+        manager.load("Musica/firstNight.mp3",Music.class);
         manager.load("Sonidos/pasosClinica.mp3", Music.class);
     }
 
@@ -198,8 +198,8 @@ public class PantallaCargando extends Pantalla {
         if (NivelCementerio.getEstadoMapa() == Nivel.EstadoMapa.NO_CARGADO) {
             manager.load("NivelCementerio/cementerio.tmx", TiledMap.class);
         }
-        if (NivelClinica.getEstadoMapa() == Nivel.EstadoMapa.NO_CARGADO) {
-            manager.load("NivelHospital/Hospital.tmx", TiledMap.class);
+        if (NivelClinica.getEstadoMapa() == Nivel.EstadoMapa.NO_CARGADO){
+            manager.load("NivelClinica/Clinica.tmx",TiledMap.class);
         }
     }
 

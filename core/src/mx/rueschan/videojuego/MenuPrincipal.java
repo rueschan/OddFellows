@@ -142,7 +142,7 @@ public class MenuPrincipal implements Screen {
             }
         });
 
-        Gdx.input.setCatchBackKey(false);
+        Gdx.input.setCatchBackKey(true);
         //Asignar procesador de entrada al menú
         Gdx.input.setInputProcessor(pantalla.escena);
     }
