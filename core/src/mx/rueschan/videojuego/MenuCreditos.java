@@ -28,9 +28,9 @@ public class MenuCreditos implements Screen {
     private Texture texturaExit;
 
     private TextureRegionDrawable trdOscura;
-    private ImageButton imgbtnChan;
-    private ImageButton imgbtnJona;
-    private ImageButton imgbtnCamara;
+    private ImageButton imgbtnJonathan;
+    private ImageButton imgbtnRuben;
+    private ImageButton imgbtnAlejandro;
     private ImageButton imgbtnAngel;
 
     public MenuCreditos(OddFellows oddFellows) {
@@ -108,42 +108,42 @@ public class MenuCreditos implements Screen {
         pixmapVerde.fillRectangle(0,0,pantAncho,pantAlto);
         trdOscura = new TextureRegionDrawable(new TextureRegion(new Texture(pixmapVerde)));
         pixmapVerde.dispose();
-        //Chan
-        imgbtnChan = new ImageButton(trdOscura);
-        imgbtnChan.setPosition(180,500);
+        //Jonathan
+        imgbtnJonathan = new ImageButton(trdOscura);
+        imgbtnJonathan.setPosition(190,380);
 
-        //Jona
-        imgbtnJona = new ImageButton(trdOscura);
-        imgbtnJona.setPosition(980,270);
+        //Ruben
+        imgbtnRuben = new ImageButton(trdOscura);
+        imgbtnRuben.setPosition(970,220);
 
-        //Camara
-        imgbtnCamara = new ImageButton(trdOscura);
-        imgbtnCamara.setPosition(pantAncho/2-180,pantAlto/2-100);
+        //Alejandro
+        imgbtnAlejandro = new ImageButton(trdOscura);
+        imgbtnAlejandro.setPosition(445,240);
 
         //Angel
         imgbtnAngel = new ImageButton(trdOscura);
-        imgbtnAngel.setPosition(740,515);
+        imgbtnAngel.setPosition(705,345);
 
-        imgbtnChan.addListener(new ClickListener(){
+        imgbtnJonathan.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                Gdx.app.log("clicked", "***CHAN***");
+                Gdx.app.log("clicked", "***Jonathan***");
                 Configuraciones.agregarEasterCreditos("M");
                 Gdx.app.log("Sumado", "***Palabra Secreta ahora:"+Configuraciones.obtenerEasterCreditos()+"***");
             }
         });
-        imgbtnJona.addListener(new ClickListener(){
+        imgbtnRuben.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                Gdx.app.log("clicked", "***JONA***");
+                Gdx.app.log("clicked", "***Ruben***");
                 Configuraciones.agregarEasterCreditos("Z");
                 Gdx.app.log("Sumado", "***Palabra Secreta ahora:"+Configuraciones.obtenerEasterCreditos()+"***");
             }
         });
-        imgbtnCamara.addListener(new ClickListener(){
+        imgbtnAlejandro.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                Gdx.app.log("clicked", "***CAMARA***");
+                Gdx.app.log("clicked", "***Alejandro***");
                 Configuraciones.agregarEasterCreditos("O");
                 Gdx.app.log("Sumado", "***Palabra Secreta ahora:"+Configuraciones.obtenerEasterCreditos()+"***");
             }
@@ -151,15 +151,15 @@ public class MenuCreditos implements Screen {
         imgbtnAngel.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                Gdx.app.log("clicked", "***ANGEL***");
+                Gdx.app.log("clicked", "***Angel***");
                 Configuraciones.agregarEasterCreditos("A");
                 Gdx.app.log("Sumado", "***Palabra Secreta ahora:"+Configuraciones.obtenerEasterCreditos()+"***");
             }
         });
 
-        pantalla.escena.addActor(imgbtnChan);
-        pantalla.escena.addActor(imgbtnJona);
-        pantalla.escena.addActor(imgbtnCamara);
+        pantalla.escena.addActor(imgbtnJonathan);
+        pantalla.escena.addActor(imgbtnRuben);
+        pantalla.escena.addActor(imgbtnAlejandro);
         pantalla.escena.addActor(imgbtnAngel);
     }
 

@@ -58,17 +58,19 @@ public class Carta extends Objeto {
                 return "My beloved Henric:\n" +
                         "\n" +
                         "I've mixed the keys you gave\n" +
-                        "me, they all look the same. \n" +
+                        "me, they all look the same \n" +
+                        "next to each other.\n" +
                         "\n" +
                         "Sometimes the keys seem to\n" +
-                        "work properly, but not always...\n" +
-                        "\n" +
+                        "work properly, but not always\n" +
+                        "I guess they are getting rusty...\n" +
                         "\n" +
                         "Please don't get mad!\n"+
                         "\n" +
                         "\n" +
                         "\n" +
-                        "Love you, your wife!\n";
+                        "                        Yours forever,\n" +
+                        "                             your wife!";
             ////            |< TAMAÑO MAXIMO DE LA CARTA >|
             case 2:
                 // CARTA DE DIVORCIO
