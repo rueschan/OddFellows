@@ -611,7 +611,14 @@ public class Enemigo extends Objeto {
         this.vida -= dano;
 
         if (vida <= 0) {
-            estadoEnemigo = EstadoEnemigo.MUERTO;
+            if (tipoEnemigo == Tipo.JABALI){
+                estadoEnemigo = EstadoEnemigo.MUERTO;
+                Configuraciones.agregarContadorJabali();
+                Gdx.app.log("Contador jabalí", ""+Configuraciones.contadorJabali );
+            }else {
+                estadoEnemigo = EstadoEnemigo.MUERTO;
+                Gdx.app.log("Contador jabalí", ""+Configuraciones.contadorJabali );
+            }
             fxAtaque.stop();
             if(Configuraciones.isFxOn){
                 fxMuriendo.play();

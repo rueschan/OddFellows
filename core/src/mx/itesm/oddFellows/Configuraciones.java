@@ -13,6 +13,8 @@ public class Configuraciones {
     static boolean isMusicOn = true;
     static boolean isFxOn = true;
     static String easterCreditos ="";
+    static Integer contadorMedkit = 0;
+    static Integer contadorJabali= 0;
 
     static void cargarEstatusSonido(){
         Preferences preferences = Gdx.app.getPreferences("sonido");
@@ -55,6 +57,19 @@ public class Configuraciones {
     static void borrarEasterCreditos(){
         Preferences preferences = Gdx.app.getPreferences("easterCreditos");
         preferences.putString("easterCreditos","");
+        preferences.flush();
+    }
+
+    static void agregarContadorMedkit(){
+        Preferences preferences = Gdx.app.getPreferences("contadorMedkit");
+        contadorMedkit++;
+        preferences.putInteger("contadorMedkit",contadorMedkit);
+        preferences.flush();
+    }
+    static void agregarContadorJabali(){
+        Preferences preferences = Gdx.app.getPreferences("contadorJabali");
+        contadorJabali++;
+        preferences.putInteger("contadorJabali",contadorJabali);
         preferences.flush();
     }
 }
