@@ -83,6 +83,7 @@ public class PantallaCargando extends Pantalla {
         manager.load("Sonidos/abrirPuerta.mp3", Sound.class);
         manager.load("Sonidos/accionarCerrojo.mp3", Sound.class);
         manager.load("Sonidos/pickup.mp3", Sound.class);
+        manager.load("Sonidos/tomarMedkit.mp3", Sound.class);
 
         // Vida
         manager.load("Pantalla/HP.png", Texture.class);

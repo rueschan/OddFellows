@@ -6,7 +6,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import java.util.ArrayList;
 
 /**
- * Created by Rubén Escalante on 26/03/2017.
+ * Created by Odd Fellows on 26/03/2017.
  */
 
 public class Carta extends Objeto {

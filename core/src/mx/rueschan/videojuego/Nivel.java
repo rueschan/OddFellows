@@ -159,6 +159,7 @@ public abstract class Nivel implements Screen{
     private Sound fxInventarioCerrar;
     protected Sound fxLlaveAbrir;
     protected Sound fxLlaveFallar;
+    protected Sound fxTomarMedkit;
 
     @Override
     public void show() {
@@ -247,6 +248,7 @@ public abstract class Nivel implements Screen{
         fxLlaveAbrir = manager.get("Sonidos/abrirPuerta.mp3");
         fxLlaveFallar = manager.get("Sonidos/accionarCerrojo.mp3");
         fxLevantar = manager.get("Sonidos/pickup.mp3");
+        fxTomarMedkit = manager.get("Sonidos/tomarMedkit.mp3");
 
         // Enemigos
         listaEnemigos = new ArrayList<Enemigo>();
@@ -408,6 +410,7 @@ public abstract class Nivel implements Screen{
                 Juego.actual = null;
                 henric.pararSonido();
                 henric.reset();
+                henric.setLocalizacion(Personaje.Localizacion.CABANA);
                 henric.vaciarInventario();
                 henric.setVida(100);
                 pantalla.resetCamara();
@@ -1060,6 +1063,9 @@ public abstract class Nivel implements Screen{
     }
 
     private void recuperarVida(Medkit medkit) {
+        if (Configuraciones.isFxOn){
+            fxTomarMedkit.play();
+        }
         float vidaHenric = henric.getVida();
         float vidaAcumulada = vidaHenric+medkit.getVIDA();
         henric.setVida(vidaAcumulada);

@@ -4,12 +4,12 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 
 /**
- * Created by Rubén Escalante on 30/04/2017.
+ * Created by Odd Fellows on 30/04/2017.
  */
 
 public class Medkit extends Objeto {
 
-    private final int VIDA = 25;
+    private final int VIDA = 30;
     private Texture textura;
 
     public Medkit() {
