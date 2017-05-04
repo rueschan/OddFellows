@@ -944,8 +944,8 @@ public class Personaje extends Objeto {
                 localizacion = Localizacion.BOSQUE;
                 break;
             case CLINICA:
-                x = 640;
-                y = 320;
+                x = 384;
+                y = 512;
                 localizacion = Localizacion.BOSQUE;
                 break;
         }
