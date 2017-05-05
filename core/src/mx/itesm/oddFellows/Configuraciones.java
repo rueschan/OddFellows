@@ -105,4 +105,26 @@ public class Configuraciones {
         preferences.putInteger("contadorMuertesDoradas",contadorMuertesDoradas);
         preferences.flush();
     }
+
+    static void reset() {
+        Preferences preferences = Gdx.app.getPreferences("sonido");
+        preferences.putBoolean("musica",true);
+        preferences.putBoolean("efectos",true);
+        preferences.flush();
+        borrarContadorMuertesDoradas();
+        preferences = Gdx.app.getPreferences("contadorJabali");
+        preferences.putInteger("contadorJabali", 0);
+        preferences.flush();
+        preferences = Gdx.app.getPreferences("contadorMuertes");
+        preferences.putInteger("contadorMuertes", 0);
+        preferences.flush();
+        preferences = Gdx.app.getPreferences("contadorMedkit");
+        preferences.putInteger("contadorMedkit", 0);
+        preferences.flush();
+        preferences = Gdx.app.getPreferences("juegoFinaizado");
+        preferences.putBoolean("juegoFinaizado", false);
+        preferences.flush();
+        borrarEasterCreditos();
+
+    }
 }

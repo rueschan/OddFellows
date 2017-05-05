@@ -310,6 +310,7 @@ public class PantallaCargando extends Pantalla {
             //*************************+CAMARA cambio a estructuras if-else y el tiempo aumentó, no hubo mejora :'(
             switch (siguienteNivel) {
                 case MENU_PRINCIPAL:
+//                    Configuraciones.reset();
                     oddFellows.setScreen(new MenuPrincipal(
                             oddFellows));   // 100% de carga
                     break;
