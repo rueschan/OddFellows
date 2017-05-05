@@ -829,6 +829,9 @@ public abstract class Nivel implements Screen{
             mostrarCarta(carta);
             return carta;
 
+        } else if (prueba.equals("cartaUnica")) {
+            // ACABAR JUEGO (CAMARA HERE)
+
         } else if (prueba.equals("medkit")) {
             reproducirAudioRecoger();
             return new Medkit();
