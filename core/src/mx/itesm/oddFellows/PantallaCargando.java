@@ -233,13 +233,14 @@ public class PantallaCargando extends Pantalla {
         manager.load("Personaje/henricBarredorAtaque.png", Texture.class);
         manager.load("Personaje/henricLanzaAtaque.png", Texture.class);
         manager.load("Personaje/henricMacheteAtaque.png", Texture.class);
+        manager.load("Personaje/henricLanzaDoradaAtaque.png", Texture.class);
 
         // Movimiento
         manager.load("Personaje/HendricMartilloCorriendo.png",Texture.class);
         manager.load("Personaje/henricCorriendoBate.png",Texture.class);
         manager.load("Personaje/henricCorriendoAntorcha.png",Texture.class);
         manager.load("Personaje/henricCorriendoBarredor.png",Texture.class);
-        manager.load("Personaje/henricLanzaCorriendo.png",Texture.class);
+        manager.load("Personaje/henricLanzaDoradaCorriendo.png",Texture.class);
         manager.load("Personaje/henricMacheteCorriendo.png",Texture.class);
     }
 
@@ -250,6 +251,7 @@ public class PantallaCargando extends Pantalla {
         manager.load("Items/Bate.png", Texture.class);
         manager.load("Items/Antorcha.png", Texture.class);
         manager.load("Items/Barredor.png", Texture.class);
+        manager.load("Items/lanzaDorada.png", Texture.class);
     }
 
     private void cargarEnemigos() {
