@@ -137,6 +137,7 @@ public class MenuPrincipal implements Screen {
                 oddFellows.pararMusica();
                 oddFellows.eliminarMusica();
                 descargarManager();
+                Llave.llenarIDLlave();
                 Juego juego = Juego.getJuego(oddFellows);
                 juego.iniciarJuego();
             }
