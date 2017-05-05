@@ -52,7 +52,7 @@ public class MenuCreditos implements Screen {
     private void cargarTexturas() {
         texturaFondo = manager.get("Pantalla/Fondo/fondoCreditos.png");
         texturaExit = manager.get("Pantalla/btnExit.png");
-        texturaMusica = manager.get("Pantalla/Audio.png");
+        texturaMusica = manager.get("Pantalla/notaMusica.png");
     }
 
     private void crearObjetos() {

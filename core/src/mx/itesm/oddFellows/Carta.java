@@ -16,6 +16,7 @@ public class Carta extends Objeto {
     private String contenido;
     private Texture texturaCarta = new Texture("Items/carta.png");
 
+
     public static void llenarIdCartas() {
         idCartas = new ArrayList<Integer>();
         for (int i = 2; i < 10; i++) {

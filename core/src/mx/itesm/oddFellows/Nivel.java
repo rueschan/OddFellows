@@ -161,6 +161,8 @@ public abstract class Nivel implements Screen{
     protected Sound fxLlaveFallar;
     protected Sound fxTomarMedkit;
 
+
+
     @Override
     public void show() {
 //        cargarTexturas();
@@ -791,13 +793,16 @@ public abstract class Nivel implements Screen{
 //        }
 //        return null;
 
-
+//wolololo llave
         //**********************************J//
         if (prueba.equals("llave")) {
-            if (Configuraciones.isFxOn)
+            if (Configuraciones.isFxOn) {
                 fxLlave.play();
+            }
             Llave llave;
-            return llave = new Llave(0, 0, (int) (Math.random() * 3) + 1); // Valores del 1 al 10
+            Collections.shuffle(Llave.idLlave);
+            int idLlaveRemovida = Llave.idLlave.remove(0);
+            return llave = new Llave(0, 0, idLlaveRemovida); // Valores del 1 al 4
 
         } else if (prueba.equals("llaveUnica")) {
             if (Configuraciones.isFxOn)
@@ -1085,7 +1090,7 @@ public abstract class Nivel implements Screen{
     }
 
     private void abrirPuerta(Llave llave) {
-
+//wolololo llaves ordenar
         if (tilePuerta != null){
             Integer id = 0;
             try {
