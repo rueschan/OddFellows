@@ -18,7 +18,7 @@ public class Carta extends Objeto {
 
     public static void llenarIdCartas() {
         idCartas = new ArrayList<Integer>();
-        for (int i = 2; i <= 10; i++) {
+        for (int i = 2; i < 10; i++) {
             idCartas.add(i);
         }
     }
@@ -153,8 +153,61 @@ public class Carta extends Objeto {
                         "Fugi! Fugi! Fugi! Fugi! Fugi!\n" +
                         "Fugi! Fugi! Fugi! Fugi! Fugi!\n" +
                         "Fugi! Fugi! Fugi!";
-            case 11:
-                // IMAGEN DE HENRIC Y SU ESPOSA (CON NOMBRES)
+        ////            |< TAMAÑO MAXIMO DE LA CARTA >|
+            case 7:
+                // VISIT THE GRAVEYARD
+                return "Mom:\n" +
+                        "Yesterday I went to visit \n" +
+                        "“Tata”. His tombstone looks \n" +
+                        "good. Just some minor scratches.\n" +
+                        "\n" +
+                        "It looks the old clinic is under \n" +
+                        "restoration, or at least I think \n" +
+                        "so. I saw some lights and heard \n" +
+                        "activity inside. Maybe it’s \n" +
+                        "convenient to go there if you \n" +
+                        "need a medic.\n" +
+                        "\n" +
+                        "Tomorrow I’ll go to ask when \n" +
+                        "the opening is.\n" +
+                        "\n" +
+                        "See you soon “mama”.\n" +
+                        "Love you!\n";
+        ////            |< TAMAÑO MAXIMO DE LA CARTA >|
+            case 8:
+                return "\n" +
+                        "- Anatoly\n" +
+                        "21/Lupus/92kg/Transplant/Fail\n" +
+                        "- Elena\n" +
+                        "87/Cancer/61kg/Hybrid/Fail\n" +
+                        "- Josef\n" +
+                        "16/Flu/76kg/Hybrid/OK\n" +
+                        "- Viktor\n" +
+                        "30/Wounds/84kg/Implant/Fail\n" +
+                        "- Darinka\n" +
+                        "26/Wounds/67kg/Implant/OK\n" +
+                        "- Gabor\n" +
+                        "43/ALIVE/87kg/Leg implant/OK\n" +
+                        "- Anna\n" +
+                        "36/ALIVE/62kg/NA/NA \n" +
+                        "\n" +
+                        "\n" +
+                        "NA = Not Available";
+        ////            |< TAMAÑO MAXIMO DE LA CARTA >|
+            case 9:
+                return "Romanian Medicine Association\n" +
+                        "Patient: Anatoly Romanov\n" +
+                        "Medic: Henric Blaga\n" +
+                        "Age: 21\tWeight: 92kg\n" +
+                        "\n" +
+                        "Cause of dead: Lupus\n" +
+                        "Observations: Lupus caused \n" +
+                        "by poor hygiene on “La Fonda”. \n" +
+                        "Incomplete autopsy due to \n" +
+                        "difficulties managing the \n" +
+                        "skin. Corpse treatment \n" +
+                        "extended 4 days. Chest opening \n" +
+                        "suggested for organ inspection.\n";
         }
 
         return "";
