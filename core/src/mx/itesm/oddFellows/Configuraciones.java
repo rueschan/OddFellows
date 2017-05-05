@@ -17,6 +17,7 @@ public class Configuraciones {
     static Integer contadorMedkit = 0;
     static Integer contadorJabali = 0;
     static Integer contadorMuertes = 0;
+    static Integer contadorMuertesDoradas = 0;
 
     static void cargarEstatusSonido(){
         Preferences preferences = Gdx.app.getPreferences("sonido");
@@ -90,6 +91,18 @@ public class Configuraciones {
         Preferences preferences = Gdx.app.getPreferences("contadorMuertes");
         contadorMuertes++;
         preferences.putInteger("contadorMuertes",contadorMuertes);
+        preferences.flush();
+    }
+    static void borrarContadorMuertesDoradas(){
+        Preferences preferences = Gdx.app.getPreferences("contadorMuertesDoradas");
+        contadorMuertesDoradas=0;
+        preferences.putInteger("contadorMuertesDoradas",contadorMuertesDoradas);
+        preferences.flush();
+    }
+    static void agregarContadorMuertesDoradas(){
+        Preferences preferences = Gdx.app.getPreferences("contadorMuertesDoradas");
+        contadorMuertesDoradas++;
+        preferences.putInteger("contadorMuertesDoradas",contadorMuertesDoradas);
         preferences.flush();
     }
 }

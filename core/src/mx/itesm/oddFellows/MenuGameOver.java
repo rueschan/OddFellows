@@ -108,7 +108,9 @@ public class MenuGameOver implements Screen {
                 Gdx.app.log("clicked", "***Salir***");
                 //manager.clear();
                 Configuraciones.agregarContadorMuertes();
+                Configuraciones.agregarContadorMuertesDoradas();
                 Gdx.app.log("Contador muertes", ""+Configuraciones.contadorMuertes );
+                Gdx.app.log("Contador muertes doradas", ""+Configuraciones.contadorMuertesDoradas );
                 musicaMuerto.stop();
                 Juego.actual = null;
                 henric.pararSonido();
@@ -129,7 +131,9 @@ public class MenuGameOver implements Screen {
                 Gdx.app.log("clicked", "***Reanudar***");
                 //manager.clear();
                 Configuraciones.agregarContadorMuertes();
+                Configuraciones.agregarContadorMuertesDoradas();
                 Gdx.app.log("Contador muertes", ""+Configuraciones.contadorMuertes );
+                Gdx.app.log("Contador muertes doradas", ""+Configuraciones.contadorMuertesDoradas );
                 musicaMuerto.stop();
                 //juego.actual = null;
                 //henric.pararSonido();
