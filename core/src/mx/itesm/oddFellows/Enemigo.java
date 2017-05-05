@@ -200,7 +200,7 @@ public class Enemigo extends Objeto {
                 vida = 100;
                 VELOCIDAD = 1;
                 REACCION = 5;
-                poderAtaque = 50;
+                poderAtaque = 100;
                 limiteMultiplicadorDano = 2;
 
                 // Assets
@@ -214,7 +214,7 @@ public class Enemigo extends Objeto {
                 texturaEnemigo = texturaCompleta.split(96,96);
                 // Crea la animación con tiempo de 0.15 segundos entre frames.
 
-                spriteAnimado = new Animation(0.8f / VELOCIDAD, texturaEnemigo[0][0], texturaEnemigo[0][1]);
+                spriteAnimado = new Animation(0.2f / VELOCIDAD, texturaEnemigo[0][0], texturaEnemigo[0][1]);
                 animacionPrevia = spriteAnimado;
                 animacionAtaque = new Animation(0.4f / VELOCIDAD, texturaEnemigo[0][0], texturaEnemigo[0][2]);
                 break;

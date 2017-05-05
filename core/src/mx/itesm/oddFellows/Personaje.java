@@ -664,7 +664,7 @@ public class Personaje extends Objeto {
                 // Prueba que no salga del mundo por la izquierda
                 nuevaY += velocidadY;
                 // Revisa si hay colisión con enemigo
-                if (!colisionaEnemigo(enemigoCercano, nuevaY, 'y') && !hayPuerta(mapa, nuevaY, 'y')) {
+                if (!colisionaEnemigo(enemigoCercano, nuevaY, 'y') && !hayPuerta(mapa, nuevaY - 64, 'y')) {
                     if (nuevaY >= 0) {
                         sprite.setY(nuevaY);
 //                    camaraY += velocidadY;
