@@ -91,13 +91,13 @@ public class MenuExtras implements Screen {
         if (Configuraciones.ultimaPuertaAbierta()) {
             logros.get(0).sprite.setColor(1, 1, 1, 1);
         }
-        if (Configuraciones.contadorJabali>30){
+        if (Configuraciones.contadorJabali>29){
             logros.get(1).sprite.setColor(1, 1, 1, 1);
         }
-        if (Configuraciones.contadorMedkit>20){
+        if (Configuraciones.contadorMedkit>19){
             logros.get(2).sprite.setColor(1, 1, 1, 1);
         }
-        if (Configuraciones.contadorMuertes>10){
+        if (Configuraciones.contadorMuertes>9){
             logros.get(3).sprite.setColor(1, 1, 1, 1);
         }
     }

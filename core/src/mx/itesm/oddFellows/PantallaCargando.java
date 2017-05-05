@@ -241,6 +241,7 @@ public class PantallaCargando extends Pantalla {
         manager.load("Personaje/henricCorriendoAntorcha.png",Texture.class);
         manager.load("Personaje/henricCorriendoBarredor.png",Texture.class);
         manager.load("Personaje/henricLanzaDoradaCorriendo.png",Texture.class);
+        manager.load("Personaje/henricLanzaCorriendo.png",Texture.class);
         manager.load("Personaje/henricMacheteCorriendo.png",Texture.class);
     }
 

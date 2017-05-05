@@ -161,6 +161,8 @@ public abstract class Nivel implements Screen{
     protected Sound fxLlaveFallar;
     protected Sound fxTomarMedkit;
 
+    //
+    protected boolean obtuvoLanzaDorada = false;
 
 
     @Override
@@ -265,6 +267,7 @@ public abstract class Nivel implements Screen{
         crearBtnInventario();
         crearCartas();
         checarEaster();
+        checarMuertes();
         crearPausa(escenaHUD);
         crearInventario(escenaHUD);
         addActoresHUD();
@@ -762,6 +765,13 @@ public abstract class Nivel implements Screen{
         }
     }
 
+    private void checarMuertes(){
+        if(Configuraciones.contadorMuertes>9){
+            henric.addInventario(new Arma(Arma.Tipo.LANZADORADA));
+            Configuraciones.borrarContadorMuertes();
+        }
+    }
+
     private Objeto identificarItem(TiledMapTileLayer.Cell celda) {
         // ID:
         // Llaves: 1
@@ -862,6 +872,11 @@ public abstract class Nivel implements Screen{
             return new Arma(Arma.Tipo.TRIDENTE);
 
         }
+        else if (prueba.equals("lanzaDorada")) {
+            reproducirAudioRecoger();
+            return new Arma(Arma.Tipo.LANZADORADA);
+
+        }
         return null;
     }
 
@@ -895,6 +910,11 @@ public abstract class Nivel implements Screen{
                     animacion = manager.get("Personaje/henricCorriendoBarredor.png");
                     animacionAtaque = manager.get("Personaje/henricBarredorAtaque.png");
                     break;
+                case LANZADORADA:
+                    animacion = manager.get("Personaje/henricLanzaDoradaCorriendo.png");
+                    animacionAtaque = manager.get("Personaje/henricLanzaDoradaAtaque.png");
+                    break;
+
                 default:
                     animacion = null;
                     animacionAtaque = null;

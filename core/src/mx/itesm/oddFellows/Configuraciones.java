@@ -92,4 +92,10 @@ public class Configuraciones {
         preferences.putInteger("contadorMuertes",contadorMuertes);
         preferences.flush();
     }
+    static void borrarContadorMuertes(){
+        Preferences preferences = Gdx.app.getPreferences("contadorMuertes");
+        contadorMuertes=0;
+        preferences.putInteger("contadorMuertes",contadorMuertes);
+        preferences.flush();
+    }
 }

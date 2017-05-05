@@ -52,7 +52,7 @@ public class Arma extends Objeto {
                 break;
             case TRIDENTE:
                 dano = 100;
-                special = "dios";   // Hace todo porque YOLO
+                special = "dios";
                 textura = manager.get("Items/tridente.png");
                 break;
             case BATE:
@@ -69,6 +69,12 @@ public class Arma extends Objeto {
                 dano = 45;
                 special = "campechanear";
                 textura = manager.get("Items/Barredor.png");
+                break;
+            case LANZADORADA:
+                dano = 100;
+                special = "facil";
+                textura = manager.get("Items/lanzaDorada.png");
+                break;
         }
         sprite = new Sprite(textura);
 
@@ -88,6 +94,7 @@ public class Arma extends Objeto {
         MACHETE,
         ANTORCHA,
         BATE,
-        TRIDENTE
+        TRIDENTE,
+        LANZADORADA
     }
 }
