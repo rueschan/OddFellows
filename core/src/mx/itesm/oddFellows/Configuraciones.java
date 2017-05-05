@@ -13,6 +13,7 @@ public class Configuraciones {
     static boolean isMusicOn = true;
     static boolean isFxOn = true;
     static String easterCreditos ="";
+    static boolean juegoFinalizado = false;
 
     static void cargarEstatusSonido(){
         Preferences preferences = Gdx.app.getPreferences("sonido");
@@ -39,14 +40,14 @@ public class Configuraciones {
         preferences.flush();
     }
 
-
-   static void agregarEasterCreditos(String agregar){
+    static void agregarEasterCreditos(String agregar){
         Preferences preferences = Gdx.app.getPreferences("easterCreditos");
        easterCreditos += agregar;
         preferences.putString("easterCreditos",easterCreditos);
         preferences.flush();
     }
-   static String obtenerEasterCreditos(){
+
+    static String obtenerEasterCreditos(){
         Preferences preferences = Gdx.app.getPreferences("easterCreditos");
         easterCreditos = preferences.getString("easterCreditos");
        return easterCreditos;
@@ -56,5 +57,17 @@ public class Configuraciones {
         Preferences preferences = Gdx.app.getPreferences("easterCreditos");
         preferences.putString("easterCreditos","");
         preferences.flush();
+    }
+
+    static void abrirUltimaPuerta(){
+        Preferences preferences = Gdx.app.getPreferences("juegoFinaizado");
+        preferences.putBoolean("juegoFinaizado", true);
+        preferences.flush();
+    }
+
+    static boolean ultimaPuertaAbierta() {
+        Preferences preferences = Gdx.app.getPreferences("juegoFinaizado");
+        juegoFinalizado = preferences.getBoolean("juegoFinaizado", true);
+        return juegoFinalizado;
     }
 }

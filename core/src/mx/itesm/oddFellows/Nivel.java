@@ -1089,6 +1089,9 @@ public abstract class Nivel implements Screen{
                 id = Integer.parseInt((String) tilePuerta.getTile().getProperties().get("valorLlave"));
             }
             if (id==llave.getIdPuerta()) {
+                if (id == 10) {
+                    Configuraciones.abrirUltimaPuerta();
+                }
                 tilePuerta.setTile(null);
                 if (Configuraciones.isFxOn){
                     fxLlaveAbrir.play();
