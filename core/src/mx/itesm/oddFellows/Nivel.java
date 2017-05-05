@@ -1076,6 +1076,8 @@ public abstract class Nivel implements Screen{
         float vidaHenric = henric.getVida();
         float vidaAcumulada = vidaHenric+medkit.getVIDA();
         henric.setVida(vidaAcumulada);
+        Configuraciones.agregarContadorMedkit();
+        Gdx.app.log("Contador de medkit", ""+Configuraciones.contadorMedkit );
         //henric.eliminarElementoActual(medkit);
     }
 

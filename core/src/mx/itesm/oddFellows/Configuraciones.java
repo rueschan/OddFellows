@@ -14,6 +14,9 @@ public class Configuraciones {
     static boolean isFxOn = true;
     static String easterCreditos ="";
     static boolean juegoFinalizado = false;
+    static Integer contadorMedkit = 0;
+    static Integer contadorJabali = 0;
+    static Integer contadorMuertes = 0;
 
     static void cargarEstatusSonido(){
         Preferences preferences = Gdx.app.getPreferences("sonido");
@@ -69,5 +72,24 @@ public class Configuraciones {
         Preferences preferences = Gdx.app.getPreferences("juegoFinaizado");
         juegoFinalizado = preferences.getBoolean("juegoFinaizado", true);
         return juegoFinalizado;
+    }
+
+    static void agregarContadorMedkit(){
+        Preferences preferences = Gdx.app.getPreferences("contadorMedkit");
+        contadorMedkit++;
+        preferences.putInteger("contadorMedkit",contadorMedkit);
+        preferences.flush();
+    }
+    static void agregarContadorJabali(){
+        Preferences preferences = Gdx.app.getPreferences("contadorJabali");
+        contadorJabali++;
+        preferences.putInteger("contadorJabali",contadorJabali);
+        preferences.flush();
+    }
+    static void agregarContadorMuertes(){
+        Preferences preferences = Gdx.app.getPreferences("contadorMuertes");
+        contadorMuertes++;
+        preferences.putInteger("contadorMuertes",contadorMuertes);
+        preferences.flush();
     }
 }

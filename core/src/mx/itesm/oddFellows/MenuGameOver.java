@@ -107,6 +107,8 @@ public class MenuGameOver implements Screen {
             public void clicked(InputEvent event, float x, float y) {
                 Gdx.app.log("clicked", "***Salir***");
                 //manager.clear();
+                Configuraciones.agregarContadorMuertes();
+                Gdx.app.log("Contador muertes", ""+Configuraciones.contadorMuertes );
                 musicaMuerto.stop();
                 Juego.actual = null;
                 henric.pararSonido();
@@ -119,7 +121,6 @@ public class MenuGameOver implements Screen {
                 oddFellows.setScreen(new PantallaCargando(oddFellows,Niveles.MENU_PRINCIPAL));
                 //musicaMuerto.stop();
                 //pantalla.resetCamara();
-
             }
         });
         btnContinue.addListener(new ClickListener(){
@@ -127,6 +128,8 @@ public class MenuGameOver implements Screen {
             public void clicked(InputEvent event, float x, float y) {
                 Gdx.app.log("clicked", "***Reanudar***");
                 //manager.clear();
+                Configuraciones.agregarContadorMuertes();
+                Gdx.app.log("Contador muertes", ""+Configuraciones.contadorMuertes );
                 musicaMuerto.stop();
                 //juego.actual = null;
                 //henric.pararSonido();
