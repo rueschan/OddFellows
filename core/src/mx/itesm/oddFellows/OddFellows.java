@@ -27,7 +27,7 @@ public class OddFellows extends Game {
         //crearMusica();
         Configuraciones.cargarEstatusSonido();
         setScreen(new MenuSplash(this));
-        //setScreen(new MenuGameOver(this,Niveles.NIVEL_BOSQUE));
+        //setScreen(new MenuFinal(this,Niveles.MENU_PRINCIPAL));
     }
     public void crearMusica() {
         musicaFondo = Gdx.audio.newMusic(Gdx.files.internal("Musica/chopinNocturne.mp3"));

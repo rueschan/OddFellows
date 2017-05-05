@@ -70,7 +70,8 @@ public class MenuCreditosMusicos implements Screen {
                 "\"Giant Wyrm\" -  Pause"+"\n\nLicensed under Creative Commons: By Attribution 3.0 License\n" +
                 "http://creativecommons.org/licenses/by/3.0/";
         doug = "\n\n\n\"Lost in the forest\" - Forest";
-        chopin = "\n\n\n\"Nocturne No. 20 in C sharp minor OP. posth.\" - Main Menus";
+        chopin = "\n\n\n\"Nocturne No. 20 in C sharp minor OP. posth.\" - Main Menus" +
+        "\n\"Piano Sonata No. 2 / Funeral March\" - Ending";
         beethoven = "\n\n\"Piano Sonata No. 14 - Beethoven -\n Adagio sostenuto\" - Game Over";
         freeSound = "\n\"Ofelia’s Dream\" - Cabin"+
                 "\nRoyalty Free Music from Bensound\n"+
