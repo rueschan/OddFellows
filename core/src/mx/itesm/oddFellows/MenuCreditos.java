@@ -25,6 +25,7 @@ public class MenuCreditos implements Screen {
 
     private Texture texturaFondo;
     private Texture texturaExit;
+    private Texture texturaMusica;
 
     private TextureRegionDrawable trdOscura;
     private ImageButton imgbtnJonathan;
@@ -51,6 +52,7 @@ public class MenuCreditos implements Screen {
     private void cargarTexturas() {
         texturaFondo = manager.get("Pantalla/Fondo/fondoCreditos.png");
         texturaExit = manager.get("Pantalla/btnExit.png");
+        texturaMusica = manager.get("Pantalla/Audio.png");
     }
 
     private void crearObjetos() {
@@ -69,6 +71,15 @@ public class MenuCreditos implements Screen {
         btnExit.setPosition(10,10);
         pantalla.escena.addActor(btnExit);
 
+        // Botón de Musicos
+        TextureRegionDrawable trdMusic = new
+                TextureRegionDrawable(new TextureRegion(texturaMusica));
+
+        // Colocar boton de Music
+        ImageButton btnMusic = new ImageButton(trdMusic);
+        btnMusic.setPosition(6*pantalla.getANCHO()/7+50,30);
+        pantalla.escena.addActor(btnMusic);
+
         // Acciones de botones
             // Boton opciones
         btnExit.addListener(new ClickListener(){
@@ -78,6 +89,17 @@ public class MenuCreditos implements Screen {
                 oddFellows.setScreen(new MenuPrincipal(oddFellows));
             }
         });
+
+        // Acciones de botones
+        // Boton opciones
+        btnMusic.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                Gdx.app.log("clicked", "***Musicos***");
+                oddFellows.setScreen(new MenuCreditosMusicos(oddFellows));
+            }
+        });
+
         Gdx.input.setCatchBackKey(true);
     }
 

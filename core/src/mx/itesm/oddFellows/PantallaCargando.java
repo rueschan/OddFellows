@@ -182,6 +182,9 @@ public class PantallaCargando extends Pantalla {
         //MENU CREDITOS
         manager.load("Pantalla/Fondo/fondoCreditos.png",Texture.class);
 
+        //MENU RECONOCIMIENTOS MUSICA
+        manager.load("Pantalla/Fondo/fondoMusicos.png",Texture.class);
+
         //TEXTURA BOTON EXIT
         manager.load("Pantalla/btnExit.png",Texture.class);
 
