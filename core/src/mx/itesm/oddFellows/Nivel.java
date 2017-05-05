@@ -122,6 +122,9 @@ public abstract class Nivel implements Screen{
     protected Texture texturaMusica;
     protected Texture texturaFX;
 
+    // Fin del juego
+    protected boolean finalizado;
+
     //Inventario
     protected static Boolean enInventario;
 
@@ -187,6 +190,7 @@ public abstract class Nivel implements Screen{
 //    protected abstract void cargarTexturas();
 
     protected void crearRecursos(Pantalla pantalla, String nombreMapa, String nombreMusicaFondo) {
+        finalizado = false;
         this.manager = oddFellows.getAssetManager();
         // Henric
         henric = Personaje.getInstanciaPersonaje();
@@ -831,6 +835,8 @@ public abstract class Nivel implements Screen{
 
         } else if (prueba.equals("cartaUnica")) {
             // ACABAR JUEGO (CAMARA HERE)
+            finalizado = true;
+            return new Carta(0, 0, 0);
 
         } else if (prueba.equals("medkit")) {
             reproducirAudioRecoger();
@@ -863,6 +869,24 @@ public abstract class Nivel implements Screen{
 
         }
         return null;
+    }
+
+    protected void finalizarJuego() {
+        if (finalizado) {
+            musicaPausa.stop();
+            musicaFondo.stop();
+            oddFellows.crearMusica();
+            Juego.actual = null;
+            henric.pararSonido();
+            henric.reset();
+            henric.setLocalizacion(Personaje.Localizacion.CABANA);
+            henric.vaciarInventario();
+            henric.setVida(100);
+            finalizado = false;
+            borrarMapas();
+
+            oddFellows.setScreen(new MenuFinal(oddFellows, Niveles.NIVEL_CLINICA));
+        }
     }
 
     private void cambiarAnimacionHenric() {
@@ -966,6 +990,7 @@ public abstract class Nivel implements Screen{
         // Desplazamiento en X y Y
         float despX = 140;
         float despY = 140;
+        Objeto itemTemp;
 
         // ITEMS
         ArrayList<ImageButton> items = new ArrayList<ImageButton>(inventario.size());
@@ -973,6 +998,10 @@ public abstract class Nivel implements Screen{
         float y = (pantalla.getALTO()*0.765f);
         if (!inventario.isEmpty()) {
             for (final Objeto item: inventario) {
+//            for (Objeto item: inventario) {
+                itemTemp = item;
+
+                System.out.println(inventario.toString());
                 item.sprite.getTexture();
 
                 // Crear boton item
@@ -980,6 +1009,8 @@ public abstract class Nivel implements Screen{
                         TextureRegionDrawable(new TextureRegion(item.sprite.getTexture()));
                 // Colocar botón item
                 final ImageButton btnItemInv = new ImageButton(trdBtnItemInv);
+//                ImageButton btnItemInv = new ImageButton(trdBtnItemInv);
+
                 btnItemInv.setPosition(x - btnItemInv.getWidth()/2, y);
 
                 // Interaccion boton item
@@ -1203,6 +1234,7 @@ public abstract class Nivel implements Screen{
 
         actualizarVida();
         hayAtaqueAJugador();
+        finalizarJuego();
     }
 
     protected void crearPausa(final Stage escenaHUD){

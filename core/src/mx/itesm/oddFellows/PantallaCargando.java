@@ -132,6 +132,9 @@ public class PantallaCargando extends Pantalla {
         manager.load("Pantalla/Fondo/fondoGameOver.png",Texture.class);
         manager.load("Pantalla/Vacio.png",Texture.class);
         manager.load("Pantalla/btnExit.png",Texture.class);
+        // FIN DEL JUEGO
+        manager.load("Musica/funeralMarch.mp3", Music.class);
+        manager.load("Pantalla/Fondo/fotoFinal.jpg", Texture.class);
 
     }
     private void cargarRecursosNivelBosque() {

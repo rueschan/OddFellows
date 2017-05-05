@@ -7,6 +7,7 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
@@ -30,6 +31,10 @@ public class MenuFinal implements Screen {
     private Niveles nivelActual;
     private Personaje henric;
 
+    private float colorFoto;
+    private int posFondo;
+    private Actor fondo;
+
     public MenuFinal(OddFellows oddFellows, Niveles nivelActual) {
         this.oddFellows = oddFellows;
         //manager = this.oddFellows.getAssetManager();
@@ -43,6 +48,7 @@ public class MenuFinal implements Screen {
 
     @Override
     public void show() {
+        manager = Nivel.getManager();
         // Cuando cargan la pantalla
         cargarTexturas();
         crearObjetos();
@@ -50,6 +56,7 @@ public class MenuFinal implements Screen {
         /*if (henric!=null){
             henric.pararSonido();
         }*/
+        colorFoto = 0;
         musicaFinal.setLooping(true);
         if(Configuraciones.isMusicOn){
             musicaFinal.play();
@@ -59,13 +66,13 @@ public class MenuFinal implements Screen {
 
     // Metodo para iniciar texturas de pantalla
     private void cargarTexturas() {
-        //texturaFondo = manager.get("Pantalla/Fondo/fotoFinal.png");
+        texturaFondo = manager.get("Pantalla/Fondo/fotoFinal.jpg");
         //texturaExit = manager.get("Pantalla/btnExit.png");
        // musicaFinal = manager.get("Musica/funeralMarch.mp3");
         // PARA HACER PRUEBAS RAPIDO
-        texturaFondo = new Texture("Pantalla/Fondo/fotoFinal.png");
-        texturaExit = new Texture("Pantalla/btnExit.png");
-        musicaFinal = Gdx.audio.newMusic(Gdx.files.internal("Musica/funeralMarch.mp3"));
+        // texturaFondo = new Texture("Pantalla/Fondo/fotoFinal.jpg");
+        texturaExit = manager.get("Pantalla/btnExit.png");
+        musicaFinal = manager.get("Musica/funeralMarch.mp3");
     }
 
     // Metodo para crear objetos en pantalla
@@ -75,7 +82,10 @@ public class MenuFinal implements Screen {
         // Agrega la imagen de fondo
         Image imgFondo = new Image(texturaFondo);
         imgFondo.setPosition(0,0);
+        imgFondo.setColor(0, 0, 0, 1);
         pantalla.escena.addActor(imgFondo);
+        posFondo = pantalla.escena.getActors().size - 1;
+        fondo = pantalla.escena.getActors().peek();
 
         // Botón de Exit
         TextureRegionDrawable trdExit = new
@@ -102,6 +112,7 @@ public class MenuFinal implements Screen {
                 henric.vaciarInventario();
                 henric.setVida(100);*/
                 pantalla.resetCamara();
+                pantalla.escena.getActors().removeIndex(posFondo);
                 //Nivel.borrarMapas();
                 oddFellows.setScreen(new PantallaCargando(oddFellows,Niveles.MENU_PRINCIPAL));
                 //musicaFinal.stop();
@@ -118,14 +129,18 @@ public class MenuFinal implements Screen {
         pantalla.borrarPantalla();
         pantalla.escena.draw();
 
-        //escribirEnPantalla();
+        escribirEnPantalla();
+        if (colorFoto < 1) {
+            colorFoto += delta / 2;
+        }
+        fondo.setColor(colorFoto, colorFoto, colorFoto, 1);
     }
 
     private void escribirEnPantalla() {
-       /* pantalla.batch.begin();
-        textoMuerto.mostrarMensajes(pantalla.batch,Color.SCARLET,"YOU'RE DEAD",1*pantalla.getANCHO()/2,5*pantalla.getALTO()/6+30);
-        textoContinuar.mostrarMensajes(pantalla.batch,Color.BLACK,"Continue",1*pantalla.getANCHO()/2,2*pantalla.getALTO()/3-30);
-        pantalla.batch.end();*/
+//        pantalla.batch.begin();
+//        textoMuerto.mostrarMensajes(pantalla.batch,Color.SCARLET,"YOU'RE DEAD",1*pantalla.getANCHO()/2,5*pantalla.getALTO()/6+30);
+//        textoContinuar.mostrarMensajes(pantalla.batch,Color.BLACK,"Continue",1*pantalla.getANCHO()/2,2*pantalla.getALTO()/3-30);
+//        pantalla.batch.end();
     }
 
     @Override
