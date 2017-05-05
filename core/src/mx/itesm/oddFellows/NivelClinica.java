@@ -56,6 +56,9 @@ public class NivelClinica extends Nivel {
         crearEnemigo(1216, 768, Enemigo.Tipo.DUPLO);
         crearEnemigo(2624, 704, Enemigo.Tipo.MUTIS);
         crearEnemigo(2752, 704, Enemigo.Tipo.MUTIS);
+        crearEnemigo(2432, 1920, Enemigo.Tipo.EATER);
+        crearEnemigo(2944, 3456, Enemigo.Tipo.EATER);
+        crearEnemigo(640, 1280, Enemigo.Tipo.EATER);
     }
 
     @Override

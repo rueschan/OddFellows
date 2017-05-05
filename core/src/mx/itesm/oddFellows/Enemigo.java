@@ -196,6 +196,28 @@ public class Enemigo extends Objeto {
                 animacionPrevia = spriteAnimado;
                 animacionAtaque = new Animation(0.4f / VELOCIDAD, texturaEnemigo[0][0], texturaEnemigo[0][3]);
                 break;
+            case EATER:
+                vida = 100;
+                VELOCIDAD = 1;
+                REACCION = 5;
+                poderAtaque = 50;
+                limiteMultiplicadorDano = 2;
+
+                // Assets
+                textura = manager.get("Enemigo/eater.png");
+                fxAtaque = manager.get("Enemigo/mutisAtaque.mp3");
+                fxMuriendo = manager.get("Enemigo/duploMuerte.mp3");
+
+                // Lee la textura como región
+                texturaCompleta = new TextureRegion(textura);
+                // La divide en 4 frames de 32x64 (ver marioSprite.png)
+                texturaEnemigo = texturaCompleta.split(96,96);
+                // Crea la animación con tiempo de 0.15 segundos entre frames.
+
+                spriteAnimado = new Animation(0.8f / VELOCIDAD, texturaEnemigo[0][0], texturaEnemigo[0][1]);
+                animacionPrevia = spriteAnimado;
+                animacionAtaque = new Animation(0.4f / VELOCIDAD, texturaEnemigo[0][0], texturaEnemigo[0][2]);
+                break;
         }
     }
 
@@ -662,6 +684,7 @@ public class Enemigo extends Objeto {
         OSO,
         DUPLO,
         LOBO,
-        MUTIS
+        MUTIS,
+        EATER
     }
 }
