@@ -766,9 +766,9 @@ public abstract class Nivel implements Screen{
     }
 
     private void checarMuertes(){
-        if(Configuraciones.contadorMuertes>9){
+        if(Configuraciones.contadorMuertesDoradas>9){
             henric.addInventario(new Arma(Arma.Tipo.LANZADORADA));
-            Configuraciones.borrarContadorMuertes();
+            Configuraciones.borrarContadorMuertesDoradas();
         }
     }
 
