@@ -4,6 +4,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -32,10 +34,27 @@ public class MenuExtras implements Screen {
     private float ALTO = 0;
 
 
+    private TextureRegionDrawable trdOscura;
+    private ImageButton imgbtnBailarina;
+    private ImageButton imgbtnCerdo;
+    private ImageButton imgbtnCazuela;
+    private ImageButton imgbtnMuletas;
+    private ImageButton imgbtnTexto;
+
+
+    private String extraSeleccionado;
+    private Texto textoPermisos;
+    private String bailarina;
+    private String cerdo;
+    private String cazuela;
+    private String muletas;
+
+
     public MenuExtras(OddFellows oddFellows) {
         this.oddFellows = oddFellows;
         manager = this.oddFellows.getAssetManager();
         pantalla = Pantalla.getInstanciaPantalla();
+        extraSeleccionado ="";
     }
 
     @Override
@@ -43,7 +62,9 @@ public class MenuExtras implements Screen {
         // Cuando cargan la pantalla
         cargarTexturas();
         crearObjetos();
+        crearInteraccion();
         oddFellows.tocarMusica();
+        textoPermisos = new Texto();
     }
 
     private void cargarTexturas() {
@@ -51,6 +72,11 @@ public class MenuExtras implements Screen {
         texturaExit = new Texture("Pantalla/btnExit.png");*/
         texturaFondo = manager.get("Pantalla/Fondo/fondoExtras.png");
         texturaExit = manager.get("Pantalla/btnExit.png");
+        bailarina = "Obtained after\n" +
+                    "beating the game";
+        cerdo =     "Slay 30 boars";
+        cazuela =   "Use 20 medkits";
+        muletas =   "Die 10 times";
     }
 
     private void crearObjetos() {
@@ -133,6 +159,15 @@ public class MenuExtras implements Screen {
             //Regresar al MenuPrincipal
             oddFellows.setScreen(new MenuPrincipal(oddFellows));
         }
+        escribirEnPantalla();
+    }
+
+    private void escribirEnPantalla() {
+        pantalla.batch.begin();
+        textoPermisos.cambiarTamano(2);
+        textoPermisos.mostrarMensajes(pantalla.batch, Color.WHITE,extraSeleccionado,
+                pantalla.getANCHO()/2+30,pantalla.getALTO()-30);
+        pantalla.batch.end();
     }
 
 
@@ -150,6 +185,7 @@ public class MenuExtras implements Screen {
     public void resume() {
         cargarTexturas();
         crearObjetos();
+        crearInteraccion();
         oddFellows.tocarMusica();
     }
 
@@ -162,5 +198,84 @@ public class MenuExtras implements Screen {
     public void dispose() {
         texturaFondo.dispose();
         texturaExit.dispose();
+    }
+
+    private void crearInteraccion(){
+        int pantAlto = (int)(pantalla.getALTO());
+        int pantAncho = (int)(pantalla.getANCHO());
+        Pixmap pixmapVerde = new Pixmap(pantAncho/8, pantAlto/5, Pixmap.Format.RGBA8888);
+        pixmapVerde.setColor( .3f,.3f, .3f, 0f );
+        pixmapVerde.fillRectangle(0,0,pantAncho,pantAlto);
+        trdOscura = new TextureRegionDrawable(new TextureRegion(new Texture(pixmapVerde)));
+        pixmapVerde.dispose();
+
+        imgbtnBailarina = new ImageButton(trdOscura);
+        imgbtnBailarina.setPosition(310,470);
+
+        imgbtnCerdo = new ImageButton(trdOscura);
+        imgbtnCerdo.setPosition(320,235);
+
+        imgbtnCazuela = new ImageButton(trdOscura);
+        imgbtnCazuela.setPosition(860,470);
+
+        imgbtnMuletas = new ImageButton(trdOscura);
+        imgbtnMuletas.setPosition(850,235);
+
+
+        imgbtnBailarina.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                Gdx.app.log("clicked", "***Kevin MacLeod***");
+//                compositorSeleccionado = kevin;
+                extraSeleccionado = bailarina;
+                imgbtnTexto.setVisible(true);
+                imgbtnTexto.setPosition(360,610);
+
+            }
+        });
+        imgbtnCerdo.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                Gdx.app.log("clicked", "***Doug***");
+//                compositorSeleccionado = doug;
+                extraSeleccionado = cerdo;
+                imgbtnTexto.setVisible(true);
+                imgbtnTexto.setPosition(360,710);
+            }
+        });
+        imgbtnCazuela.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                Gdx.app.log("clicked", "***Chopin***");
+//                compositorSeleccionado = chopin;
+                extraSeleccionado = cazuela;
+                imgbtnTexto.setVisible(true);
+                imgbtnTexto.setPosition(360,710);
+            }
+        });
+        imgbtnMuletas.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                Gdx.app.log("clicked", "***Beethoven***");
+//                compositorSeleccionado = beethoven;
+                extraSeleccionado = muletas;
+                imgbtnTexto.setVisible(true);
+                imgbtnTexto.setPosition(360,710);
+            }
+        });
+        pantalla.escena.addActor(imgbtnBailarina);
+        pantalla.escena.addActor(imgbtnCazuela);
+        pantalla.escena.addActor(imgbtnCerdo);
+        pantalla.escena.addActor(imgbtnMuletas);
+
+        Pixmap pixmapAzul = new Pixmap(pantAncho/2, pantAlto/4, Pixmap.Format.RGBA8888);
+        pixmapAzul.setColor( 0f,0f, 0f, .6f );
+        pixmapAzul.fillRectangle(0,0,pantAncho,pantAlto);
+        trdOscura = new TextureRegionDrawable(new TextureRegion(new Texture(pixmapAzul)));
+        pixmapAzul.dispose();
+        imgbtnTexto = new ImageButton(trdOscura);
+        imgbtnTexto.setPosition(360,610);
+        pantalla.escena.addActor(imgbtnTexto);
+        imgbtnTexto.setVisible(false);
     }
 }
